@@ -69,6 +69,25 @@
           "href": "/users/create"
         }
       ]
+    },
+    {
+      "id": "coupons",
+      "label": "Coupons & Promotions",
+      "icon": "confirmation_number",
+      "children": [
+        {
+          "id": "coupons-list",
+          "label": "Coupons",
+          "icon": "list_alt",
+          "href": "/coupons"
+        },
+        {
+          "id": "coupons-add",
+          "label": "Add promotion",
+          "icon": "add_circle",
+          "href": "/coupons/new"
+        }
+      ]
     }
   ]
 }
