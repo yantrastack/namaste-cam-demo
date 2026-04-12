@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "tertiary-container": "#caa900",
+              "on-surface-variant": "#5d3f3b",
+              "inverse-surface": "#2e3132",
+              "primary-fixed": "#ffdad5",
+              "tertiary-fixed": "#ffe171",
+              "secondary-fixed-dim": "#bdc7d9",
+              "tertiary-fixed-dim": "#e9c400",
+              "surface-container": "#edeeef",
+              "secondary-container": "#d6e0f3",
+              "surface-variant": "#e1e3e4",
+              "on-primary": "#ffffff",
+              "primary-container": "#e2241f",
+              "on-secondary-fixed": "#121c2a",
+              "outline-variant": "#e7bdb7",
+              "on-primary-fixed": "#410001",
+              "surface-dim": "#d9dadb",
+              "surface-bright": "#f8f9fa",
+              "inverse-primary": "#ffb4aa",
+              "on-tertiary-container": "#4c3e00",
+              "surface-container-low": "#f3f4f5",
+              "on-background": "#191c1d",
+              "on-primary-fixed-variant": "#930005",
+              "surface-tint": "#c0000a",
+              "outline": "#926f6a",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-secondary-fixed-variant": "#3d4756",
+              "on-secondary": "#ffffff",
+              "background": "#f8f9fa",
+              "on-surface": "#191c1d",
+              "on-secondary-container": "#596373",
+              "tertiary": "#705d00",
+              "surface-container-highest": "#e1e3e4",
+              "secondary": "#555f6f",
+              "primary": "#bc000a",
+              "on-error-container": "#93000a",
+              "surface": "#f8f9fa",
+              "secondary-fixed": "#d9e3f6",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#ffb4aa",
+              "on-tertiary-fixed": "#221b00",
+              "on-primary-container": "#fffbff",
+              "error": "#ba1a1a",
+              "inverse-on-surface": "#f0f1f2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        background-color: #f8f9fa;
+      }
+      .editorial-header {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+      }
+      .signature-glow {
+        background: linear-gradient(135deg, #bc000a 0%, #e2241f 100%);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 border-r-0 flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-extrabold text-red-600 font-['Plus_Jakarta_Sans'] tracking-tight">The Curator</h1>
+<p class="text-xs font-medium text-zinc-400 uppercase tracking-widest mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+<span class="text-sm">Orders</span>
+</a>
+<!-- Active State: Menu Management -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 font-bold border-r-4 border-red-600 bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="text-sm">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="text-sm">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="local_shipping">local_shipping</span>
+<span class="text-sm">Delivery</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-sm">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-zinc-500 font-medium hover:text-red-500 hover:bg-zinc-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 pt-6 border-t border-zinc-100">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="Admin User Avatar" class="w-full h-full object-cover" data-alt="Professional headshot of restaurant admin user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBPCYx8srMwq1_T5ojNGgJDGm42hFaoT4jHX9Bn2Q35B-g3ljozXACylbN1n912vBP-9gsTnuh7YFWBFWUanIwvfBAc7Jz_8e7ikr03YAIQu5K3kqG8Q3RnWJXD-8VYXyNKDgid7euntKEo04gnqmGL5AuzCPeJen5KcxeveLL8olMCqjI8WgM1I-I7NWw-wW0SyZsEclhFUJj2u3xbAznpz2FAANoPD4AQ_Wwk5WEc0vF9LFGFuArv-y2YypjFjzIJq2Mm492g08"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-background">Alex Curator</p>
+<p class="text-xs text-zinc-500">System Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 backdrop-blur-xl flex items-center justify-between px-8 z-40 shadow-sm shadow-zinc-200/50">
+<div class="flex items-center gap-6 w-1/2">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-zinc-400" placeholder="Search dishes, categories, or IDs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-zinc-600">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-low transition-colors text-zinc-600">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-[1px] bg-zinc-200 mx-2"></div>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full signature-glow text-white text-sm font-semibold cursor-pointer active:opacity-70 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                Add Product
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-8 min-h-screen">
+<!-- Editorial Header Section -->
+<header class="mb-10 flex items-end justify-between">
+<div class="max-w-2xl">
+<h2 class="editorial-header text-4xl font-extrabold tracking-tight text-on-background mb-2">Master Menu</h2>
+<p class="text-zinc-500 font-body leading-relaxed">Curate your restaurant offerings with precision. Adjust pricing, availability, and presentation in real-time to maximize culinary impact.</p>
+</div>
+<div class="flex items-center gap-3">
+<select class="bg-surface-container-lowest border-none rounded-xl px-4 py-2.5 text-sm font-semibold text-zinc-600 shadow-sm focus:ring-2 focus:ring-primary/10 cursor-pointer">
+<option>All Categories</option>
+<option>Signature Entrées</option>
+<option>Artisan Starters</option>
+<option>Curated Desserts</option>
+<option>Vintage Cellar</option>
+</select>
+<button class="p-2.5 bg-surface-container-lowest rounded-xl shadow-sm text-zinc-600 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</header>
+<!-- Product Table Container (Editorial Style) -->
+<div class="bg-surface-container-lowest rounded-[2rem] overflow-hidden shadow-sm shadow-zinc-200/50">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-zinc-400">Dish</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-zinc-400">Category</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-zinc-400">Price</th>
+<th class="px-6 py-5 text-xs font-bold uppercase tracking-widest text-zinc-400">Availability</th>
+<th class="px-8 py-5 text-xs font-bold uppercase tracking-widest text-zinc-400 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-50">
+<!-- Item 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
+<img alt="Signature dish image" class="w-full h-full object-cover" data-alt="Vibrant healthy salad bowl with salmon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUAXcSYTFTnqAX2oQVjHUhzRP6dAkDy6p2Mj_sc5Ex3nyxL83IAaxm938XJOOP8Pf8m2N_aeAbvaVb4Q1fJ0od9YBd2GbspxXS0YLVxb6CSIxNob1B-u1A4oswuDwKok4VTs2lDihJi8PHTjXRea5ZTihyXanvRux32QdJA7LiRVuX9-uTxHUgExfoCL81mzPInXDJ_1Tsmhyfp1A59s3nar__-4AH6f2SSFFEsxl1Z_mLl8PGGBcWrwNU3aDXOTk9ZrB90VnLI5M"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-background">Wild Salmon Buddha Bowl</p>
+<p class="text-xs text-zinc-400 font-body">ID: PRD-9921</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-md bg-secondary-container text-on-secondary-container text-xs font-bold">Signature Entrées</span>
+</td>
+<td class="px-6 py-5">
+<p class="font-headline font-bold text-on-background">$24.00</p>
+</td>
+<td class="px-6 py-5">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-xs font-medium text-zinc-500">Live</span>
+</label>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-400 hover:text-primary transition-colors rounded-lg hover:bg-primary-fixed">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-error-container">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
+<img alt="Signature dish image" class="w-full h-full object-cover" data-alt="Classic wood fired pepperoni pizza" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ZLzF10rxycXZqy_8Zsv2MEZ2ZD61_m7RA04oFeKmd6vARt0mmgH8K3VfFXKqKI90ol6Z5ezqKP2V3ZPsDN1PdinTpZUg80iUiT4C9u2nb_h8A_ahemaCEDuCmq3t0CHLuLgaIcd15D7GnGIV8H-xN4vrW77KRyEjTNQkaErzYP16gypbf0DOXgqJUmdQixpc0xd2jzyZWGuOFgMqKEJf-aM5yAInMk8J9d-FI9s9RAortEl-IDN859ZENTJ2Q0oK2lBIUI5ajec"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-background">Truffle Honey Pepperoni</p>
+<p class="text-xs text-zinc-400 font-body">ID: PRD-1024</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-md bg-tertiary-fixed text-on-tertiary-fixed text-xs font-bold">Artisan Starters</span>
+</td>
+<td class="px-6 py-5">
+<p class="font-headline font-bold text-on-background">$18.50</p>
+</td>
+<td class="px-6 py-5">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-xs font-medium text-zinc-500">Live</span>
+</label>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-400 hover:text-primary transition-colors rounded-lg hover:bg-primary-fixed">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-error-container">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
+<img alt="Signature dish image" class="w-full h-full object-cover" data-alt="Decadent glazed chocolate cake slice" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkwbSxn9yoIXNYeLv68Ci1gdQxl_4F2MOrx_VCwfP3mW-V7z5-Ofk2iLHv3LzXtojtUGt8N1pKLz_HIDNqcrO5gFoqO75Y96EMa2tD-vHKLuZleSh92kDjoNySmn_Saw_hAQbOVdBKn38ge8Scd5mS90VddHbCRoSGTKYBXSSpakHDNzAUo4pjTvzvpAbKyU-5cVjCeG2CjmsZ9fB893vsEJaTybaxN9zKCioag_gMcoeDGh8e_fQOOmjYtr--OCFB6wo-V_QzUh8"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-background">Velvet Noir Fondant</p>
+<p class="text-xs text-zinc-400 font-body">ID: PRD-3382</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-md bg-secondary-container text-on-secondary-container text-xs font-bold">Curated Desserts</span>
+</td>
+<td class="px-6 py-5">
+<p class="font-headline font-bold text-on-background">$12.00</p>
+</td>
+<td class="px-6 py-5">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-xs font-medium text-zinc-400 italic">Sold Out</span>
+</label>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-400 hover:text-primary transition-colors rounded-lg hover:bg-primary-fixed">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-error-container">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-zinc-100 flex-shrink-0">
+<img alt="Signature dish image" class="w-full h-full object-cover" data-alt="Classic beef bourguignon in ceramic pot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0owqXTK36MsHxU_ubzIhpdMzqA1ZyB1YrQJEo1aXO6JlcK2tVdfLhRW-p9Zz-LnG7O33AN6Md3juKnQjbIJz7GWn3NVLKIdsBxge7QTVSv5nJyH2wbA58SMRSnkAHPPixjyVn2JJkBfRufxbD3xQDzxjwqi3e4B3Tt9R1ZAse_kXKeFdtyL207yKYh3dWeF5cjY4PH1gABoPXL5xESmenzSI0Mldq0AKvwDcUKdzKtVqFmBB11VAuazdVCYext44IzkAu6w8MiaI"/>
+</div>
+<div>
+<p class="font-headline font-bold text-on-background">Aged Ribeye Bourguignon</p>
+<p class="text-xs text-zinc-400 font-body">ID: PRD-4412</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-md bg-secondary-container text-on-secondary-container text-xs font-bold">Signature Entrées</span>
+</td>
+<td class="px-6 py-5">
+<p class="font-headline font-bold text-on-background">$42.00</p>
+</td>
+<td class="px-6 py-5">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-zinc-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-xs font-medium text-zinc-500">Live</span>
+</label>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-2 text-zinc-400 hover:text-primary transition-colors rounded-lg hover:bg-primary-fixed">
+<span class="material-symbols-outlined text-xl">edit_square</span>
+</button>
+<button class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-error-container">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Table Pagination/Footer -->
+<div class="px-8 py-6 bg-surface-container-low/50 flex items-center justify-between">
+<p class="text-sm text-zinc-500 font-body">Showing <span class="font-bold text-on-background">4</span> of <span class="font-bold text-on-background">124</span> culinary items</p>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest text-zinc-400 hover:text-primary shadow-sm flex items-center justify-center transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-xl signature-glow text-white shadow-md flex items-center justify-center font-bold">1</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest text-zinc-600 hover:text-primary shadow-sm flex items-center justify-center transition-all">2</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest text-zinc-600 hover:text-primary shadow-sm flex items-center justify-center transition-all">3</button>
+<button class="w-10 h-10 rounded-xl bg-surface-container-lowest text-zinc-400 hover:text-primary shadow-sm flex items-center justify-center transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Insights Bento Grid (Decorative yet functional) -->
+<section class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="p-6 rounded-[2rem] bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary" data-weight="fill" style="font-variation-settings: 'FILL' 1;">trending_up</span>
+<h3 class="font-headline font-bold text-sm uppercase tracking-wider">Top Performing</h3>
+</div>
+<p class="text-2xl font-headline font-extrabold text-on-background mb-1">Wild Salmon</p>
+<p class="text-sm text-zinc-500">124 orders this week (+12%)</p>
+</div>
+<div class="p-6 rounded-[2rem] bg-surface-container-lowest shadow-sm">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary">inventory_2</span>
+<h3 class="font-headline font-bold text-sm uppercase tracking-wider">Inventory Alert</h3>
+</div>
+<p class="text-2xl font-headline font-extrabold text-on-background mb-1">3 Items</p>
+<p class="text-sm text-zinc-500 italic">Running low on Artisan Cheeses</p>
+</div>
+<div class="p-6 rounded-[2rem] bg-primary text-white shadow-xl shadow-primary/20 flex flex-col justify-between">
+<h3 class="font-headline font-bold text-sm uppercase tracking-wider opacity-80">Quick Action</h3>
+<div>
+<p class="text-xl font-headline font-bold mb-4 leading-tight">Generate weekly performance report?</p>
+<button class="bg-white text-primary px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-zinc-100 transition-colors">Generate</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Quick Add Button (Mobile Only suppression handled by intent) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 rounded-full signature-glow text-white shadow-2xl shadow-primary/40 flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="font-variation-settings: 'FILL' 1;">add</span>
+</button>
+</div>
+</body></html>

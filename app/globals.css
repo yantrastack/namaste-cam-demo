@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+/* Namaste Cam — tokens from design playground (code.html), Tailwind v4 @theme */
+@theme inline {
+  /* Surfaces & text */
+  --color-background: #f8f9fa;
+  --color-surface: #f8f9fa;
+  --color-surface-bright: #f8f9fa;
+  --color-surface-dim: #d9dadb;
+  --color-surface-variant: #e1e3e4;
+  --color-surface-container: #edeeef;
+  --color-surface-container-low: #f3f4f5;
+  --color-surface-container-high: #e7e8e9;
+  --color-surface-container-highest: #e1e3e4;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-tint: #c0000a;
+  --color-on-background: #191c1d;
+  --color-on-surface: #191c1d;
+  --color-on-surface-variant: #5d3f3b;
+  --color-inverse-surface: #2e3132;
+  --color-inverse-on-surface: #f0f1f2;
+
+  /* Primary */
+  --color-primary: #bc000a;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #e2241f;
+  --color-on-primary-container: #fffbff;
+  --color-primary-fixed: #ffdad5;
+  --color-primary-fixed-dim: #ffb4aa;
+  --color-on-primary-fixed: #410001;
+  --color-on-primary-fixed-variant: #930005;
+  --color-inverse-primary: #ffb4aa;
+
+  /* Secondary */
+  --color-secondary: #555f6f;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #d6e0f3;
+  --color-on-secondary-container: #596373;
+  --color-secondary-fixed: #d9e3f6;
+  --color-secondary-fixed-dim: #bdc7d9;
+  --color-on-secondary-fixed: #121c2a;
+  --color-on-secondary-fixed-variant: #3d4756;
+
+  /* Tertiary */
+  --color-tertiary: #705d00;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #caa900;
+  --color-on-tertiary-container: #4c3e00;
+  --color-tertiary-fixed: #ffe171;
+  --color-tertiary-fixed-dim: #e9c400;
+  --color-on-tertiary-fixed: #221b00;
+  --color-on-tertiary-fixed-variant: #554600;
+
+  /* Error */
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdad6;
+  --color-on-error-container: #93000a;
+
+  /* Lines */
+  --color-outline: #926f6a;
+  --color-outline-variant: #e7bdb7;
+
+  /* Radius (playground scale) */
+  --radius-DEFAULT: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-full: 9999px;
+
+  /* Typography */
+  --font-headline: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-be-vietnam), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-plus-jakarta), ui-sans-serif, system-ui, sans-serif;
+
+  /* Primary glow on buttons */
+  --shadow-primary-soft: 0 8px 24px -6px rgb(188 0 10 / 0.22);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-headline;
+  }
+}
+
+/* Ligature icons: keep font explicit so body/headline fonts do not override */
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.5rem;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+}

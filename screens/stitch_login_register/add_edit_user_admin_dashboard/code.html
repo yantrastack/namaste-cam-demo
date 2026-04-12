@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saffron &amp; Stone Admin - User Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-container": "#E2241F",
+                        "on-secondary-fixed-variant": "#3D4756",
+                        "tertiary-fixed": "#FFE171",
+                        "tertiary-container": "#CAA900",
+                        "secondary": "#555F6F",
+                        "tertiary-fixed-dim": "#E9C400",
+                        "on-primary-container": "#FFFBFF",
+                        "inverse-surface": "#2E3132",
+                        "secondary-fixed-dim": "#BDC7D9",
+                        "primary-fixed": "#FFDAD5",
+                        "on-error": "#FFFFFF",
+                        "surface-container-lowest": "#FFFFFF",
+                        "primary-fixed-dim": "#FFB4AA",
+                        "on-surface": "#191C1D",
+                        "on-tertiary-fixed": "#221B00",
+                        "on-secondary": "#FFFFFF",
+                        "surface": "#F8F9FA",
+                        "on-error-container": "#93000A",
+                        "surface-bright": "#F8F9FA",
+                        "inverse-on-surface": "#F0F1F2",
+                        "on-primary": "#FFFFFF",
+                        "on-primary-fixed": "#410001",
+                        "tertiary": "#705D00",
+                        "on-tertiary-container": "#4C3E00",
+                        "on-tertiary-fixed-variant": "#554600",
+                        "surface-container": "#EDEEEF",
+                        "outline": "#926F6A",
+                        "primary": "#BC000A",
+                        "surface-tint": "#C0000A",
+                        "surface-container-high": "#E7E8E9",
+                        "secondary-fixed": "#D9E3F6",
+                        "on-primary-fixed-variant": "#930005",
+                        "surface-dim": "#D9DADB",
+                        "on-tertiary": "#FFFFFF",
+                        "surface-container-low": "#F3F4F5",
+                        "surface-container-highest": "#E1E3E4",
+                        "secondary-container": "#D6E0F3",
+                        "background": "#F8F9FA",
+                        "error": "#BA1A1A",
+                        "inverse-primary": "#FFB4AA",
+                        "surface-variant": "#E1E3E4",
+                        "on-surface-variant": "#5D3F3B",
+                        "on-secondary-container": "#596373",
+                        "on-background": "#191C1D",
+                        "on-secondary-fixed": "#121C2A",
+                        "error-container": "#FFDAD6",
+                        "outline-variant": "#E7BDB7"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, h3, .headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar (Authority: JSON & Design System) -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-white dark:bg-stone-900 shadow-lg border-r border-stone-100 dark:border-stone-800 flex flex-col py-6 space-y-1">
+<div class="px-6 mb-8">
+<h2 class="text-lg font-extrabold text-red-700 dark:text-red-500 tracking-tighter">Saffron &amp; Stone</h2>
+<p class="text-[10px] uppercase tracking-[0.2em] text-stone-400 font-bold">Management Portal</p>
+</div>
+<nav class="flex-1">
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-bold text-sm tracking-wide">Dashboard</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-bold text-sm tracking-wide">Orders</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-bold text-sm tracking-wide">Menu</span>
+</a>
+<!-- ACTIVE TAB: Users -->
+<a class="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded-full mx-2 px-4 py-3 flex items-center gap-3 font-bold text-sm tracking-wide" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Users</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-bold text-sm tracking-wide">Restaurants</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">delivery_dining</span>
+<span class="font-bold text-sm tracking-wide">Delivery</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-bold text-sm tracking-wide">Payments</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-bold text-sm tracking-wide">Analytics</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-full transition-all translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-bold text-sm tracking-wide">Settings</span>
+</a>
+</nav>
+<div class="px-6 py-4 flex items-center gap-3 border-t border-stone-100 mt-auto">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-stone-100">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a senior administrator with neutral background and soft office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzf77r2CxroV56lTSa6GEa8wQC1ZdbrEunnPUsJVPf8CCNmgejgkzskGIRMt4lTBzey2U7WWN5fnZOJeZt2hju_qjTI4R0XOuThm8jVj7kaHO6Gr8m5bXnXmFiWMH3qjiwZFQzsKy2QJsR_-A5sJYzNlUP8y2AvKUvLtlUWDkNk2m1RjCnEAiR-jzzh3MP9wYAkJ8yXCgo9tE6zME2y2Q_7g0GSrYd5u0BDsdqXs9ac49iZ836c-CbzUgpbkW9li23klrmS_RAj8Q"/>
+</div>
+<div>
+<p class="text-sm font-bold text-on-surface">Alex Mercer</p>
+<p class="text-[10px] text-stone-500 uppercase tracking-wider">Super Admin</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen bg-surface">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm sticky top-0 z-40 w-full px-6 py-3 flex justify-between items-center">
+<div class="flex items-center gap-4">
+<div class="text-red-700 dark:text-red-500 font-['Plus_Jakarta_Sans'] font-extrabold tracking-tight">
+<span class="text-stone-400 font-normal mr-2">/</span>
+<span>Edit User Profile</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<input class="bg-stone-100 border-none rounded-full px-5 py-2 text-sm w-64 focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search resources..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-2 text-stone-400">search</span>
+</div>
+<button class="p-2 rounded-full hover:bg-stone-100 transition-colors text-stone-500">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-stone-100 transition-colors text-stone-500">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Form Content -->
+<div class="max-w-5xl mx-auto p-8 lg:p-12">
+<!-- Page Title Section -->
+<div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-3xl font-extrabold text-on-surface tracking-tight leading-none mb-2 headline">User Details</h1>
+<p class="text-stone-500 text-lg">Modify account credentials and system permissions</p>
+</div>
+<div class="flex gap-3">
+<button class="px-8 py-3 rounded-full border border-outline-variant font-bold text-secondary hover:bg-stone-100 transition-all scale-95 active:opacity-80">
+                        Cancel
+                    </button>
+<button class="px-8 py-3 rounded-full bg-primary text-white font-bold shadow-lg shadow-primary/20 hover:bg-primary-container transition-all scale-95 active:opacity-80">
+                        Save Changes
+                    </button>
+</div>
+</div>
+<!-- Bento Form Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Profile Card -->
+<div class="lg:col-span-1 flex flex-col gap-8">
+<section class="bg-surface-container-lowest rounded-lg shadow-sm p-8 flex flex-col items-center text-center">
+<div class="relative group mb-6">
+<div class="w-32 h-32 rounded-full overflow-hidden ring-4 ring-primary/10 transition-all group-hover:ring-primary/30">
+<img class="w-full h-full object-cover" data-alt="Modern casual portrait of a male user with a soft daylight glow and minimal background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9hbRJ_e1L8nTeuPZ77n1KRKKhkWcNcyg6UQMuiqJD-blZjfhk3xVk3pyotPX1BokJIlYuA9lUGXedKH5lgq8g8b5YW112Gq4JuIUKuNXDlrfoLQ0wpPCbTc0Fx0kiaOecQUe9B_qk1SACoJEIsknUjg7gPSzirDaQm8jNugiAb-ZX64oQWqKtLwlaR1fwlpbWhXdSdoMD0cLoICuCYAKuVJjsT_wpK0XigXC6yV_jXgOtUJji2LXGWZVu8Dz0My3D4O1fl3Y1KYg"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-md hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<h3 class="text-xl font-bold headline mb-1">Julian Rodriguez</h3>
+<p class="text-stone-400 text-sm font-medium uppercase tracking-widest mb-6">User ID: #USR-9921</p>
+<div class="w-full pt-6 border-t border-stone-50 space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-stone-500">Status</span>
+<span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider">Active</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-stone-500">Joined</span>
+<span class="font-semibold">Oct 12, 2023</span>
+</div>
+</div>
+</section>
+<!-- Financials Section -->
+<section class="bg-surface-container-lowest rounded-lg shadow-sm p-8">
+<div class="flex items-center gap-3 mb-6">
+<div class="bg-amber-50 p-2 rounded-lg">
+<span class="material-symbols-outlined text-amber-600">account_balance_wallet</span>
+</div>
+<h2 class="text-lg font-bold headline">Financials</h2>
+</div>
+<div class="space-y-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">Wallet Balance (USD)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-bold">$</span>
+<input class="w-full bg-surface border-none rounded-xl pl-8 pr-4 py-4 font-bold text-xl text-primary focus:ring-2 focus:ring-primary/20 transition-all" step="0.01" type="number" value="450.00"/>
+</div>
+<p class="text-[11px] text-stone-400 px-1 leading-relaxed mt-2">Updating the wallet balance will trigger an automated notification to the user.</p>
+</div>
+</section>
+</div>
+<!-- Right Column: Profile Information -->
+<div class="lg:col-span-2">
+<section class="bg-surface-container-lowest rounded-lg shadow-sm p-8 md:p-10">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-red-50 p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<h2 class="text-lg font-bold headline">Profile Information</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+<!-- Name -->
+<div class="space-y-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">Full Name</label>
+<input class="w-full bg-surface border-none rounded-xl px-5 py-3.5 focus:ring-2 focus:ring-primary/20 transition-all font-medium text-on-surface" type="text" value="Julian Rodriguez"/>
+</div>
+<!-- Email -->
+<div class="space-y-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">Email Address</label>
+<input class="w-full bg-surface border-none rounded-xl px-5 py-3.5 focus:ring-2 focus:ring-primary/20 transition-all font-medium text-on-surface" type="email" value="julian.rodriguez@example.com"/>
+</div>
+<!-- Phone -->
+<div class="space-y-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">Phone Number</label>
+<input class="w-full bg-surface border-none rounded-xl px-5 py-3.5 focus:ring-2 focus:ring-primary/20 transition-all font-medium text-on-surface" type="tel" value="+1 (555) 234-5678"/>
+</div>
+<!-- Role -->
+<div class="space-y-2">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">User Role</label>
+<div class="relative">
+<select class="w-full bg-surface border-none rounded-xl px-5 py-3.5 appearance-none focus:ring-2 focus:ring-primary/20 transition-all font-bold text-secondary">
+<option selected="" value="user">User</option>
+<option value="admin">Admin</option>
+<option value="restaurant_admin">Restaurant Admin</option>
+<option value="delivery_agent">Delivery Agent</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">expand_more</span>
+</div>
+</div>
+<!-- Bio/Notes -->
+<div class="md:col-span-2 space-y-2 pt-4">
+<label class="text-[10px] uppercase font-bold tracking-widest text-stone-500 px-1">Administrative Notes</label>
+<textarea class="w-full bg-surface border-none rounded-xl px-5 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium text-on-surface resize-none" placeholder="Add internal notes about this user account..." rows="4"></textarea>
+</div>
+</div>
+<!-- System Settings -->
+<div class="mt-12 pt-8 border-t border-stone-50">
+<h3 class="text-sm font-bold headline mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">security</span>
+                                Security &amp; Access
+                            </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex items-center justify-between p-4 bg-surface rounded-xl">
+<div>
+<p class="text-sm font-bold">Two-Factor Auth</p>
+<p class="text-[11px] text-stone-400">Currently disabled for this account</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface rounded-xl">
+<div>
+<p class="text-sm font-bold">Require PW Reset</p>
+<p class="text-[11px] text-stone-400">On next login attempt</p>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Mobile Sticky Actions (Visible only on small screens) -->
+<div class="md:hidden fixed bottom-6 left-6 right-6 flex gap-3 z-50">
+<button class="flex-1 bg-white border border-outline-variant py-4 rounded-full font-bold shadow-lg backdrop-blur-md bg-white/90">Discard</button>
+<button class="flex-[2] bg-primary text-white py-4 rounded-full font-bold shadow-lg shadow-primary/30">Save Profile</button>
+</div>
+</div>
+</main>
+</body></html>

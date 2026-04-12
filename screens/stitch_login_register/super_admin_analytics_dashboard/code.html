@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "tertiary-container": "#caa900",
+              "on-surface-variant": "#5d3f3b",
+              "inverse-surface": "#2e3132",
+              "primary-fixed": "#ffdad5",
+              "tertiary-fixed": "#ffe171",
+              "secondary-fixed-dim": "#bdc7d9",
+              "tertiary-fixed-dim": "#e9c400",
+              "surface-container": "#edeeef",
+              "secondary-container": "#d6e0f3",
+              "surface-variant": "#e1e3e4",
+              "on-primary": "#ffffff",
+              "primary-container": "#e2241f",
+              "on-secondary-fixed": "#121c2a",
+              "outline-variant": "#e7bdb7",
+              "on-primary-fixed": "#410001",
+              "surface-dim": "#d9dadb",
+              "surface-bright": "#f8f9fa",
+              "inverse-primary": "#ffb4aa",
+              "on-tertiary-container": "#4c3e00",
+              "surface-container-low": "#f3f4f5",
+              "on-background": "#191c1d",
+              "on-primary-fixed-variant": "#930005",
+              "surface-tint": "#c0000a",
+              "outline": "#926f6a",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-secondary-fixed-variant": "#3d4756",
+              "on-secondary": "#ffffff",
+              "background": "#f8f9fa",
+              "on-surface": "#191c1d",
+              "on-secondary-container": "#596373",
+              "tertiary": "#705d00",
+              "surface-container-highest": "#e1e3e4",
+              "secondary": "#555f6f",
+              "primary": "#bc000a",
+              "on-error-container": "#93000a",
+              "surface": "#f8f9fa",
+              "secondary-fixed": "#d9e3f6",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#ffb4aa",
+              "on-tertiary-fixed": "#221b00",
+              "on-primary-container": "#fffbff",
+              "error": "#ba1a1a",
+              "inverse-on-surface": "#f0f1f2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Be Vietnam Pro', sans-serif;
+      }
+      h1, h2, h3, h4 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .glass-effect {
+        backdrop-filter: blur(20px);
+        background: rgba(248, 249, 250, 0.8);
+      }
+      .asymmetric-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 1.5rem;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-background antialiased overflow-x-hidden">
+<!-- SideNavBar Anchor -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-zinc-900 flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-extrabold text-red-600 dark:text-red-500 font-['Plus_Jakarta_Sans'] tracking-tight">The Curator</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-[22px]">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">shopping_cart</span>
+<span class="text-sm">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">restaurant_menu</span>
+<span class="text-sm">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">group</span>
+<span class="text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">storefront</span>
+<span class="text-sm">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">local_shipping</span>
+<span class="text-sm">Delivery</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+<span class="text-sm">Payments</span>
+</a>
+<!-- Active Navigation Logic: Analytics -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-red-600 dark:text-red-400 font-bold border-r-4 border-red-600 bg-red-50/50 dark:bg-red-950/20 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-3 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-zinc-200 dark:border-zinc-800">
+<div class="flex items-center gap-3 px-2">
+<img alt="Admin User Avatar" class="w-10 h-10 rounded-full bg-surface-container-highest" data-alt="Admin user profile picture circular" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUjycK1NKcRKmQ9mj2P2hDnbvOo41pH-iXLkQH2402hU2-PWStd8Qi9SekWwot_AgUTtBAZ6wzr2fz69mYsrboYqEIJnOmmpU3WUvEJDdJyKjHUx7zzTgO_4SuEpkzKZ5V_14ydjiu2_Q2S08H3qa2KQhShEUMc5T1zBrJ0UyEKCGomlLnincpv2FrbJSyzpq5UPjW2jorLx4t9B8Ipb4G8S5R0NqHbICFiH0QDOcONCoZ4ffSeBlx8aNygQNAmSE5A8mH8TDNtNM"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Chef Curator</p>
+<p class="text-[10px] text-zinc-500 truncate">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar Anchor -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex items-center justify-between px-8 z-40 shadow-sm shadow-zinc-200/50 dark:shadow-none">
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-6 text-sm focus:ring-2 focus:ring-primary/20 w-64 transition-all" placeholder="Search insights..." type="text"/>
+</div>
+<div class="h-6 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-2 text-sm font-medium text-zinc-600">
+<span class="material-symbols-outlined text-zinc-400">calendar_today</span>
+<span>Last 30 Days</span>
+<span class="material-symbols-outlined text-zinc-400 text-sm">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-zinc-600 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full"></span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors text-zinc-600">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="flex items-center gap-3 pl-4 cursor-pointer active:opacity-70">
+<span class="text-sm font-semibold text-red-600">Profile</span>
+<img alt="Admin User Avatar" class="w-8 h-8 rounded-lg bg-primary-fixed" data-alt="Small admin avatar thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkpc0SgKnJz2i4vodEAgnd6yWxxKU-IecPTjmX8ZGrxoxg3z9Sw6RRCj8TPT8UPLWq7iBAnpTUO--J6qdHOXlyTHyG2FGLNCdsFQ3ikD9cstKZ2pAbacBxI96O1jgxrin8uPcOVQdGtREZFKYtLw6f6vhYLMZx4mMe-xL59VV2FgV6GLfgdZJm4BoSADc-ht6KhIF-FwMG4YVUlwADvdBI9_9k3E3hmsXMNJcn_ryVIDR6sA-c2SKd5h34RNaRhkx8SWbhXOpJ0aE"/>
+</div>
+</div>
+</header>
+<!-- Analytics Content -->
+<section class="pt-24 pb-12 px-8 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-4xl font-extrabold tracking-tight text-on-background mb-2">Performance Pulse</h2>
+<p class="text-zinc-500 font-medium">Real-time overview of your culinary ecosystem.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-highest text-on-surface font-semibold text-sm hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-sm">download</span>
+                        Export PDF
+                    </button>
+<button class="flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-on-primary font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">refresh</span>
+                        Update Data
+                    </button>
+</div>
+</div>
+<!-- Summary Cards Bento Grid -->
+<div class="asymmetric-grid mb-10">
+<div class="col-span-12 md:col-span-4 lg:col-span-3 bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:shadow-xl hover:shadow-zinc-200/40 transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">+12.4%</span>
+</div>
+<p class="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Total Revenue</p>
+<h3 class="text-2xl font-extrabold">$142,490.00</h3>
+</div>
+<div class="col-span-12 md:col-span-4 lg:col-span-3 bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:shadow-xl hover:shadow-zinc-200/40 transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-secondary-fixed rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+</div>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-2.5 py-1 rounded-full">+5.2%</span>
+</div>
+<p class="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Orders Placed</p>
+<h3 class="text-2xl font-extrabold">8,241</h3>
+</div>
+<div class="col-span-12 md:col-span-4 lg:col-span-3 bg-surface-container-lowest p-6 rounded-xl border border-transparent hover:shadow-xl hover:shadow-zinc-200/40 transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">avg_time</span>
+</div>
+<span class="text-xs font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-full">-2.1%</span>
+</div>
+<p class="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">Avg. Delivery Time</p>
+<h3 class="text-2xl font-extrabold">24m 12s</h3>
+</div>
+<div class="col-span-12 md:col-span-12 lg:col-span-3 bg-primary text-on-primary p-6 rounded-xl shadow-lg shadow-primary/20 relative overflow-hidden group">
+<div class="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-9xl">trending_up</span>
+</div>
+<div class="relative z-10">
+<p class="text-primary-fixed/80 text-xs font-bold uppercase tracking-widest mb-1">Customer Growth</p>
+<h3 class="text-3xl font-extrabold mb-4">2,109</h3>
+<div class="flex items-center gap-2">
+<span class="text-xs bg-white/20 px-2 py-0.5 rounded-lg">New signups today</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Visualizations Grid -->
+<div class="asymmetric-grid">
+<!-- Sales by Category Donut -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest p-8 rounded-xl">
+<div class="flex justify-between items-start mb-10">
+<div>
+<h4 class="text-lg font-extrabold">Sales by Category</h4>
+<p class="text-sm text-zinc-500">Distribution of revenue sources</p>
+</div>
+<button class="material-symbols-outlined text-zinc-400">more_horiz</button>
+</div>
+<div class="flex flex-col items-center">
+<!-- Custom CSS Donut representation -->
+<div class="relative w-48 h-48 mb-8">
+<svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#f3f4f5" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#bc000a" stroke-dasharray="40 100" stroke-linecap="round" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#555f6f" stroke-dasharray="25 100" stroke-dashoffset="-40" stroke-linecap="round" stroke-width="4"></circle>
+<circle cx="18" cy="18" fill="transparent" r="16" stroke="#705d00" stroke-dasharray="20 100" stroke-dashoffset="-65" stroke-linecap="round" stroke-width="4"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-black">$142k</span>
+<span class="text-[10px] uppercase font-bold text-zinc-400">Total</span>
+</div>
+</div>
+<div class="w-full space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-sm font-medium">Fine Dining</span>
+</div>
+<span class="text-sm font-bold">40%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-sm font-medium">Fast Casual</span>
+</div>
+<span class="text-sm font-bold">25%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<span class="text-sm font-medium">Bakery &amp; Cafe</span>
+</div>
+<span class="text-sm font-bold">20%</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-zinc-200"></div>
+<span class="text-sm font-medium">Others</span>
+</div>
+<span class="text-sm font-bold">15%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Top Selling Products Bar -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest p-8 rounded-xl">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h4 class="text-lg font-extrabold">Top Selling Products</h4>
+<p class="text-sm text-zinc-500">Volume by top performing items</p>
+</div>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-surface-container-low rounded-full text-[10px] font-bold">WEEKLY</span>
+<span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-bold">MONTHLY</span>
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Wagyu Truffle Burger</span>
+<span class="text-xs font-medium text-zinc-400">1,240 units</span>
+</div>
+<div class="h-4 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[92%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Lobster Thermidor Roll</span>
+<span class="text-xs font-medium text-zinc-400">980 units</span>
+</div>
+<div class="h-4 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[78%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Burrata &amp; Heirloom Bowl</span>
+<span class="text-xs font-medium text-zinc-400">850 units</span>
+</div>
+<div class="h-4 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Spicy Miso Ramen</span>
+<span class="text-xs font-medium text-zinc-400">720 units</span>
+</div>
+<div class="h-4 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[55%] rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="text-sm font-bold">Matcha Mille Crepe</span>
+<span class="text-xs font-medium text-zinc-400">610 units</span>
+</div>
+<div class="h-4 w-full bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[48%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Peak Order Times Heatmap -->
+<div class="col-span-12 bg-surface-container-lowest p-8 rounded-xl mt-6">
+<div class="flex justify-between items-start mb-8">
+<div>
+<h4 class="text-lg font-extrabold">Peak Order Times</h4>
+<p class="text-sm text-zinc-500">Heatmap of order density by day and hour</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded bg-red-50"></div>
+<span class="text-[10px] font-bold text-zinc-400">LOW</span>
+</div>
+<div class="flex items-center gap-1.5">
+<div class="w-3 h-3 rounded bg-primary"></div>
+<span class="text-[10px] font-bold text-zinc-400">PEAK</span>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<div class="min-w-[800px]">
+<div class="grid grid-cols-[80px_repeat(12,1fr)] gap-2 mb-2">
+<div></div>
+<div class="text-[10px] font-bold text-center text-zinc-400">08:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">10:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">12:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">14:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">16:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">18:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">20:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">22:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">00:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">02:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">04:00</div>
+<div class="text-[10px] font-bold text-center text-zinc-400">06:00</div>
+</div>
+<!-- Day Rows -->
+<div class="space-y-2">
+<div class="grid grid-cols-[80px_repeat(12,1fr)] gap-2 h-10 items-center">
+<span class="text-xs font-bold text-zinc-500">Monday</span>
+<div class="h-full rounded bg-red-50/50"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-500"></div>
+<div class="h-full rounded bg-red-300"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-600"></div>
+<div class="h-full rounded bg-red-800"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-50/50"></div>
+<div class="h-full rounded bg-red-50/30"></div>
+<div class="h-full rounded bg-red-50/10"></div>
+</div>
+<div class="grid grid-cols-[80px_repeat(12,1fr)] gap-2 h-10 items-center">
+<span class="text-xs font-bold text-zinc-500">Tuesday</span>
+<div class="h-full rounded bg-red-50/50"></div>
+<div class="h-full rounded bg-red-200"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-300"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-500"></div>
+<div class="h-full rounded bg-red-700"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-50/50"></div>
+<div class="h-full rounded bg-red-50/30"></div>
+<div class="h-full rounded bg-red-50/10"></div>
+</div>
+<div class="grid grid-cols-[80px_repeat(12,1fr)] gap-2 h-10 items-center">
+<span class="text-xs font-bold text-zinc-500 text-primary">Friday</span>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-300"></div>
+<div class="h-full rounded bg-red-600"></div>
+<div class="h-full rounded bg-red-500"></div>
+<div class="h-full rounded bg-red-300"></div>
+<div class="h-full rounded bg-red-800"></div>
+<div class="h-full rounded bg-primary"></div>
+<div class="h-full rounded bg-red-600"></div>
+<div class="h-full rounded bg-red-300"></div>
+<div class="h-full rounded bg-red-200"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-50"></div>
+</div>
+<div class="grid grid-cols-[80px_repeat(12,1fr)] gap-2 h-10 items-center">
+<span class="text-xs font-bold text-zinc-500 text-primary">Saturday</span>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-200"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-500"></div>
+<div class="h-full rounded bg-red-900"></div>
+<div class="h-full rounded bg-primary"></div>
+<div class="h-full rounded bg-red-700"></div>
+<div class="h-full rounded bg-red-400"></div>
+<div class="h-full rounded bg-red-200"></div>
+<div class="h-full rounded bg-red-100"></div>
+<div class="h-full rounded bg-red-50"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Dynamic Floating Action Bar (Contextual) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 glass-effect px-6 py-4 rounded-full shadow-2xl shadow-zinc-900/10 border border-white/50 flex items-center gap-8 z-50">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 bg-green-500 rounded-full"></span>
+<span class="text-xs font-bold uppercase tracking-tight">Live Orders: 42</span>
+</div>
+<div class="w-[1px] h-4 bg-zinc-300"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">trending_up</span>
+<span class="text-xs font-bold uppercase tracking-tight">Surge Active</span>
+</div>
+<div class="w-[1px] h-4 bg-zinc-300"></div>
+<button class="text-xs font-bold uppercase tracking-tight text-zinc-500 hover:text-primary transition-colors">View Map</button>
+</div>
+</main>
+</body></html>

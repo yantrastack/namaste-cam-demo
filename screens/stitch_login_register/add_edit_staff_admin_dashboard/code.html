@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Staff Management | Saffron &amp; Stone Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#FFFFFF",
+                        "on-error-container": "#93000A",
+                        "inverse-primary": "#FFB4AA",
+                        "surface-bright": "#F8F9FA",
+                        "inverse-surface": "#2E3132",
+                        "on-background": "#191C1D",
+                        "on-error": "#FFFFFF",
+                        "on-primary-fixed-variant": "#930005",
+                        "primary": "#BC000A",
+                        "primary-fixed-dim": "#FFB4AA",
+                        "primary-fixed": "#FFDAD5",
+                        "on-surface-variant": "#5D3F3B",
+                        "on-primary-container": "#FFFBFF",
+                        "outline-variant": "#E7BDB7",
+                        "surface-dim": "#D9DADB",
+                        "outline": "#926F6A",
+                        "error": "#BA1A1A",
+                        "on-secondary-fixed-variant": "#3D4756",
+                        "secondary": "#555F6F",
+                        "on-tertiary-fixed-variant": "#554600",
+                        "secondary-fixed-dim": "#BDC7D9",
+                        "surface": "#F8F9FA",
+                        "on-tertiary-container": "#4C3E00",
+                        "background": "#F8F9FA",
+                        "on-tertiary-fixed": "#221B00",
+                        "tertiary-fixed": "#FFE171",
+                        "surface-container-high": "#E7E8E9",
+                        "tertiary": "#705D00",
+                        "surface-container-low": "#F3F4F5",
+                        "on-secondary": "#FFFFFF",
+                        "surface-tint": "#C0000A",
+                        "secondary-container": "#D6E0F3",
+                        "tertiary-container": "#CAA900",
+                        "secondary-fixed": "#D9E3F6",
+                        "on-secondary-container": "#596373",
+                        "on-primary-fixed": "#410001",
+                        "inverse-on-surface": "#F0F1F2",
+                        "surface-container": "#EDEEEF",
+                        "tertiary-fixed-dim": "#E9C400",
+                        "on-tertiary": "#FFFFFF",
+                        "on-surface": "#191C1D",
+                        "on-primary": "#FFFFFF",
+                        "surface-container-highest": "#E1E3E4",
+                        "on-secondary-fixed": "#121C2A",
+                        "surface-variant": "#E1E3E4",
+                        "primary-container": "#E2241F",
+                        "error-container": "#FFDAD6"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift {
+            transition: background-color 0.2s ease;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #F8F9FA;
+        }
+        h1, h2, h3, .font-headline {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar (Left Anchor) -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r-0 bg-white shadow-sm flex flex-col p-4 z-20">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-extrabold text-red-700 uppercase tracking-widest font-headline">Saffron &amp; Stone</h1>
+<p class="text-[10px] uppercase tracking-[0.2em] text-stone-500 font-bold mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center space-x-3 text-stone-600 px-4 py-3 hover:bg-stone-100 hover:text-red-600 transition-all rounded-full group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 bg-red-50 text-red-700 rounded-full px-4 py-3 font-bold group" href="#">
+<span class="material-symbols-outlined" data-icon="group" style="font-variation-settings: 'FILL' 1;">group</span>
+<span class="font-medium">Staff Management</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-600 px-4 py-3 hover:bg-stone-100 hover:text-red-600 transition-all rounded-full group" href="#">
+<span class="material-symbols-outlined" data-icon="delivery_dining">delivery_dining</span>
+<span class="font-medium">Delivery Crew</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-600 px-4 py-3 hover:bg-stone-100 hover:text-red-600 transition-all rounded-full group" href="#">
+<span class="material-symbols-outlined" data-icon="location_setup">location_on</span>
+<span class="font-medium">Location Setup</span>
+</a>
+<a class="flex items-center space-x-3 text-stone-600 px-4 py-3 hover:bg-stone-100 hover:text-red-600 transition-all rounded-full group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-surface-container-low rounded-xl flex items-center gap-3">
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a professional chef wearing white uniform in a high-end restaurant kitchen with warm ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN0fSkgbdLiNJ65kSe5g_hj3zGsbunXgSVnRvZ3kW6GnwKx06fuvVdY6sshlk4e5yVGROIkBfojPuxLOVhJRZE4x2g8bH9ocoRVLzyMIamlhRYTJEFiuPlIQqWOB0ggNFgvdgxlu1Gi7KTBru22qNYsrpz5KIYl-hfnXyX9hKS2ALuI9nTMqZOMHi50S3gZ47z8bbpI6Hjj7vL7vzblx2gEAbMX1CL_ake9jEmj4FBMotungxpZPhVTKBrDX5gkC1IGOcUdXRrl2c"/>
+<div>
+<p class="text-xs font-bold text-on-surface">Chef Julian</p>
+<p class="text-[10px] text-stone-500 uppercase tracking-wider">System Admin</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-10 bg-white/80 backdrop-blur-md flex justify-between items-center px-8 h-20 shadow-sm">
+<div class="flex items-center gap-4">
+<h2 class="font-headline font-bold text-lg text-stone-900">Staff Directory</h2>
+</div>
+<div class="flex items-center gap-6">
+<!-- Search Bar -->
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm w-64 focus:ring-2 focus:ring-red-500/20 placeholder:text-stone-400" placeholder="Search staff, roles, or id..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors relative">
+<span class="material-symbols-outlined text-stone-600">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full border-2 border-white"></span>
+</button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors">
+<span class="material-symbols-outlined text-stone-600">help_outline</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Content Canvas -->
+<section class="pt-28 pb-12 px-12 max-w-6xl mx-auto">
+<!-- Header Actions -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="text-3xl font-extrabold font-headline tracking-tight text-on-surface">Edit Member</h3>
+<p class="text-stone-500 mt-1">Configure access levels and personal profile information.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-6 py-2.5 rounded-full border border-outline-variant text-stone-600 font-semibold text-sm hover:bg-surface-container-high transition-all active:scale-95">
+                        Cancel
+                    </button>
+<button class="px-8 py-2.5 rounded-full bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20 hover:brightness-110 transition-all active:scale-95">
+                        Save Changes
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Profile Photo Card (3 cols) -->
+<div class="col-span-12 lg:col-span-4 space-y-8">
+<div class="bg-surface-container-lowest rounded-lg p-8 shadow-sm text-center">
+<div class="relative w-32 h-32 mx-auto mb-6">
+<img alt="Staff Profile Image" class="w-full h-full rounded-lg object-cover border-4 border-surface-container-high shadow-md" data-alt="headshot of a friendly man with a warm smile in professional attire, studio lighting, clean light grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHLajKyimQyGESuCj0IGy-hUkCqUx0Aah7NaAKNQwDHGOzAQQ2GuFvIU5_7X67qvpa4Mklf5c0YJOFXGj4f1KfTlxHzGNyW6OnqiIVT68OfceeY4ktfe7JufYcFQHHCLx71USAqSW863DTWFAES_6wRisnPYGZdLC9FTNoiFtvElVJCGlbfqFVSObJhEbmRr4ZOFlN8q9RimhIjlvgoBaSaA5EMRtvBMlAb9yNYZEdEgEBXds_vRW4y7-M_o78xqWy1GuTllZwYN0"/>
+<button class="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-full shadow-lg hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<h4 class="font-headline font-bold text-lg">Alexander Sterling</h4>
+<p class="text-xs text-stone-500 uppercase tracking-widest font-bold mt-1">Delivery Partner</p>
+<div class="mt-8 pt-8 border-t border-surface-container-high">
+<button class="w-full py-3 rounded-full bg-surface-container-high text-stone-700 font-bold text-xs hover:bg-surface-container-highest transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">cloud_upload</span>
+                                UPDATE PHOTO
+                            </button>
+<p class="text-[10px] text-stone-400 mt-4 leading-relaxed">Accepted formats: JPG, PNG. <br/>Max size: 2MB. Recommended 1:1 ratio.</p>
+</div>
+</div>
+<!-- Meta Info -->
+<div class="bg-surface-container-lowest rounded-lg p-6 shadow-sm">
+<div class="flex items-center gap-3 text-stone-500 mb-4">
+<span class="material-symbols-outlined">info</span>
+<span class="text-xs font-bold uppercase tracking-widest">Account Status</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium">System Access</span>
+<span class="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">Active</span>
+</div>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-sm font-medium">Last Login</span>
+<span class="text-xs text-stone-500">2 hours ago</span>
+</div>
+</div>
+</div>
+<!-- Form Information (8 cols) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest rounded-lg p-10 shadow-sm">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-700">
+<span class="material-symbols-outlined">badge</span>
+</div>
+<h4 class="text-xl font-headline font-extrabold">Staff Information</h4>
+</div>
+<form class="space-y-8">
+<!-- Field Group 1 -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-stone-500 ml-1">Full Name</label>
+<input class="w-full px-5 py-3.5 rounded-lg border-none bg-surface-container-low focus:ring-2 focus:ring-primary/20 text-on-surface font-medium placeholder:text-stone-400" type="text" value="Alexander Sterling"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-stone-500 ml-1">Email Address</label>
+<input class="w-full px-5 py-3.5 rounded-lg border-none bg-surface-container-low focus:ring-2 focus:ring-primary/20 text-on-surface font-medium placeholder:text-stone-400" type="email" value="alex.sterling@saffronstone.com"/>
+</div>
+</div>
+<!-- Field Group 2 -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-stone-500 ml-1">Phone Number</label>
+<input class="w-full px-5 py-3.5 rounded-lg border-none bg-surface-container-low focus:ring-2 focus:ring-primary/20 text-on-surface font-medium placeholder:text-stone-400" type="tel" value="+44 7700 900 123"/>
+</div>
+<div class="space-y-2">
+<label class="text-xs font-bold uppercase tracking-widest text-stone-500 ml-1">Staff Role</label>
+<div class="relative">
+<select class="w-full px-5 py-3.5 rounded-lg border-none bg-surface-container-low focus:ring-2 focus:ring-primary/20 text-on-surface font-medium appearance-none">
+<option>Admin</option>
+<option selected="">Delivery Agent</option>
+<option>Manager</option>
+<option>Staff</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-400">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Location Selection -->
+<div class="space-y-4">
+<label class="text-xs font-bold uppercase tracking-widest text-stone-500 ml-1">Primary Assignment Location</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<label class="relative flex flex-col items-center justify-center p-4 bg-red-50 border-2 border-primary rounded-lg cursor-pointer transition-all">
+<input checked="" class="hidden" name="location" type="radio"/>
+<span class="material-symbols-outlined text-primary mb-2">location_on</span>
+<span class="text-sm font-bold text-red-700">Cambridge</span>
+</label>
+<label class="relative flex flex-col items-center justify-center p-4 bg-surface-container-low border-2 border-transparent rounded-lg cursor-pointer hover:bg-stone-200 transition-all group">
+<input class="hidden" name="location" type="radio"/>
+<span class="material-symbols-outlined text-stone-400 mb-2 group-hover:text-stone-600">location_on</span>
+<span class="text-sm font-bold text-stone-600">Peterborough</span>
+</label>
+<label class="relative flex flex-col items-center justify-center p-4 bg-surface-container-low border-2 border-transparent rounded-lg cursor-pointer hover:bg-stone-200 transition-all group">
+<input class="hidden" name="location" type="radio"/>
+<span class="material-symbols-outlined text-stone-400 mb-2 group-hover:text-stone-600">location_on</span>
+<span class="text-sm font-bold text-stone-600">Huntingdon</span>
+</label>
+<label class="relative flex flex-col items-center justify-center p-4 bg-surface-container-low border-2 border-transparent rounded-lg cursor-pointer hover:bg-stone-200 transition-all group">
+<input class="hidden" name="location" type="radio"/>
+<span class="material-symbols-outlined text-stone-400 mb-2 group-hover:text-stone-600">location_on</span>
+<span class="text-sm font-bold text-stone-600">Ely</span>
+</label>
+</div>
+</div>
+<!-- Advanced Settings Toggle -->
+<div class="pt-8 mt-8 border-t border-surface-container-high space-y-4">
+<div class="flex items-center justify-between">
+<div>
+<h5 class="text-sm font-bold">Priority Dispatch</h5>
+<p class="text-xs text-stone-500">Allow this agent to receive priority high-value orders.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

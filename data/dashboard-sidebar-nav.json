@@ -1,0 +1,74 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "dashboard",
+      "label": "Dashboard",
+      "icon": "dashboard",
+      "href": "/dashboard"
+    },
+    {
+      "id": "restaurant-management",
+      "label": "Restaurant Management",
+      "icon": "storefront",
+      "children": [
+        {
+          "id": "restaurant-list",
+          "label": "List",
+          "icon": "list_alt",
+          "href": "/restaurants"
+        },
+        {
+          "id": "restaurant-create",
+          "label": "Create (Edit)",
+          "icon": "edit_square",
+          "href": "/restaurants/new"
+        }
+      ]
+    },
+    {
+      "id": "orders",
+      "label": "Orders",
+      "icon": "receipt_long",
+      "children": [
+        {
+          "id": "orders-list",
+          "label": "List",
+          "icon": "list_alt",
+          "href": "/orders"
+        },
+        {
+          "id": "orders-create",
+          "label": "Create",
+          "icon": "add_circle",
+          "href": "/orders/create"
+        },
+        {
+          "id": "orders-history",
+          "label": "History",
+          "icon": "history",
+          "href": "/orders/history"
+        }
+      ]
+    },
+    {
+      "id": "users",
+      "label": "Users",
+      "icon": "group",
+      "children": [
+        {
+          "id": "users-staff",
+          "label": "Staff",
+          "icon": "badge",
+          "href": "/users/staff"
+        },
+        {
+          "id": "users-create",
+          "label": "Create",
+          "icon": "person_add",
+          "href": "/users/create"
+        }
+      ]
+    }
+  ]
+}
