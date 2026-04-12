@@ -47,7 +47,7 @@ export function Modal({
         aria-label="Close dialog"
         className={cn(
           "absolute inset-0",
-          backdropClassName ?? "bg-stone-900/40 backdrop-blur-sm",
+          backdropClassName ?? "bg-stone-900/40 backdrop-blur-sm transition-colors duration-200 ease-out",
         )}
         onClick={onClose}
       />

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
+import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
 
 export function DsFeedback() {
   const [open, setOpen] = useState(false);
@@ -42,48 +42,46 @@ export function DsFeedback() {
         </div>
 
         <div className="flex items-center justify-center rounded-lg bg-surface p-10 shadow-inner">
-          <div className="max-w-sm rounded-xl border border-outline-variant/10 bg-white p-8 shadow-xl">
-            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50 text-primary">
-              <MaterialIcon name="delete_forever" className="text-4xl" />
+          <div className="w-full max-w-lg rounded-2xl border border-outline-variant/15 bg-surface-container-lowest p-6 shadow-xl ring-1 ring-outline-variant/10">
+            <div className="flex gap-3.5 sm:gap-4">
+              <div
+                className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-error-container/45 text-error ring-1 ring-error/15"
+                aria-hidden
+              >
+                <MaterialIcon name="delete_forever" className="text-[1.375rem]! leading-none" />
+              </div>
+              <div className="min-w-0 flex-1 pt-0.5">
+                <h3 className="font-headline text-lg font-bold leading-snug tracking-tight text-on-surface">
+                  Delete recipe?
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-on-surface-variant">
+                  This action cannot be undone. All related menu pairings will also be removed from the
+                  system.
+                </p>
+              </div>
             </div>
-            <h3 className="mb-2 text-2xl font-bold">Delete Recipe?</h3>
-            <p className="mb-8 leading-relaxed text-stone-500">
-              This action cannot be undone. All related menu pairings will also
-              be removed from the system.
-            </p>
-            <div className="flex gap-3">
-              <Button variant="ghost" className="flex-1 bg-stone-100 text-stone-600">
+            <div className="mt-6 flex flex-col-reverse gap-2.5 border-t border-outline-variant/10 pt-5 sm:flex-row sm:justify-end sm:gap-3">
+              <Button variant="outline" size="sm" className="w-full border-outline-variant/35 sm:w-auto sm:min-w-26">
                 Cancel
               </Button>
-              <Button className="flex-1">Confirm</Button>
+              <Button variant="danger" size="sm" className="w-full sm:w-auto sm:min-w-26">
+                Delete
+              </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50 text-primary">
-          <MaterialIcon name="delete_forever" className="text-4xl" />
-        </div>
-        <h3 className="mb-2 text-2xl font-bold text-on-surface">Delete Recipe?</h3>
-        <p className="mb-8 leading-relaxed text-stone-500">
-          This action cannot be undone. All related menu pairings will also be
-          removed from the system.
-        </p>
-        <div className="flex gap-3">
-          <Button
-            variant="ghost"
-            type="button"
-            className="flex-1 bg-stone-100 text-stone-600"
-            onClick={() => setOpen(false)}
-          >
-            Cancel
-          </Button>
-          <Button type="button" className="flex-1" onClick={() => setOpen(false)}>
-            Confirm
-          </Button>
-        </div>
-      </Modal>
+      <DeleteConfirmModal
+        open={open}
+        onClose={() => setOpen(false)}
+        onConfirm={() => {
+          /* Design-system demo: no persistence */
+        }}
+        title="Delete recipe?"
+        description="This action cannot be undone. All related menu pairings will also be removed from the system."
+        confirmLabel="Delete"
+      />
     </section>
   );
 }

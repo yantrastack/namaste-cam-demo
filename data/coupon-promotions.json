@@ -1,0 +1,139 @@
+{
+  "coupons": [
+    {
+      "id": "c1",
+      "code": "NAMASTE20",
+      "campaignName": "Welcome Discount Campaign",
+      "description": "New guest welcome offer",
+      "type": "percentage",
+      "percentOff": 20,
+      "startsAt": "2024-01-01T00:00:00.000Z",
+      "expiryDate": "2025-12-31T23:59:59.000Z",
+      "status": "active",
+      "redemptions": 412,
+      "revenueFromDiscount": 3200,
+      "oncePerUser": true,
+      "usageLimit": 2000,
+      "minPurchase": 25,
+      "allMenu": true,
+      "categories": []
+    },
+    {
+      "id": "c2",
+      "code": "CURRYFRIDAY",
+      "campaignName": "Weekend Special Offer",
+      "type": "fixed_amount",
+      "fixedAmount": 5,
+      "startsAt": "2024-06-01T12:00:00.000Z",
+      "expiryDate": "2025-01-15T23:59:59.000Z",
+      "status": "active",
+      "redemptions": 289,
+      "revenueFromDiscount": 1445,
+      "usageLimit": 500,
+      "minPurchase": 30,
+      "allMenu": false,
+      "categories": ["Tandoori Specialties"]
+    },
+    {
+      "id": "c3",
+      "code": "BIRTHDAY10",
+      "campaignName": "Individual Birthday Reward",
+      "type": "percentage",
+      "percentOff": 10,
+      "expiryDate": "2023-10-20T23:59:59.000Z",
+      "status": "expired",
+      "redemptions": 1204,
+      "revenueFromDiscount": 2100,
+      "oncePerUser": true,
+      "allMenu": true,
+      "categories": []
+    },
+    {
+      "id": "c4",
+      "code": "SAMSAFREE",
+      "campaignName": "Free Starter Promo",
+      "type": "product_bundle",
+      "freeItemLabel": "Samosa (2 pc)",
+      "startsAt": "2024-09-01T00:00:00.000Z",
+      "expiryDate": "2025-11-30T23:59:59.000Z",
+      "status": "active",
+      "redemptions": 156,
+      "revenueFromDiscount": 780,
+      "minPurchase": 20,
+      "allMenu": false,
+      "categories": ["Starters", "Vegan Entrees"]
+    },
+    {
+      "id": "c5",
+      "code": "LUNCH15",
+      "campaignName": "Midweek Lunch Rush",
+      "type": "percentage",
+      "percentOff": 15,
+      "expiryDate": "2025-08-01T23:59:59.000Z",
+      "status": "draft",
+      "redemptions": 0,
+      "revenueFromDiscount": 0,
+      "usageLimit": 300,
+      "allMenu": true,
+      "categories": []
+    },
+    {
+      "id": "c6",
+      "code": "FAMILY25",
+      "campaignName": "Family Table Night",
+      "type": "percentage",
+      "percentOff": 25,
+      "startsAt": "2025-02-01T17:00:00.000Z",
+      "expiryDate": "2025-12-20T23:59:59.000Z",
+      "status": "active",
+      "redemptions": 88,
+      "revenueFromDiscount": 2640,
+      "minPurchase": 60,
+      "allMenu": false,
+      "categories": ["Mains", "Breads"]
+    },
+    {
+      "id": "c7",
+      "code": "STUDENT8",
+      "campaignName": "Student Tuesdays",
+      "type": "fixed_amount",
+      "fixedAmount": 8,
+      "expiryDate": "2024-05-01T23:59:59.000Z",
+      "status": "expired",
+      "redemptions": 640,
+      "revenueFromDiscount": 5120,
+      "allMenu": true,
+      "categories": []
+    },
+    {
+      "id": "c8",
+      "code": "DRINKS2FOR1",
+      "campaignName": "Soft Drink Pairing",
+      "type": "product_bundle",
+      "freeItemLabel": "Second soft drink free",
+      "expiryDate": "2025-03-31T23:59:59.000Z",
+      "status": "active",
+      "redemptions": 210,
+      "revenueFromDiscount": 420,
+      "categories": ["Drinks"]
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "s1",
+      "title": "Christmas Feast Offer",
+      "description": "30% off on pre-bookings for groups larger than 6 people.",
+      "startsAt": "2025-12-15T00:00:00.000Z",
+      "accent": "amber",
+      "icon": "celebration"
+    },
+    {
+      "id": "s2",
+      "title": "New Year Bash",
+      "description": "Complimentary glass of wine with every main course ordered.",
+      "startsAt": "2025-12-31T18:00:00.000Z",
+      "accent": "blue",
+      "icon": "open_in_new"
+    }
+  ]
+}

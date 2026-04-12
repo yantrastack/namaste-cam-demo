@@ -29,6 +29,13 @@ export function isNavLeafActive(href: string, pathname: string): boolean {
     if (pathname.startsWith("/orders/history")) return false;
     if (pathname.startsWith("/orders/")) return true;
   }
+  if (
+    href === "/users" &&
+    pathname.startsWith("/users/") &&
+    !pathname.startsWith("/users/new")
+  ) {
+    return true;
+  }
   return false;
 }
 

@@ -7,6 +7,7 @@ import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { clearSessionUser } from "@/lib/auth";
 import { cn } from "@/lib/cn";
+import { UserSidebarDirectory } from "@/components/users/UserSidebarDirectory";
 import {
   dashboardSidebarNav,
   isNavGroupActive,
@@ -130,6 +131,7 @@ function NavGroup({
               pathname={pathname}
             />
           ))}
+          {item.id === "users" ? <UserSidebarDirectory /> : null}
         </div>
       ) : null}
     </div>
@@ -139,7 +141,7 @@ function NavGroup({
 export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
-  const [collapsed, setCollapsed] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
 
   const syncExpandedFromPath = useCallback(
@@ -170,11 +172,6 @@ export function Sidebar() {
     });
   };
 
-  const expandSidebarAndSection = (id: string) => {
-    setCollapsed(false);
-    setExpandedIds((prev) => new Set(prev).add(id));
-  };
-
   const handleLogout = () => {
     clearSessionUser();
     router.replace("/login");
@@ -182,44 +179,46 @@ export function Sidebar() {
   };
 
   return (
-    <aside
-      className={cn(
-        "flex h-screen shrink-0 flex-col border-r border-outline-variant/10 bg-surface-container-lowest shadow-sm transition-[width] duration-200 ease-out",
-        collapsed ? "w-[76px]" : "w-[260px]",
-      )}
-    >
-      <div
-        className={cn(
-          "flex border-b border-outline-variant/10",
-          collapsed
-            ? "flex-col items-center gap-2 px-2 py-3"
-            : "items-center gap-2 px-3 py-4",
-        )}
-      >
-        {!collapsed ? (
-          <div className="min-w-0 flex-1 px-1">
-            <p className="font-headline text-lg font-extrabold tracking-tight text-on-surface">
-              Namaste Cam
-            </p>
-            <p className="text-xs font-medium uppercase tracking-widest text-secondary">
-              Admin
-            </p>
-          </div>
-        ) : (
-          <span
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-headline text-sm font-extrabold text-primary"
-            aria-hidden
-          >
-            N
-          </span>
-        )}
+    <>
+      {!isOpen && (
         <button
           type="button"
-          onClick={() => setCollapsed((c) => !c)}
-          className="shrink-0 rounded-full p-2 text-secondary transition-colors hover:bg-surface-container-high hover:text-primary"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={() => setIsOpen(true)}
+          className="fixed left-4 top-4 z-30 rounded-full bg-primary p-3 text-white shadow-lg transition-transform hover:scale-105"
+          aria-label="Open sidebar"
         >
-          <MaterialIcon name={collapsed ? "chevron_right" : "chevron_left"} className="text-xl" />
+          <MaterialIcon name="menu" className="text-xl" />
+        </button>
+      )}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 transition-opacity duration-300 ease-in-out"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+      <aside
+        className={cn(
+          "fixed left-0 top-0 z-50 h-screen flex-col border-r border-outline-variant/10 bg-surface-container-lowest shadow-sm transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0 w-[30%]" : "-translate-x-full",
+          "flex",
+        )}
+      >
+      <div className="flex items-center gap-2 border-b border-outline-variant/10 px-3 py-4">
+        <div className="min-w-0 flex-1 px-1">
+          <p className="font-headline text-lg font-extrabold tracking-tight text-on-surface">
+            Namaste Cam
+          </p>
+          <p className="text-xs font-medium uppercase tracking-widest text-secondary">
+            Admin
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => setIsOpen(false)}
+          className="shrink-0 rounded-full p-2 text-secondary transition-colors hover:bg-surface-container-high hover:text-primary"
+          aria-label="Close sidebar"
+        >
+          <MaterialIcon name="close" className="text-xl" />
         </button>
       </div>
 
@@ -232,7 +231,7 @@ export function Sidebar() {
                 href={item.href}
                 label={item.label}
                 icon={item.icon}
-                collapsed={collapsed}
+                collapsed={false}
                 pathname={pathname}
               />
             );
@@ -241,10 +240,10 @@ export function Sidebar() {
             <NavGroup
               key={item.id}
               item={item}
-              collapsed={collapsed}
+              collapsed={false}
               expanded={expandedIds.has(item.id)}
               onToggle={() => toggleSection(item.id)}
-              onExpandSidebar={() => expandSidebarAndSection(item.id)}
+              onExpandSidebar={() => {}}
               pathname={pathname}
             />
           );
@@ -256,17 +255,15 @@ export function Sidebar() {
           type="button"
           variant="ghost"
           size="sm"
-          className={cn(
-            "w-full font-semibold text-secondary hover:bg-surface-container-high hover:text-primary",
-            collapsed && "px-2",
-          )}
+          className="w-full font-semibold text-secondary hover:bg-surface-container-high hover:text-primary"
           onClick={handleLogout}
           aria-label="Log out"
         >
           <MaterialIcon name="logout" className="text-xl" />
-          {!collapsed ? <span>Log out</span> : <span className="sr-only">Log out</span>}
+          <span>Log out</span>
         </Button>
       </div>
     </aside>
+    </>
   );
 }

@@ -1,0 +1,337 @@
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { MaterialIcon } from '@/components/MaterialIcon'
+import { useUserNavDrawer } from '@/components/layout/UserNavDrawer'
+import { useCart } from '@/lib/cart/store'
+
+interface MenuItem {
+  id: string
+  name: string
+  description: string
+  price: number
+  originalPrice?: number
+  image: string
+  category: string
+  rating: number
+  time: string
+  dietary?: string[]
+  isVegetarian: boolean
+  discount?: string
+}
+
+const menuItems: MenuItem[] = [
+  {
+    id: '1',
+    name: 'Old Delhi Butter Chicken',
+    description: 'Tandoori-grilled chicken thighs simmered in a rich, creamy tomato and fenugreek sauce.',
+    price: 14.50,
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCxhgKG2-8XL9hqdKZWIyGY9GuxFw4KEL0xWLqYGFuqtMVPU3VYxSl_dZ4Biur4dwQ_8zoEPNWlwxSL2D0p5pZ56_dHp3SJqpFf0_MppL9DZYT3XhwKPD3BKWepYNh-NBHPI1I0jbT_Eu8WG41RW-I9nKPGsNkI20EF0dnyumwDvcceQmANu-_5qkGilgBMBoc0HDzAH7H3tPXOhUrxPEoXSidzQj2p_8997640XS2WObUTxd1EBKyUA2FRrgvYGa6Dkoo1REDMBDo',
+    category: 'Tandoori',
+    rating: 4.8,
+    time: '25-35 min',
+    dietary: ['Dairy', 'Nuts'],
+    isVegetarian: false
+  },
+  {
+    id: '2',
+    name: 'Royal Hyderabadi Biryani',
+    description: 'Slow-cooked tender lamb chunks layered with aromatic long-grain basmati rice and spices.',
+    price: 12.75,
+    originalPrice: 15.00,
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDswlkOV6y5l68uDIh7kvV1ZrfRZVyFgOJ6tSvQACId_l3UeqmJ5aWFZtpdyrWdjsrDSVEDxlUa30nSajNKvrFPnlPgNG2BmPqzxEOMVEx7g6wVLNLBk4CATqltiKp-yeRAERxUWCL2nnw3N6H_FXCNNsz-oaaVWbJcGapt2--me5q4xJe8DV2lyyaiWi8wa3WvBA8ITJpfkijdDLEhifiL82DyfJKLSqhSGeATnGAihUiApRZsmreWVGmeRAgUHRPADlPePKAVL5Q',
+    category: 'Biryani',
+    rating: 4.9,
+    time: '30-40 min',
+    dietary: ['Gluten Free'],
+    isVegetarian: false,
+    discount: "Chef's Choice • 15% OFF"
+  },
+  {
+    id: '3',
+    name: 'Paneer Tikka Salad',
+    description: 'Chargrilled paneer cubes tossed with garden fresh greens and zesty mint vinaigrette.',
+    price: 10.95,
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBxv1N7vjIcGv8e-zdJESEauPhWxwsctynSWQ0TM1bkyaCExokwcfBcvdLHqVwi_5JEqPqGS1cjJpb9sU0l6mGz6g-oSB9E8_yj5r0QNUi4_Jp9tEN1OLOmD5Z4vDRF9eMFJW1sNf-BzHFHfHeW4vDuUXyoLm6ZJmgfS5ECnGmZxdbhNGgHKB5D08lcqqn7vfj9bL8Ss0S9dFVy4OKUa2qbhZ1nMkisJjg7VrdHB3VK8zo1hJSyxNpAsW3vkH8iIzjUYhRfahXGEE',
+    category: 'Sides',
+    rating: 4.6,
+    time: '15-20 min',
+    dietary: [],
+    isVegetarian: true
+  },
+  {
+    id: '4',
+    name: 'Garlic & Cilantro Naan',
+    description: 'Freshly baked in our clay oven, brushed with garlic butter and fresh cilantro.',
+    price: 3.50,
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAOyWkqOruDvr_9quixHdZeP9vUSmbuNyxD6VTTEOJnD3Be5bXElVkSq-mrOC4dRawn93gXQYG35HQZXfQoMbY1qPwnK63F2mDjZg3ShO_p9yoUrhFER7-opKhcr89r5Dq-Y-x9api9389kAO_CEa0HbCOo-bkjG2PUmMFa6g2YmcyPcm81Bae2XOVXY17JmRq6WmT0mNc-HFhTjz9Twp5S5IfvDzP9wWDusMzRbE35oPKF0JIs-HF4NEAjskiitJqS9l_yLQ5sW-U',
+    category: 'Sides',
+    rating: 4.7,
+    time: '10-15 min',
+    dietary: ['Dairy'],
+    isVegetarian: true
+  }
+]
+
+const categories = ['All Dishes', 'Tandoori', 'Curries', 'Biryani', 'Sides']
+
+export default function MenuPage() {
+  const router = useRouter()
+  const { openDrawer } = useUserNavDrawer()
+  const { items, addItem, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCart()
+  const [activeCategory, setActiveCategory] = useState('All Dishes')
+
+  const handleAddToCart = (item: MenuItem) => {
+    addItem({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      image: item.image,
+    })
+  }
+
+  const handleRemoveFromCart = (itemId: string) => {
+    const item = items.find(i => i.id === itemId)
+    if (item && item.quantity > 1) {
+      updateQuantity(itemId, item.quantity - 1)
+    } else {
+      removeItem(itemId)
+    }
+  }
+
+  const getItemQuantity = (itemId: string) => {
+    const item = items.find(i => i.id === itemId)
+    return item ? item.quantity : 0
+  }
+
+  const totalItems = getTotalItems()
+  const cartTotal = getTotalPrice()
+
+  const filteredItems = activeCategory === 'All Dishes'
+    ? menuItems
+    : menuItems.filter(item => item.category === activeCategory)
+
+  return (
+    <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
+      {/* TopAppBar */}
+      <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-4 sm:px-6 h-16">
+        <div className="flex items-center gap-4">
+          <button onClick={openDrawer} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+            <MaterialIcon name="menu" className="text-secondary" />
+          </button>
+          <h1 className="text-xl font-extrabold text-primary italic font-headline tracking-tight">
+            Namaste Cambridge
+          </h1>
+        </div>
+        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onClick={() => router.push('/user/profile')}>
+          <img
+            className="w-full h-full object-cover"
+            alt="User profile avatar"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXFnLzVVhUq11P95jUmmneyhTJd9NUJq2pBpLde_xqLC6NQbiRzX2tVLRFqvzIxJdh5pBXTDfLIX45Gpbg0OaCvG06csqlY9t8bSPQzN4H02qBgd180vz7nJ11EukD-J34N7VHZxgTpwFxnk92FAKPmuBbNE_GyHtpA-fWN6qN717WWfGnQ6IS7LwSfA1PCCmpN1Fc2yFly1j4ihEXkGDwtKlgYzl-xm2nJyBcANt8RLamn2DAiHi55OX9frjhcNHrsbadk1-XJpM"
+          />
+        </div>
+      </header>
+
+      <main className="pt-20 pb-32 px-4 max-w-3xl mx-auto">
+        {/* Header Section */}
+        <section className="mb-8">
+          <h2 className="text-3xl font-headline font-extrabold tracking-tight text-on-surface mb-2">
+            Explore Menu
+          </h2>
+          <p className="text-on-surface-variant text-sm">
+            Authentic Indian Flavors Curated for Cambridge
+          </p>
+        </section>
+
+        {/* Category Filter */}
+        <div className="flex gap-3 overflow-x-auto no-scrollbar mb-8 pb-2">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-6 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all ${
+                activeCategory === category
+                  ? 'bg-primary text-on-primary shadow-lg shadow-primary/20'
+                  : 'bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
+        {/* Food List */}
+        <div className="space-y-6">
+          {filteredItems.map((item) => {
+            const quantity = getItemQuantity(item.id)
+            return (
+              <article
+                key={item.id}
+                className={`flex gap-4 p-4 bg-surface-container-lowest rounded-xl transition-all ${
+                  quantity > 0 ? 'shadow-md border-2 border-primary/10 relative' : 'shadow-sm hover:shadow-md'
+                }`}
+              >
+                {item.discount && (
+                  <div className="absolute -top-3 right-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-sm z-10">
+                    {item.discount}
+                  </div>
+                )}
+                <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden relative">
+                  <img
+                    className="w-full h-full object-cover"
+                    alt={item.name}
+                    src={item.image}
+                  />
+                  <div className="absolute top-2 left-2 bg-white/90 backdrop-blur p-1 rounded-md">
+                    <MaterialIcon
+                      name="fiber_manual_record"
+                      className={`text-xs ${item.isVegetarian ? 'text-green-600' : 'text-primary'}`}
+                      style={{ fontVariationSettings: "'FILL' 1" }}
+                    />
+                  </div>
+                </div>
+                <div className="flex-grow flex flex-col justify-between">
+                  <div>
+                    <div className="flex justify-between items-start mb-1">
+                      <h3 className="font-headline font-bold text-lg text-on-surface leading-tight">
+                        {item.name}
+                      </h3>
+                      {item.dietary && item.dietary.length > 0 && (
+                        <MaterialIcon
+                          name="info"
+                          className="text-secondary text-xl cursor-help"
+                          title={item.dietary.join(', ')}
+                        />
+                      )}
+                    </div>
+                    <p className="text-on-surface-variant text-sm line-clamp-2 mb-2 font-body">
+                      {item.description}
+                    </p>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-primary font-bold text-lg font-headline">
+                        £{item.price.toFixed(2)}
+                      </span>
+                      {item.originalPrice && (
+                        <span className="text-on-surface-variant text-xs line-through">
+                          £{item.originalPrice.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  {quantity > 0 ? (
+                    <div className="flex items-center justify-between bg-primary-container text-on-primary-container rounded-full px-1 py-1 w-32 shadow-inner">
+                      <button
+                        onClick={() => handleRemoveFromCart(item.id)}
+                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                      >
+                        <MaterialIcon name="remove" className="text-lg" />
+                      </button>
+                      <span className="font-bold text-sm">{quantity}</span>
+                      <button
+                        onClick={() => handleAddToCart(item)}
+                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                      >
+                        <MaterialIcon name="add" className="text-lg" />
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleAddToCart(item)}
+                      className="w-full md:w-max px-8 py-2.5 bg-primary text-on-primary rounded-full text-sm font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                    >
+                      <MaterialIcon name="add" className="text-sm" />
+                      Add to Cart
+                    </button>
+                  )}
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </main>
+
+      {/* Floating Dynamic Cart */}
+      {totalItems > 0 && (
+        <div
+          onClick={() => router.push('/user/cart')}
+          className="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-surface-container-lowest/80 backdrop-blur-xl rounded-full py-4 px-6 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 cursor-pointer active:scale-95 transition-all"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold">
+              {totalItems}
+            </div>
+            <div>
+              <p className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
+                {totalItems} ITEM{totalItems !== 1 ? 'S' : ''} ADDED
+              </p>
+              <p className="text-sm font-bold text-on-surface">
+                £{cartTotal.toFixed(2)} plus taxes
+              </p>
+            </div>
+          </div>
+          <button className="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 px-4 py-2 rounded-full">
+            VIEW CART
+            <MaterialIcon name="arrow_forward_ios" className="text-sm" />
+          </button>
+        </div>
+      )}
+
+      {/* BottomNavBar */}
+      <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-lg shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-[2rem]">
+        <div
+          onClick={() => router.push('/user/home')}
+          className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"
+        >
+          <MaterialIcon name="home" className="text-2xl" />
+          <span className="font-headline text-[10px] font-semibold tracking-wide uppercase mt-1">
+            Home
+          </span>
+        </div>
+        <div className="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-2xl px-4 py-2 transition-transform active:scale-90 duration-150 cursor-pointer">
+          <MaterialIcon name="restaurant_menu" className="text-2xl" />
+          <span className="font-headline text-[10px] font-semibold tracking-wide uppercase mt-1">
+            Menu
+          </span>
+        </div>
+        <div
+          onClick={() => router.push('/user/orders')}
+          className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"
+        >
+          <MaterialIcon name="receipt_long" className="text-2xl" />
+          <span className="font-headline text-[10px] font-semibold tracking-wide uppercase mt-1">
+            Orders
+          </span>
+        </div>
+        <div
+          onClick={() => router.push('/user/notifications')}
+          className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"
+        >
+          <MaterialIcon name="notifications" className="text-2xl" />
+          <span className="font-headline text-[10px] font-semibold tracking-wide uppercase mt-1">
+            Notifications
+          </span>
+        </div>
+        <div
+          onClick={() => router.push('/user/profile')}
+          className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"
+        >
+          <MaterialIcon name="person" className="text-2xl" />
+          <span className="font-headline text-[10px] font-semibold tracking-wide uppercase mt-1">
+            Profile
+          </span>
+        </div>
+      </nav>
+
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
+    </div>
+  )
+}

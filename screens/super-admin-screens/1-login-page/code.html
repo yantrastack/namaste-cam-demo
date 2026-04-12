@@ -1,0 +1,155 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Sign In - Namaste Cambridge</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Be+Vietnam+Pro:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "tertiary": "#705D00",
+                "error": "#BA1A1A",
+                "inverse-surface": "#2E3132",
+                "on-tertiary": "#FFFFFF",
+                "on-secondary-fixed": "#121C2A",
+                "surface-bright": "#F8F9FA",
+                "primary-fixed-dim": "#FFB4AA",
+                "primary-fixed": "#FFDAD5",
+                "on-error": "#FFFFFF",
+                "tertiary-container": "#CAA900",
+                "secondary-container": "#D6E0F3",
+                "on-surface": "#191C1D",
+                "surface": "#F8F9FA",
+                "surface-container-high": "#E7E8E9",
+                "surface-container-lowest": "#FFFFFF",
+                "surface-container-low": "#F3F4F5",
+                "primary": "#BC000A",
+                "primary-container": "#E2241F",
+                "background": "#F8F9FA",
+                "on-primary": "#FFFFFF",
+                "on-primary-container": "#FFFBFF",
+                "outline": "#926F6A",
+                "outline-variant": "#E7BDB7",
+                "secondary": "#555F6F",
+                "on-secondary": "#FFFFFF"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Be Vietnam Pro"],
+                "label": ["Plus Jakarta Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .headline-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex">
+<!-- Split Screen Layout -->
+<div class="flex flex-col md:flex-row w-full min-h-screen">
+<!-- Left Half: Professional Food Photograph -->
+<div class="hidden md:flex md:w-1/2 relative overflow-hidden">
+<img alt="Authentic Indian Biryani" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYkd4drFgOEK09S_e2xfCodfqSc20bdyGGLEutU7vMfQ3f3VdK8X7g1uJWOxuRcvFddlQBhmn5YeIwHFQknO_jTmjBnBS200c0HBlDDAZX7YV5z55rn9oRTA5j3ByGC7Qblg2MwhIOFHm9nIlD5e0CuZNSabjw7rZOvc2V5r0awfbH5HEcQjPVOrPIvLzKFHtE_McyAJPsn-yNjjfJCmP_0W3knt3RTkf6T6xc5xHY9YeeLsI4MkTk9pSkKsJQhuVxU3mQGfVZ9go" style="">
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20"></div>
+<!-- Elegant Logo Overlay -->
+<div class="absolute top-12 left-12 z-10">
+<div class="text-4xl font-extrabold text-white tracking-tighter font-['Plus_Jakarta_Sans'] drop-shadow-lg" style="">
+                    Namaste Cambridge
+                </div>
+<p class="text-white/80 mt-2 font-medium tracking-wide headline-font uppercase text-sm" style="">Authentic Indian Cuisine</p>
+</div>
+<!-- Bottom Left Quote -->
+<div class="absolute bottom-12 left-12 right-12 text-white">
+<p class="text-2xl font-bold headline-font italic leading-tight" style="">
+                    "Experience the true essence of Indian spices and traditions in every bite."
+                </p>
+</div>
+</div>
+<!-- Right Half: Login Form -->
+<div class="w-full md:w-1/2 bg-surface-container-lowest flex items-center justify-center p-8 md:p-16">
+<div class="w-full max-w-md space-y-10">
+<!-- Mobile Logo (Shown only on small screens) -->
+<div class="md:hidden text-center mb-8">
+<div class="text-3xl font-extrabold text-[#BC000A] tracking-tighter font-['Plus_Jakarta_Sans']" style="">
+                        Namaste Cambridge
+                    </div>
+</div>
+<div class="space-y-2">
+<h1 class="text-4xl font-extrabold headline-font tracking-tight text-on-surface" style=""><br></h1>
+<p class="text-secondary font-body" style=""><h1 class="text-4xl font-extrabold headline-font tracking-tight text-on-surface cursor-text" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(25, 28, 29); outline: none !important;">Super&nbsp; &nbsp; Admin&nbsp; &nbsp; Login</h1></p>
+</div>
+<!-- Form Section -->
+<form class="space-y-6">
+<div class="space-y-1.5">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary ml-1" for="email" style="">Email Address</label>
+<input class="w-full px-5 py-4 rounded-xl bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-stone-400 transition-all" id="email" placeholder="chef@namaste.com" type="email">
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center ml-1">
+<label class="text-xs font-bold uppercase tracking-widest text-secondary" for="password" style="">Password</label>
+<a class="text-xs font-bold text-primary hover:underline underline-offset-4" href="#" style="">Forgot Password?</a>
+</div>
+<div class="relative">
+<input class="w-full px-5 py-4 rounded-xl bg-surface-container-low border-none focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-stone-400 transition-all" id="password" placeholder="••••••••" type="password">
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600" type="button" style="">
+<span class="material-symbols-outlined" data-icon="visibility" style="">visibility</span>
+</button>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-4 rounded-full font-extrabold headline-font tracking-tight shadow-lg shadow-primary/20 hover:opacity-95 active:scale-[0.98] transition-all text-lg" type="submit" style="">
+                        Sign In
+                    </button>
+</form>
+<!-- Divider -->
+<div class="relative flex items-center py-2">
+<div class="flex-grow border-t border-surface-container-high"></div>
+<span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-stone-400" style=""><br></span>
+<div class="flex-grow border-t border-surface-container-high"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center space-x-3 py-4 px-4 rounded-full border border-surface-container-high hover:bg-surface-container-low transition-colors active:scale-[0.98]" style="">
+<svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="text-sm font-bold headline-font" style=""><br></span>
+</button>
+<button class="flex items-center justify-center space-x-3 py-4 px-4 rounded-full border border-surface-container-high hover:bg-surface-container-low transition-colors active:scale-[0.98]" style="">
+<svg class="w-5 h-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+</svg>
+<span class="text-sm font-bold headline-font" style=""><br></span>
+</button>
+</div>
+<div class="pt-4 text-center">
+<p class="text-sm font-medium text-secondary" style=""><br></p>
+</div>
+<!-- Subtle Bottom Note -->
+<div class="mt-8 text-center">
+<p class="text-[10px] text-stone-400 leading-relaxed uppercase tracking-widest" style=""><br></p>
+</div>
+</div>
+</div>
+</div>
+</body></html>

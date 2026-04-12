@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Checkout | Culinary Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be_Vietnam_Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f8f9fa",
+              "primary-container": "#e2241f",
+              "primary-fixed-dim": "#ffb4aa",
+              "secondary-fixed-dim": "#bdc7d9",
+              "on-primary-fixed-variant": "#930005",
+              "on-secondary-fixed-variant": "#3d4756",
+              "outline-variant": "#e7bdb7",
+              "on-secondary-fixed": "#121c2a",
+              "error-container": "#ffdad6",
+              "secondary": "#555f6f",
+              "surface": "#f8f9fa",
+              "surface-tint": "#c0000a",
+              "tertiary-fixed": "#ffe171",
+              "primary": "#bc000a",
+              "tertiary": "#705d00",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#d9e3f6",
+              "surface-bright": "#f8f9fa",
+              "surface-container-low": "#f3f4f5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#4c3e00",
+              "inverse-on-surface": "#f0f1f2",
+              "on-secondary-container": "#596373",
+              "surface-dim": "#d9dadb",
+              "on-surface-variant": "#5d3f3b",
+              "on-primary-fixed": "#410001",
+              "on-primary-container": "#fffbff",
+              "surface-variant": "#e1e3e4",
+              "surface-container-high": "#e7e8e9",
+              "tertiary-container": "#caa900",
+              "on-tertiary-fixed": "#221b00",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#edeeef",
+              "outline": "#926f6a",
+              "surface-container-highest": "#e1e3e4",
+              "on-background": "#191c1d",
+              "on-surface": "#191c1d",
+              "primary-fixed": "#ffdad5",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#ffb4aa",
+              "secondary-container": "#d6e0f3",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#e9c400",
+              "inverse-surface": "#2e3132",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .hide-scrollbar::-webkit-scrollbar { display: none; }
+      .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+<header class="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-6 py-4 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">arrow_back</button>
+<h1 class="font-headline font-bold tracking-tight text-xl text-red-600 dark:text-red-500">Checkout</h1>
+</div>
+<div class="h-10 w-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar of a smiling man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFWo0e3myXniYIYaPeq5xQBKxD6BjZAhgG-Zc4mj8ykbvsET9nOlX5ozZ_wlotPIUVkdom6WfbSkWw7EXENRVJuDUE4rP8K_VC8nbxo9z8z0IT1HJvvFpe9NeICFIRQkf77HU3iqe9ot4nh_IRHXRQVQuUtSlBakt38g1KXIM3RI3Uzh6R27vfph8qjo1nTeJZrcotKaSdeXCRGrW3C-o7iqqFJ5W0xeeT_BwUJj1zlJ5Ep1Bi6mtE22RWqSCkA70NagEabwu-jKk"/>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8 space-y-8">
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline text-2xl font-bold tracking-tight">Order Method</h2>
+</div>
+<div class="bg-surface-container-low p-1.5 rounded-full flex gap-1">
+<button class="flex-1 py-3 px-6 rounded-full bg-primary text-on-primary font-semibold text-sm transition-all shadow-md">
+                        Delivery
+                    </button>
+<button class="flex-1 py-3 px-6 rounded-full text-secondary font-semibold text-sm hover:bg-surface-container-high transition-all">
+                        Pickup
+                    </button>
+</div>
+</section>
+<section class="space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline text-2xl font-bold tracking-tight">Delivery Address</h2>
+<button class="text-primary font-semibold text-sm hover:opacity-80 transition-opacity">Edit</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest p-6 rounded-xl border-2 border-primary relative shadow-sm">
+<div class="absolute top-4 right-4 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-start gap-4">
+<div class="bg-primary-fixed p-3 rounded-lg">
+<span class="material-symbols-outlined text-primary">home</span>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-1">Home</h3>
+<p class="text-secondary text-sm leading-relaxed">452 High Street, Kensington<br/>London, W8 7AS</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl border-2 border-transparent hover:border-outline-variant transition-colors cursor-pointer group">
+<div class="flex items-start gap-4">
+<div class="bg-surface-container-high p-3 rounded-lg group-hover:bg-secondary-container transition-colors">
+<span class="material-symbols-outlined text-secondary">work</span>
+</div>
+<div>
+<h3 class="font-bold text-lg mb-1">Office</h3>
+<p class="text-secondary text-sm leading-relaxed">The Shard, 32 London Bridge St<br/>London, SE1 9SG</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 rounded-xl space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-primary">add_location_alt</span>
+<h3 class="font-bold">Add New Address</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<label class="text-xs font-bold text-secondary px-1">Address Label (e.g. Gym)</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Work, Home, etc." type="text"/>
+</div>
+<div class="space-y-1">
+<label class="text-xs font-bold text-secondary px-1">Postcode</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="SW1A 1AA" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-1">
+<label class="text-xs font-bold text-secondary px-1">Street Address</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" placeholder="Enter your full street address" type="text"/>
+</div>
+</div>
+</div>
+</section>
+<section class="space-y-4">
+<h2 class="font-headline text-2xl font-bold tracking-tight">Payment Method</h2>
+<div class="flex flex-wrap gap-4">
+<button class="flex-1 min-w-[160px] flex items-center gap-3 p-4 rounded-xl bg-surface-container-lowest border-2 border-primary shadow-sm transition-all active:scale-95">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<div class="text-left">
+<p class="text-sm font-bold">Online Payment</p>
+<p class="text-[10px] text-secondary">Visa, Master, GPay</p>
+</div>
+</button>
+<button class="flex-1 min-w-[160px] flex items-center gap-3 p-4 rounded-xl bg-surface-container-lowest border-2 border-transparent hover:border-outline-variant transition-all active:scale-95">
+<span class="material-symbols-outlined text-secondary">payments</span>
+<div class="text-left">
+<p class="text-sm font-bold">Cash on Delivery</p>
+<p class="text-[10px] text-secondary">Pay at your door</p>
+</div>
+</button>
+</div>
+</section>
+</div>
+<aside class="lg:col-span-4">
+<div class="sticky top-24 space-y-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-surface-container-high/50">
+<h3 class="font-headline font-bold text-lg mb-6">Order Summary</h3>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A vibrant salad bowl with grilled chicken" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy70odlWdqMvnDQUgGqJygJWvcq2pIPT2l8E6IHFxMBcJkClmcuzkFTQo5R9KWv1siu7pmhLwouXF2ECjUxnVLqp7gvr2gx0MOp1D07C_rg_wY2-wcTEdkU9HfC5z3Ye6RzJCAdfcZgWFXlFodMqP4CGmRV1sfT1Vhw3oOJiYDHtvqhBf0PrxPikZJfAJwQhPStoZtNICoyQCR7IgPzy_ke-2s2Io93rmR_siVsfx5dRe-cx1gqsXXGbL_ux08o6xC1i74c_fA-Qs"/>
+</div>
+<div>
+<p class="text-sm font-bold">Quinoa Power Bowl</p>
+<p class="text-xs text-secondary">1 × £14.50</p>
+</div>
+</div>
+<p class="text-sm font-bold">£14.50</p>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A refreshing iced matcha latte" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXA5PXQ3BPSztz0AXbTjjM7jK320wBYSa5qwWDxkxosITl4iliH4pwYc9g932kN_7mOnXpNPmz8l0KjYUYRrX-P_jrA05fo3ZtskhXPWKa3jVnDr5cUEDYKHTxFkJaokTZyBhC4dvYdWVPdSDY4Xb21k5cURkWp60Nz0rqhEcBs_lKTjA2u5P_krJ580xvShitxY1tdBzV5eeL2zzcROiGg4q7anM7R6iQ0RUi06cT4WIVKcmt79fxRnQBGjNlu_hKL41SRa_S2nc"/>
+</div>
+<div>
+<p class="text-sm font-bold">Iced Matcha Latte</p>
+<p class="text-xs text-secondary">2 × £4.50</p>
+</div>
+</div>
+<p class="text-sm font-bold">£9.00</p>
+</div>
+</div>
+<div class="space-y-3 pt-6 border-t border-surface-container">
+<div class="flex justify-between text-sm text-secondary">
+<span>Subtotal</span>
+<span>£23.50</span>
+</div>
+<div class="flex justify-between text-sm text-secondary">
+<span>Delivery Fee</span>
+<span>£2.50</span>
+</div>
+<div class="flex justify-between text-sm text-secondary">
+<span>Service Fee</span>
+<span>£1.20</span>
+</div>
+<div class="flex justify-between items-center pt-4 mt-2 border-t border-surface-container">
+<span class="font-bold text-lg">Total</span>
+<span class="font-headline font-extrabold text-2xl text-primary tracking-tight">£27.20</span>
+</div>
+</div>
+</div>
+<div class="bg-tertiary-fixed/20 p-4 rounded-xl flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary">info</span>
+<p class="text-xs text-on-tertiary-fixed-variant leading-relaxed">
+                        By placing your order, you agree to Culinary Editorial's terms of service and privacy policy.
+                    </p>
+</div>
+<button class="w-full bg-primary py-5 rounded-full text-on-primary font-bold text-lg shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2">
+                    Place Order
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</aside>
+</main>
+<div class="md:hidden fixed bottom-0 left-0 w-full h-20 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 shadow-[0_-8px_24px_rgba(0,0,0,0.04)] rounded-t-[2rem]">
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all active:scale-90">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all active:scale-90">
+<span class="material-symbols-outlined">restaurant_menu</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Menu</span>
+</div>
+<div class="flex flex-col items-center justify-center text-red-600 dark:text-red-400 font-bold scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all active:scale-90">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Notifications</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all active:scale-90">
+<span class="material-symbols-outlined">person_outline</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Profile</span>
+</div>
+</div>
+</body></html>
