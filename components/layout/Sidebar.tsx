@@ -7,6 +7,7 @@ import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { clearSessionUser } from "@/lib/auth";
 import { cn } from "@/lib/cn";
+import { UserSidebarDirectory } from "@/components/users/UserSidebarDirectory";
 import {
   dashboardSidebarNav,
   isNavGroupActive,
@@ -130,6 +131,7 @@ function NavGroup({
               pathname={pathname}
             />
           ))}
+          {item.id === "users" ? <UserSidebarDirectory /> : null}
         </div>
       ) : null}
     </div>

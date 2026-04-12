@@ -57,18 +57,30 @@
       "icon": "group",
       "children": [
         {
-          "id": "users-staff",
-          "label": "Staff",
-          "icon": "badge",
-          "href": "/users/staff"
+          "id": "users-all",
+          "label": "All users",
+          "icon": "groups",
+          "href": "/users"
         },
         {
-          "id": "users-create",
-          "label": "Create",
+          "id": "users-directory",
+          "label": "User Directory",
+          "icon": "folder",
+          "href": "/users/directory"
+        },
+        {
+          "id": "users-new",
+          "label": "New user",
           "icon": "person_add",
-          "href": "/users/create"
+          "href": "/users/new"
         }
       ]
+    },
+    {
+      "id": "staff",
+      "label": "Staff Management",
+      "icon": "group",
+      "href": "/staff"
     },
     {
       "id": "coupons",

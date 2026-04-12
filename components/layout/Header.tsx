@@ -8,13 +8,20 @@ import {
 } from "@/lib/auth";
 import { useMemo, useSyncExternalStore } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
+import { usePathname } from "next/navigation";
 
-export function Header() {
+interface HeaderProps {
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+}
+
+export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
   const userJson = useSyncExternalStore(
     subscribeSessionUser,
     getSessionUserJsonSnapshot,
     getServerSessionUserJsonSnapshot,
   );
+  const pathname = usePathname();
 
   const name = useMemo(() => {
     if (!userJson) return "";
@@ -25,6 +32,8 @@ export function Header() {
     }
   }, [userJson]);
 
+  const isUsersPage = pathname === "/users";
+
   return (
     <header className="flex items-center justify-between gap-4 border-b border-outline-variant/10 bg-white/80 px-6 py-4 backdrop-blur-md">
       <div className="hidden min-w-0 flex-1 md:block">
@@ -34,7 +43,9 @@ export function Header() {
           </span>
           <input
             type="search"
-            placeholder="Search orders, menus, users…"
+            value={isUsersPage && searchQuery !== undefined ? searchQuery : ""}
+            onChange={(e) => isUsersPage && onSearchChange ? onSearchChange(e.target.value) : undefined}
+            placeholder={isUsersPage ? "Search users by name or email..." : "Search orders, menus, users..."}
             className="w-full rounded-full bg-surface py-3 pl-12 pr-4 text-sm font-medium text-on-surface ring-1 ring-outline-variant/20 outline-none transition-all focus:ring-2 focus:ring-primary"
           />
         </div>
