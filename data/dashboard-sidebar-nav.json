@@ -88,6 +88,24 @@
           "href": "/coupons/new"
         }
       ]
+    },
+    {
+      "id": "favorites",
+      "label": "Favorites",
+      "icon": "favorite",
+      "href": "/user/favorites"
+    },
+    {
+      "id": "order-history",
+      "label": "Order History",
+      "icon": "history",
+      "href": "/user/order-history"
+    },
+    {
+      "id": "notifications",
+      "label": "Notifications",
+      "icon": "notifications",
+      "href": "/user/notifications"
     }
   ]
 }
