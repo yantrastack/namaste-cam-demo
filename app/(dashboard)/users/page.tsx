@@ -1,12 +1,12 @@
-import { PageContainer } from "@/components/layout/PageContainer";
-import { Card } from "@/components/ui/Card";
+"use client";
 
-export default function UsersPage() {
-  return (
-    <PageContainer title="Users" description="Staff and customer accounts.">
-      <Card className="p-6">
-        <p className="text-stone-600">Users placeholder.</p>
-      </Card>
-    </PageContainer>
-  );
+import { UsersListView } from "@/components/users/UsersListView";
+
+interface UsersPageProps {
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+}
+
+export default function UsersPage({ searchQuery, onSearchChange }: UsersPageProps) {
+  return <UsersListView searchQuery={searchQuery} onSearchChange={onSearchChange} />;
 }
