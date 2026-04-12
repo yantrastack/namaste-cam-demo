@@ -1,0 +1,442 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Payments &amp; Transactions | Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#ffffff",
+              "tertiary-container": "#caa900",
+              "on-surface-variant": "#5d3f3b",
+              "inverse-surface": "#2e3132",
+              "primary-fixed": "#ffdad5",
+              "tertiary-fixed": "#ffe171",
+              "secondary-fixed-dim": "#bdc7d9",
+              "tertiary-fixed-dim": "#e9c400",
+              "surface-container": "#edeeef",
+              "secondary-container": "#d6e0f3",
+              "surface-variant": "#e1e3e4",
+              "on-primary": "#ffffff",
+              "primary-container": "#e2241f",
+              "on-secondary-fixed": "#121c2a",
+              "outline-variant": "#e7bdb7",
+              "on-primary-fixed": "#410001",
+              "surface-dim": "#d9dadb",
+              "surface-bright": "#f8f9fa",
+              "inverse-primary": "#ffb4aa",
+              "on-tertiary-container": "#4c3e00",
+              "surface-container-low": "#f3f4f5",
+              "on-background": "#191c1d",
+              "on-primary-fixed-variant": "#930005",
+              "surface-tint": "#c0000a",
+              "outline": "#926f6a",
+              "error-container": "#ffdad6",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-secondary-fixed-variant": "#3d4756",
+              "on-secondary": "#ffffff",
+              "background": "#f8f9fa",
+              "on-surface": "#191c1d",
+              "on-secondary-container": "#596373",
+              "tertiary": "#705d00",
+              "surface-container-highest": "#e1e3e4",
+              "secondary": "#555f6f",
+              "primary": "#bc000a",
+              "on-error-container": "#93000a",
+              "surface": "#f8f9fa",
+              "secondary-fixed": "#d9e3f6",
+              "on-tertiary": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "surface-container-lowest": "#ffffff",
+              "primary-fixed-dim": "#ffb4aa",
+              "on-tertiary-fixed": "#221b00",
+              "on-primary-container": "#fffbff",
+              "error": "#ba1a1a",
+              "inverse-on-surface": "#f0f1f2"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-zinc-900 flex flex-col h-full py-6 px-4 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-xl font-extrabold text-red-600 dark:text-red-500 font-['Plus_Jakarta_Sans'] tracking-tight" style=""><h1 class="text-xl font-extrabold text-red-600 dark:text-red-500 font-['Plus_Jakarta_Sans'] tracking-tight cursor-text" spellcheck="false" data-stitch-added-classes="cursor-text" style="--tw-scale-x: 1; --tw-scale-y: 1; --tw-pan-x: ; --tw-pan-y: ; --tw-pinch-zoom: ; --tw-scroll-snap-strictness: proximity; --tw-gradient-from-position: ; --tw-gradient-via-position: ; --tw-gradient-to-position: ; --tw-ordinal: ; --tw-slashed-zero: ; --tw-numeric-figure: ; --tw-numeric-spacing: ; --tw-numeric-fraction: ; --tw-ring-inset: ; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgb(59 130 246 / 0.5); --tw-ring-offset-shadow: 0 0 #0000; --tw-ring-shadow: 0 0 #0000; --tw-shadow: 0 0 #0000; --tw-shadow-colored: 0 0 #0000; --tw-blur: ; --tw-brightness: ; --tw-contrast: ; --tw-grayscale: ; --tw-hue-rotate: ; --tw-invert: ; --tw-saturate: ; --tw-sepia: ; --tw-drop-shadow: ; --tw-backdrop-blur: ; --tw-backdrop-brightness: ; --tw-backdrop-contrast: ; --tw-backdrop-grayscale: ; --tw-backdrop-hue-rotate: ; --tw-backdrop-invert: ; --tw-backdrop-opacity: ; --tw-backdrop-saturate: ; --tw-backdrop-sepia: ; --tw-contain-size: ; --tw-contain-layout: ; --tw-contain-paint: ; --tw-contain-style: ; --tw-text-opacity: 1; color: rgb(220, 38, 38); outline: none !important;">Namaste Cam</h1></h1>
+<p class="text-xs text-zinc-500 font-medium" style="">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1 overflow-y-auto no-scrollbar">
+<!-- Navigation Items mapped from JSON -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">dashboard</span>
+<span class="text-sm" style="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">shopping_cart</span>
+<span class="text-sm" style="">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">restaurant_menu</span>
+<span class="text-sm" style="">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="text-sm" style="">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">storefront</span>
+<span class="text-sm" style="">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">local_shipping</span>
+<span class="text-sm" style="">Delivery</span>
+</a>
+<!-- Active State Logic: Payments -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-600 dark:text-red-400 font-bold border-r-4 border-red-600 bg-zinc-100 dark:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">payments</span>
+<span class="text-sm" style="">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">analytics</span>
+<span class="text-sm" style="">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" style="">settings</span>
+<span class="text-sm" style="">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 px-2">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover" data-alt="Admin user profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXjf70k7ZKmC4wpENJmXVUpYnjx0vnWP7n9Lbl4l1fTp6SNMxowXhugt9jawfzHm3CEu-afox7kEwPomLEe5qspOnFXpXNIsSTvLkHaf4G0V_LLI4Pjj_LONuwcN5QTGPlif6mFvhBHKYWgNNZTfWPkAumTwTfO9stLCHY5m4yl65O0Au3ceUJ1WQMM3d9b7ai1T6rXIm0HHvW9aqjeTCAeVinWI5TJu2ZHFDDIXI1yl0DLObu11HvotlwaO8NBoyCpknFIztU8ks" style="">
+<div>
+<p class="text-sm font-bold text-on-surface" style="">Alex Curator</p>
+<p class="text-[10px] text-zinc-500 uppercase tracking-widest" style="">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex items-center justify-between px-8 z-40 shadow-sm shadow-zinc-200/50 dark:shadow-none font-['Be_Vietnam_Pro'] text-sm">
+<div class="flex items-center flex-1">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" style="">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-xs focus:ring-2 focus:ring-primary/20" placeholder="Search transactions, order IDs..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-zinc-600 dark:text-zinc-300">
+<span class="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors" style="">notifications</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-red-500 transition-colors" style="">help</span>
+</div>
+<div class="h-8 w-px bg-outline-variant/30"></div>
+<button class="flex items-center gap-2 text-red-600 font-semibold cursor-pointer active:opacity-70 transition-all" style="">
+<span class="text-sm" style="">Profile</span>
+<img class="w-8 h-8 rounded-full border border-primary/20" data-alt="Admin user small avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxQNAN1QgG09Ss1nEUk6pcBi9A3CXVbKzkpeIVDFeoX93-lsgc1cfaf2YPNSNh5hafcc9TLkL8lm8IW-bSojJ6BaiPNiZqr0OhAUY2H814kJcg3JcUhCP27dKYi0obuCVKLsQq9FPEwKzLkir58u8ZYc9wcXusCDhYZGO6t3PQGlGF-9aH2ayGja-XxOisp7EEziedz2HuijWvjIaG4IyjdF1AqlXIXW5Qx8q-emkVGD65csu-hA1HhE3bLdq-w8Yu0aNXq4TxKgk" style="">
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface mb-2" style="">Financial Ledger</h2>
+<p class="text-secondary font-medium" style="">Review and manage platform-wide transactions and settlements.</p>
+</div>
+<div class="flex items-center gap-3">
+<div class="bg-surface-container-lowest flex items-center gap-2 px-4 py-2.5 rounded-full shadow-sm">
+<span class="material-symbols-outlined text-zinc-400" style="">calendar_today</span>
+<span class="text-xs font-semibold" style="">Oct 01 - Oct 31, 2023</span>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-primary/20 flex items-center gap-2 hover:opacity-90 transition-all active:scale-95" style="">
+<span class="material-symbols-outlined text-lg" style="">download</span>
+                    Export CSV
+                </button>
+</div>
+</div>
+<!-- Bento Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1" style="">Total Volume</p>
+<h3 class="text-2xl font-extrabold font-headline" style="">$142,840.00</h3>
+<div class="mt-4 flex items-center gap-1 text-emerald-600 text-xs font-bold">
+<span class="material-symbols-outlined text-sm" style="">trending_up</span>
+<span class="" style="">+12.5% vs last month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1" style="">Success Rate</p>
+<h3 class="text-2xl font-extrabold font-headline" style="">99.2%</h3>
+<div class="mt-4 flex items-center gap-1 text-emerald-600 text-xs font-bold">
+<span class="material-symbols-outlined text-sm" style="">check_circle</span>
+<span class="" style="">Industry leading performance</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10">
+<p class="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-1" style="">Pending Payouts</p>
+<h3 class="text-2xl font-extrabold font-headline" style="">$12,405.20</h3>
+<div class="mt-4 flex items-center gap-1 text-amber-600 text-xs font-bold">
+<span class="material-symbols-outlined text-sm" style="">schedule</span>
+<span class="" style="">Scheduled for Friday</span>
+</div>
+</div>
+<div class="bg-primary text-on-primary p-6 rounded-xl shadow-xl shadow-primary/10">
+<p class="text-xs font-bold text-primary-fixed uppercase tracking-widest mb-1" style="">Refund Requests</p>
+<h3 class="text-2xl font-extrabold font-headline" style="">14</h3>
+<div class="mt-4 flex items-center gap-1 text-primary-fixed text-xs font-bold">
+<span class="material-symbols-outlined text-sm" style="">priority_high</span>
+<span class="" style="">Requires immediate action</span>
+</div>
+</div>
+</div>
+<!-- Filters Bar -->
+<div class="bg-surface-container-low rounded-2xl p-4 mb-6 flex flex-wrap items-center gap-4">
+<div class="bg-surface-container-lowest px-4 py-2 rounded-xl flex items-center gap-3">
+<span class="text-xs font-bold text-zinc-400" style="">Status</span>
+<select class="border-none bg-transparent text-xs font-bold focus:ring-0 p-0 pr-8">
+<option>All Statuses</option>
+<option>Success</option>
+<option>Pending</option>
+<option>Refunded</option>
+</select>
+</div>
+<div class="bg-surface-container-lowest px-4 py-2 rounded-xl flex items-center gap-3">
+<span class="text-xs font-bold text-zinc-400" style="">Method</span>
+<select class="border-none bg-transparent text-xs font-bold focus:ring-0 p-0 pr-8">
+<option>All Methods</option>
+<option>Online</option>
+<option>Cash</option>
+</select>
+</div>
+<div class="ml-auto flex items-center gap-2">
+<button class="bg-surface-container-highest/50 px-4 py-2 rounded-xl text-xs font-bold hover:bg-surface-container-highest transition-colors" style="">Reset Filters</button>
+</div>
+</div>
+<!-- Payments Table -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden border border-outline-variant/10">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/50">
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest" style="">Order ID</th>
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest" style="">Transaction Date</th>
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest" style="">Amount</th>
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest" style="">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest" style="">Method</th>
+<th class="px-6 py-4 text-xs font-bold text-zinc-500 uppercase tracking-widest text-right" style="">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-zinc-100">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5" style="">
+<span class="font-headline font-bold text-sm" style="">#ORD-99210</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-zinc-600" style="">Oct 24, 2023, 14:22</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="font-bold text-sm" style="">$84.50</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">Success</span>
+</td>
+<td class="px-6 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-zinc-400" style="">credit_card</span>
+<span class="text-sm text-zinc-600" style="">Online</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right" style="">
+<button class="text-primary font-bold text-xs hover:underline decoration-2 underline-offset-4" style="">Refund</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5" style="">
+<span class="font-headline font-bold text-sm" style="">#ORD-99211</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-zinc-600" style="">Oct 24, 2023, 15:05</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="font-bold text-sm" style="">$112.00</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold uppercase tracking-wider" style="">Pending</span>
+</td>
+<td class="px-6 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-zinc-400" style="">payments</span>
+<span class="text-sm text-zinc-600" style="">Cash</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right" style="">
+<button class="text-zinc-400 font-bold text-xs cursor-not-allowed" style="">Refund</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5" style="">
+<span class="font-headline font-bold text-sm" style="">#ORD-99198</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-zinc-600" style="">Oct 23, 2023, 11:12</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="font-bold text-sm" style="">$45.20</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-[10px] font-bold uppercase tracking-wider" style="">Refunded</span>
+</td>
+<td class="px-6 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-zinc-400" style="">credit_card</span>
+<span class="text-sm text-zinc-600" style="">Online</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right" style="">
+<span class="text-zinc-400 text-xs italic" style="">Processed</span>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5" style="">
+<span class="font-headline font-bold text-sm" style="">#ORD-99195</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-zinc-600" style="">Oct 23, 2023, 09:45</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="font-bold text-sm" style="">$230.15</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">Success</span>
+</td>
+<td class="px-6 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-zinc-400" style="">credit_card</span>
+<span class="text-sm text-zinc-600" style="">Online</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right" style="">
+<button class="text-primary font-bold text-xs hover:underline decoration-2 underline-offset-4" style="">Refund</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container-low/30 transition-colors group">
+<td class="px-6 py-5" style="">
+<span class="font-headline font-bold text-sm" style="">#ORD-99180</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-zinc-600" style="">Oct 22, 2023, 20:10</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="font-bold text-sm" style="">$67.00</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">Success</span>
+</td>
+<td class="px-6 py-5" style="">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-lg text-zinc-400" style="">payments</span>
+<span class="text-sm text-zinc-600" style="">Cash</span>
+</div>
+</td>
+<td class="px-6 py-5 text-right" style="">
+<button class="text-zinc-400 font-bold text-xs cursor-not-allowed" style="">Refund</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-6 py-4 flex items-center justify-between bg-surface-container-low/20">
+<p class="text-xs text-zinc-500 font-medium" style="">Showing 1 to 5 of 1,240 results</p>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg hover:bg-zinc-200 text-zinc-500 transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary text-xs font-bold" style="">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-zinc-200 text-xs font-bold transition-colors" style="">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-zinc-200 text-xs font-bold transition-colors" style="">3</button>
+<button class="p-2 rounded-lg hover:bg-zinc-200 text-zinc-500 transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Asymmetric Layout Secondary Section -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Payout Methods Breakdown -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-3xl shadow-sm border border-outline-variant/10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-extrabold font-headline" style="">Payout Channels</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1" style="">
+                        Manage Methods <span class="material-symbols-outlined text-sm" style="">arrow_forward</span>
+</button>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-6 p-4 rounded-2xl bg-surface-container-low/50">
+<div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+<img class="w-8 h-8 object-contain grayscale" data-alt="Stripe payment logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD2di9ja1I6xaBpwflRUyKumIFQUZusRJKvTMbVXKa0lRHqWoQcguIStPlxDd7sSSgsLXcKXQr8nvvUAIWooWFuS0aPUqcAQYRv8kqG5pRrkxMjIlnhWwklj2uSG3ZzKmrP_FHTmN6u-aAZf4DiaeUzNM502sr2Oz-wcoQUxxkLCJPUrHsbUdiw-6meHmYgQk7-48fL3pK6cSdcBb9HzhRrT5b1Qq1cqOcUhUEOdmYYSnU8ucCrb-8U2FaHVEertzXizEehOZfm8I" style="">
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold" style="">Stripe Connect</p>
+<p class="text-xs text-zinc-500" style="">Primary gateway for online transactions</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold" style="">$124,500.00</p>
+<p class="text-[10px] text-emerald-600 font-bold" style="">ACTIVE</p>
+</div>
+</div>
+<div class="flex items-center gap-6 p-4 rounded-2xl bg-surface-container-low/50">
+<div class="w-12 h-12 rounded-xl bg-white shadow-sm flex items-center justify-center">
+<img class="w-8 h-8 object-contain grayscale" data-alt="PayPal payment logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-XVGksChepU0fhPygL5SFk93pbkX9vSuo3tMsOWil5jBZjSC89RHvRWiOtf0y9hXpGv2C_1sApBL6qcMn_aVbtRWF1qQTBF7uYtd521xWS0Kfyswt5YdV-cwzssJQQurMEG_bW99lXxuFK-c4eESR9WotGcKxkguqz18ItTghYeWzYe0Sm8iF9a0eUYXNPe3uNtJs-WvoCYT_Q7IcopOttiPgnA3wTo9wItlH1XltpQMcZc-g_0CNCSpUv4oB-cM3FydPYYjqYAs" style="">
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold" style="">PayPal Business</p>
+<p class="text-xs text-zinc-500" style="">Secondary express checkout</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-bold" style="">$18,340.00</p>
+<p class="text-[10px] text-emerald-600 font-bold" style="">ACTIVE</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Alerts Bento-style -->
+<div class="bg-primary-container text-on-primary-container p-8 rounded-3xl relative overflow-hidden">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-4xl mb-4" style="font-variation-settings: &quot;FILL&quot; 1;">security</span>
+<h3 class="text-xl font-extrabold font-headline mb-4" style="">Risk Oversight</h3>
+<p class="text-sm leading-relaxed opacity-90 mb-6" style="">3 transactions flagged for high-risk behavior in the last 24 hours. Automated holds have been applied.</p>
+<button class="bg-on-primary-container text-primary-container px-6 py-2.5 rounded-full font-bold text-xs" style="">Review Flags</button>
+</div>
+<!-- Abstract decorative shape -->
+<div class="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
+</div>
+</div>
+</main>
+</body></html>

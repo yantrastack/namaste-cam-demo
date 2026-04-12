@@ -1,0 +1,415 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>The Curator | Admin Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#caa900",
+                        "on-surface-variant": "#5d3f3b",
+                        "inverse-surface": "#2e3132",
+                        "primary-fixed": "#ffdad5",
+                        "tertiary-fixed": "#ffe171",
+                        "secondary-fixed-dim": "#bdc7d9",
+                        "tertiary-fixed-dim": "#e9c400",
+                        "surface-container": "#edeeef",
+                        "secondary-container": "#d6e0f3",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#e2241f",
+                        "on-secondary-fixed": "#121c2a",
+                        "outline-variant": "#e7bdb7",
+                        "on-primary-fixed": "#410001",
+                        "surface-dim": "#d9dadb",
+                        "surface-bright": "#f8f9fa",
+                        "inverse-primary": "#ffb4aa",
+                        "on-tertiary-container": "#4c3e00",
+                        "surface-container-low": "#f3f4f5",
+                        "on-background": "#191c1d",
+                        "on-primary-fixed-variant": "#930005",
+                        "surface-tint": "#c0000a",
+                        "outline": "#926f6a",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#554600",
+                        "on-secondary-fixed-variant": "#3d4756",
+                        "on-secondary": "#ffffff",
+                        "background": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "on-secondary-container": "#596373",
+                        "tertiary": "#705d00",
+                        "surface-container-highest": "#e1e3e4",
+                        "secondary": "#555f6f",
+                        "primary": "#bc000a",
+                        "on-error-container": "#93000a",
+                        "surface": "#f8f9fa",
+                        "secondary-fixed": "#d9e3f6",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e7e8e9",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb4aa",
+                        "on-tertiary-fixed": "#221b00",
+                        "on-primary-container": "#fffbff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f0f1f2"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Be Vietnam Pro"],
+                        "label": ["Be Vietnam Pro"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .brand-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-background min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-slate-50 dark:bg-zinc-900 flex flex-col py-6 px-4 z-50">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-extrabold text-red-600 dark:text-red-500 font-['Plus_Jakarta_Sans'] tracking-tight" style="">Namaste Cam</h1>
+<p class="text-xs text-zinc-500 font-medium" style="">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-red-600 dark:text-red-400 font-bold border-r-4 border-red-600 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="dashboard" style="">dashboard</span>
+<span class="text-sm" style="">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="">shopping_cart</span>
+<span class="text-sm" style="">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="restaurant_menu" style="">restaurant_menu</span>
+<span class="text-sm" style="">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="group" style="">group</span>
+<span class="text-sm" style="">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="storefront" style="">storefront</span>
+<span class="text-sm" style="">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="local_shipping" style="">local_shipping</span>
+<span class="text-sm" style="">Delivery</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="payments" style="">payments</span>
+<span class="text-sm" style="">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="analytics" style="">analytics</span>
+<span class="text-sm" style="">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-zinc-500 dark:text-zinc-400 font-medium hover:text-red-500 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" href="#" style="">
+<span class="material-symbols-outlined" data-icon="settings" style="">settings</span>
+<span class="text-sm" style="">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 rounded-xl bg-primary/5 border border-primary/10">
+<p class="text-[10px] uppercase tracking-widest text-primary font-bold mb-1" style="">System Health</p>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+<span class="text-xs font-semibold text-on-surface" style="">All Nodes Operational</span>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex items-center justify-between px-8 z-40 shadow-sm shadow-zinc-200/50 dark:shadow-none">
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400 text-lg" style="">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary/20 placeholder:text-zinc-400" placeholder="Search orders, users, or restaurants..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-zinc-600 dark:text-zinc-300 hover:text-red-500 transition-colors cursor-pointer active:opacity-70" data-icon="notifications" style="">notifications</button>
+<button class="material-symbols-outlined text-zinc-600 dark:text-zinc-300 hover:text-red-500 transition-colors cursor-pointer active:opacity-70" data-icon="help" style="">help</button>
+</div>
+<div class="h-8 w-[1px] bg-outline-variant/30"></div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-xs font-bold text-on-surface leading-none" style="">Alexander Pierce</p>
+<p class="text-[10px] text-zinc-500" style="">Super Admin</p>
+</div>
+<img alt="Admin User Avatar" class="w-9 h-9 rounded-full object-cover border border-outline-variant/20" data-alt="Close up profile picture of male admin executive" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwruDooz9xgwWPL47mqaBmytbQtWaKJNdrlVStIcBvWHah_lKHclM58ptGJ9VUBFM8PsibOTdA_p0lbluHLKII7yGx5g2dShHEvOvyZCRDCdd8b-U7u0gpQ1XOf03aRxzV66ZAqwH-7NnP0Un1FN-A4c-hk1pcYUwz7AcEOpx2pZBsw44wfqocS-42E8kkLlrj5j0fo0wXMpqoc0Yzv2KRt9jpeI06hWc4ZUTzmu515uo64GZ0kZY2qUQ5505q_pKRH3Pihg1B10Y" style="">
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 pb-12 px-8">
+<!-- Dashboard Header -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-1" style="">Dashboard Overview</h2>
+<p class="text-on-surface-variant font-medium" style="">Welcome back, Alex. Here is what's happening today.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-surface-container-lowest text-on-surface text-sm font-semibold rounded-full shadow-sm hover:bg-surface-container-high transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">calendar_today</span>
+                    Last 30 Days
+                </button>
+<button class="flex items-center gap-2 px-6 py-2 bg-primary text-on-primary text-sm font-bold rounded-full shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" style="">
+<span class="material-symbols-outlined text-lg" style="">download</span>
+                    Export Report
+                </button>
+</div>
+</div>
+<!-- KPI Grid: Bento Style -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+<!-- Total Orders -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/10 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-red-50 dark:bg-red-950/30 rounded-lg text-red-600">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="">shopping_cart</span>
+</div>
+<span class="text-green-600 text-xs font-bold bg-green-50 px-2 py-1 rounded" style="">+12.5%</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1" style="">Total Orders</p>
+<h3 class="text-2xl font-extrabold text-on-surface" style="">14,285</h3>
+</div>
+<!-- Total Revenue -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/10 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-lg text-amber-600">
+<span class="material-symbols-outlined" data-icon="payments" style="">payments</span>
+</div>
+<span class="text-green-600 text-xs font-bold bg-green-50 px-2 py-1 rounded" style="">+8.2%</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1" style="">Total Revenue</p>
+<h3 class="text-2xl font-extrabold text-on-surface" style="">$428,190.00</h3>
+</div>
+<!-- Active Users -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/10 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-blue-600">
+<span class="material-symbols-outlined" data-icon="group" style="">group</span>
+</div>
+<span class="text-zinc-400 text-xs font-bold bg-zinc-50 px-2 py-1 rounded" style="">Stable</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1" style="">Active Users</p>
+<h3 class="text-2xl font-extrabold text-on-surface" style="">24,512</h3>
+</div>
+<!-- Active Restaurants -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-transparent hover:border-primary/10 transition-all group">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-purple-50 dark:bg-purple-950/30 rounded-lg text-purple-600">
+<span class="material-symbols-outlined" data-icon="storefront" style="">storefront</span>
+</div>
+<span class="text-green-600 text-xs font-bold bg-green-50 px-2 py-1 rounded" style="">+4 new</span>
+</div>
+<p class="text-zinc-500 text-sm font-medium mb-1" style="">Active Restaurants</p>
+<h3 class="text-2xl font-extrabold text-on-surface" style="">1,104</h3>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+<!-- Line Chart: Orders over time -->
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-lg font-bold text-on-surface" style="">Orders Trend</h3>
+<div class="flex gap-2">
+<span class="flex items-center gap-1.5 text-xs font-medium text-zinc-500" style="">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span> Current
+                        </span>
+<span class="flex items-center gap-1.5 text-xs font-medium text-zinc-500 ml-4" style="">
+<span class="w-2.5 h-2.5 rounded-full bg-zinc-300"></span> Previous
+                        </span>
+</div>
+</div>
+<!-- Visual Placeholder for Chart -->
+<div class="h-64 w-full relative flex items-end justify-between gap-1 group">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="border-b border-zinc-100 w-full h-0"></div>
+<div class="border-b border-zinc-100 w-full h-0"></div>
+<div class="border-b border-zinc-100 w-full h-0"></div>
+<div class="border-b border-zinc-100 w-full h-0"></div>
+<div class="border-b border-zinc-100 w-full h-0"></div>
+</div>
+<!-- Mock Line Path -->
+<svg class="absolute inset-0 w-full h-full overflow-visible" preserveAspectRatio="none">
+<path d="M0,180 Q100,140 200,160 T400,100 T600,120 T800,40" fill="none" stroke="#bc000a" stroke-linecap="round" stroke-width="3"></path>
+<path d="M0,200 Q100,180 200,190 T400,150 T600,170 T800,100" fill="none" stroke="#e1e3e4" stroke-dasharray="4" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<div class="absolute bottom-[-24px] w-full flex justify-between text-[10px] text-zinc-400 font-bold uppercase tracking-tighter">
+<span class="" style="">Mon</span><span class="" style="">Tue</span><span class="" style="">Wed</span><span class="" style="">Thu</span><span class="" style="">Fri</span><span class="" style="">Sat</span><span class="" style="">Sun</span>
+</div>
+</div>
+</div>
+<!-- Bar Chart: Revenue Trends -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm">
+<h3 class="text-lg font-bold text-on-surface mb-8" style="">Revenue by Category</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium text-zinc-600" style="">Gourmet Dining</span>
+<span class="font-bold text-on-surface" style="">$182k</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium text-zinc-600" style="">Fast Casual</span>
+<span class="font-bold text-on-surface" style="">$124k</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/70 rounded-full" style="width: 55%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium text-zinc-600" style="">Desserts &amp; Bakery</span>
+<span class="font-bold text-on-surface" style="">$92k</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/50 rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-medium text-zinc-600" style="">Beverages</span>
+<span class="font-bold text-on-surface" style="">$30k</span>
+</div>
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary/30 rounded-full" style="width: 15%"></div>
+</div>
+</div>
+</div>
+<div class="mt-10 p-4 bg-tertiary-fixed/20 rounded-xl border border-tertiary-fixed/30">
+<p class="text-xs font-bold text-tertiary flex items-center gap-2 mb-1" style="">
+<span class="material-symbols-outlined text-sm" style="">lightbulb</span>
+                        INSIGHT
+                    </p>
+<p class="text-[11px] leading-relaxed text-on-tertiary-container font-medium" style="">Gourmet Dining has seen a 14% growth this month. Consider featuring more high-end establishments.</p>
+</div>
+</div>
+</div>
+<!-- Recent Orders Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+<div class="px-8 py-6 flex justify-between items-center border-b border-surface-container-low">
+<h3 class="text-lg font-bold text-on-surface" style="">Recent Orders</h3>
+<button class="text-primary text-sm font-bold hover:underline" style="">View All Orders</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low/50">
+<tr>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest" style="">Order ID</th>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest" style="">Customer</th>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest" style="">Restaurant</th>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest" style="">Status</th>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest" style="">Amount</th>
+<th class="px-8 py-4 text-[10px] font-extrabold text-zinc-500 uppercase tracking-widest text-right" style="">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low">
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">#ORD-9421</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center text-[10px] font-bold" style="">JD</div>
+<span class="text-sm font-medium text-on-surface" style="">Jane Doe</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-zinc-600" style="">The Silver Plate</td>
+<td class="px-8 py-5" style="">
+<span class="px-3 py-1 bg-green-100 text-green-700 text-[10px] font-extrabold rounded-full uppercase tracking-tighter" style="">Delivered</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">$84.50</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="material-symbols-outlined text-zinc-400 hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">#ORD-9420</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center text-[10px] font-bold" style="">MS</div>
+<span class="text-sm font-medium text-on-surface" style="">Michael Scott</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-zinc-600" style="">Dunder Bistro</td>
+<td class="px-8 py-5" style="">
+<span class="px-3 py-1 bg-amber-100 text-amber-700 text-[10px] font-extrabold rounded-full uppercase tracking-tighter" style="">In Transit</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">$122.00</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="material-symbols-outlined text-zinc-400 hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">#ORD-9419</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center text-[10px] font-bold" style="">EH</div>
+<span class="text-sm font-medium text-on-surface" style="">Elena Hunt</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-zinc-600" style="">Kyoto Sushi</td>
+<td class="px-8 py-5" style="">
+<span class="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-extrabold rounded-full uppercase tracking-tighter" style="">Preparing</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">$45.20</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="material-symbols-outlined text-zinc-400 hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">#ORD-9418</td>
+<td class="px-8 py-5" style="">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-zinc-200 text-zinc-600 flex items-center justify-center text-[10px] font-bold" style="">RK</div>
+<span class="text-sm font-medium text-on-surface" style="">Robert King</span>
+</div>
+</td>
+<td class="px-8 py-5 text-sm text-zinc-600" style="">Burger Palace</td>
+<td class="px-8 py-5" style="">
+<span class="px-3 py-1 bg-red-100 text-red-700 text-[10px] font-extrabold rounded-full uppercase tracking-tighter" style="">Cancelled</span>
+</td>
+<td class="px-8 py-5 text-sm font-bold text-on-surface" style="">$19.99</td>
+<td class="px-8 py-5 text-right" style="">
+<button class="material-symbols-outlined text-zinc-400 hover:text-primary transition-colors" style="">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- Contextual FAB - Restricted to Home/Dashboard -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl shadow-primary/40 flex items-center justify-center group active:scale-90 transition-transform z-50" style="">
+<span class="material-symbols-outlined text-2xl" data-weight="fill" style="">add</span>
+<span class="absolute right-16 px-4 py-2 bg-zinc-900 text-white text-xs font-bold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none" style="">New Entry</span>
+</button>
+</body></html>

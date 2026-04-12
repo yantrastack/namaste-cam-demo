@@ -1,0 +1,365 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Restaurant Details - Saffron &amp; Stone Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#E7E8E9",
+              "surface": "#F8F9FA",
+              "error-container": "#FFDAD6",
+              "surface-variant": "#E1E3E4",
+              "on-background": "#191C1D",
+              "tertiary": "#705D00",
+              "on-primary": "#FFFFFF",
+              "secondary": "#555F6F",
+              "on-tertiary": "#FFFFFF",
+              "on-primary-fixed": "#410001",
+              "secondary-fixed-dim": "#BDC7D9",
+              "on-surface-variant": "#5D3F3B",
+              "outline-variant": "#E7BDB7",
+              "inverse-primary": "#FFB4AA",
+              "surface-container-lowest": "#FFFFFF",
+              "on-tertiary-container": "#4C3E00",
+              "on-secondary-fixed": "#121C2A",
+              "on-primary-container": "#FFFBFF",
+              "inverse-on-surface": "#F0F1F2",
+              "primary-fixed-dim": "#FFB4AA",
+              "on-secondary": "#FFFFFF",
+              "on-error-container": "#93000A",
+              "primary": "#BC000A",
+              "inverse-surface": "#2E3132",
+              "surface-container": "#EDEEEF",
+              "secondary-fixed": "#D9E3F6",
+              "on-tertiary-fixed-variant": "#554600",
+              "surface-dim": "#D9DADB",
+              "primary-container": "#E2241F",
+              "surface-tint": "#C0000A",
+              "on-secondary-fixed-variant": "#3D4756",
+              "on-secondary-container": "#596373",
+              "primary-fixed": "#FFDAD5",
+              "tertiary-fixed-dim": "#E9C400",
+              "on-tertiary-fixed": "#221B00",
+              "secondary-container": "#D6E0F3",
+              "surface-container-low": "#F3F4F5",
+              "surface-container-highest": "#E1E3E4",
+              "error": "#BA1A1A",
+              "on-primary-fixed-variant": "#930005",
+              "outline": "#926F6A",
+              "tertiary-container": "#CAA900",
+              "background": "#F8F9FA",
+              "on-surface": "#191C1D",
+              "on-error": "#FFFFFF",
+              "tertiary-fixed": "#FFE171",
+              "surface-bright": "#F8F9FA"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-full flex flex-col h-screen w-64 border-r border-stone-200/50 dark:border-stone-800/50 bg-stone-50 dark:bg-stone-950 font-plus-jakarta-sans antialiased z-50">
+<div class="p-8">
+<h1 class="text-2xl font-extrabold tracking-tighter text-red-700 dark:text-red-500" style="">Saffron &amp; Stone</h1>
+<p class="text-xs font-bold uppercase tracking-widest text-stone-400 mt-1" style="">Admin Console</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="dashboard" style="">dashboard</span>
+<span class="font-medium" style="">Dashboard</span>
+</a>
+<!-- Active State: Restaurants -->
+<a class="flex items-center gap-3 px-4 py-3 text-red-700 dark:text-red-400 font-bold bg-stone-100 dark:bg-stone-900 rounded-r-full transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="storefront" style="font-variation-settings: &quot;FILL&quot; 1;">storefront</span>
+<span class="font-medium" style="">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="group" style="">group</span>
+<span class="font-medium" style="">Owners</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="leaderboard" style="">leaderboard</span>
+<span class="font-medium" style="">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="database" style="">database</span>
+<span class="font-medium" style="">System Logs</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 transition-colors duration-200 ease-in-out active:scale-95 transition-transform" href="#" style="">
+<span class="material-symbols-outlined" data-icon="settings" style="">settings</span>
+<span class="font-medium" style="">Settings</span>
+</a>
+</nav>
+<div class="p-6 border-t border-stone-200/50">
+<div class="flex items-center gap-3">
+<img alt="Super Admin Avatar" class="w-10 h-10 rounded-full bg-stone-200" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDEFj3DpVEJY8gZZvY9mcg-A-mSSoQ19WMwAzx0nKciviHF4kBdTBAyp4eXI6ZzizNpI14LVyIJP-ImXAXG-NJIEzd4Cl3_QvmCCIt_Wwq5IBPzadefC2qXKZDCRU-bt-47RBgEgTf1AJ_fkUzvDwkLOH1hh_OMWEhDH6KaFB_6jrdphG7HHiJKYM_rZ84RFSONtksZEkKR8lqqd1mCU1BzDXy8d_eKSH5hcrJBZD8-Nt6H8QBRSFBgtB4RwV9tLtyBB8-Njf7HD8" style="">
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate" style="">Super Admin</p>
+<p class="text-xs text-stone-500 truncate" style="">master@saffronstone.com</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 h-16 px-8 ml-64 w-[calc(100%-16rem)] flex justify-between items-center bg-white/80 dark:bg-stone-950/80 backdrop-blur-md border-b border-stone-200/50 dark:border-stone-800/50 z-40">
+<div class="flex items-center gap-4">
+<span class="text-lg font-bold tracking-tight text-stone-900 dark:text-stone-50 font-headline" style="">Admin Dashboard</span>
+<div class="h-4 w-px bg-stone-200"></div>
+<div class="flex items-center bg-surface-container-low px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-stone-400 text-sm mr-2" data-icon="search" style="">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm p-0 w-48 placeholder:text-stone-400" placeholder="Search resources..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-stone-500 hover:text-red-700 transition-colors" style="">
+<span class="material-symbols-outlined" data-icon="notifications" style="">notifications</span>
+</button>
+<button class="text-stone-500 hover:text-red-700 transition-colors" style="">
+<span class="material-symbols-outlined" data-icon="help_outline" style="">help_outline</span>
+</button>
+<button class="bg-stone-100 text-stone-700 px-4 py-1.5 rounded-full text-sm font-bold hover:bg-stone-200 transition-colors" style="">
+                Manage Profile
+            </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 p-8 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Hero Branding Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-lg shadow-sm flex flex-col md:flex-row gap-8 items-center md:items-start">
+<div class="relative group">
+<img class="w-48 h-48 rounded-lg object-cover shadow-md" data-alt="luxury restaurant storefront with elegant gold signage and warm interior lighting through large glass windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk-55Mf2okUY9dj3_wxNN3zPdhzW0dlG8rdfFro50UBLtsv8lErFtvPGdPU3F0tBDMnyKZg8nOTq3zMdOgSYjHU-4v8S9bzFt2id4493AUDRiW_su2m7-E0MEDJVrzA6nxyveMATyabETDEBXN9nTfvpENKHxWK-6gMpm998MyQ7LmkjSLV7KZae8GC2smEw1tPr-oFxaZx2uvTBkyTAOYHN2J4jy92S_l1EwS4Pl-7XjWOBXwJih3MA2EGr-wtayY0RXZ8nYxMD0" style="">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-lg cursor-pointer">
+<span class="material-symbols-outlined text-white" data-icon="edit" style="">edit</span>
+</div>
+</div>
+<div class="flex-1 space-y-4 text-center md:text-left">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface font-headline" style="">Cambridge</h2>
+<p class="text-primary font-medium tracking-wide italic mt-1" style="">Authentic Himalayan spices meets modern bistro dining.</p>
+</div>
+<div class="flex items-center gap-3 bg-stone-50 p-2 rounded-full border border-stone-100 self-center md:self-start">
+<span class="text-xs font-bold px-3 py-1 rounded-full bg-green-100 text-green-700" style="">ACTIVE</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-stone-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+<p class="text-secondary leading-relaxed max-w-2xl" style="">
+                            The Saffron Kitchen bridges the gap between traditional Nepalese heritage and contemporary European bistro culture. Our vision focuses on elevated street</p>
+<div class="flex flex-wrap gap-2 pt-2">
+<span class="text-[10px] tracking-widest uppercase font-bold px-3 py-1 bg-surface-container-high rounded-full" style="">HIMALAYAN</span>
+<span class="text-[10px] tracking-widest uppercase font-bold px-3 py-1 bg-surface-container-high rounded-full" style="">BISTRO</span>
+<span class="text-[10px] tracking-widest uppercase font-bold px-3 py-1 bg-surface-container-high rounded-full" style="">PREMIUM</span>
+</div>
+</div>
+</div>
+<!-- Action Panel -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm space-y-4">
+<h3 class="font-bold text-sm text-stone-400 uppercase tracking-widest" style="">Global Actions</h3>
+<div class="flex flex-col gap-3">
+<button class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-white rounded-full font-bold shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95" style="">
+<span class="material-symbols-outlined text-sm" data-icon="edit" style="">edit</span>
+                            Edit Profile
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 px-6 py-3 bg-stone-100 text-stone-700 rounded-full font-bold hover:bg-stone-200 transition-all active:scale-95" style="">
+<span class="material-symbols-outlined text-sm" data-icon="download" style="">download</span>
+                            Export Data
+                        </button>
+<button class="w-full flex items-center justify-center gap-2 px-6 py-3 border border-red-200 text-red-700 rounded-full font-bold hover:bg-red-50 transition-all active:scale-95 mt-4" style="">
+<span class="material-symbols-outlined text-sm" data-icon="block" style="">block</span>
+                            Deactivate Restaurant
+                        </button>
+</div>
+</div>
+</section>
+<!-- Metrics Bento Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border-l-4 border-primary">
+<p class="text-xs font-bold text-stone-500 uppercase tracking-widest" style="">Total Orders</p>
+<div class="flex items-end justify-between mt-2">
+<h4 class="text-3xl font-extrabold font-headline" style="">1,482</h4>
+<span class="text-green-600 text-xs font-bold flex items-center gap-1" style="">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up" style="">trending_up</span>
+                            12%
+                        </span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+<p class="text-xs font-bold text-stone-500 uppercase tracking-widest" style="">Monthly Revenue</p>
+<div class="flex items-end justify-between mt-2">
+<h4 class="text-3xl font-extrabold font-headline" style="">£42.5k</h4>
+<span class="text-green-600 text-xs font-bold flex items-center gap-1" style="">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up" style="">trending_up</span>
+                            8.4%
+                        </span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+<p class="text-xs font-bold text-stone-500 uppercase tracking-widest" style="">Avg. Ticket</p>
+<div class="flex items-end justify-between mt-2">
+<h4 class="text-3xl font-extrabold font-headline" style="">£28.60</h4>
+<span class="text-stone-400 text-xs font-bold" style="">vs last month</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+<p class="text-xs font-bold text-stone-500 uppercase tracking-widest" style="">Rating</p>
+<div class="flex items-end justify-between mt-2">
+<h4 class="text-3xl font-extrabold font-headline flex items-center gap-2" style="">
+                            4.8
+                            <span class="material-symbols-outlined text-primary" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</h4>
+<span class="text-stone-400 text-xs font-bold" style="">2.1k reviews</span>
+</div>
+</div>
+</section>
+<!-- Data Tables and Info Grid -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Location & Contact -->
+<div class="lg:col-span-1 space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-lg shadow-sm space-y-6">
+<h3 class="text-xl font-bold font-headline flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-primary" data-icon="location_on" style="">location_on</span>
+                            Location Details
+                        </h3>
+<div class="space-y-4">
+<div>
+<p class="text-xs font-bold text-stone-400 uppercase tracking-widest" style="">Street Address</p>
+<p class="text-lg font-medium" style="">15 Clerkenwell Close</p>
+<p class="text-secondary" style="">London, United Kingdom</p>
+</div>
+<div>
+<p class="text-xs font-bold text-stone-400 uppercase tracking-widest" style="">Postcode</p>
+<p class="text-lg font-medium" style="">EC1A 1BB</p>
+</div>
+<div class="pt-4 border-t border-stone-100">
+<p class="text-xs font-bold text-stone-400 uppercase tracking-widest" style="">Contact Number</p>
+<p class="text-lg font-medium text-primary" style="">+44 20 7123 4567</p>
+</div>
+</div>
+<div class="w-full h-40 rounded-lg overflow-hidden relative">
+<img class="w-full h-full object-cover" data-alt="a minimalist stylized map showing central London streets with a red location pin" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv7mdzc0qdo-nDhmU0LbNDuSxsMUdjLR7iDN72JIdbY0NBfokPQHf1fu-vVorPJoe9pe92S7gtN7HXx0Mxlf2uJbNK2i-9tMlWPVGWSGfQ1UuE9hTf7rOQ5Pz5ymvWMOuZTzfT3YSRsPH2hbEbCUUjP9-0F6TUtGblmhk1yw9BxK8tKTI1H25ELQ77j_boGsKjsKQa7AQNJFbJMcC9trQxKR9ntjXwianugkTs5ZL2ch-MhL9x3IEA9plF9uc5wgg4ESFGZ2lqSlE" style="">
+<div class="absolute inset-0 bg-primary/10"></div>
+<div class="absolute bottom-2 right-2 bg-white px-3 py-1 rounded-full text-[10px] font-bold shadow-sm" style="">VIEW ON MAP</div>
+</div>
+</div>
+</div>
+<!-- Management & Teams -->
+<div class="lg:col-span-2 space-y-6">
+<!-- Restaurant Admins Table -->
+<div class="bg-surface-container-lowest rounded-lg shadow-sm overflow-hidden">
+<div class="p-6 border-b border-stone-100 flex items-center justify-between">
+<h3 class="text-xl font-bold font-headline" style="">Restaurant Admins</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1 hover:underline" style="">
+<span class="material-symbols-outlined text-sm" data-icon="add" style="">add</span>
+                                Assign Admin
+                            </button>
+</div>
+<table class="w-full text-left">
+<thead class="bg-stone-50 text-stone-400 text-[10px] uppercase tracking-widest font-bold">
+<tr>
+<th class="px-6 py-4" style="">Administrator</th>
+<th class="px-6 py-4" style="">Role</th>
+<th class="px-6 py-4" style="">Internal ID</th>
+<th class="px-6 py-4" style="">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-stone-100">
+<tr>
+<td class="px-6 py-4 flex items-center gap-3" style="">
+<div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center font-bold text-xs text-stone-600" style="">MS</div>
+<div>
+<p class="text-sm font-bold" style="">Marcus Sterling</p>
+<p class="text-xs text-stone-400" style="">marcus@saffronkitchen.com</p>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-medium" style="">General Manager</td>
+<td class="px-6 py-4 text-sm font-mono text-stone-500" style="">ADM-982-SK</td>
+<td class="px-6 py-4" style="">
+<span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span>
+<span class="text-xs font-bold text-stone-500 ml-1" style="">Online</span>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4 flex items-center gap-3" style="">
+<div class="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center font-bold text-xs text-stone-600" style="">EL</div>
+<div>
+<p class="text-sm font-bold" style="">Elena Luz</p>
+<p class="text-xs text-stone-400" style="">elena.l@saffronkitchen.com</p>
+</div>
+</td>
+<td class="px-6 py-4 text-sm font-medium" style="">Head Chef</td>
+<td class="px-6 py-4 text-sm font-mono text-stone-500" style="">ADM-441-SK</td>
+<td class="px-6 py-4" style="">
+<span class="w-2 h-2 rounded-full bg-stone-300 inline-block"></span>
+<span class="text-xs font-bold text-stone-500 ml-1" style="">Offline</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Delivery Partners -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-xl font-bold font-headline" style="">Delivery Agents</h3>
+<span class="text-xs font-bold text-stone-400" style="">4 Active Agents</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Agent Card -->
+<div class="flex items-center gap-4 p-4 border border-stone-100 rounded-lg hover:border-primary/20 transition-colors group">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="portrait of a young man wearing a professional courier uniform with a friendly expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEkUa3wcFhqoGEozaLbzZyIdR-nzlrruX-sa2x-vBgzH7q7ixmmOlRCyXiS92gApQvsXB7V2S5itVGN_QhGneAXlqCK9N5O9KOs_mbtumComekHy5Tk50XAxY2w_jgV2dcSSDHxdD4Cs6CVHbUu7pnBQ7Y_gCh8TyGosnQiHmA5KmtywfFQxq9GGAYHftM9o-e1e8CmRYD_Qy4wyo5XMUUex5s5SBZvyEIA2_xie77NEuWQfBgpnB2fgidqP7im2cij0esZ1L2hD4" style="">
+<div class="flex-1">
+<p class="text-sm font-bold" style="">Alexander Sterling</p>
+<p class="text-xs text-stone-500" style="">Bicycle Courier • 4.9 <span class="material-symbols-outlined text-[10px]" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span></p>
+</div>
+<button class="p-2 text-stone-400 group-hover:text-primary transition-colors" style="">
+<span class="material-symbols-outlined text-lg" data-icon="more_vert" style="">more_vert</span>
+</button>
+</div>
+<!-- Agent Card -->
+<div class="flex items-center gap-4 p-4 border border-stone-100 rounded-lg hover:border-primary/20 transition-colors group">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="portrait of a delivery professional in a high-vis vest smiling warmly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWrafyDRGfgDfur-4UYEoBvUR_msdFDhNtxsuCpyc64DGNMAXn9giGBT247mAtrjEDItg8PZJHK3raOh3wuCbPvYd4okU-C_Z2QWihqdnbeVsKK84j7cG7s_sk5YNyN_K5micZKiZUA_89bAVhr4rYeMjbKQSRbkhOGskT1OjfhyE7ES0DIoAJ29YsvCTpJe6ymErRtZL6C1tgtRwrKxwmApF6-vPV_GGMfUCqtJ53lfeRwZ_OFsHqTqqzfzlEi0_uMwY6KLuEZ_A" style="">
+<div class="flex-1">
+<p class="text-sm font-bold" style="">Julian Rossi</p>
+<p class="text-xs text-stone-500" style="">Motorbike • 4.7 <span class="material-symbols-outlined text-[10px]" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span></p>
+</div>
+<button class="p-2 text-stone-400 group-hover:text-primary transition-colors" style="">
+<span class="material-symbols-outlined text-lg" data-icon="more_vert" style="">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Floating UI Decoration -->
+<div class="fixed bottom-8 right-8 pointer-events-none opacity-10">
+<h2 class="text-9xl font-extrabold tracking-tighter text-primary/20 rotate-12" style="">SAFFRON</h2>
+</div>
+</body></html>

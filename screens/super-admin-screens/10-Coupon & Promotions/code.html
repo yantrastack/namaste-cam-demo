@@ -1,0 +1,435 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Coupons Management | Namaste Cambridge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#FFFFFF",
+              "inverse-surface": "#2E3132",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-tertiary-container": "#4C3E00",
+              "on-primary": "#FFFFFF",
+              "surface": "#F8F9FA",
+              "secondary-container": "#D6E0F3",
+              "inverse-on-surface": "#F0F1F2",
+              "error": "#BA1A1A",
+              "on-tertiary": "#FFFFFF",
+              "tertiary-fixed": "#FFE171",
+              "surface-tint": "#C0000A",
+              "on-secondary-fixed-variant": "#3D4756",
+              "surface-container": "#EDEEEF",
+              "outline-variant": "#E7BDB7",
+              "primary-fixed-dim": "#FFB4AA",
+              "on-secondary": "#FFFFFF",
+              "on-primary-fixed-variant": "#930005",
+              "background": "#F8F9FA",
+              "primary": "#BC000A",
+              "surface-container-high": "#E7E8E9",
+              "secondary-fixed": "#D9E3F6",
+              "on-secondary-fixed": "#121C2A",
+              "on-secondary-container": "#596373",
+              "primary-fixed": "#FFDAD5",
+              "on-primary-container": "#FFFBFF",
+              "tertiary": "#705D00",
+              "on-tertiary-fixed": "#221B00",
+              "secondary": "#555F6F",
+              "on-surface-variant": "#5D3F3B",
+              "surface-container-lowest": "#FFFFFF",
+              "on-background": "#191C1D",
+              "inverse-primary": "#FFB4AA",
+              "tertiary-container": "#CAA900",
+              "on-error-container": "#93000A",
+              "surface-variant": "#E1E3E4",
+              "secondary-fixed-dim": "#BDC7D9",
+              "surface-dim": "#D9DADB",
+              "error-container": "#FFDAD6",
+              "outline": "#926F6A",
+              "tertiary-fixed-dim": "#E9C400",
+              "surface-container-low": "#F3F4F5",
+              "surface-container-highest": "#E1E3E4",
+              "primary-container": "#E2241F",
+              "on-primary-fixed": "#410001",
+              "surface-bright": "#F8F9FA",
+              "on-surface": "#191C1D"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #F8F9FA;
+            color: #191C1D;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-white dark:bg-stone-900 z-50 overflow-y-auto">
+<div class="flex flex-col h-full p-4">
+<!-- Brand Header -->
+<div class="px-4 py-6 mb-4">
+<div class="flex items-center gap-3 mb-2">
+<img alt="Namaste Cambridge Logo" class="w-10 h-10 rounded-lg" data-alt="Namaste Cambridge red and white brand logo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALWS2S6Hly0lW7S7Lx3li9CZluNWx6XrGyfVuTkj_GyztRnUSr7771zuauPhHfW1CjzYrEDgH13KUyCjfiNAkwjZi3bXNGmPgKWuoJKMjQEA8sdsQEXew44Hu9rmpWQBO25RpNsjUKImlKqVvnSjQ6Y2Q7r3cZKtMrLbLicZRyh-5nzUVJuKZcrwrGd0KEBRX6_J64x98Hkoe91ql8VKAyic-Vxo5p3DG22W2sh7vBYk8XHXd98JV9h_0BPFF14uwsdzOxGfvUCDs" style="">
+<h1 class="text-xl font-extrabold tracking-tighter text-[#BC000A] dark:text-red-500" style="">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Namaste&nbsp; Cam</h1>
+</div>
+<p class="text-xs font-medium text-stone-400 tracking-wider uppercase pl-1" style="">Admin Dashboard</p>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">shopping_bag</span>
+<span class="" style="">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">restaurant_menu</span>
+<span class="" style="">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="" style="">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">storefront</span>
+<span class="" style="">Restaurants</span>
+</a>
+<!-- Active Item: Coupons -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#BC000A] bg-red-50 dark:bg-red-900/20 rounded-full font-bold font-['Plus_Jakarta_Sans'] text-sm tracking-tight scale-95 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" style="font-variation-settings: &quot;FILL&quot; 1;">confirmation_number</span>
+<span class="" style="">Coupons</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">analytics</span>
+<span class="" style="">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">settings</span>
+<span class="" style="">Settings</span>
+</a>
+</nav>
+<!-- CTA -->
+<div class="mt-auto pt-6">
+<button class="w-full bg-[#BC000A] text-white py-3 rounded-full font-bold text-sm shadow-lg shadow-red-900/20 hover:opacity-90 transition-all flex items-center justify-center gap-2" style="">
+<span class="material-symbols-outlined text-sm" style="">open_in_new</span>
+                    View Live Site
+                </button>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm h-16 flex justify-between items-center px-8">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-primary transition-colors" style="">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-full text-sm focus:ring-2 focus:ring-red-500/20 transition-all font-['Plus_Jakarta_Sans']" placeholder="Search coupons, codes or campaigns..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-stone-500">
+<button class="hover:text-[#BC000A] transition-all relative" style="">
+<span class="material-symbols-outlined" style="">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary rounded-full border-2 border-white"></span>
+</button>
+<button class="hover:text-[#BC000A] transition-all" style=""><span class="material-symbols-outlined" style="">help</span></button>
+<button class="hover:text-[#BC000A] transition-all" style=""><span class="material-symbols-outlined" style="">apps</span></button>
+</div>
+<div class="h-8 w-px bg-stone-200"></div>
+<div class="flex items-center gap-3">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold text-on-surface leading-none" style="">Admin User</p>
+<p class="text-[10px] uppercase tracking-widest text-stone-500 font-bold mt-1" style="">Super Admin</p>
+</div>
+<img alt="Admin User Profile" class="w-10 h-10 rounded-full bg-stone-100 border-2 border-white shadow-sm" data-alt="Portrait of the administrator user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7C3Oa5snwOGuDKwcKcCsHLrVJjMC1tTiiRqISClrIql3gtHsh_hs7LvKNlT5PkEyHUglYIf8WMn-l8a3AD1867MXMPIg_g1AoYxwHiGAQlOzIXkIj899lDOPLUn3C2L2ESmgKCSfAPpzc9hsPh0WRmKiwVR_ALBWVTaIYZuBnfB31DXIYfedSTXeaCsA0JwCn148Ix40cGOMRXxmm2vgbYnIqVjoCvuaPbgVWr0DUvkCF-Nf36vBG58zqzofnn-mLrR6HOiEYOhw" style="">
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-64 pt-24 px-8 pb-12 min-h-screen">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface" style="">Coupons &amp; Promotions</h2>
+<p class="text-stone-500 mt-1 font-medium" style="">Manage and monitor your restaurant marketing campaigns.</p>
+</div>
+<button class="bg-primary text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all" style="">
+<span class="material-symbols-outlined" style="">add</span>
+                Add New Coupon
+            </button>
+</div>
+<!-- KPI Cards Section (Bento Inspired) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border-none relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 text-primary/5 group-hover:text-primary/10 transition-colors">
+<span class="material-symbols-outlined text-9xl" style="">confirmation_number</span>
+</div>
+<div class="relative z-10">
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-2" style="">Active Coupons</p>
+<h3 class="text-4xl font-extrabold text-on-surface" style="">24</h3>
+<div class="flex items-center gap-2 mt-4 text-emerald-600 text-sm font-bold">
+<span class="material-symbols-outlined text-sm" style="">trending_up</span>
+<span class="" style="">+12% from last month</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border-none relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 text-primary/5 group-hover:text-primary/10 transition-colors">
+<span class="material-symbols-outlined text-9xl" style="">shopping_cart_checkout</span>
+</div>
+<div class="relative z-10">
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-2" style="">Total Redemptions</p>
+<h3 class="text-4xl font-extrabold text-on-surface" style="">1,842</h3>
+<div class="flex items-center gap-2 mt-4 text-emerald-600 text-sm font-bold">
+<span class="material-symbols-outlined text-sm" style="">trending_up</span>
+<span class="" style="">+8.4% today</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border-none relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 text-primary/5 group-hover:text-primary/10 transition-colors">
+<span class="material-symbols-outlined text-9xl" style="">payments</span>
+</div>
+<div class="relative z-10">
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-500 mb-2" style="">Revenue from Discounts</p>
+<h3 class="text-4xl font-extrabold text-on-surface" style="">£12,450</h3>
+<div class="flex items-center gap-2 mt-4 text-stone-400 text-sm font-bold">
+<span class="material-symbols-outlined text-sm" style="">horizontal_rule</span>
+<span class="" style="">Stable performance</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Table Filters -->
+<div class="bg-surface-container-lowest rounded-t-lg p-6 flex flex-wrap items-center justify-between gap-4 border-b border-stone-100">
+<div class="flex items-center gap-4">
+<h4 class="font-bold text-lg" style="">Active Promotions</h4>
+<div class="flex bg-stone-100 p-1 rounded-full">
+<button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white shadow-sm text-primary" style="">All</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold text-stone-500 hover:text-primary" style="">Active</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold text-stone-500 hover:text-primary" style="">Expired</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold text-stone-500 hover:text-primary" style="">Draft</button>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-stone-200 rounded-full text-sm font-semibold hover:bg-stone-50 transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">filter_list</span>
+                    More Filters
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-stone-200 rounded-full text-sm font-semibold hover:bg-stone-50 transition-colors" style="">
+<span class="material-symbols-outlined text-lg" style="">download</span>
+                    Export CSV
+                </button>
+</div>
+</div>
+<!-- Coupons Table -->
+<div class="bg-surface-container-lowest rounded-b-lg shadow-sm overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-stone-50/50 text-stone-500 text-[10px] uppercase tracking-widest font-bold">
+<th class="px-8 py-4" style="">Coupon Code</th>
+<th class="px-6 py-4" style="">Type</th>
+<th class="px-6 py-4 text-right" style="">Value</th>
+<th class="px-6 py-4" style="">Expiry Date</th>
+<th class="px-6 py-4" style="">Status</th>
+<th class="px-8 py-4 text-right" style="">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-stone-100">
+<!-- Row 1 -->
+<tr class="hover:bg-stone-50/30 transition-colors">
+<td class="px-8 py-5" style="">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface tracking-wider" style="">NAMASTE20</span>
+<span class="text-xs text-stone-400" style="">Welcome Discount Campaign</span>
+</div>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm font-medium text-stone-600" style="">Percentage</span>
+</td>
+<td class="px-6 py-5 text-right font-bold text-primary" style="">20%</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-stone-600" style="">Dec 31, 2024</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Active
+                            </span>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<div class="flex items-center justify-end gap-2 text-stone-400">
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Duplicate" style=""><span class="material-symbols-outlined text-lg" style="">content_copy</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Edit" style=""><span class="material-symbols-outlined text-lg" style="">edit</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-error" title="Delete" style=""><span class="material-symbols-outlined text-lg" style="">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-stone-50/30 transition-colors">
+<td class="px-8 py-5" style="">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface tracking-wider" style="">CURRYFRIDAY</span>
+<span class="text-xs text-stone-400" style="">Weekend Special Offer</span>
+</div>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm font-medium text-stone-600" style="">Fixed Amount</span>
+</td>
+<td class="px-6 py-5 text-right font-bold text-primary" style="">£5.00</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-stone-600" style="">Jan 15, 2025</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Active
+                            </span>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<div class="flex items-center justify-end gap-2 text-stone-400">
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Duplicate" style=""><span class="material-symbols-outlined text-lg" style="">content_copy</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Edit" style=""><span class="material-symbols-outlined text-lg" style="">edit</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-error" title="Delete" style=""><span class="material-symbols-outlined text-lg" style="">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-stone-50/30 transition-colors">
+<td class="px-8 py-5" style="">
+<div class="flex flex-col">
+<span class="font-bold text-stone-400 tracking-wider line-through" style="">BIRTHDAY10</span>
+<span class="text-xs text-stone-400" style="">Individual Birthday Reward</span>
+</div>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm font-medium text-stone-400" style="">Percentage</span>
+</td>
+<td class="px-6 py-5 text-right font-bold text-stone-400" style="">10%</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-stone-400" style="">Oct 20, 2023</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-stone-100 text-stone-500 text-[10px] font-bold uppercase tracking-wider" style="">
+<span class="w-1.5 h-1.5 rounded-full bg-stone-400"></span>
+                                Expired
+                            </span>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<div class="flex items-center justify-end gap-2 text-stone-400">
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Duplicate" style=""><span class="material-symbols-outlined text-lg" style="">content_copy</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Edit" style=""><span class="material-symbols-outlined text-lg" style="">edit</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-error" title="Delete" style=""><span class="material-symbols-outlined text-lg" style="">delete</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-stone-50/30 transition-colors">
+<td class="px-8 py-5" style="">
+<div class="flex flex-col">
+<span class="font-bold text-on-surface tracking-wider" style="">SAMSAFREE</span>
+<span class="text-xs text-stone-400" style="">Free Starter Promo</span>
+</div>
+</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm font-medium text-stone-600" style="">Product Bundle</span>
+</td>
+<td class="px-6 py-5 text-right font-bold text-primary" style="">Free Gift</td>
+<td class="px-6 py-5" style="">
+<span class="text-sm text-stone-600" style="">Nov 30, 2024</span>
+</td>
+<td class="px-6 py-5" style="">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider" style="">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Active
+                            </span>
+</td>
+<td class="px-8 py-5 text-right" style="">
+<div class="flex items-center justify-end gap-2 text-stone-400">
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Duplicate" style=""><span class="material-symbols-outlined text-lg" style="">content_copy</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-primary" title="Edit" style=""><span class="material-symbols-outlined text-lg" style="">edit</span></button>
+<button class="p-2 hover:bg-stone-100 rounded-full transition-colors hover:text-error" title="Delete" style=""><span class="material-symbols-outlined text-lg" style="">delete</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination -->
+<div class="px-8 py-6 flex items-center justify-between border-t border-stone-100">
+<p class="text-sm text-stone-500 font-medium" style="">Showing <span class="font-bold text-on-surface" style="">1 - 4</span> of <span class="font-bold text-on-surface" style="">24</span> coupons</p>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-stone-200 text-stone-400 hover:bg-stone-50 transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-primary text-white font-bold shadow-md shadow-primary/20" style="">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-stone-200 text-stone-600 font-bold hover:bg-stone-50 transition-colors" style="">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-stone-200 text-stone-600 font-bold hover:bg-stone-50 transition-colors" style="">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full border border-stone-200 text-stone-400 hover:bg-stone-50 transition-colors" style="">
+<span class="material-symbols-outlined" style="">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Promotions Section (Cards) -->
+<div class="mt-12">
+<h3 class="text-xl font-extrabold mb-6" style="">Upcoming Scheduled Campaigns</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Promo Card -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border-l-4 border-amber-400 shadow-sm flex gap-4">
+<div class="w-16 h-16 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
+<span class="material-symbols-outlined text-3xl" style="">celebration</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface" style="">Christmas Feast Offer</h4>
+<p class="text-sm text-stone-500 mb-2" style="">30% off on pre-bookings for groups larger than 6 people.</p>
+<div class="flex items-center gap-2 text-[10px] uppercase font-bold text-stone-400 tracking-wider" style="">
+<span class="material-symbols-outlined text-sm" style="">calendar_today</span>
+                            Starts Dec 15, 2024
+                        </div>
+</div>
+</div>
+<!-- Promo Card -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border-l-4 border-blue-400 shadow-sm flex gap-4">
+<div class="w-16 h-16 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+<span class="material-symbols-outlined text-3xl" style="">open_in_new</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface" style="">New Year Bash</h4>
+<p class="text-sm text-stone-500 mb-2" style="">Complimentary glass of wine with every main course ordered.</p>
+<div class="flex items-center gap-2 text-[10px] uppercase font-bold text-stone-400 tracking-wider" style="">
+<span class="material-symbols-outlined text-sm" style="">calendar_today</span>
+                            Starts Dec 31, 2024
+                        </div>
+</div>
+</div>
+<!-- Empty State/Add Placeholder -->
+<div class="border-2 border-dashed border-stone-200 rounded-lg p-5 flex flex-col items-center justify-center gap-2 text-stone-400 hover:border-primary/50 hover:text-primary transition-all cursor-pointer">
+<span class="material-symbols-outlined text-3xl" style="">add_circle</span>
+<span class="text-sm font-bold" style="">Schedule New Campaign</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>
