@@ -1,0 +1,292 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Namaste Cambridge Home</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f3f4f5",
+              "tertiary-container": "#caa900",
+              "on-error": "#ffffff",
+              "surface-container-high": "#e7e8e9",
+              "on-primary": "#ffffff",
+              "surface-bright": "#f8f9fa",
+              "on-primary-container": "#fffbff",
+              "inverse-primary": "#ffb4aa",
+              "error": "#ba1a1a",
+              "background": "#f8f9fa",
+              "on-secondary-fixed": "#121c2a",
+              "tertiary-fixed": "#ffe171",
+              "surface-container-highest": "#e1e3e4",
+              "on-primary-fixed-variant": "#930005",
+              "primary": "#bc000a",
+              "surface": "#f8f9fa",
+              "on-tertiary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed": "#221b00",
+              "surface-tint": "#c0000a",
+              "surface-container": "#edeeef",
+              "secondary": "#555f6f",
+              "tertiary": "#705d00",
+              "surface-container-lowest": "#ffffff",
+              "outline": "#926f6a",
+              "on-secondary-fixed-variant": "#3d4756",
+              "surface-variant": "#e1e3e4",
+              "on-tertiary-fixed-variant": "#554600",
+              "surface-dim": "#d9dadb",
+              "secondary-fixed-dim": "#bdc7d9",
+              "primary-fixed": "#ffdad5",
+              "tertiary-fixed-dim": "#e9c400",
+              "on-tertiary-container": "#4c3e00",
+              "on-surface": "#191c1d",
+              "on-secondary": "#ffffff",
+              "primary-container": "#e2241f",
+              "secondary-container": "#d6e0f3",
+              "inverse-on-surface": "#f0f1f2",
+              "primary-fixed-dim": "#ffb4aa",
+              "outline-variant": "#e7bdb7",
+              "secondary-fixed": "#d9e3f6",
+              "on-primary-fixed": "#410001",
+              "on-surface-variant": "#5d3f3b",
+              "inverse-surface": "#2e3132",
+              "on-secondary-container": "#596373",
+              "on-background": "#191c1d"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .glass-nav { backdrop-filter: blur(12px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface selection:bg-primary-fixed">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-stone-500 hover:bg-stone-100 p-2 rounded-full transition-colors active:scale-95 duration-200" data-icon="menu" style="">menu</button>
+<h1 class="font-headline font-extrabold text-xl tracking-tight text-red-600 italic" style=""><br></h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="material-symbols-outlined text-stone-500 p-2 rounded-full hover:bg-stone-100 transition-colors" data-icon="search" style="">search</button>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden border-2 border-white">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="Close up of a smiling male user profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAammCqznAueKM8Uie0qmyY1UHeWK1mu50ut1AAKLW0B1_20VQi12MfSkD3yEdV7lGbPYueG_mz_l-LIaa1tyFu0p9pqv7hkNK7_yh_j54LVbIUMbGmX7bgu4q8lpiq8eCGn9T9To70i8Twf0sxObSL-ERYVlJmE5Nr-zZ8zBMtgCBSE3XfWFqoNs1s0xKAg7Mnph_O8WwQk-KkvcZaKw80gTm_MHcl9h-XCO2Eu5YwE7FKVruUenVfFsHoBOqAoeHaFQbN7364Mkg" style="">
+</div>
+</div>
+</nav>
+<main class="pt-20 pb-32 px-4 md:px-8 max-w-7xl mx-auto">
+<!-- Hero Banner: Editorial Style -->
+<section class="relative h-[240px] md:h-[320px] rounded-xl overflow-hidden mb-8 shadow-xl">
+<img alt="Hero Banner" class="w-full h-full object-cover" data-alt="Authentic Hyderabadi Biryani with spices and garnishes" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/g2zkxugysxbf0z09xm1k" style="">
+<div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent flex flex-col justify-center px-8">
+<span class="text-tertiary-fixed font-headline font-bold uppercase tracking-widest text-xs mb-2" style="">Authentic Selection</span>
+<h2 class="text-white font-headline font-extrabold text-3xl md:text-5xl leading-tight mb-4" style="">Authentic<br>Hyderabadi Biryani</h2>
+<div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-headline font-bold text-sm shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all" style="">Order Now</button>
+</div>
+</div>
+</section>
+<!-- Category Horizontal Scroll -->
+<section class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h3 class="font-headline font-bold text-xl tracking-tight" style="">Cuisine Categories</h3>
+<button class="text-primary font-bold text-sm" style="">View All</button>
+</div>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-2">
+<!-- Biryani -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Biryani" class="w-full h-full object-cover rounded-full" data-alt="Small round bowl of biryani" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJt3rFrbJivLnzFro5U3EsAaHVH0NPAjD9fbuM2ooHqg1Alr2bhfqzyfAv0vbCuk8OlbV2uKKzMxsmI1HB3aWcnFbCQf6dffBQdzG8A1gzt-2H15GUUx2GAzTILQisecLQsDMMDBvMas3olmlU2zP5X1hEBWbA6fW7yB_fHJqLqfyR3bMzc2z4zjHNMxZfbhHgzcBTLz1cikPDP-E5c0v3hYeEqS-ziP-ZvJQdKdz-zOWpyMhR8ZT0NB0me9flk21AfN4HAz8UroM" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Biryani</span>
+</div>
+<!-- Curry -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Curry" class="w-full h-full object-cover rounded-full" data-alt="Traditional Indian curry in a brass bowl" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/FOOD_CATALOG/IMAGES/CMS/2025/8/6/0ca180ce-e4ec-4c3f-94cd-8b129a27456e_4c36f2e3-ad5f-470a-a702-45424ad1e710.jpg" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Curry</span>
+</div>
+<!-- Tandoori -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Tandoori" class="w-full h-full object-cover rounded-full" data-alt="Tandoori chicken pieces on a plate" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_112,h_112,c_fill/Autosuggest/Top%20200%20queries/Tandoori%20chicken.png" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Tandoori</span>
+</div>
+<!-- Starters -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Starters" class="w-full h-full object-cover rounded-full" data-alt="Crispy samosas and Indian starters" src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_600/ncvuyffcz2att1onbwca" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Starters</span>
+</div>
+<!-- Breads -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Naan" class="w-full h-full object-cover rounded-full" data-alt="Fresh garlic naan bread" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_MsnnQtr-8jdO9Jro-sY7sonMAkyUp31C1QPqbU5ZgTiab4yJwJpMhIKl22YpxNMkAFwf5MyefOxrfpQMvCbA_W4NemMFjxEehoYxLwlbL2jhs0GKsTx8mF0YvKz_2a1B5B9zu3hbUZloG7unZV-OqQtgCU41_oShuq2JbuPB-m9cMiqqCW86NKuH_Y6fCuSEsdImnYxwslVMctYdx14XKNwN9ekYg7H45x3mLDQDN9lSawP--hujyyBpN7R7juc_JQpTF7jJ-Fw" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Naan</span>
+</div>
+<!-- Sweets -->
+<div class="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer">
+<div class="w-20 h-20 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center p-1 group-hover:shadow-md transition-shadow">
+<img alt="Desserts" class="w-full h-full object-cover rounded-full" data-alt="Indian gulab jamun sweet dessert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1chRBXmItf8qhoRgwbcuSWPYuCGRBCkm5tSO1lUm8JsCT05FCgYmlACAM5-iUgazLb-dWDvAbHD1lxyWf3wHwnJ-WmaXi-GjzaIDObHmP4DDX5pxtPG1kcQwytBHkpIF0nqts2wdY4UrV1OyYKLkvuqzdfNVVDR22XQxL0qhQiqTMwdVuBq3Xq6cYcSU-xeKxWLrJgYL6D4h1H0Sse3AfNH2-s5cxBx6BLL7liz-l3XMkw8gXsLZaGNcMh7CX6GStVO4Ygu8UZQ4" style="">
+</div>
+<span class="font-headline text-xs font-bold text-stone-600" style="">Sweets</span>
+</div>
+</div>
+</section>
+<!-- Recommended Section: Bento-ish Grid -->
+<section>
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-extrabold text-2xl tracking-tight" style="">Chef's Recommendations</h3>
+<div class="flex gap-2">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider" style="">Most Popular</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Food Card 1 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col border border-transparent hover:border-primary/10">
+<div class="relative h-56 overflow-hidden">
+<img alt="Butter Chicken" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Creamy orange butter chicken curry" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAsZj5hcF1MffUm2qEKSUqB_Vryc-wjlbr18tm-XhkwEuON-dZEH1AeJZfUGg5LKJ6cHIAu7mX_dRiBbqlF3IQelUHG50dF-HUtb7HDJSdDjeaQu-zVWFC_pa1tCrhVZsuLU-Nw72lpiCeODZAoZ0kMYRuCPR8oyXYsGil3HltnzMMxop91J8vG9Sm4BFPZ1Xh_wXMwo-XXvz9MdhCUklLvhcMuPYzACwhZuSlburE2rYbhOgQGqDHWgronEaqDN4VrcDbP2Wi61MU" style="">
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-tertiary-container text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="text-xs font-bold" style="">4.9</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-lg" style="">Royal Butter Chicken</h4>
+<span class="text-primary font-extrabold" style="">£14.50</span>
+</div>
+<p class="text-stone-500 text-sm mb-4 line-clamp-2 leading-relaxed" style="">Tender tandoori chicken simmered in a rich tomato and butter gravy with aromatic spices.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-stone-400">
+<span class="flex items-center gap-1 text-[11px] font-medium" style=""><span class="material-symbols-outlined text-sm" style="">schedule</span> 25-35 min</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 active:scale-90 transition-transform" style="">
+<span class="material-symbols-outlined" data-icon="add" style="">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Food Card 2 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col border border-transparent hover:border-primary/10">
+<div class="relative h-56 overflow-hidden">
+<img alt="Paneer Tikka" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Grilled paneer tikka with vegetables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBa0I9_UzC6AebnjmfTDybpeO6so9cNeU-HUK6ysiCULfI7X8QeEtQ_zKw5df5yJf7jc3zmTMHuhLPJvw4Z747TtDChhxizl9Bc-VhJfbvYCvNhgJ9ZiKuk4AUtvhTkZ4qdNzcp9NGlvtyBScSOmYtgs4VzWW3Q-9Nq4RubKJEH1s3zEuDazT3AO9XvUL0BuWxlEfiiWKfhlnk3liSDCGeOIfajT6JqKvnD_xY30qsiWV3hXN_RfHjy8rwxi6-l4m16p4vYfjD7D1o" style="">
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-tertiary-container text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="text-xs font-bold" style="">4.7</span>
+</div>
+<span class="absolute top-4 left-4 bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide" style="">Vegetarian</span>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-lg" style="">Paneer Tikka Masala</h4>
+<span class="text-primary font-extrabold" style="">£12.90</span>
+</div>
+<p class="text-stone-500 text-sm mb-4 line-clamp-2 leading-relaxed" style="">Cubed cottage cheese marinated in yogurt and spices, grilled and served in a spicy masala.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-stone-400">
+<span class="flex items-center gap-1 text-[11px] font-medium" style=""><span class="material-symbols-outlined text-sm" style="">schedule</span> 20-30 min</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 active:scale-90 transition-transform" style="">
+<span class="material-symbols-outlined" data-icon="add" style="">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Food Card 3 -->
+<div class="group bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl transition-all duration-300 flex flex-col border border-transparent hover:border-primary/10">
+<div class="relative h-56 overflow-hidden">
+<img alt="Lamb Rogan Josh" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Rich lamb rogan josh curry" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBx7mSVVl2tFB7L04BdzctUaRbDKSNR6lg0xY8MtWP2_2xVdg4E-RwyyF00vqi8qL298_908r1slb-a2v3GMN1GCkKSvSATQgHW6_V4jPRCUIIN5MSSsEJQGA-W2xZTmQOCKWoH7ZIoXKCeSHHYge-ZB16kKMMElFMmkQiboTETkuIKYkCys37LBk6vHzaoN_pIoLn90I-fOdzGTNWn9isaQlhMGMnnjgzr_Pou75RQYv0dDjkT6EhQacBuj3fi54YOkQL4fIPuvtQ" style="">
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-tertiary-container text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="text-xs font-bold" style="">4.8</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline font-bold text-lg" style="">Lamb Rogan Josh</h4>
+<span class="text-primary font-extrabold" style="">£16.00</span>
+</div>
+<p class="text-stone-500 text-sm mb-4 line-clamp-2 leading-relaxed" style="">Kashmiri style lamb curry cooked with a plethora of spices and flavored with alkanet root.</p>
+<div class="flex items-center justify-between mt-auto">
+<div class="flex items-center gap-3 text-stone-400">
+<span class="flex items-center gap-1 text-[11px] font-medium" style=""><span class="material-symbols-outlined text-sm" style="">schedule</span> 35-45 min</span>
+</div>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20 active:scale-90 transition-transform" style="">
+<span class="material-symbols-outlined" data-icon="add" style="">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Dynamic Cart (Signature Component) -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-lg z-40 bg-white/80 backdrop-blur-xl rounded-full px-6 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-white/20 flex items-center justify-between animate-in fade-in slide-in-from-bottom-4">
+<div class="flex items-center gap-3">
+<div class="bg-primary text-on-primary w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style="">2</div>
+<div class="flex flex-col">
+<span class="text-[10px] text-stone-400 uppercase font-bold tracking-wider" style="">Your Basket</span>
+<span class="font-headline font-bold text-sm" style="">£27.40</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-full font-headline font-bold text-xs shadow-md shadow-primary/20 flex items-center gap-2" style="">
+            Checkout <span class="material-symbols-outlined text-xs" style="">arrow_forward</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/80 dark:bg-stone-900/80 backdrop-blur-lg flex justify-around items-center px-4 pb-6 pt-3 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
+<!-- Home Active -->
+<a class="flex flex-col items-center justify-center text-red-600 dark:text-red-400 bg-red-50/50 dark:bg-red-900/20 rounded-2xl px-4 py-2 active:scale-90 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: &quot;FILL&quot; 1;">home</span>
+<span class="font-['Plus_Jakarta_SANS'] text-[10px] font-semibold tracking-wide uppercase mt-1" style="">Home</span>
+</a>
+<!-- Menu -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" data-icon="restaurant_menu" style="">restaurant_menu</span>
+<span class="font-['Plus_Jakarta_SANS'] text-[10px] font-semibold tracking-wide uppercase mt-1" style="">Menu</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" data-icon="receipt_long" style="">receipt_long</span>
+<span class="font-['Plus_Jakarta_SANS'] text-[10px] font-semibold tracking-wide uppercase mt-1" style="">Orders</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 px-4 py-2 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" data-icon="person" style="">person</span>
+<span class="font-['Plus_Jakarta_SANS'] text-[10px] font-semibold tracking-wide uppercase mt-1" style="">Profile</span>
+</a>
+</nav>
+</body></html>

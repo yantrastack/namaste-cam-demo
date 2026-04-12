@@ -1,0 +1,338 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Culinary Editorial - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "background": "#f8f9fa",
+                "primary-container": "#e2241f",
+                "primary-fixed-dim": "#ffb4aa",
+                "secondary-fixed-dim": "#bdc7d9",
+                "on-primary-fixed-variant": "#930005",
+                "on-secondary-fixed-variant": "#3d4756",
+                "outline-variant": "#e7bdb7",
+                "on-secondary-fixed": "#121c2a",
+                "error-container": "#ffdad6",
+                "secondary": "#555f6f",
+                "surface": "#f8f9fa",
+                "surface-tint": "#c0000a",
+                "tertiary-fixed": "#ffe171",
+                "primary": "#bc000a",
+                "tertiary": "#705d00",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#d9e3f6",
+                "surface-bright": "#f8f9fa",
+                "surface-container-low": "#f3f4f5",
+                "on-error": "#ffffff",
+                "on-tertiary-container": "#4c3e00",
+                "inverse-on-surface": "#f0f1f2",
+                "on-secondary-container": "#596373",
+                "surface-dim": "#d9dadb",
+                "on-surface-variant": "#5d3f3b",
+                "on-primary-fixed": "#410001",
+                "on-primary-container": "#fffbff",
+                "surface-variant": "#e1e3e4",
+                "surface-container-high": "#e7e8e9",
+                "tertiary-container": "#caa900",
+                "on-tertiary-fixed": "#221b00",
+                "on-tertiary-fixed-variant": "#554600",
+                "on-primary": "#ffffff",
+                "on-tertiary": "#ffffff",
+                "surface-container": "#edeeef",
+                "outline": "#926f6a",
+                "surface-container-highest": "#e1e3e4",
+                "on-background": "#191c1d",
+                "on-surface": "#191c1d",
+                "primary-fixed": "#ffdad5",
+                "on-secondary": "#ffffff",
+                "inverse-primary": "#ffb4aa",
+                "secondary-container": "#d6e0f3",
+                "on-error-container": "#93000a",
+                "tertiary-fixed-dim": "#e9c400",
+                "inverse-surface": "#2e3132",
+                "error": "#ba1a1a"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Be Vietnam Pro"],
+                "label": ["Be Vietnam Pro"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary/10">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-6 py-4 w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200" data-icon="menu" style="">menu</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl text-red-600 dark:text-red-500" style="">Namaste Cam</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex gap-6 mr-6">
+<a class="text-red-600 font-bold font-['Plus_Jakarta_Sans'] tracking-tight" href="#" style="">Home</a>
+<a class="text-zinc-500 dark:text-zinc-400 font-['Plus_Jakarta_Sans'] tracking-tight hover:opacity-80 transition-opacity" href="#" style="">Menu</a>
+<a class="text-zinc-500 dark:text-zinc-400 font-['Plus_Jakarta_Sans'] tracking-tight hover:opacity-80 transition-opacity" href="#" style="">Orders</a>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBLTUkPph8lyHdvxM66U8H8_95GCrxcO46WjeUi1MA8D_FLTN_SqQI_uHSLGUH4fRbtI-TWsvVTblcDWvFLs5gV6EzM206c91DoW-Vls_ueYkDqnk7RJTlWExOxMpUrTXveRmq1FXVGud-Gx0U9sZp5lBnZ3pSRAhdVzDiODC0m82H4g1hIcxeYsStCVVUYcmHuodFLRLd3zt3C_ZnQs7PeYRVZ8pQ6sX-a2D11H9-liDxAmBIDHyOgJT5_mbENQgB5M2lZxJdFes" style="">
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-7xl mx-auto px-6">
+<!-- Search Bar Section -->
+<section class="mb-10">
+<div class="relative group">
+<div class="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline" data-icon="search" style="">search</span>
+</div>
+<input class="w-full h-16 pl-14 pr-6 bg-surface-container-highest border-none rounded-full text-lg focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-zinc-400" placeholder="Search for flavors, cuisines, or restaurants" type="text">
+<div class="absolute inset-y-0 right-3 flex items-center">
+<button class="bg-primary text-on-primary p-3 rounded-full shadow-lg shadow-primary/20 active:scale-95 transition-transform" style="">
+<span class="material-symbols-outlined" data-icon="tune" style="">tune</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Categories horizontal scrolling -->
+<section class="mb-12">
+<div class="flex overflow-x-auto hide-scrollbar gap-6 py-2">
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-primary flex items-center justify-center shadow-xl shadow-primary/10 transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-on-primary text-3xl" data-icon="local_pizza" style="">local_pizza</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-primary" style="">PIZZA</span>
+</div>
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-zinc-600 text-3xl" data-icon="lunch_dining" style="">lunch_dining</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-zinc-500" style="">BURGERS</span>
+</div>
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-zinc-600 text-3xl" data-icon="ramen_dining" style="">ramen_dining</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-zinc-500" style="">ASIAN</span>
+</div>
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-zinc-600 text-3xl" data-icon="bakery_dining" style="">bakery_dining</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-zinc-500" style="">DESSERT</span>
+</div>
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-zinc-600 text-3xl" data-icon="set_meal" style="">set_meal</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-zinc-500" style="">SEAFOOD</span>
+</div>
+<div class="flex flex-col items-center gap-3 shrink-0 group cursor-pointer">
+<div class="w-16 h-16 rounded-2xl bg-surface-container-low flex items-center justify-center transition-transform group-active:scale-90">
+<span class="material-symbols-outlined text-zinc-600 text-3xl" data-icon="emoji_food_beverage" style="">emoji_food_beverage</span>
+</div>
+<span class="text-xs font-bold tracking-wider text-zinc-500" style="">DRINKS</span>
+</div>
+</div>
+</section>
+<!-- Featured Banner -->
+<section class="mb-14">
+<div class="relative h-[400px] w-full rounded-[2rem] overflow-hidden bg-zinc-900 group">
+<img class="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-700" data-alt="Artistic overhead shot of gourmet roasted meats and vegetables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRTz6QZpt2RUqfwE7W7ZgOMwLQpA5Vbwip8RDoOHHSLeCN5rvFbARR180d0OVO6Dd5ZyiUfce2RuyQZnVyE1HYlNSptpMRVaInGlA7-cJp_on6wkBSObHjLH8GHd_KKM8WoIDKv_3-nPJ9Atoa0TPKsVqihjHt-Fdbn0M2bPhqe9euOuLStdpa1JlZ_Vr4i6tJJOvLK9ApLOS4ql5BOg_pTo2ypI-_sD0WGtHhFrQcEAyQbUZT2_M3QztTy7jxiC62UEf1frwMlw0" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-10 left-10 right-10 flex flex-col items-start gap-4">
+<div class="px-4 py-1.5 bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black tracking-widest rounded-full uppercase" style="">Editorial Choice</div>
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold text-white leading-tight max-w-lg tracking-tighter" style="">The Modern Harvest Kitchen</h2>
+<p class="text-zinc-300 text-lg max-w-md font-body" style="">Sustainably sourced, chef-curated seasonal dishes delivered to your door.</p>
+<button class="mt-2 bg-primary text-on-primary px-8 py-4 rounded-full font-bold tracking-tight hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/30" style="">Order Now</button>
+</div>
+</div>
+</section>
+<!-- Popular Dishes Grid -->
+<section class="mb-14">
+<div class="flex items-end justify-between mb-8">
+<div>
+<span class="text-primary font-bold text-sm tracking-widest uppercase" style="">Popular Now</span>
+<h3 class="text-3xl font-headline font-bold tracking-tighter mt-1" style="">Curated Masterpieces</h3>
+</div>
+<a class="text-zinc-500 font-medium text-sm flex items-center gap-1 hover:text-primary transition-colors" href="#" style="">
+                    View gallery
+                    <span class="material-symbols-outlined text-lg" data-icon="arrow_forward" style="">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Food Card 1 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-4 bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Fresh mediterranean salad bowl with hummus and vegetables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgH0k4tZPHHfAsrt1-Goepb7W_RET5HIEx_XLpwUF6fNrVCxmnGg3thi86jdSkXRTkFteARqigL76xl18XHm4SPO8baG70k8o-arV1yec93D7JASp18_XG2wngr3JsP8fOdD647i184JPkvwcS6oQFFj1uo-gKNO2fbDI69nz14wh8IT9jJDhWbB5B5ngVJcT6LbfHd7657J_pbVC-lwO7z6xRoARL-PlWONKM17JPKXYZg9k3FUlDzU33eQNHXqFav-7n2Sj4bwc" style="">
+<button class="absolute top-6 right-6 w-12 h-12 rounded-full glass-nav bg-white/40 flex items-center justify-center text-zinc-900 active:scale-90 transition-all" style="">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: &quot;FILL&quot; 0;">favorite</span>
+</button>
+</div>
+<div class="px-2">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xl font-headline font-bold text-on-surface tracking-tight" style="">Elysian Green Bowl</h4>
+<span class="text-primary font-bold" style="">$18.00</span>
+</div>
+<div class="flex items-center gap-4 text-zinc-500 text-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary-container text-base" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="font-bold text-on-surface" style="">4.9</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule" style="">schedule</span>
+<span class="" style="">20-30 min</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Food Card 2 -->
+<div class="group relative flex flex-col translate-y-6 md:translate-y-12">
+<div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-4 bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Gourmet slice of pepperoni pizza with melting cheese" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASnvTXw4ybI1hMGEvvPBq-Q0VL3ohqLisxDdjV0WHMDilY0kpXmdf_IaRFtO0k8-DZclPft_1Q47WyuX-ugqdJmN2ta7fDXBEzsJA8OuWreXtLG17cN5C2jE7JHFx99ZLvyfnPINfU8yBdJxbpPeGy6FbkUzL_9869K78N5wsql11CqVnZ63k0-FQQ6bqSI7s5gzsHGiMPdMJ0cgEbjWMo4O6YCKlbYC8qt-0pNWb3GeP0L5NKvYCjkaGqnFPdaK_sSsP-M9vK-A0" style="">
+<div class="absolute bottom-6 left-6 px-4 py-1.5 bg-tertiary text-on-tertiary text-[10px] font-black tracking-widest rounded-full uppercase" style="">Trending</div>
+</div>
+<div class="px-2">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xl font-headline font-bold text-on-surface tracking-tight" style="">Truffle Honey Rosso</h4>
+<span class="text-primary font-bold" style="">$24.00</span>
+</div>
+<div class="flex items-center gap-4 text-zinc-500 text-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary-container text-base" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="font-bold text-on-surface" style="">4.8</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule" style="">schedule</span>
+<span class="" style="">15-25 min</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Food Card 3 -->
+<div class="group relative flex flex-col">
+<div class="aspect-[4/5] rounded-[2rem] overflow-hidden mb-4 bg-surface-container-low shadow-sm">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Slow cooked salmon with asparagus and creative plating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLn69Pb_-Hptc-77DPLnZN9m-SA4JAjVfoTKckxnOfN7wapVlX93X2iIGEo6o4BKzxYQp0L31kGa9BbD3FQifSmyh7i7OVHGtQGjxLPSCAX4EzHUnHjeZ9cCBD4BmAEnZiV4pOEl-3cWPId2T_ZZ4I9mVEKNsJgfHb0NDPwci1V0xI0XElMu8aJkjfiZVPSVD0lWPWs_lWNnyC_PJa92O1VD_x2U2VYIOyR506Y7siibd9_kFSR-8V0-nIfSCcqxSxlxR2n5F4Meg" style="">
+</div>
+<div class="px-2">
+<div class="flex justify-between items-start mb-2">
+<h4 class="text-xl font-headline font-bold text-on-surface tracking-tight" style="">Nordic Atlantic Salmon</h4>
+<span class="text-primary font-bold" style="">$32.00</span>
+</div>
+<div class="flex items-center gap-4 text-zinc-500 text-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary-container text-base" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="font-bold text-on-surface" style="">5.0</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="schedule" style="">schedule</span>
+<span class="" style="">35-45 min</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Bento Featured Section -->
+<section class="mt-24 md:mt-32 grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-2 md:row-span-2 bg-secondary-container rounded-[2rem] p-10 flex flex-col justify-between overflow-hidden relative">
+<div class="relative z-10">
+<span class="text-xs font-black tracking-widest text-on-secondary-container/60 uppercase" style="">Chef's Special</span>
+<h3 class="text-4xl font-headline font-bold text-on-secondary-container mt-4 leading-tight tracking-tighter" style="">Artisanal Sourdough Series</h3>
+<p class="text-on-secondary-container/80 mt-4 max-w-xs font-medium" style="">Hand-kneaded, 48-hour fermented loaves from the valley's finest bakery.</p>
+</div>
+<img class="absolute -right-20 -bottom-20 w-80 h-80 object-cover rotate-12 opacity-80 group-hover:rotate-0 transition-transform duration-700" data-alt="Close up of rustic sourdough bread crust" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDteiGImM2XjHSAvoRnsK5PLu_-84nI9BMMQ-_WHygDLhZrYVD99BhzPZQ45Mpb2sF7Eb0FqJ86aJEnOVBFJ5Cyl_KL1437YU8rwwsgI4VamxuA9k0ReIiYCQo3uFZtHB_nQgQJD49UMPQcazZkrF-XaKb445xzSIlJa7qscHwk7gXojzPuU5x3CUF4YXADSqlWLoRoueSrUw9lDltUufnjNVOy1zGyc7jt1PuxAnwxxk6tU3eOWoAUxpnn4getKAmgrYF35GK6I7Y" style="">
+<button class="relative z-10 self-start mt-8 bg-white text-secondary font-bold px-6 py-3 rounded-full shadow-sm" style="">Explore Collection</button>
+</div>
+<div class="md:col-span-2 bg-tertiary-fixed rounded-[2rem] p-10 flex items-center justify-between group overflow-hidden">
+<div class="flex-1">
+<h3 class="text-2xl font-headline font-bold text-on-tertiary-fixed tracking-tight" style="">Zero Waste Initiative</h3>
+<p class="text-on-tertiary-fixed/70 mt-2 text-sm" style="">Every order helps plant a tree in the Amazon.</p>
+</div>
+<span class="material-symbols-outlined text-6xl text-on-tertiary-fixed/20 group-hover:scale-125 transition-transform" data-icon="eco" style="">eco</span>
+</div>
+<div class="md:col-span-1 bg-surface-container-highest rounded-[2rem] p-8 flex flex-col justify-center items-center text-center gap-2">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="redeem" style="">redeem</span>
+<span class="font-bold text-on-surface" style="">Gift a Meal</span>
+<p class="text-zinc-500 text-xs font-medium" style="">Share the joy of food.</p>
+</div>
+<div class="md:col-span-1 bg-primary rounded-[2rem] p-8 flex flex-col justify-center items-center text-center gap-2 text-on-primary shadow-xl shadow-primary/20">
+<span class="text-3xl font-black font-headline" style="">50%</span>
+<span class="font-bold text-[10px] tracking-widest uppercase" style="">First Order</span>
+<p class="text-on-primary/80 text-xs" style="">CODE: CULINARY</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-[2rem] shadow-[0_-8px_24px_rgba(0,0,0,0.04)] md:hidden">
+<div class="flex flex-col items-center justify-center text-red-600 dark:text-red-400 font-bold scale-110 transition-transform cursor-pointer">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: &quot;FILL&quot; 1;">home</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-all duration-300 ease-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="restaurant_menu" style="">restaurant_menu</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Menu</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-all duration-300 ease-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="receipt_long" style="">receipt_long</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Orders</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-all duration-300 ease-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="notifications" style="">notifications</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Notifications</span>
+</div>
+<div class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-300 active:scale-90 transition-all duration-300 ease-out cursor-pointer">
+<span class="material-symbols-outlined" data-icon="person_outline" style="">person_outline</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Profile</span>
+</div>
+</nav>
+<!-- Floating Dynamic Cart -->
+<div class="fixed bottom-24 md:bottom-8 right-6 left-6 md:left-auto md:w-96 glass-nav bg-white/80 dark:bg-zinc-900/80 p-5 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20 flex items-center justify-between group cursor-pointer active:scale-95 transition-all z-40">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-container rounded-2xl flex items-center justify-center text-on-primary-container shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="shopping_basket" style="">shopping_basket</span>
+</div>
+<div>
+<p class="font-headline font-bold text-on-surface" style="">3 items added</p>
+<p class="text-zinc-500 text-xs font-medium" style="">Checkout from Harvest Kitchen</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-headline font-bold text-primary" style="">$64.50</span>
+<span class="material-symbols-outlined text-zinc-400" data-icon="chevron_right" style="">chevron_right</span>
+</div>
+</div>
+</body></html>

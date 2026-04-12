@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Tracking | Culinary Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be_Vietnam_Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f8f9fa",
+              "primary-container": "#e2241f",
+              "primary-fixed-dim": "#ffb4aa",
+              "secondary-fixed-dim": "#bdc7d9",
+              "on-primary-fixed-variant": "#930005",
+              "on-secondary-fixed-variant": "#3d4756",
+              "outline-variant": "#e7bdb7",
+              "on-secondary-fixed": "#121c2a",
+              "error-container": "#ffdad6",
+              "secondary": "#555f6f",
+              "surface": "#f8f9fa",
+              "surface-tint": "#c0000a",
+              "tertiary-fixed": "#ffe171",
+              "primary": "#bc000a",
+              "tertiary": "#705d00",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#d9e3f6",
+              "surface-bright": "#f8f9fa",
+              "surface-container-low": "#f3f4f5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#4c3e00",
+              "inverse-on-surface": "#f0f1f2",
+              "on-secondary-container": "#596373",
+              "surface-dim": "#d9dadb",
+              "on-surface-variant": "#5d3f3b",
+              "on-primary-fixed": "#410001",
+              "on-primary-container": "#fffbff",
+              "surface-variant": "#e1e3e4",
+              "surface-container-high": "#e7e8e9",
+              "tertiary-container": "#caa900",
+              "on-tertiary-fixed": "#221b00",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#edeeef",
+              "outline": "#926f6a",
+              "surface-container-highest": "#e1e3e4",
+              "on-background": "#191c1d",
+              "on-surface": "#191c1d",
+              "primary-fixed": "#ffdad5",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#ffb4aa",
+              "secondary-container": "#d6e0f3",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#e9c400",
+              "inverse-surface": "#2e3132",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="tap-highlight-none active:scale-95 duration-200 text-zinc-500">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl text-zinc-900">Order #88219</h1>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Modern professional headshot of a person" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9lVXcCi7qdwMMPGJtDyYgA6mgdwEucaps4IHnzLhmNncDmOIfvvt8gPJIJtCJgLWta9si_KnkmTUVM790igEC4LWofPINUXdrtdN5myxbryZ5KzoORmGYvmSWkgWY3PxWsF9ix8kZErr5caU_awABuRd5WgkUEfH9KHY0xd3oCQQPn-2pZLnq8_Oozj1dnZZa4j5rBnO0EF6J4i6Cu634VUTPesMj0lO3CIo2iCZVl1rELym3HFOkKRIRJ39GyANL0_0_dnJSeus"/>
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Animated Progress Hero -->
+<section class="relative overflow-hidden bg-primary-container rounded-xl p-8 text-on-primary-container shadow-lg">
+<div class="relative z-10">
+<span class="text-white/80 font-medium tracking-wider text-xs uppercase">Est. Delivery</span>
+<div class="flex items-baseline gap-2 mt-1">
+<h2 class="text-4xl font-headline font-extrabold">12:45</h2>
+<span class="text-xl font-bold opacity-90">PM</span>
+</div>
+<p class="mt-4 text-sm font-medium opacity-90 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="timer">timer</span>
+                    Arriving in approximately 15-20 mins
+                </p>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -right-12 -top-12 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
+</section>
+<!-- Live Map Section -->
+<section class="h-64 w-full rounded-xl overflow-hidden relative shadow-sm surface-container-low">
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-alt="Minimalist map layout with navigation route" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVl9uvI46FqhyhoB_tyIPEFFemLmI_u1SYBtdIft0nHOhcgGT0aM15I6JleWQdFVl38ZjEK0fDGLb31LM4JMjQELmsEars13VZ4hb3H5F2NEBXaS_iNGqnM6HfeJ9rWYR77Zw9NROcuhgLApiIK9L4Gspgvw1hs5IszSvF8qXXwDbkbShnELh_CJ2XwaNL2wMnGMfNYFr0vC21j55AsMwAP1uGN4pXxN_xlB4BbSERLlMQ7t4XIfcLR1Eh27dFKlbhn-pWntB3wIs"/>
+<!-- Delivery Pin Overlay -->
+<div class="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+<div class="bg-primary text-white p-2 rounded-full shadow-lg animate-bounce">
+<span class="material-symbols-outlined" data-icon="delivery_dining" style="font-variation-settings: 'FILL' 1;">delivery_dining</span>
+</div>
+<div class="w-2 h-2 bg-primary/20 rounded-full mt-1"></div>
+</div>
+<!-- Recipient Pin -->
+<div class="absolute bottom-1/4 right-1/4 flex flex-col items-center">
+<div class="bg-zinc-900 text-white p-2 rounded-full shadow-lg">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+</div>
+</div>
+</section>
+<!-- Timeline Section -->
+<section class="space-y-6">
+<h3 class="font-headline text-lg font-bold text-on-surface">Order Progress</h3>
+<div class="relative pl-8 space-y-10">
+<!-- Timeline Line -->
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-surface-container-highest"></div>
+<div class="absolute left-[11px] top-2 h-1/2 w-[2px] bg-primary"></div>
+<!-- Confirmed -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-[31px] w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-white text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface leading-none">Order Confirmed</h4>
+<p class="text-sm text-zinc-500 mt-1">We've received your order at 12:15 PM</p>
+</div>
+</div>
+<!-- Preparing -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-[31px] w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-white text-[14px] font-bold" data-icon="check">check</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface leading-none">Preparing Your Meal</h4>
+<p class="text-sm text-zinc-500 mt-1">The chef is crafting your order with care</p>
+</div>
+</div>
+<!-- Out for Delivery -->
+<div class="relative flex items-start gap-4">
+<div class="absolute -left-[31px] w-6 h-6 rounded-full bg-primary flex items-center justify-center ring-4 ring-white ring-opacity-100">
+<span class="material-symbols-outlined text-white text-[14px] font-bold" data-icon="delivery_dining" style="font-variation-settings: 'FILL' 1;">delivery_dining</span>
+</div>
+<div>
+<h4 class="font-bold text-primary leading-none">Out for Delivery</h4>
+<p class="text-sm text-zinc-500 mt-1">Aiden is on his way to your location</p>
+</div>
+</div>
+<!-- Delivered -->
+<div class="relative flex items-start gap-4 opacity-40">
+<div class="absolute -left-[31px] w-6 h-6 rounded-full bg-surface-container-highest flex items-center justify-center ring-4 ring-white">
+<span class="material-symbols-outlined text-zinc-400 text-[14px]" data-icon="home">home</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface leading-none">Delivered</h4>
+<p class="text-sm text-zinc-500 mt-1">Expected around 12:45 PM</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Delivery Person Card -->
+<section class="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-black/[0.02]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-full overflow-hidden">
+<img alt="Delivery Driver" class="w-full h-full object-cover" data-alt="Friendly delivery person profile photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYkxrzH5tzODRszzjoeHvEDzOn3SdnW_xZ2zTb2XwaBUf_yA3lJ8o1A6R1TfivGWPsom44HGnGgAcKboAqt3J0ZLP1_BaW1AowX7g9DTGakixo2IhwKrsFk5BAg4Y1nCOIFCtT53PsVTBmZvQI7KBWyqzZxZ_EJovyNO3wagZqhdud0a2HxP17CmJepOGjLzRZZfZZnptzLlsHpYHc88AUbov-tVSL6ONdfQFa-S7eJqLvajUV_IuY6gg38Jvk2UfglIuANXh_wmU"/>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Aiden Marshall</h4>
+<div class="flex items-center gap-1 text-sm text-zinc-500 mt-0.5">
+<span class="material-symbols-outlined text-tertiary-container text-[16px]" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-semibold text-on-surface">4.9</span>
+<span>(1.2k+ deliveries)</span>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="w-12 h-12 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center active:scale-90 transition-transform shadow-md shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="call" style="font-variation-settings: 'FILL' 1;">call</span>
+</button>
+</div>
+</div>
+<!-- Vehicle Info -->
+<div class="mt-4 pt-4 border-t border-surface-container flex justify-between text-sm text-zinc-500">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="electric_scooter">electric_scooter</span>
+<span>Electric Scooter • <span class="text-on-surface font-medium">SF-2921</span></span>
+</div>
+<div class="bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold text-on-tertiary-fixed uppercase tracking-tighter self-center">
+                    Top Rated
+                </div>
+</div>
+</section>
+<!-- Order Summary Mini Bento -->
+<section class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Your Order</p>
+<p class="text-sm font-bold text-on-surface truncate">Truffle Mushroom Risotto + 2 more</p>
+<p class="text-xs text-zinc-500 mt-1">$54.20 • Paid via Apple Pay</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Delivery To</p>
+<p class="text-sm font-bold text-on-surface truncate">1042 Market St, Apt 4B</p>
+<p class="text-xs text-zinc-500 mt-1">Leave at the front door</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] rounded-t-[2rem] z-50 flex justify-around items-center px-4 pb-safe">
+<button class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="restaurant_menu">restaurant_menu</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Menu</span>
+</button>
+<button class="flex flex-col items-center justify-center text-red-600 dark:text-red-400 font-bold scale-110 transition-transform">
+<span class="material-symbols-outlined" data-icon="receipt_long" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 active:scale-90 transition-all">
+<div class="relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-red-600 rounded-full"></span>
+</div>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Notifications</span>
+</button>
+<button class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="person_outline">person_outline</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide">Profile</span>
+</button>
+</nav>
+</body></html>

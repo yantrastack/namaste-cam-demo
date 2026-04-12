@@ -1,0 +1,228 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Notifications - Culinary Editorial</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be_Vietnam_Pro:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#f8f9fa",
+              "primary-container": "#e2241f",
+              "primary-fixed-dim": "#ffb4aa",
+              "secondary-fixed-dim": "#bdc7d9",
+              "on-primary-fixed-variant": "#930005",
+              "on-secondary-fixed-variant": "#3d4756",
+              "outline-variant": "#e7bdb7",
+              "on-secondary-fixed": "#121c2a",
+              "error-container": "#ffdad6",
+              "secondary": "#555f6f",
+              "surface": "#f8f9fa",
+              "surface-tint": "#c0000a",
+              "tertiary-fixed": "#ffe171",
+              "primary": "#bc000a",
+              "tertiary": "#705d00",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#d9e3f6",
+              "surface-bright": "#f8f9fa",
+              "surface-container-low": "#f3f4f5",
+              "on-error": "#ffffff",
+              "on-tertiary-container": "#4c3e00",
+              "inverse-on-surface": "#f0f1f2",
+              "on-secondary-container": "#596373",
+              "surface-dim": "#d9dadb",
+              "on-surface-variant": "#5d3f3b",
+              "on-primary-fixed": "#410001",
+              "on-primary-container": "#fffbff",
+              "surface-variant": "#e1e3e4",
+              "surface-container-high": "#e7e8e9",
+              "tertiary-container": "#caa900",
+              "on-tertiary-fixed": "#221b00",
+              "on-tertiary-fixed-variant": "#554600",
+              "on-primary": "#ffffff",
+              "on-tertiary": "#ffffff",
+              "surface-container": "#edeeef",
+              "outline": "#926f6a",
+              "surface-container-highest": "#e1e3e4",
+              "on-background": "#191c1d",
+              "on-surface": "#191c1d",
+              "primary-fixed": "#ffdad5",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#ffb4aa",
+              "secondary-container": "#d6e0f3",
+              "on-error-container": "#93000a",
+              "tertiary-fixed-dim": "#e9c400",
+              "inverse-surface": "#2e3132",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .tap-highlight-none { -webkit-tap-highlight-color: transparent; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen pb-32">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="tap-highlight-none active:scale-95 duration-200 text-zinc-500" style="">
+<span class="material-symbols-outlined" data-icon="menu" style="">menu</span>
+</button>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl text-red-600 dark:text-red-500" style="">Namaste Cam</h1>
+</div>
+<div class="h-10 w-10 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Professional headshot of a smiling user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2G8Ya3DmG_DvNSfqzOFyJKNuwrC6ntbFiniUI5_ivsRxy6CunMgZvBNexcclbB33IAaiW8gBFUffMqXEfcHTEQZmRvrTcWS8q-975Jf4M1p5_Faw6dET-5uSE6BYYALD3fBLvj-DxXzDE0TYByXH3e7ZOkz5A03nM_Hh4WNwXRmuIyEiYeXWIhY_lFfnOrlD04sGKtavhX_a6VJylOHpDmm_YEuB4eBd1cwDlQqEHpg8ai7QTyECLEB85lABSHZkg9502Zw4Y1yY" style="">
+</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Header Section -->
+<div class="mb-8">
+<h2 class="font-headline font-extrabold text-3xl tracking-tight mb-2" style="">Notifications</h2>
+<p class="font-body text-on-surface-variant text-sm" style="">Stay updated with your latest culinary experiences.</p>
+</div>
+<!-- Filter Chips (Editorial Style) -->
+<div class="flex gap-2 mb-8 overflow-x-auto pb-2 no-scrollbar">
+<button class="px-5 py-2 rounded-full bg-primary text-on-primary text-sm font-semibold whitespace-nowrap" style="">All updates</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant text-sm font-medium whitespace-nowrap" style="">Orders</button>
+<button class="px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant text-sm font-medium whitespace-nowrap" style="">Promotions</button>
+</div>
+<!-- Notifications Feed -->
+<div class="space-y-4">
+<!-- Unread Notification (Asymmetric Layering Intent) -->
+<div class="group relative bg-surface-container-lowest p-5 rounded-xl transition-all hover:shadow-md border-l-4 border-primary">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="restaurant" style="">restaurant</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline font-bold text-base leading-tight" style="">Your order is being prepared</h3>
+<span class="text-[10px] font-semibold text-primary uppercase tracking-wider" style="">Just Now</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3" style="">Chef Antonio is hand-crafting your Rigatoni Carbonara. Expected arrival in 25 mins.</p>
+<div class="flex gap-3">
+<button class="text-primary text-xs font-bold hover:opacity-80 transition-opacity" style="">Track Live</button>
+<button class="text-on-surface-variant text-xs font-medium hover:opacity-80 transition-opacity" style="">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Promotion Bento-style Notification -->
+<div class="bg-surface-container-low p-5 rounded-xl transition-all">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-fixed" data-icon="star" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline font-bold text-base leading-tight" style="">Editorial Pick: 30% Off</h3>
+<span class="text-[10px] font-medium text-on-secondary-container" style="">2 hours ago</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed" style="">Try our curated "Summer Truffle" collection at Le Bernardin with an exclusive editor's discount.</p>
+</div>
+</div>
+<div class="mt-4 rounded-lg overflow-hidden h-32 relative">
+<img alt="Gourmet Dish" class="w-full h-full object-cover" data-alt="Exquisite truffle pasta dish with garnishes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDZK3tdQTZotJ_jiwyi1FE0lWmrSoNlpbsjF_QfzbIpIsSj3qfheRwjWdNIb3OC6Wze4kL6xmuQuia3OXj0jb3WZeYigdASjQwvhu5khgEylKbKbrQvlsn329yENOlEB2TJYQp7xZFPxOzQAZTMwgwVR0CUYrTuzazRSE-KJ1Tn9tfEM6EXM64qF0WAq6T3VynWFjcn03R-uuQEXuCenzfrDWCUBLldsPpkuksUtqL4fP9ZxTtZbqn0zBt4XLdmNNZqrTbXG5kG3o" style="">
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-3">
+<span class="text-white text-xs font-bold" style="">LIMITED TIME OFFER</span>
+</div>
+</div>
+</div>
+<!-- Standard List Update (No Borders, Spacing used) -->
+<div class="bg-surface-container-lowest p-5 rounded-xl">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="receipt_long" style="">receipt_long</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline font-bold text-base leading-tight" style="">Order Delivered</h3>
+<span class="text-[10px] font-medium text-on-secondary-container" style="">Yesterday</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed" style="">Hope you enjoyed your meal from 'The Parisian Bistro'. Would you like to leave a review?</p>
+<div class="mt-3 flex gap-2">
+<button class="bg-surface-container-high px-4 py-1.5 rounded-full text-xs font-semibold" style="">Rate Meal</button>
+<button class="bg-surface-container-high px-4 py-1.5 rounded-full text-xs font-semibold" style="">Reorder</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Promotion -->
+<div class="bg-surface-container-lowest p-5 rounded-xl">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="notifications" style="">notifications</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-headline font-bold text-base leading-tight" style="">New Restaurant Near You</h3>
+<span class="text-[10px] font-medium text-on-secondary-container" style="">2 days ago</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed" style="">'Sakura Sushi' just joined Culinary Editorial. Be among the first to taste their signature Wagyu rolls.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- View Archive -->
+<div class="mt-12 text-center pb-8">
+<button class="font-headline font-bold text-primary text-sm tracking-wide uppercase" style="">View Older Notifications</button>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full h-20 flex justify-around items-center px-4 pb-safe bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] rounded-t-[2rem] z-50">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all duration-300 active:scale-90" href="#" style="">
+<span class="material-symbols-outlined mb-1" data-icon="home" style="">home</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Home</span>
+</a>
+<!-- Menu -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all duration-300 active:scale-90" href="#" style="">
+<span class="material-symbols-outlined mb-1" data-icon="restaurant_menu" style="">restaurant_menu</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Menu</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all duration-300 active:scale-90" href="#" style="">
+<span class="material-symbols-outlined mb-1" data-icon="receipt_long" style="">receipt_long</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Orders</span>
+</a>
+<!-- Notifications (ACTIVE) -->
+<a class="flex flex-col items-center justify-center text-red-600 dark:text-red-400 font-bold scale-110 transition-transform active:scale-90" href="#" style="">
+<span class="material-symbols-outlined mb-1" data-icon="notifications" style="font-variation-settings: &quot;FILL&quot; 1;">notifications</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Notifications</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-zinc-400 dark:text-zinc-500 hover:text-red-500 transition-all duration-300 active:scale-90" href="#" style="">
+<span class="material-symbols-outlined mb-1" data-icon="person_outline" style="">person_outline</span>
+<span class="font-['Be_Vietnam_Pro'] text-[10px] font-medium tracking-wide" style="">Profile</span>
+</a>
+</nav>
+<!-- Floating Filter (Secondary Contextual Control) -->
+<div class="fixed bottom-28 right-6">
+<button class="w-14 h-14 bg-primary rounded-full shadow-lg flex items-center justify-center text-white active:scale-90 transition-transform duration-200" style="">
+<span class="material-symbols-outlined" data-icon="tune" style="">tune</span>
+</button>
+</div>
+</body></html>
