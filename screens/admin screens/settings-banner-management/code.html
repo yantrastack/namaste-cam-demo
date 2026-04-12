@@ -1,0 +1,332 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Settings | Namaste Cambridge Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-error": "#FFFFFF",
+                "inverse-surface": "#2E3132",
+                "on-tertiary-fixed-variant": "#554600",
+                "on-tertiary-container": "#4C3E00",
+                "on-primary": "#FFFFFF",
+                "surface": "#F8F9FA",
+                "secondary-container": "#D6E0F3",
+                "inverse-on-surface": "#F0F1F2",
+                "error": "#BA1A1A",
+                "on-tertiary": "#FFFFFF",
+                "tertiary-fixed": "#FFE171",
+                "surface-tint": "#C0000A",
+                "on-secondary-fixed-variant": "#3D4756",
+                "surface-container": "#EDEEEF",
+                "outline-variant": "#E7BDB7",
+                "primary-fixed-dim": "#FFB4AA",
+                "on-secondary": "#FFFFFF",
+                "on-primary-fixed-variant": "#930005",
+                "background": "#F8F9FA",
+                "primary": "#BC000A",
+                "surface-container-high": "#E7E8E9",
+                "secondary-fixed": "#D9E3F6",
+                "on-secondary-fixed": "#121C2A",
+                "on-secondary-container": "#596373",
+                "primary-fixed": "#FFDAD5",
+                "on-primary-container": "#FFFBFF",
+                "tertiary": "#705D00",
+                "on-tertiary-fixed": "#221B00",
+                "secondary": "#555F6F",
+                "on-surface-variant": "#5D3F3B",
+                "surface-container-lowest": "#FFFFFF",
+                "on-background": "#191C1D",
+                "inverse-primary": "#FFB4AA",
+                "tertiary-container": "#CAA900",
+                "on-error-container": "#93000A",
+                "surface-variant": "#E1E3E4",
+                "secondary-fixed-dim": "#BDC7D9",
+                "surface-dim": "#D9DADB",
+                "error-container": "#FFDAD6",
+                "outline": "#926F6A",
+                "tertiary-fixed-dim": "#E9C400",
+                "surface-container-low": "#F3F4F5",
+                "surface-container-highest": "#E1E3E4",
+                "primary-container": "#E2241F",
+                "on-primary-fixed": "#410001",
+                "surface-bright": "#F8F9FA",
+                "on-surface": "#191C1D"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Be Vietnam Pro"],
+                "label": ["Plus Jakarta Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill-shadow {
+            box-shadow: 0 4px 14px 0 rgba(188, 0, 10, 0.2);
+        }
+        body { font-family: 'Be Vietnam Pro', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r-0 bg-white dark:bg-stone-900 flex flex-col p-4 z-50">
+<div class="mb-8 px-4 py-2">
+<h1 class="text-xl font-extrabold tracking-tighter text-[#BC000A] dark:text-red-500" style="">&nbsp; &nbsp; &nbsp; &nbsp;Namaste Cam</h1>
+<p class="text-xs text-stone-500 uppercase tracking-widest font-bold mt-1" style="">Admin Dashboard</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">shopping_bag</span>
+<span class="" style="">Orders</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">restaurant_menu</span>
+<span class="" style="">Menu</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">group</span>
+<span class="" style="">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">storefront</span>
+<span class="" style="">Restaurants</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">confirmation_number</span>
+<span class="" style="">Coupons</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 dark:text-stone-400 hover:text-[#BC000A] transition-colors hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#" style="">
+<span class="material-symbols-outlined" style="">analytics</span>
+<span class="" style="">Analytics</span>
+</a>
+<!-- Active Tab: Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-[#BC000A] bg-red-50 dark:bg-red-900/20 rounded-full font-bold font-['Plus_Jakarta_Sans'] text-sm tracking-tight active:scale-95 transition-transform duration-150" href="#" style="">
+<span class="material-symbols-outlined" style="">settings</span>
+<span class="" style="">Settings</span>
+</a>
+</nav>
+<div class="mt-auto p-4 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+<button class="w-full py-3 bg-primary text-white rounded-full font-bold text-sm shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform" style="">
+                View Live Site
+            </button>
+</div>
+</aside>
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-stone-900/80 backdrop-blur-md shadow-sm h-16 flex justify-between items-center px-8">
+<div class="flex items-center flex-1 max-w-md">
+<div class="relative w-full group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 group-focus-within:text-primary" style="">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-red-500/20 transition-all" placeholder="Search settings..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-stone-500">
+<button class="hover:text-[#BC000A] transition-all" style=""><span class="material-symbols-outlined" style="">notifications</span></button>
+<button class="hover:text-[#BC000A] transition-all" style=""><span class="material-symbols-outlined" style="">help</span></button>
+<button class="hover:text-[#BC000A] transition-all" style=""><span class="material-symbols-outlined" style="">apps</span></button>
+</div>
+<div class="h-10 w-10 rounded-full overflow-hidden bg-stone-200">
+<img class="w-full h-full object-cover" data-alt="Admin User Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALQV9yQ2-KFM62VwFA1sT3QvG_N1lShdurlMg0RcKR37oZQh2ClLRSZugNbscY9-maM53NGMwQIo3pvyUy6rCrgG1M4p_XTuR3Nqd125iU0yl-t-jpgKdCvOd9JK_GEI4HtSXvuDAKwWdh62bixQo7UMoql8yTL8LDP-ThOuSOSNEsKUEuaS4A-WL8vKGhqGLcPBtxwNpqnNJwCKEH3Nq_dwKPo5Pf6YHxgfXldoBt76o38H5wK2-f6Q4tDju_IjJFbnijSsQmEas" style="">
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 pt-24 p-8 min-h-screen">
+<div class="max-w-7xl mx-auto">
+<header class="mb-10">
+<h2 class="text-3xl font-extrabold tracking-tight text-on-surface mb-2" style="">Platform Configuration</h2>
+<p class="text-stone-500" style="">Manage your global application settings, visuals, and logistics from a single command center.</p>
+</header>
+<div class="flex gap-8">
+<!-- Vertical Tabs -->
+<aside class="w-72 flex-shrink-0">
+<nav class="space-y-2">
+<button class="w-full flex items-center justify-between px-6 py-4 bg-surface-container-lowest rounded-xl shadow-sm border-l-4 border-primary group" style="">
+<span class="font-bold text-on-surface" style="">General Settings</span>
+<span class="material-symbols-outlined text-primary" style="">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-surface-container-high transition-colors rounded-xl text-stone-600 group" style="">
+<span class="font-semibold" style="">Home Screen Banners</span>
+<span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors" style="">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-surface-container-high transition-colors rounded-xl text-stone-600 group" style="">
+<span class="font-semibold" style="">Delivery Zones</span>
+<span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors" style="">arrow_forward_ios</span>
+</button>
+<button class="w-full flex items-center justify-between px-6 py-4 hover:bg-surface-container-high transition-colors rounded-xl text-stone-600 group" style="">
+<span class="font-semibold" style="">Email Templates</span>
+<span class="material-symbols-outlined text-stone-300 group-hover:text-primary transition-colors" style="">arrow_forward_ios</span>
+</button>
+</nav>
+<div class="mt-8 p-6 bg-primary-container/10 rounded-2xl border border-primary/10">
+<span class="material-symbols-outlined text-primary mb-3" style="">security</span>
+<h4 class="font-bold text-primary text-sm mb-1" style="">System Security</h4>
+<p class="text-xs text-stone-600 leading-relaxed" style="">Last configuration backup was performed 4 hours ago. All systems nominal.</p>
+</div>
+</aside>
+<!-- Content Area -->
+<div class="flex-1 space-y-8 pb-20">
+<!-- General Settings Section -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold flex items-center gap-3" style="">
+<span class="material-symbols-outlined text-primary" style="">info</span>
+                                General Settings
+                            </h3>
+<button class="px-6 py-2 bg-primary text-white rounded-full font-bold text-sm shadow-md shadow-primary/20" style="">Save Changes</button>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="space-y-6">
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2" style="">Business Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" type="text" value="Namaste Cambridge">
+</div>
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2" style="">Support Email</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" type="email" value="admin@namastecambridge.co.uk">
+</div>
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2" style="">Global Delivery Fee (£)</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-3 px-4 focus:ring-2 focus:ring-primary/20" step="0.50" type="number" value="3.50">
+</div>
+</div>
+<div class="space-y-6">
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-stone-500 mb-2" style="">Platform Logo</label>
+<div class="flex items-center gap-4 p-4 border-2 border-dashed border-outline-variant/30 rounded-2xl bg-surface-container-low/50">
+<div class="h-16 w-16 rounded-xl bg-white shadow-sm flex items-center justify-center">
+<span class="text-primary font-black text-xs text-center leading-tight" style="">LOGO<br>IMG</span>
+</div>
+<div class="flex-1">
+<p class="text-xs text-stone-500 mb-2" style="">PNG, JPG or SVG. Max 2MB.</p>
+<button class="text-xs font-bold text-primary hover:underline" style="">Replace Logo</button>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl">
+<div>
+<p class="font-bold text-sm" style="">Maintenance Mode</p>
+<p class="text-xs text-stone-500" style="">Disable customer app ordering</p>
+</div>
+<button class="w-12 h-6 bg-stone-300 rounded-full relative transition-colors group" style="">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-all group-hover:left-7 group-hover:bg-primary"></div>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Home Screen Banners Section -->
+<section class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-xl font-bold flex items-center gap-3" style="">
+<span class="material-symbols-outlined text-primary" style="">gallery_thumbnail</span>
+                                    Home Screen Banners
+                                </h3>
+<p class="text-sm text-stone-500 mt-1" style="">Manage promotional carousels visible to app users.</p>
+</div>
+<button class="px-6 py-2 border-2 border-primary text-primary hover:bg-primary hover:text-white transition-colors rounded-full font-bold text-sm flex items-center gap-2" style="">
+<span class="material-symbols-outlined text-lg" style="">add</span>
+                                Upload New Banner
+                            </button>
+</div>
+<div class="space-y-4">
+<!-- Banner Item 1 -->
+<div class="p-4 bg-surface-container-low rounded-2xl flex gap-6 items-start border border-outline-variant/10">
+<div class="w-48 h-28 rounded-xl overflow-hidden flex-shrink-0 relative group">
+<img class="w-full h-full object-cover" data-alt="Promotional Banner showing Neapolitan Pizza" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPvw0rLLkpDlWv4YWkjo3sZMTnjtbm6x8l0gfba2DlSaeW2jwqLLSazFCAdrbxOkMNpiNy2Ap8wOSt71hKiMwjhLkPf6kTVpW7T_Xmpfc6Mz33yUiMrVdAvhhF-B7Zbh7-if5yJhxaSDPQLSem_7I_ylrdAoEuQUC4rvwzwKRbATpcxYWrkrZ0Agl3psVschGfzpw9jUmrA6Q6BZCnC8rm8WKYBrX92zI9iIxan05Z6ErIhsP5_zCb_a_CBs4xqYdgYkwRcE7uEHU" style="">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 p-2 rounded-full" style=""><span class="material-symbols-outlined text-primary" style="">edit</span></button>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-3 gap-4">
+<div class="col-span-2 space-y-3">
+<div class="flex gap-4">
+<div class="flex-1">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Banner Title</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="text" value="Authentic Italian Pizzas">
+</div>
+<div class="w-24">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Sort Order</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="number" value="1">
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Link URL</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="text" value="namaste://category/pizza">
+</div>
+</div>
+<div class="flex flex-col justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="text-xs font-semibold text-stone-600" style="">Active</span>
+<button class="w-10 h-5 bg-primary rounded-full relative" style="">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</button>
+</div>
+<button class="text-error hover:bg-error/10 p-2 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Banner Item 2 -->
+<div class="p-4 bg-surface-container-low rounded-2xl flex gap-6 items-start border border-outline-variant/10">
+<div class="w-48 h-28 rounded-xl overflow-hidden flex-shrink-0 relative group">
+<img class="w-full h-full object-cover" data-alt="Seasonal Summer Menu Banner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr76XciCo1fVzDGrF2sArSsg8UNTT0pCL2ZPg8F9GOH2BAvk7FFkGJ2tX5dyv406ZSQGVd0gE77sqJABp4XVjIJS4Kij077ijQoermeB3vwbnoQoEhWxgvt-gLgLM1S8n7LUQCUzyIvNyO-Y1oeGMWs3a2xY68Ekgaola59I10HjpEp4B2sgSrUKWSiNXZLfs_-ujQeOR69_U3PXFChGTuYJKHFdtMHoo3BBtmda-Cag5AhBuekQ-Po-H4GJQqiG6QL5e22lOUyT8" style="">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+<button class="bg-white/90 p-2 rounded-full" style=""><span class="material-symbols-outlined text-primary" style="">edit</span></button>
+</div>
+</div>
+<div class="flex-1 grid grid-cols-3 gap-4">
+<div class="col-span-2 space-y-3">
+<div class="flex gap-4">
+<div class="flex-1">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Banner Title</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="text" value="Summer Salad Fest">
+</div>
+<div class="w-24">
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Sort Order</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="number" value="2">
+</div>
+</div>
+<div>
+<label class="block text-[10px] font-bold uppercase tracking-widest text-stone-500 mb-1" style="">Link URL</label>
+<input class="w-full bg-white border-none rounded-lg text-sm py-2 px-3 focus:ring-1 focus:ring-primary/20" type="text" value="namaste://campaign/summer-fest">
+</div>
+</div>
+<div class="flex flex-col justify-between items-end">
+<div class="flex items-center gap-2">
+<span class="text-xs font-semibold text-stone-600" style="">Active</span>
+<button class="w-10 h-5 bg-primary rounded-full relative" style="">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</button>
+</div>
+<button class="text-error hover:bg-error/10 p-2 rounded-lg transition-colors" style="">
+<span class="material-symbols-outlined" style="">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Global FAB Overlay (Suppressed as per rules for Details/Settings, but added secondary task action if needed) -->
+<!-- Not visible due to suppressor rule -->
+</body></html>
