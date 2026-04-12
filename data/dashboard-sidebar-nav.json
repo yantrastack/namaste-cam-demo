@@ -9,43 +9,87 @@
     },
     {
       "id": "restaurant-management",
-      "label": "Restaurant Management",
+      "label": "Partner restaurants",
       "icon": "storefront",
       "children": [
         {
           "id": "restaurant-list",
-          "label": "List",
-          "icon": "list_alt",
+          "label": "Partner directory",
+          "icon": "apartment",
           "href": "/restaurants"
         },
         {
           "id": "restaurant-create",
-          "label": "Create (Edit)",
-          "icon": "edit_square",
+          "label": "Register new restaurant",
+          "icon": "add_business",
           "href": "/restaurants/new"
+        }
+      ]
+    },
+    {
+      "id": "menu",
+      "label": "Menu",
+      "icon": "restaurant_menu",
+      "children": [
+        {
+          "id": "menu-overview",
+          "label": "Overview",
+          "icon": "menu_book",
+          "href": "/menu"
+        },
+        {
+          "id": "menu-new-product",
+          "label": "Add product",
+          "icon": "add",
+          "href": "/menu/new"
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "label": "Delivery",
+      "icon": "local_shipping",
+      "children": [
+        {
+          "id": "delivery-assign",
+          "label": "Assign orders",
+          "icon": "assignment_ind",
+          "href": "/delivery/assign"
+        },
+        {
+          "id": "delivery-routes",
+          "label": "Optimized routes",
+          "icon": "route",
+          "href": "/delivery/routes"
+        },
+        {
+          "id": "delivery-overview",
+          "label": "Area & status",
+          "icon": "map",
+          "href": "/delivery/overview"
         }
       ]
     },
     {
       "id": "orders",
       "label": "Orders",
-      "icon": "receipt_long",
+      "icon": "shopping_cart",
       "children": [
         {
           "id": "orders-list",
-          "label": "List",
-          "icon": "list_alt",
+          "label": "Active orders",
+          "icon": "pending_actions",
           "href": "/orders"
         },
         {
           "id": "orders-create",
-          "label": "Create",
-          "icon": "add_circle",
+          "label": "New restaurant order",
+          "icon": "add_shopping_cart",
           "href": "/orders/create"
         },
         {
           "id": "orders-history",
-          "label": "History",
+          "label": "Order history",
           "icon": "history",
           "href": "/orders/history"
         }

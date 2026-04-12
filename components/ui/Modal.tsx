@@ -10,6 +10,10 @@ export type ModalProps = {
   description?: string;
   children?: ReactNode;
   className?: string;
+  /** When true, dialog shell has no default padding (layout owns spacing). */
+  unpadded?: boolean;
+  /** Scrim behind the dialog (defaults to a dim neutral veil). */
+  backdropClassName?: string;
 };
 
 export function Modal({
@@ -19,6 +23,8 @@ export function Modal({
   description,
   children,
   className,
+  unpadded,
+  backdropClassName,
 }: ModalProps) {
   useEffect(() => {
     if (!open) return;
@@ -39,14 +45,18 @@ export function Modal({
       <button
         type="button"
         aria-label="Close dialog"
-        className="absolute inset-0 bg-stone-900/40 backdrop-blur-sm"
+        className={cn(
+          "absolute inset-0",
+          backdropClassName ?? "bg-stone-900/40 backdrop-blur-sm",
+        )}
         onClick={onClose}
       />
       <div
         role="dialog"
         aria-modal="true"
         className={cn(
-          "relative z-[101] w-full max-w-sm rounded-xl border border-outline-variant/10 bg-surface-container-lowest p-8 shadow-xl",
+          "relative z-[101] w-full max-w-sm rounded-xl border border-outline-variant/10 bg-surface-container-lowest shadow-xl",
+          !unpadded && "p-8",
           className,
         )}
       >

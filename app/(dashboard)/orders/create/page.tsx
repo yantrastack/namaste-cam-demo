@@ -1,12 +1,31 @@
+import Link from "next/link";
+import { MaterialIcon } from "@/components/MaterialIcon";
+import { OrderBillEditorClient } from "@/components/orders/OrderBillEditorClient";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Card } from "@/components/ui/Card";
+import { emptyDraftOrder } from "@/lib/orders-restaurant-data";
 
 export default function OrderCreatePage() {
+  const draft = emptyDraftOrder();
+
   return (
-    <PageContainer title="Create order" description="Start a new order on behalf of a customer.">
-      <Card className="p-6">
-        <p className="font-medium text-secondary">Create order placeholder.</p>
-      </Card>
+    <PageContainer
+      breadcrumbs={
+        <nav className="flex flex-wrap items-center gap-2" aria-label="Breadcrumb">
+          <Link href="/dashboard" className="transition-colors hover:text-primary">
+            Admin
+          </Link>
+          <MaterialIcon name="chevron_right" className="text-sm text-outline" />
+          <Link href="/orders" className="transition-colors hover:text-primary">
+            Orders
+          </Link>
+          <MaterialIcon name="chevron_right" className="text-sm text-outline" />
+          <span className="text-primary">New restaurant order</span>
+        </nav>
+      }
+      title="Create restaurant order"
+      description="Add guests, build the ticket from the catalog, and reconcile split payments."
+    >
+      <OrderBillEditorClient mode="create" initial={draft} />
     </PageContainer>
   );
 }

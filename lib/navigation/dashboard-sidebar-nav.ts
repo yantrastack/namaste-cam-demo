@@ -23,7 +23,13 @@ export type DashboardSidebarNavFile = {
 export const dashboardSidebarNav = raw as DashboardSidebarNavFile;
 
 export function isNavLeafActive(href: string, pathname: string): boolean {
-  return pathname === href;
+  if (pathname === href) return true;
+  if (href === "/orders") {
+    if (pathname.startsWith("/orders/create")) return false;
+    if (pathname.startsWith("/orders/history")) return false;
+    if (pathname.startsWith("/orders/")) return true;
+  }
+  return false;
 }
 
 export function isNavGroupActive(
