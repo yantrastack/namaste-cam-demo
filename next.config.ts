@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+<<<<<<< Updated upstream
+=======
+  // Allow browser preview proxy to connect for development
+>>>>>>> Stashed changes
   allowedDevOrigins: ['127.0.0.1'],
 };
 
