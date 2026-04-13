@@ -1,0 +1,740 @@
+{
+  "restaurant": {
+    "name": "Namaste Cambridge",
+    "tagline": "A Culinary Journey to India",
+    "address": "43 Clifton Road, Cambridge, CB1 7ED, UK",
+    "phone": "01223660624",
+    "mobile": ["07778688558", "07584325691"],
+    "email": "namaste.cambridge19@gmail.com",
+    "website": "https://namastecam.co.uk",
+    "google_maps": "https://www.google.com/maps/dir/my+location/Namaste+Cambridge/@52.1927206,0.1366643,17z",
+    "facebook": "https://www.facebook.com/NamasteCambridge",
+    "cuisine": "Indian",
+    "payment_modes": ["Cash", "Online", "Card on collection or delivery"],
+    "opening_hours": {
+      "monday":    { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "tuesday":   { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "wednesday": { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "thursday":  { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "friday":    { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "saturday":  { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" },
+      "sunday":    { "delivery": "18:00 - 23:00", "collection": "11:00 - 23:00" }
+    },
+    "lunch_delivery": {
+      "areas": "CB1 to CB5 and nearby areas",
+      "available": "11:30 AM – 2:00 PM"
+    },
+    "allergy_notice": "Food items may contain ginger, garlic, dairy products, nuts, coconut, eggs, sesame seeds, and other Indian spices. Contact for itemized allergy details.",
+    "image_cdn_base": "https://tptcdnstorage.blob.core.windows.net/"
+  },
+  "menu": [
+    {
+      "category": "Wing Station",
+      "category_id": "STARTERS_WINGS",
+      "items": [
+        {
+          "id": "WINGS_001",
+          "name": "Buttery Classic Wings",
+          "description": "Crispy wings tossed in smooth butter and gentle seasoning — comfort food done right.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.49, "currency": "GBP" }],
+          "base_price_gbp": 5.49,
+          "available": true
+        },
+        {
+          "id": "WINGS_002",
+          "name": "Desi Chilli Butter Wings",
+          "description": "Juicy wings coated in buttery sweet chilli sauce and Indian chilli flakes — a desi twist on the classic sweet and spicy flavour.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.49, "currency": "GBP" }],
+          "base_price_gbp": 5.49,
+          "available": true
+        },
+        {
+          "id": "WINGS_003",
+          "name": "Green Chilli Blaze Wings",
+          "description": "Tender wings glazed with our signature green chilli butter sauce — earthy, vibrant, and irresistibly hot.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1608039858788-667850f129f8?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.49, "currency": "GBP" }],
+          "base_price_gbp": 5.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Starters",
+      "category_id": "STARTERS",
+      "items": [
+        {
+          "id": "STR_001",
+          "name": "Punjabi Samosa (2pcs)",
+          "description": "A deep fried pastry with a spiced filling made with potatoes, spices and herbs.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
+          "base_price_gbp": 3.49,
+          "available": true
+        },
+        {
+          "id": "STR_002",
+          "name": "Schezwan Gobi",
+          "description": "Deliciously crispy cauliflower tossed in a bold and spicy Schezwan sauce, packed with flavors of garlic, ginger, and chili.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "STR_003",
+          "name": "Chicken 65 (Wet)",
+          "description": "Crispy, deep-fried, marinated chicken chunks tossed in a tangy, spicy yogurt-based masala with curry leaves, ginger, garlic, and red chili.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1610057099431-d73a1c9d2f2f?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "STR_004",
+          "name": "Tandoori Chicken - 1 Leg Piece",
+          "description": "Chicken Leg (Thigh and Drumstick) marinated with spices and cooked in Tandoori oven.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
+          "base_price_gbp": 3.49,
+          "available": true
+        },
+        {
+          "id": "STR_005",
+          "name": "Chicken Manchuria",
+          "description": "Deep fried corn flour coated boneless chicken, sautéed with spices.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Tiffins",
+      "category_id": "TIFFINS",
+      "items": [
+        {
+          "id": "TIF_001",
+          "name": "Utappam (2pcs) with Peanut Chutney",
+          "description": "Uttappam is kind of dosa but thick and soft — tastes amazing with our special chutney. 2 pcs of Uttappam served with Peanut chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 6.99, "currency": "GBP" }],
+          "base_price_gbp": 6.99,
+          "available": true
+        },
+        {
+          "id": "TIF_002",
+          "name": "Ghee Kaaram Idli with Chutney",
+          "description": "Idly given ghee mixed with a powder made of roasted dhania, jeera, dry chilli and garlic.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 6.49, "currency": "GBP" }],
+          "base_price_gbp": 6.49,
+          "available": true
+        },
+        {
+          "id": "TIF_003",
+          "name": "Idli with Chutney",
+          "description": "4 pcs of idli served with peanut chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1630409346824-4f0e7b080087?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.99, "currency": "GBP" }],
+          "base_price_gbp": 5.99,
+          "available": true
+        },
+        {
+          "id": "TIF_004",
+          "name": "Idli with Chutney and Sambar",
+          "description": "Savoury rice cakes made by steaming a batter of fermented black lentils and rice. Served with sambar and peanut chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 7.99, "currency": "GBP" }],
+          "base_price_gbp": 7.99,
+          "available": true
+        },
+        {
+          "id": "TIF_005",
+          "name": "Medu Vada (Peanut Chutney)",
+          "description": "Crispy South Indian lentil doughnuts served with peanut chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.99, "currency": "GBP" }],
+          "base_price_gbp": 5.99,
+          "available": true
+        },
+        {
+          "id": "TIF_006",
+          "name": "Mysore Bonda (4pcs) with Peanut Chutney",
+          "description": "Deep fried Maida, rice flour, chillies etc. Served with peanut chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 6.49, "currency": "GBP" }],
+          "base_price_gbp": 6.49,
+          "available": true
+        },
+        {
+          "id": "TIF_007",
+          "name": "Mysore Bonda (4pcs) with Tomato Chutney",
+          "description": "Deep fried Maida, rice flour, chillies etc. Served with tomato chutney.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1599490659213-e2b9527bd087?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 7.49, "currency": "GBP" }],
+          "base_price_gbp": 7.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Naans & Roti",
+      "category_id": "NAANS",
+      "items": [
+        {
+          "id": "NAN_001",
+          "name": "Butter Naan",
+          "description": "Yeasted dough rolled into flatbreads and cooked traditionally in a tandoor clay oven. Brushed with butter.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.49, "currency": "GBP" }],
+          "base_price_gbp": 2.49,
+          "available": true
+        },
+        {
+          "id": "NAN_002",
+          "name": "Chapatis (2 Big pcs)",
+          "description": "Wheat flour flat bread made with top quality wheat flour. Goes with curries and dal.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.99, "currency": "GBP" }],
+          "base_price_gbp": 3.99,
+          "available": true
+        },
+        {
+          "id": "NAN_003",
+          "name": "Chilli and Coriander Naan",
+          "description": "Freshly made green chilli and coriander naan. Goes very well with curries and starters. Contains butter and milk.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1619221882220-947b3d3c8861?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.99, "currency": "GBP" }],
+          "base_price_gbp": 2.99,
+          "available": true
+        },
+        {
+          "id": "NAN_004",
+          "name": "Garlic Naan",
+          "description": "Freshly made garlic naan. Goes very well with curries and starters. Contains garlic and milk.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.99, "currency": "GBP" }],
+          "base_price_gbp": 2.99,
+          "available": true
+        },
+        {
+          "id": "NAN_005",
+          "name": "Paneer Paratha",
+          "description": "Stuffed Indian flatbread filled with spiced paneer.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
+          "base_price_gbp": 3.49,
+          "available": true
+        },
+        {
+          "id": "NAN_006",
+          "name": "Tandoori Butter Roti (2pcs)",
+          "description": "Butter roti made of wheat flour in a tandoori pot, finished with melting butter.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.99, "currency": "GBP" }],
+          "base_price_gbp": 3.99,
+          "available": true
+        },
+        {
+          "id": "NAN_007",
+          "name": "Tandoori Roti (2pcs)",
+          "description": "Freshly made with wheat flour and cooked in a Tandoori oven. Nice and tasty, goes with curries and dal.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
+          "base_price_gbp": 3.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Mains - Fry",
+      "category_id": "MAINS_FRY",
+      "items": [
+        {
+          "id": "FRY_001",
+          "name": "Cabbage Carrot Stir Fry",
+          "description": "A simple and healthy stir fry with cabbage and carrot.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80",
+          "variants": [
+            { "size": "Regular", "price_gbp": 6.49, "currency": "GBP" }
+          ],
+          "base_price_gbp": 6.49,
+          "available": true
+        },
+        {
+          "id": "FRY_002",
+          "name": "Chicken Fry (On Bone) Spicy",
+          "description": "Chicken cooked in masala gravy and fried till end to retain the aroma and taste.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1598103442097-8b74394b95c8?w=400&q=80",
+          "variants": [
+            { "size": "Regular", "price_gbp": 8.49, "currency": "GBP" },
+            { "size": "Small", "price_gbp": 4.25, "currency": "GBP" }
+          ],
+          "base_price_gbp": 8.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Combos",
+      "category_id": "COMBOS",
+      "items": [
+        {
+          "id": "CMB_001",
+          "name": "NC Veg Meal",
+          "description": "A wholesome vegetarian meal including chapathi, rice, dal, and a daily special vegetable fry. Served with a soft drink or salad.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 6.99, "currency": "GBP" }],
+          "base_price_gbp": 6.99,
+          "available": true
+        },
+        {
+          "id": "CMB_002",
+          "name": "NC Non-Veg Meal",
+          "description": "A wholesome non-vegetarian meal including chapathi, rice, Chicken Curry, Chicken Fry. Served with a soft drink.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 7.99, "currency": "GBP" }],
+          "base_price_gbp": 7.99,
+          "available": true
+        },
+        {
+          "id": "CMB_003",
+          "name": "Veg Biryani with Chicken Curry (On Bone)",
+          "description": "Veg biryani served with chicken curry making your biryani even tastier.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 10.99, "currency": "GBP" }],
+          "base_price_gbp": 10.99,
+          "available": true
+        },
+        {
+          "id": "CMB_004",
+          "name": "Combo Golconda Chicken Biryani",
+          "description": "Includes: 1000ml Biryani Box, 8oz Mirchi ka Salan, Raita, and 1 Drink.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 11.99, "currency": "GBP" }],
+          "base_price_gbp": 11.99,
+          "available": true
+        },
+        {
+          "id": "CMB_005",
+          "name": "Veg Biryani with Palak Paneer",
+          "description": "Veg biryani paired with fresh Palak Paneer curry.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 11.99, "currency": "GBP" }],
+          "base_price_gbp": 11.99,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Mains - Curry",
+      "category_id": "MAINS-CURRY",
+      "items": [
+        {
+          "id": "CUR_001",
+          "name": "Sambar",
+          "description": "A South Indian lentil and vegetable stew made with pigeon pea lentils, tamarind and a unique spice blend called sambar powder. Goes with rice.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&q=80",
+          "variants": [
+            { "size": "Regular", "price_gbp": 6.49, "currency": "GBP" },
+            { "size": "Small", "price_gbp": 3.49, "currency": "GBP" }
+          ],
+          "base_price_gbp": 6.49,
+          "available": true
+        },
+        {
+          "id": "CUR_002",
+          "name": "Mixed Veg Kofta (Malai Kofta)",
+          "description": "Deep fried balls (koftas) made with potato, paneer and vegetables dunked in a creamy spiced velvety smooth curry.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1645696301019-35adcc18cae4?w=400&q=80",
+          "variants": [
+            { "size": "Regular", "price_gbp": 8.49, "currency": "GBP" },
+            { "size": "Small", "price_gbp": 4.25, "currency": "GBP" }
+          ],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "CUR_003",
+          "name": "Palak Paneer",
+          "description": "Paneer pieces cooked in fresh spinach gravy and spices.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1631452180539-96aca7d48617?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "CUR_004",
+          "name": "Tomato Dal",
+          "description": "Sautéed tomatoes with boiled lentils and tempered spices.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1546549032-9571cd6b27df?w=400&q=80",
+          "variants": [
+            { "size": "Regular", "price_gbp": 5.99, "currency": "GBP" },
+            { "size": "Small", "price_gbp": 3.00, "currency": "GBP" }
+          ],
+          "base_price_gbp": 5.99,
+          "available": true
+        },
+        {
+          "id": "CUR_005",
+          "name": "Kadai Chicken (Boneless)",
+          "description": "Special recipe. Chicken thighs cooked with capsicum and onions — thick gravy.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "CUR_006",
+          "name": "Kodi Kura on Bone Spicy",
+          "description": "Specialist kodi kura cooked with chicken on bone, tomatoes and spices. Very rich in flavour, goes very well with rice and rotis.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.49, "currency": "GBP" }],
+          "base_price_gbp": 8.49,
+          "available": true
+        },
+        {
+          "id": "CUR_007",
+          "name": "Lamb Curry (On Bone)",
+          "description": "Kitchen special lamb curry. Tender lamb pieces on bone cooked on a slow flame along with spices.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 11.99, "currency": "GBP" }],
+          "base_price_gbp": 11.99,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Mains - Biryani & Rice",
+      "category_id": "MAINS-RICE",
+      "items": [
+        {
+          "id": "RIC_001",
+          "name": "Bagara Rice",
+          "description": "Rice cooked with whole spices. Goes very well with any curry and makes your dinner delicious.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.99, "currency": "GBP" }],
+          "base_price_gbp": 3.99,
+          "available": true
+        },
+        {
+          "id": "RIC_002",
+          "name": "Plain Rice",
+          "description": "Aromatic extra long grain basmati rice.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.49, "currency": "GBP" }],
+          "base_price_gbp": 2.49,
+          "available": true
+        },
+        {
+          "id": "RIC_003",
+          "name": "Veg Dum Biryani (NC Special)",
+          "description": "Our house special veg biryani made in authentic Hyderabadi dum biryani style with many vegetables — broad beans, soya beans, carrots, French beans, potatoes and paneer with rich spices. Comes with raita.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 7.99, "currency": "GBP" }],
+          "base_price_gbp": 7.99,
+          "available": true
+        },
+        {
+          "id": "RIC_004",
+          "name": "Veg Fried Rice",
+          "description": "Basmati rice sautéed with vegetables, onions, spring onions and spices.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.99, "currency": "GBP" }],
+          "base_price_gbp": 5.99,
+          "available": true
+        },
+        {
+          "id": "RIC_005",
+          "name": "Egg Fried Rice",
+          "description": "A simple, comforting dish made with fluffy rice and golden free-range eggs, gently stir-fried until light, fragrant, and well combined.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1516901408385-81b5b4a92a26?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 5.99, "currency": "GBP" }],
+          "base_price_gbp": 5.99,
+          "available": true
+        },
+        {
+          "id": "RIC_006",
+          "name": "Golconda Chicken Dum Biryani",
+          "description": "A special aromatic home ground spices dum biryani made in authentic Hyderabadi style.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 9.49, "currency": "GBP" }],
+          "base_price_gbp": 9.49,
+          "available": true
+        },
+        {
+          "id": "RIC_007",
+          "name": "Chicken Dum Biryani NC Special",
+          "description": "Chicken biryani on bone served with onion and tomato raitha. In the DUM process all the meat, spices and rice cooked together so that the meat infuses its flavours into the rice.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1599043513900-ed6fe01d3833?w=400&q=80",
+          "variants": [{ "size": "Large", "price_gbp": 8.99, "currency": "GBP" }],
+          "base_price_gbp": 8.99,
+          "available": true,
+          "stock_note": "Limited quantity available"
+        },
+        {
+          "id": "RIC_008",
+          "name": "Chicken Fried Rice",
+          "description": "House special fried rice sautéed with onions, peppers and pieces of lightly battered fried chicken with spices.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 6.99, "currency": "GBP" }],
+          "base_price_gbp": 6.99,
+          "available": true
+        },
+        {
+          "id": "RIC_009",
+          "name": "Chicken Fry Piece Biryani (On Bone)",
+          "description": "Bagara rice and chicken fry in one box.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 9.49, "currency": "GBP" }],
+          "base_price_gbp": 9.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Drinks",
+      "category_id": "DRINKS",
+      "items": [
+        {
+          "id": "DRK_001",
+          "name": "Coke Original Glass Bottle",
+          "description": "Classic Coca-Cola in a glass bottle. 330 ml.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80",
+          "volume_ml": 330,
+          "variants": [{ "size": "Regular", "price_gbp": 2.10, "currency": "GBP" }],
+          "base_price_gbp": 2.10,
+          "available": true
+        },
+        {
+          "id": "DRK_002",
+          "name": "Diet Coke Original Glass Bottle",
+          "description": "Diet Coca-Cola in a glass bottle. 330 ml.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400&q=80",
+          "volume_ml": 330,
+          "variants": [{ "size": "Regular", "price_gbp": 1.99, "currency": "GBP" }],
+          "base_price_gbp": 1.99,
+          "available": true
+        },
+        {
+          "id": "DRK_003",
+          "name": "Pepsi Glass Bottle",
+          "description": "Pepsi in a glass bottle. 330 ml.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400&q=80",
+          "volume_ml": 330,
+          "variants": [{ "size": "Regular", "price_gbp": 2.00, "currency": "GBP" }],
+          "base_price_gbp": 2.00,
+          "available": true
+        },
+        {
+          "id": "DRK_004",
+          "name": "Mango Lassi",
+          "description": "Thick yoghurt drink made with mango pulp, yogurt and sugar.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1605197788044-805dfa76a079?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.99, "currency": "GBP" }],
+          "base_price_gbp": 2.99,
+          "available": true
+        },
+        {
+          "id": "DRK_005",
+          "name": "Namaste Chai (Tea)",
+          "description": "Crafted with thick milk, tea powder, black pepper, and cardamom, offering a rich, comforting flavour. Choose between sugar-free or regular. Available for collection only.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&q=80",
+          "collection_only": true,
+          "customisation": ["sugar-free", "regular"],
+          "variants": [{ "size": "Regular", "price_gbp": 2.50, "currency": "GBP" }],
+          "base_price_gbp": 2.50,
+          "available": true
+        },
+        {
+          "id": "DRK_006",
+          "name": "Rose Lemonade",
+          "description": "A refreshing rose-flavoured lemonade drink.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 2.49, "currency": "GBP" }],
+          "base_price_gbp": 2.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Sides",
+      "category_id": "SIDES",
+      "items": [
+        {
+          "id": "SID_001",
+          "name": "Mint Chutney",
+          "description": "Mint (Pudina) chutney — the perfect refreshing side to your breakfast, appetizers and snacks. 4 oz box.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=400&q=80",
+          "quantity": "4 oz",
+          "variants": [{ "size": "Regular", "price_gbp": 1.99, "currency": "GBP" }],
+          "base_price_gbp": 1.99,
+          "available": true
+        },
+        {
+          "id": "SID_002",
+          "name": "Salan (Contains Nuts)",
+          "description": "Popular Hyderabadi side dish made with coconut, peanuts and sesame. A very good side dish for biryani. 8 oz box.",
+          "type": "veg",
+          "allergens": ["nuts", "coconut", "sesame"],
+          "image_url": "https://images.unsplash.com/photo-1626200419199-391ae4be7a41?w=400&q=80",
+          "quantity": "8 oz",
+          "variants": [{ "size": "Regular", "price_gbp": 1.99, "currency": "GBP" }],
+          "base_price_gbp": 1.99,
+          "available": true
+        },
+        {
+          "id": "SID_003",
+          "name": "Tomato Chutney (Spicy)",
+          "description": "Home style spicy tomato chutney. Goes very well with rice, chapathi/naans. Contains nuts. 4 oz box.",
+          "type": "veg",
+          "allergens": ["nuts"],
+          "image_url": "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=400&q=80",
+          "quantity": "4 oz",
+          "variants": [{ "size": "Regular", "price_gbp": 1.90, "currency": "GBP" }],
+          "base_price_gbp": 1.90,
+          "available": true
+        },
+        {
+          "id": "SID_004",
+          "name": "Papad",
+          "description": "Deep fried dough of black gram bean flour, fried until crunchy.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 1.00, "currency": "GBP" }],
+          "base_price_gbp": 1.00,
+          "available": true
+        },
+        {
+          "id": "SID_005",
+          "name": "Raita",
+          "description": "Made with Greek style yogurt, onions and tomatoes.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 1.49, "currency": "GBP" }],
+          "base_price_gbp": 1.49,
+          "available": true
+        },
+        {
+          "id": "SID_006",
+          "name": "Peanut Chutney",
+          "description": "Freshly prepared peanut chutney, a classic South Indian side.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 1.49, "currency": "GBP" }],
+          "base_price_gbp": 1.49,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Desserts",
+      "category_id": "DESSERT",
+      "items": [
+        {
+          "id": "DES_001",
+          "name": "Rava Kesari",
+          "description": "Also known as Kesari Bath — a popular Indian breakfast dessert made of semolina, ghee, saffron, nuts and sugar.",
+          "type": "veg",
+          "image_url": "https://images.unsplash.com/photo-1571197119669-7b8363592fd1?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
+          "base_price_gbp": 3.49,
+          "available": true
+        },
+        {
+          "id": "DES_002",
+          "name": "Luxury Chocolate Fudge Cake with Custard",
+          "description": "Rich, indulgent chocolate fudge cake served with custard. Contains egg.",
+          "type": "veg",
+          "allergens": ["egg"],
+          "image_url": "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 4.99, "currency": "GBP" }],
+          "base_price_gbp": 4.99,
+          "available": true
+        }
+      ]
+    },
+    {
+      "category": "Indo-Chinese",
+      "category_id": "INDO_CHINESE",
+      "items": [
+        {
+          "id": "INC_001",
+          "name": "Chicken Salt n Pepper",
+          "description": "Crispy chicken tossed in a seasoning of salt and pepper, with a burst of spicy flavors.",
+          "type": "non-veg",
+          "image_url": "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?w=400&q=80",
+          "variants": [{ "size": "Regular", "price_gbp": 8.99, "currency": "GBP" }],
+          "base_price_gbp": 8.99,
+          "available": true
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "currency": "GBP",
+    "currency_symbol": "£",
+    "data_source": "namastecam.co.uk",
+    "data_fetched_date": "2026-04-13",
+    "image_source": "Unsplash (temporary placeholders — replace with actual dish photos)",
+    "note": "Image URLs updated to working Unsplash placeholders. Original CDN (tptcdnstorage.blob.core.windows.net/menu-images/) returned 404 — ensure the Azure Blob container has public read access enabled and images are uploaded before switching back.",
+    "total_categories": 11,
+    "total_items": 46
+  }
+}
