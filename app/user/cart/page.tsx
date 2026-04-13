@@ -3,20 +3,46 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MaterialIcon } from '@/components/MaterialIcon'
-import { useToast } from '@/components/ui/Toast'
 import { useCart } from '@/lib/cart/store'
+import { Button } from '@/components/ui/Button'
+
+// Suggestions data
+const suggestions = [
+  {
+    id: 's1',
+    name: 'Gulab Jamun',
+    price: 5.50,
+    image: 'https://images.unsplash.com/photo-1605456768966-27b0c006c19f?w=200',
+  },
+  {
+    id: 's2',
+    name: 'Coke Zero',
+    price: 3.80,
+    image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=200',
+  },
+  {
+    id: 's3',
+    name: "Sparkling Water",
+    price: 3.00,
+    image: 'https://images.unsplash.com/photo-1560023907-5f339617ea30?w=200',
+  },
+]
 
 export default function CartPage() {
   const router = useRouter()
-  const { showToast } = useToast()
-  const { items, updateQuantity, removeItem } = useCart()
-  const [upsellAdded, setUpsellAdded] = useState(false)
+  const { items, updateQuantity, removeItem, addItem } = useCart()
+  const [couponCode, setCouponCode] = useState('')
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null)
 
   const handleQuantityChange = (itemId: string, delta: number) => {
     const item = items.find(i => i.id === itemId)
     if (item) {
-      const newQuantity = Math.max(1, item.quantity + delta)
-      updateQuantity(itemId, newQuantity)
+      const newQuantity = item.quantity + delta
+      if (newQuantity <= 0) {
+        removeItem(itemId)
+      } else {
+        updateQuantity(itemId, newQuantity)
+      }
     }
   }
 
@@ -24,90 +50,165 @@ export default function CartPage() {
     removeItem(itemId)
   }
 
-  const handleNavClick = (nav: string) => {
-    if (nav === 'home') router.push('/user/home')
-    else if (nav === 'menu') router.push('/user/menu')
-    else if (nav === 'orders') router.push('/user/orders')
-    else if (nav === 'notifications') router.push('/user/notifications')
-    else if (nav === 'profile') router.push('/user/profile')
+  const handleAddSuggestion = (suggestion: typeof suggestions[0]) => {
+    addItem({
+      id: suggestion.id,
+      name: suggestion.name,
+      price: suggestion.price,
+      image: suggestion.image,
+    })
   }
 
-  const handleAddUpsell = () => {
-    setUpsellAdded(true)
-    showToast('Signature Aperitif added to cart (Demo mode)', 'success')
+  const handleApplyCoupon = () => {
+    if (couponCode.trim()) {
+      setAppliedCoupon(couponCode.trim().toUpperCase())
+    }
   }
 
   const handleCheckout = () => {
     router.push('/user/checkout')
   }
 
-  const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
-  const deliveryFee = 4.99
-  const tax = subtotal * 0.08
-  const total = subtotal + deliveryFee + tax
+  // Calculate totals
+  const cartTotal = items.reduce((sum, item) => {
+    const originalPrice = item.originalPrice || item.price
+    return sum + (originalPrice * item.quantity)
+  }, 0)
+  
+  const discountedTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+  const promotionalDiscount = cartTotal - discountedTotal
+  
+  // Coupon discount (example: 20% off with WELCOME20)
+  let couponSavings = 0
+  if (appliedCoupon === 'WELCOME20') {
+    couponSavings = discountedTotal * 0.20
+  }
+  
+  const subtotalAfterCoupon = discountedTotal - couponSavings
+  const deliveryFee = 2.99
+  const tax = subtotalAfterCoupon * 0.08
+  const totalPayable = subtotalAfterCoupon + deliveryFee + tax
+  
+  // Calculate progress to next discount
+  const progressPercent = Math.min((totalPayable / 70) * 100, 100)
+  const remainingForDiscount = Math.max(0, 70 - totalPayable)
+
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <div className="min-h-screen bg-surface font-body text-on-surface">
+    <div className="min-h-screen bg-surface font-body text-on-surface pb-40">
       {/* Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm">
-        <div className="flex items-center justify-between px-6 py-4 w-full">
+      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-2xl mx-auto">
           <div className="flex items-center gap-4">
-            <button onClick={() => router.back()} className="active:scale-95 duration-200 text-secondary">
-              <MaterialIcon name="arrow_back" />
+            <button 
+              onClick={() => router.back()} 
+              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95"
+            >
+              <MaterialIcon name="arrow_back" className="text-secondary" />
             </button>
             <h1 className="font-headline font-bold tracking-tight text-xl text-on-surface">
               Your Selection
             </h1>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-on-surface-variant font-medium text-sm">
-              {items.length} Items
-            </span>
-          </div>
+          <span className="text-on-surface-variant font-medium text-sm">
+            {totalItems} Items
+          </span>
         </div>
-      </nav>
+      </header>
 
-      <main className="pt-24 pb-44 px-6 max-w-2xl mx-auto space-y-8">
-        {/* Order List Section */}
-        <section className="space-y-6">
-          <h2 className="font-headline text-2xl font-extrabold tracking-tight">Review Order</h2>
+      <main className="pt-20 px-4 sm:px-6 max-w-2xl mx-auto">
+        {/* Review Order Section */}
+        <section className="py-4">
+          <h2 className="font-headline font-extrabold text-xl tracking-tight mb-4">Review Order</h2>
+          
           <div className="space-y-4">
             {items.map((item) => (
-              <div key={item.id} className="flex gap-4 p-4 bg-surface-container-lowest rounded-xl shadow-sm group">
-                <div className="w-24 h-24 rounded-lg overflow-hidden flex-shrink-0">
+              <div key={item.id} className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-outline-variant/10">
+                {/* Image */}
+                <div className="w-24 h-24 rounded-xl overflow-hidden relative bg-surface-container shrink-0">
                   <img
                     alt={item.name}
                     className="w-full h-full object-cover"
                     src={item.image}
                   />
-                </div>
-                <div className="flex-grow flex flex-col justify-between">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="font-headline font-bold text-lg leading-tight">{item.name}</h3>
+                  {/* Veg/Non-Veg Indicator */}
+                  {item.isVeg !== undefined && (
+                    <div
+                      className={`absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 border-white shadow flex items-center justify-center ${
+                        item.isVeg ? 'bg-green-500' : 'bg-red-500'
+                      }`}
+                    >
+                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
                     </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col min-w-0">
+                  {/* Top Row: Name and Remove Button */}
+                  <div className="flex justify-between items-start gap-2">
+                    <h3 className="font-headline font-bold text-sm leading-tight text-on-surface">{item.name}</h3>
                     <button
                       onClick={() => handleRemoveItem(item.id)}
-                      className="text-secondary hover:text-primary transition-colors"
+                      className="text-secondary hover:text-error transition-colors p-0.5 shrink-0"
                     >
-                      <MaterialIcon name="close" className="text-xl" />
+                      <MaterialIcon name="close" className="text-lg" />
                     </button>
                   </div>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="font-headline font-bold text-primary">${item.price.toFixed(2)}</span>
-                    <div className="flex items-center bg-surface-container-low rounded-full px-2 py-1 gap-4">
+
+                  {/* Description */}
+                  {item.description && (
+                    <p className="text-on-surface-variant text-xs mt-0.5">{item.description}</p>
+                  )}
+
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {(item.discount?.includes('%') || item.discount?.includes('OFF')) && (
+                      <span className="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded">
+                        {item.discount}
+                      </span>
+                    )}
+                    {item.couponApplied && (
+                      <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">
+                        {item.couponApplied}
+                      </span>
+                    )}
+                    {(item.discount?.includes('FREE') || item.price === 0) && (
+                      <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded">
+                        FREE!
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Bottom Row: Price and Quantity */}
+                  <div className="flex justify-between items-center mt-auto pt-3">
+                    {/* Price */}
+                    <div className="flex items-center gap-2">
+                      <span className="font-headline font-bold text-on-surface text-base">
+                        £{item.price.toFixed(2)}
+                      </span>
+                      {item.originalPrice && item.originalPrice > item.price && (
+                        <span className="text-on-surface-variant text-xs line-through">
+                          £{item.originalPrice.toFixed(2)}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Quantity Controls */}
+                    <div className="flex items-center bg-surface-container-high rounded-full px-1 py-1">
                       <button
                         onClick={() => handleQuantityChange(item.id, -1)}
-                        className="w-8 h-8 flex items-center justify-center text-secondary active:scale-90 transition-transform"
+                        className="w-7 h-7 flex items-center justify-center rounded-full text-secondary hover:bg-white active:scale-90 transition-all"
                       >
-                        <MaterialIcon name="remove" className="text-lg" />
+                        <MaterialIcon name="remove" className="text-base" />
                       </button>
-                      <span className="font-headline font-bold text-sm">{item.quantity}</span>
+                      <span className="w-6 text-center font-headline font-bold text-sm">{item.quantity}</span>
                       <button
                         onClick={() => handleQuantityChange(item.id, 1)}
-                        className="w-8 h-8 flex items-center justify-center text-primary active:scale-90 transition-transform"
+                        className="w-7 h-7 flex items-center justify-center rounded-full text-primary hover:bg-white active:scale-90 transition-all"
                       >
-                        <MaterialIcon name="add" className="text-lg" />
+                        <MaterialIcon name="add" className="text-base" />
                       </button>
                     </div>
                   </div>
@@ -117,70 +218,153 @@ export default function CartPage() {
           </div>
         </section>
 
-        {/* Upsell Recommendation */}
-        <section className="p-6 bg-secondary-container rounded-xl flex items-center gap-4">
-          <div className="w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center text-primary shadow-sm">
-            <MaterialIcon name="auto_awesome" />
+        {/* Suggestions Section */}
+        {items.length > 0 && (
+          <section className="py-4 border-t border-outline-variant/20">
+            <h3 className="font-headline font-bold text-sm mb-3">Suggestions</h3>
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+              {suggestions.map((suggestion) => (
+                <div key={suggestion.id} className="flex-shrink-0 w-28">
+                  <div className="w-28 h-28 rounded-xl overflow-hidden bg-surface-container-low mb-2">
+                    <img
+                      src={suggestion.image}
+                      alt={suggestion.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <p className="font-headline font-bold text-xs truncate">{suggestion.name}</p>
+                  <div className="flex items-center justify-between mt-1">
+                    <span className="font-bold text-primary text-xs">£{suggestion.price.toFixed(2)}</span>
+                    <button
+                      onClick={() => handleAddSuggestion(suggestion)}
+                      className="w-6 h-6 bg-primary text-on-primary rounded-full flex items-center justify-center active:scale-90 transition-transform"
+                    >
+                      <MaterialIcon name="add" className="text-sm" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Coupon Code Section */}
+        <section className="py-4 border-t border-outline-variant/20">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              placeholder="Enter coupon code"
+              className="flex-1 h-11 px-4 bg-surface-container-high rounded-full text-sm border-none outline-none focus:ring-2 focus:ring-primary/20"
+            />
+            <button
+              onClick={handleApplyCoupon}
+              className="h-11 px-6 bg-primary text-on-primary rounded-full font-bold text-sm active:scale-95 transition-transform"
+            >
+              Apply
+            </button>
           </div>
-          <div className="flex-grow">
-            <p className="font-headline font-bold text-sm">Complete the experience?</p>
-            <p className="text-on-secondary-container text-xs">Add a Signature Aperitif for only $9.00</p>
-          </div>
-          <button
-            onClick={handleAddUpsell}
-            disabled={upsellAdded}
-            className="bg-primary text-on-primary text-xs font-bold px-4 py-2 rounded-full active:scale-95 transition-transform disabled:opacity-50"
-          >
-            {upsellAdded ? 'ADDED' : 'ADD'}
-          </button>
+          {appliedCoupon && (
+            <p className="text-xs text-green-600 mt-2 font-medium">
+              Coupon {appliedCoupon} applied successfully!
+            </p>
+          )}
         </section>
 
-        {/* Price Breakdown Section */}
-        <section className="space-y-4 pt-4">
-          <div className="flex justify-between text-on-surface-variant">
-            <span className="text-sm">Subtotal</span>
-            <span className="font-headline font-medium">${subtotal.toFixed(2)}</span>
+        {/* Price Breakdown */}
+        <section className="py-4 border-t border-outline-variant/20 space-y-2">
+          <div className="flex justify-between text-on-surface-variant text-sm">
+            <span>Cart Total</span>
+            <span className="font-headline font-medium">£{cartTotal.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-on-surface-variant">
-            <span className="text-sm">Delivery Fee</span>
-            <span className="font-headline font-medium">${deliveryFee.toFixed(2)}</span>
+          
+          {promotionalDiscount > 0 && (
+            <div className="flex justify-between text-green-600 text-sm">
+              <span>Promotional Discounts</span>
+              <span className="font-headline font-medium">-£{promotionalDiscount.toFixed(2)}</span>
+            </div>
+          )}
+          
+          {couponSavings > 0 && (
+            <div className="flex justify-between text-green-600 text-sm">
+              <span>Coupon Savings ({appliedCoupon})</span>
+              <span className="font-headline font-medium">-£{couponSavings.toFixed(2)}</span>
+            </div>
+          )}
+          
+          <div className="flex justify-between text-on-surface-variant text-sm">
+            <span>Delivery Fee</span>
+            <span className="font-headline font-medium">£{deliveryFee.toFixed(2)}</span>
           </div>
-          <div className="flex justify-between text-on-surface-variant">
-            <span className="text-sm">Estimated Tax (8%)</span>
-            <span className="font-headline font-medium">${tax.toFixed(2)}</span>
+          
+          <div className="flex justify-between text-on-surface-variant text-sm">
+            <span>Taxes</span>
+            <span className="font-headline font-medium">£{tax.toFixed(2)}</span>
           </div>
-          <div className="pt-4 mt-2 border-t border-outline-variant/15 flex justify-between items-end">
+          
+          <div className="pt-3 mt-2 border-t border-outline-variant/20 flex justify-between items-end">
             <div>
-              <span className="text-on-surface-variant text-xs uppercase tracking-widest font-bold">Total Amount</span>
-              <p className="font-headline font-extrabold text-3xl text-on-surface mt-1">${total.toFixed(2)}</p>
+              <span className="text-on-surface-variant text-xs uppercase tracking-wider font-bold">Total Payable</span>
+              <p className="font-headline font-extrabold text-2xl text-on-surface mt-1">
+                £{totalPayable.toFixed(2)}
+              </p>
             </div>
-            <div className="text-right">
-              <span className="inline-block bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-black px-2 py-1 rounded-sm">
-                25-35 MINS
-              </span>
-            </div>
+            <span className="inline-block bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-1 rounded-full">
+              30-45 MINS
+            </span>
           </div>
+        </section>
+
+        {/* Discount Progress */}
+        {remainingForDiscount > 0 && (
+          <section className="py-3">
+            <div className="bg-secondary-container rounded-lg p-3">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs text-on-secondary-container">
+                  Add £{remainingForDiscount.toFixed(2)} more for extra 5% off
+                </span>
+              </div>
+              <div className="h-1.5 bg-surface-container-high rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-primary rounded-full transition-all"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Delivery Address */}
+        <section className="py-4 border-t border-outline-variant/20 flex items-center justify-center gap-2 text-on-surface-variant text-xs">
+          <MaterialIcon name="location_on" className="text-sm text-error" />
+          <span>Deliver to <strong>Home (122 Premier Way)</strong></span>
         </section>
       </main>
 
       {/* Fixed Checkout Footer */}
-      <footer className="fixed bottom-0 w-full bg-surface-container-lowest/80 backdrop-blur-xl pt-6 pb-8 px-6 shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50">
-        <div className="max-w-2xl mx-auto space-y-4">
-          {/* Delivery Info Hint */}
-          <div className="flex items-center gap-2 justify-center text-on-surface-variant text-xs mb-2">
-            <MaterialIcon name="location_on" className="text-sm" />
-            <span>Delivering to <strong>Home (122 Premier Way)</strong></span>
-          </div>
-          <button
+      <footer className="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl pt-4 pb-6 px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50">
+        <div className="max-w-2xl mx-auto">
+          <Button
             onClick={handleCheckout}
             disabled={items.length === 0}
-            className="w-full bg-primary text-on-primary font-headline font-bold text-lg py-4 rounded-full flex items-center justify-center gap-3 shadow-lg active:scale-[0.98] transition-all bg-gradient-to-r from-primary to-primary-container disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+            className="w-full h-14 bg-error text-on-primary font-headline font-bold text-base rounded-full shadow-lg shadow-error/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             <span>Proceed to Checkout</span>
-            <MaterialIcon name="arrow_forward" />
-          </button>
+            <MaterialIcon name="arrow_forward" className="text-lg" />
+          </Button>
         </div>
       </footer>
+
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+      `}</style>
     </div>
   )
 }

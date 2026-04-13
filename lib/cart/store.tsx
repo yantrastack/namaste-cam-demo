@@ -6,8 +6,14 @@ export interface CartItem {
   id: string
   name: string
   price: number
+  originalPrice?: number
   quantity: number
   image: string
+  isVeg?: boolean
+  description?: string
+  discount?: string
+  couponApplied?: string
+  mealType?: string[]
 }
 
 interface CartContextType {
