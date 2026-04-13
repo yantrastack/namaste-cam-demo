@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart/store";
+import { ToastProvider } from "@/components/ui/Toast";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
@@ -44,7 +45,9 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full" suppressHydrationWarning>
-        <CartProvider>{children}</CartProvider>
+        <ToastProvider>
+          <CartProvider>{children}</CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );
