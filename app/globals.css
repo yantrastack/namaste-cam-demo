@@ -62,9 +62,9 @@
   --color-outline-variant: #e7bdb7;
 
   /* Radius (playground scale) */
-  --radius-DEFAULT: 1rem;
-  --radius-lg: 2rem;
-  --radius-xl: 3rem;
+  --radius-DEFAULT: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
   --radius-full: 9999px;
 
   /* Typography */
