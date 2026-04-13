@@ -236,7 +236,7 @@ export default function SelectLocationPage() {
         </button>
         <button
           onClick={() => handleBottomNav('profile')}
-          className="flex flex-col items-center justify-center bg-primary/10 text-primary rounded-2xl px-4 py-2 active:scale-90 duration-300 ease-out transition-colors"
+          className="flex flex-col items-center justify-center text-secondary px-4 py-2 hover:text-primary active:scale-90 duration-300 ease-out transition-colors"
         >
           <MaterialIcon icon="person" className="mb-1" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Profile</span>

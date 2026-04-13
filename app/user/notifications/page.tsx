@@ -29,6 +29,10 @@ export default function NotificationsPage() {
     showToast('Rating modal would open here (Demo mode)', 'info')
   }
 
+  const handleRateMeal = () => {
+    showToast('Rating modal would open here (Demo mode)', 'info')
+  }
+
   const handleReorder = () => {
     addItem({
       id: 'reorder-1',
@@ -239,14 +243,6 @@ export default function NotificationsPage() {
           </button>
         </div>
       </main>
-
-      {/* Floating Filter Button */}
-      <button
-        onClick={() => setFilterOpen(!filterOpen)}
-        className="fixed bottom-28 right-6 w-14 h-14 bg-primary rounded-full shadow-lg flex items-center justify-center text-white active:scale-90 transition-transform duration-200 z-40"
-      >
-        <MaterialIcon name="tune" className="text-xl" />
-      </button>
 
       {/* BottomNavBar - Mobile Only */}
       <nav className="fixed bottom-0 left-0 w-full h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-3 z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] md:hidden">

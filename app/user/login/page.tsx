@@ -52,7 +52,7 @@ export default function LoginPage() {
   }
 
   const handleCreateAccount = () => {
-    router.push('/user/register')
+    router.push('/user/create-account')
   }
 
   return (

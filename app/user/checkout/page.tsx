@@ -226,12 +226,23 @@ export default function CheckoutPage() {
                 {items.map((item) => (
                   <div key={item.id} className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-surface-container">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg overflow-hidden bg-surface-container relative">
                         <img
                           className="w-full h-full object-cover"
                           alt={item.name}
                           src={item.image}
                         />
+                        {/* Veg/Non-Veg Indicator */}
+                        {item.isVeg !== undefined && (
+                          <div
+                            className={`absolute -top-1 -right-1 w-4 h-4 rounded-full border-2 border-white shadow-md flex items-center justify-center z-10 ${
+                              item.isVeg ? 'bg-green-500' : 'bg-red-500'
+                            }`}
+                            title={item.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+                          >
+                            <div className="w-1 h-1 bg-white rounded-full" />
+                          </div>
+                        )}
                       </div>
                       <div>
                         <p className="text-xs sm:text-sm font-bold">{item.name}</p>

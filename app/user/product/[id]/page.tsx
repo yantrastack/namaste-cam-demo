@@ -89,7 +89,11 @@ export default function ProductDetailPage() {
               onClick={() => setIsFavorite(!isFavorite)}
               className="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-lowest/80 backdrop-blur shadow-sm active:scale-95 transition-all text-on-surface"
             >
-              <MaterialIcon name={isFavorite ? 'favorite' : 'favorite_border'} />
+              <MaterialIcon
+                name="favorite"
+                filled={isFavorite}
+                className={`${isFavorite ? 'text-orange-600' : 'text-on-surface'}`}
+              />
             </button>
             <button className="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-lowest/80 backdrop-blur shadow-sm active:scale-95 transition-all text-on-surface">
               <MaterialIcon name="share" />
@@ -106,6 +110,15 @@ export default function ProductDetailPage() {
             className="w-full h-full object-cover"
             src={product.image}
           />
+          {/* Veg/Non-Veg Indicator */}
+          <div
+            className={`absolute top-20 right-6 w-8 h-8 rounded-full border-2 border-white shadow-lg flex items-center justify-center z-10 ${
+              product.isVeg ? 'bg-green-500' : 'bg-red-500'
+            }`}
+            title={product.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
+          >
+            <div className="w-3 h-3 bg-white rounded-full" />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
         </section>
 
