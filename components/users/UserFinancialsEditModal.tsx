@@ -64,11 +64,11 @@ export function UserFinancialsEditModal({
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
           <label className={labelClass} htmlFor="fin-wallet">
-            Wallet balance (USD)
+            Wallet balance (GBP)
           </label>
           <div className="relative">
             <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-              $
+              £
             </span>
             <input
               id="fin-wallet"
@@ -83,11 +83,11 @@ export function UserFinancialsEditModal({
         </div>
         <div>
           <label className={labelClass} htmlFor="fin-credit">
-            Credit limit (USD)
+            Credit limit (GBP)
           </label>
           <div className="relative">
             <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-              $
+              £
             </span>
             <input
               id="fin-credit"

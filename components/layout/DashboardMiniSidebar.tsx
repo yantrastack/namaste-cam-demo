@@ -12,10 +12,7 @@ import {
   isNavLeafActive,
 } from "@/lib/navigation/dashboard-sidebar-nav";
 
-/**
- * Persistent collapsible rail (pre–mobile-drawer sidebar) for main dashboard routes.
- * `/users` uses {@link Sidebar} instead so the full user-directory experience stays intact.
- */
+/** Persistent collapsible rail for all dashboard routes, including Users. */
 export function DashboardMiniSidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -75,7 +72,7 @@ export function DashboardMiniSidebar() {
       >
         {!collapsed ? (
           <div className="min-w-0 flex-1 px-1">
-            <p className="font-headline text-lg font-extrabold tracking-tight text-on-surface">
+            <p className="font-headline text-lg font-extrabold tracking-tight text-primary">
               Namaste Cam
             </p>
             <p className="text-xs font-medium uppercase tracking-widest text-secondary">

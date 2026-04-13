@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
+import { MenuProductList } from "@/components/menu";
+import type { MenuDocument } from "@/components/menu/types";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Badge } from "@/components/ui/Badge";
 import type { BadgeTone } from "@/components/ui/Badge";
@@ -21,6 +24,8 @@ import {
 } from "@/components/ui/Table";
 import { Textarea } from "@/components/ui/Textarea";
 import { cn } from "@/lib/cn";
+import { MENU_CATALOG_EVENT, mergeMenuWithLocal } from "@/lib/menu-local-catalog";
+import { buildMenuCatalogByProductId, buildMenuImageUrlByProductId } from "@/lib/order-menu-catalog";
 import {
   COLLECTION_PROMO_PERCENT,
   computeRestaurantBill,
@@ -29,7 +34,6 @@ import {
 } from "@/lib/order-bill-math";
 import type { DiscountMode } from "@/lib/order-bill-math";
 import type {
-  CatalogProduct,
   CheckoutPaymentSummary,
   OrderBillLine,
   OrderCancellationMeta,
@@ -38,8 +42,9 @@ import type {
   PaymentSplitRow,
   RestaurantOrderRecord,
 } from "@/lib/orders-restaurant-data";
-import { getCatalogProduct, getOrderFulfillmentType, RESTAURANT_PRODUCT_CATALOG } from "@/lib/orders-restaurant-data";
+import { getCatalogProduct, getOrderFulfillmentType } from "@/lib/orders-restaurant-data";
 import { readOrderArchivesMap, writeOrderArchive } from "@/lib/order-session-archives";
+import menuDemo from "@/sandbox/menu-demo/menu-data.json";
 
 function categoryTone(category: string): BadgeTone {
   if (category === "Bar") return "info";
@@ -63,6 +68,39 @@ function parseAmount(raw: string) {
   return Number.isFinite(n) ? n : 0;
 }
 
+function OrderLineItemThumbnail({
+  imageUrl,
+  label,
+}: {
+  imageUrl?: string | null;
+  label: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (!imageUrl || failed) {
+    return (
+      <div
+        className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-container-high ring-1 ring-outline-variant/15"
+        aria-hidden
+      >
+        <MaterialIcon name="restaurant" className="text-xl text-secondary" />
+      </div>
+    );
+  }
+  return (
+    <div className="relative size-12 shrink-0 overflow-hidden rounded-full bg-surface-container-high ring-1 ring-outline-variant/15">
+      <Image
+        src={imageUrl}
+        alt={label}
+        fill
+        className="object-cover"
+        sizes="48px"
+        onError={() => setFailed(true)}
+        unoptimized={imageUrl.startsWith("data:")}
+      />
+    </div>
+  );
+}
+
 function inferCheckoutPaymentSummary(order: RestaurantOrderRecord): CheckoutPaymentSummary {
   const nonzero = order.payments.filter((p) => parseAmount(p.amount) > 0.009);
   if (nonzero.length === 0) return "cash";
@@ -71,7 +109,8 @@ function inferCheckoutPaymentSummary(order: RestaurantOrderRecord): CheckoutPaym
   const m = methods[0]!;
   if (m === "card") return "card";
   if (m === "cash") return "cash";
-  return "upi";
+  if (m === "wallet") return "wallet";
+  return "card";
 }
 
 type Props = {
@@ -83,8 +122,17 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
   const router = useRouter();
   const [order, setOrder] = useState<RestaurantOrderRecord>(() => structuredClone(initial));
   const [addOpen, setAddOpen] = useState(false);
-  const [addQuery, setAddQuery] = useState("");
-  const [toastOpen, setToastOpen] = useState(false);
+  const [menuPickerKey, setMenuPickerKey] = useState(0);
+  const [pickQuantities, setPickQuantities] = useState<Record<string, number>>({});
+  const [menuRevision, setMenuRevision] = useState(0);
+  const [newUserFormOpen, setNewUserFormOpen] = useState(false);
+  const [profileDraft, setProfileDraft] = useState({
+    email: "",
+    firstName: "",
+    lastName: "",
+    postcode: "",
+  });
+  const [profileSavedFlash, setProfileSavedFlash] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
   const [returnPayment, setReturnPayment] = useState(false);
@@ -102,6 +150,53 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
   useEffect(() => {
     setOrder(structuredClone(initial));
   }, [initial.id]);
+
+  useEffect(() => {
+    if (!order.customerName.trim()) setNewUserFormOpen(false);
+  }, [order.customerName]);
+
+  const openNewUserForm = () => {
+    setProfileDraft({
+      email: order.customerEmail ?? "",
+      firstName: order.customerFirstName ?? "",
+      lastName: order.customerLastName ?? "",
+      postcode: order.postcode ?? "",
+    });
+    setNewUserFormOpen(true);
+  };
+
+  const saveCustomerProfileDetails = () => {
+    setOrder((o) => ({
+      ...o,
+      customerEmail: profileDraft.email.trim() || undefined,
+      customerFirstName: profileDraft.firstName.trim() || undefined,
+      customerLastName: profileDraft.lastName.trim() || undefined,
+      postcode: profileDraft.postcode.trim() || o.postcode,
+    }));
+    setProfileSavedFlash(true);
+    window.setTimeout(() => setProfileSavedFlash(false), 2200);
+  };
+
+  const menuDoc = useMemo(
+    () => mergeMenuWithLocal(menuDemo as MenuDocument),
+    [menuRevision],
+  );
+
+  useEffect(() => {
+    const bump = () => setMenuRevision((n) => n + 1);
+    window.addEventListener(MENU_CATALOG_EVENT, bump);
+    window.addEventListener("storage", bump);
+    return () => {
+      window.removeEventListener(MENU_CATALOG_EVENT, bump);
+      window.removeEventListener("storage", bump);
+    };
+  }, []);
+
+  const menuCatalogById = useMemo(() => buildMenuCatalogByProductId(menuDoc), [menuDoc]);
+  const menuImageByProductId = useMemo(() => buildMenuImageUrlByProductId(menuDoc), [menuDoc]);
+
+  const resolveBillProduct = (productId: string) =>
+    getCatalogProduct(productId) ?? menuCatalogById.get(productId);
 
   const bill = useMemo(
     () =>
@@ -124,17 +219,6 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
   );
   const remaining = Math.max(0, bill.totalPayable - paidSoFar);
 
-  const filteredCatalog = useMemo(() => {
-    const q = addQuery.trim().toLowerCase();
-    if (!q) return RESTAURANT_PRODUCT_CATALOG;
-    return RESTAURANT_PRODUCT_CATALOG.filter(
-      (p) =>
-        p.name.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        p.detail.toLowerCase().includes(q),
-    );
-  }, [addQuery]);
-
   const updateLine = (lineId: string, patch: Partial<OrderBillLine>) => {
     setOrder((o) => ({
       ...o,
@@ -146,18 +230,42 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
     setOrder((o) => ({ ...o, lines: o.lines.filter((l) => l.id !== lineId) }));
   };
 
-  const addProduct = (product: CatalogProduct) => {
-    const next: OrderBillLine = {
-      id: newLineId(),
-      productId: product.id,
-      quantity: 1,
-      unitPriceExTax: product.unitPriceExTax,
-      needsKitchen: product.category !== "Bar",
-    };
-    setOrder((o) => ({ ...o, lines: [...o.lines, next] }));
+  const applyMenuSelectionsToBill = () => {
+    const entries = Object.entries(pickQuantities).filter(([, q]) => q > 0);
+    if (entries.length === 0) {
+      setAddOpen(false);
+      return;
+    }
+    setOrder((o) => {
+      let lines = [...o.lines];
+      for (const [productId, qty] of entries) {
+        const product = resolveBillProduct(productId);
+        if (!product) continue;
+        const existing = lines.find((l) => l.productId === productId);
+        if (existing) {
+          lines = lines.map((l) =>
+            l.id === existing.id ? { ...l, quantity: l.quantity + qty } : l,
+          );
+        } else {
+          lines.push({
+            id: newLineId(),
+            productId: product.id,
+            quantity: qty,
+            unitPriceExTax: product.unitPriceExTax,
+            needsKitchen: product.category !== "Bar",
+          });
+        }
+      }
+      return { ...o, lines };
+    });
     setAddOpen(false);
-    setAddQuery("");
+    setPickQuantities({});
   };
+
+  const pickTotalCount = useMemo(
+    () => Object.values(pickQuantities).reduce((s, q) => s + Math.max(0, q), 0),
+    [pickQuantities],
+  );
 
   const setDiscountMode = (discountMode: DiscountMode) => {
     setOrder((o) => ({ ...o, discountMode }));
@@ -247,63 +355,130 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
   const fulfillmentMode = getOrderFulfillmentType(order);
   const canComplete = order.lines.length > 0 && remaining <= 0.009;
 
-  return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
-      <div className="space-y-6">
-        <Card className="p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="space-y-2">
-              {headerMeta}
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-8">
-                <div>
-                  <Input
-                    label="Customer name"
-                    name="customerName"
-                    value={order.customerName}
-                    onChange={(e) => setOrder((o) => ({ ...o, customerName: e.target.value }))}
-                    placeholder="Guest name"
-                  />
-                </div>
-                <div>
-                  <Input
-                    label="Phone"
-                    name="customerPhone"
-                    value={order.customerPhone}
-                    onChange={(e) => setOrder((o) => ({ ...o, customerPhone: e.target.value }))}
-                    placeholder="+1 (555) 000-0000"
-                  />
-                </div>
-              </div>
+  const customerNameEntered = order.customerName.trim().length > 0;
+
+  const customerDetailsCard = (
+    <Card className="p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0 flex-1 space-y-4">
+          {headerMeta}
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-8">
+            <div>
+              <Input
+                label="Customer name"
+                name="customerName"
+                value={order.customerName}
+                onChange={(e) => setOrder((o) => ({ ...o, customerName: e.target.value }))}
+                placeholder="Guest name"
+              />
             </div>
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="secondary" size="sm" onClick={() => setToastOpen(true)}>
-                <MaterialIcon name="print" className="text-lg" />
-                Print bill
-              </Button>
-              {mode === "edit" && initial.id !== "new" ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="border-error text-error hover:bg-error-container/30"
-                  onClick={() => {
-                    setCancelReason("");
-                    setReturnPayment(false);
-                    setCancelOpen(true);
-                  }}
-                >
-                  <MaterialIcon name="cancel" className="text-lg" />
-                  Cancel order
-                </Button>
-              ) : null}
+            <div>
+              <Input
+                label="Phone"
+                name="customerPhone"
+                value={order.customerPhone}
+                onChange={(e) => setOrder((o) => ({ ...o, customerPhone: e.target.value }))}
+                placeholder="+1 (555) 000-0000"
+              />
             </div>
           </div>
-        </Card>
+          {customerNameEntered ? (
+            <div className="flex flex-col gap-3">
+              {!newUserFormOpen ? (
+                <Button type="button" variant="outline" size="sm" className="w-fit" onClick={openNewUserForm}>
+                  <MaterialIcon name="person_add" className="text-lg" />
+                  Create new user
+                </Button>
+              ) : (
+                <div className="space-y-4 rounded-xl bg-surface-container-low/80 p-4 ring-1 ring-outline-variant/15">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">
+                    Guest profile
+                  </p>
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Input
+                      label="Email"
+                      name="customerEmailDraft"
+                      type="email"
+                      autoComplete="email"
+                      value={profileDraft.email}
+                      onChange={(e) => setProfileDraft((d) => ({ ...d, email: e.target.value }))}
+                      placeholder="name@example.com"
+                    />
+                    <Input
+                      label="Postcode"
+                      name="customerPostcodeDraft"
+                      autoComplete="postal-code"
+                      value={profileDraft.postcode}
+                      onChange={(e) => setProfileDraft((d) => ({ ...d, postcode: e.target.value }))}
+                      placeholder="CB2 1TP"
+                    />
+                    <Input
+                      label="First name"
+                      name="customerFirstNameDraft"
+                      autoComplete="given-name"
+                      value={profileDraft.firstName}
+                      onChange={(e) => setProfileDraft((d) => ({ ...d, firstName: e.target.value }))}
+                      placeholder="First name"
+                    />
+                    <Input
+                      label="Last name"
+                      name="customerLastNameDraft"
+                      autoComplete="family-name"
+                      value={profileDraft.lastName}
+                      onChange={(e) => setProfileDraft((d) => ({ ...d, lastName: e.target.value }))}
+                      placeholder="Last name"
+                    />
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button type="button" variant="primary" size="sm" onClick={saveCustomerProfileDetails}>
+                      <MaterialIcon name="save" className="text-lg" />
+                      Save details
+                    </Button>
+                    {profileSavedFlash ? (
+                      <span className="text-xs font-semibold text-primary">Saved to ticket</span>
+                    ) : null}
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : null}
+        </div>
+        <div className="flex shrink-0 flex-wrap gap-2 sm:justify-end">
+          {mode === "edit" && initial.id !== "new" ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-error text-error hover:bg-error-container/30"
+              onClick={() => {
+                setCancelReason("");
+                setReturnPayment(false);
+                setCancelOpen(true);
+              }}
+            >
+              <MaterialIcon name="cancel" className="text-lg" />
+              Cancel order
+            </Button>
+          ) : null}
+        </div>
+      </div>
+    </Card>
+  );
 
-        <Card className="p-0">
+  const orderSummaryCard = (
+    <Card className="p-0">
           <div className="flex flex-col gap-3 border-b border-outline-variant/15 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="font-headline text-lg font-extrabold text-on-surface">Order summary</h2>
-            <Button type="button" variant="outline" size="sm" onClick={() => setAddOpen(true)}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setPickQuantities({});
+                setMenuPickerKey((k) => k + 1);
+                setAddOpen(true);
+              }}
+            >
               <MaterialIcon name="add" className="text-lg" />
               Add item
             </Button>
@@ -328,7 +503,7 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
                 </TableRow>
               ) : (
                 order.lines.map((line) => {
-                  const product = getCatalogProduct(line.productId);
+                  const product = resolveBillProduct(line.productId);
                   if (!product) return null;
                   const lineBase = line.quantity * line.unitPriceExTax;
                   const lineDisplay = order.taxIncluded ? lineBase * 1.15 : lineBase;
@@ -336,12 +511,15 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
                     <TableRow key={line.id}>
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-surface-container-high ring-1 ring-outline-variant/15">
-                            <MaterialIcon name="restaurant" className="text-xl text-secondary" />
-                          </div>
+                          <OrderLineItemThumbnail
+                            imageUrl={menuImageByProductId.get(line.productId)}
+                            label={product.name}
+                          />
                           <div className="min-w-0">
                             <p className="font-headline font-bold text-on-surface">{product.name}</p>
-                            <p className="text-xs font-medium text-secondary">{product.detail}</p>
+                            <p className="line-clamp-2 text-xs font-medium leading-relaxed text-secondary">
+                              {product.detail}
+                            </p>
                             <Badge tone={categoryTone(product.category)} className="mt-2 md:hidden">
                               {product.category}
                             </Badge>
@@ -379,18 +557,38 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
               )}
             </TableBody>
           </Table>
-        </Card>
+    </Card>
+  );
 
-        <Card className="p-6">
-          <Textarea
-            label="Internal notes"
-            name="internalNotes"
-            value={order.internalNotes}
-            onChange={(e) => setOrder((o) => ({ ...o, internalNotes: e.target.value }))}
-            placeholder="Allergies, coursing, comp reasons…"
-            rows={5}
-          />
-        </Card>
+  const internalNotesCard = (
+    <Card className="p-6">
+      <Textarea
+        label="Internal notes"
+        name="internalNotes"
+        value={order.internalNotes}
+        onChange={(e) => setOrder((o) => ({ ...o, internalNotes: e.target.value }))}
+        placeholder="Allergies, coursing, comp reasons…"
+        rows={5}
+      />
+    </Card>
+  );
+
+  return (
+    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+      <div className="space-y-6">
+        {mode === "create" ? (
+          <>
+            {orderSummaryCard}
+            {internalNotesCard}
+            {customerDetailsCard}
+          </>
+        ) : (
+          <>
+            {customerDetailsCard}
+            {orderSummaryCard}
+            {internalNotesCard}
+          </>
+        )}
       </div>
 
       <div className="space-y-4">
@@ -538,7 +736,7 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
                   >
                     <option value="card">Credit card</option>
                     <option value="cash">Cash</option>
-                    <option value="upi">UPI</option>
+                    <option value="wallet">Apple Pay / Google Pay</option>
                   </SelectField>
                 </div>
                 <div className="w-full sm:w-36">
@@ -619,58 +817,61 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
             Save draft
           </Button>
         </div>
-        <p className="text-center text-xs font-medium text-secondary">
-          {mode === "create" ? "Creating a new in-house ticket." : "Editing live order data (demo dataset)."}
-        </p>
       </div>
 
-      <Modal open={addOpen} onClose={() => setAddOpen(false)} title="Add menu item" description="Pick a dish from the catalog. Prices follow the tax toggle on the bill.">
-        <div className="space-y-4">
-          <Input
-            label="Search catalog"
-            name="catalogSearch"
-            value={addQuery}
-            onChange={(e) => setAddQuery(e.target.value)}
-            placeholder="Steak, pasta, bar…"
-            left={<MaterialIcon name="search" className="text-xl text-secondary" />}
-          />
-          <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
-            {filteredCatalog.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => addProduct(p)}
-                className="flex w-full items-center gap-3 rounded-xl bg-surface-container-low p-3 text-left ring-1 ring-outline-variant/15 transition-colors hover:bg-surface-container-high"
-              >
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-surface-container-high">
-                  <MaterialIcon name="restaurant_menu" className="text-secondary" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="font-headline text-sm font-bold text-on-surface">{p.name}</p>
-                  <p className="text-xs text-secondary">{p.detail}</p>
-                </div>
-                <span className="shrink-0 text-sm font-extrabold tabular-nums text-primary">
-                  {formatGbp(order.taxIncluded ? p.unitPriceExTax * 1.15 : p.unitPriceExTax)}
-                </span>
-              </button>
-            ))}
-          </div>
-          <Button type="button" variant="ghost" className="w-full" onClick={() => setAddOpen(false)}>
-            Close
-          </Button>
-        </div>
-      </Modal>
-
       <Modal
-        open={toastOpen}
-        onClose={() => setToastOpen(false)}
-        title="Sent to printer"
-        description="This console is wired to sample data only — nothing was actually printed or charged."
-        className="max-w-md"
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        className="flex max-h-[92dvh] min-h-0 w-full max-w-7xl flex-col overflow-hidden rounded-xl p-0"
+        unpadded
       >
-        <Button type="button" variant="primary" className="w-full" onClick={() => setToastOpen(false)}>
-          Got it
-        </Button>
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+          <div className="shrink-0 border-b border-outline-variant/15 px-6 py-5">
+            <h3 className="font-headline text-xl font-extrabold text-on-surface">Add menu items</h3>
+            <p className="mt-1 text-sm leading-relaxed text-secondary">
+              Search the menu, set quantities with the row controls, then add everything to the bill in one go.
+              Prices follow the tax toggle on the bill.
+            </p>
+          </div>
+          <div className="min-h-0 flex-1 overflow-y-auto px-6 pt-2">
+            <div className="mx-auto w-full max-w-6xl pb-4">
+              <MenuProductList
+                key={menuPickerKey}
+                data={menuDoc}
+                onCartChange={setPickQuantities}
+                className="space-y-4"
+                showItemInfo={false}
+              />
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-col gap-3 border-t border-outline-variant/15 bg-surface-container-lowest px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm font-semibold text-secondary">
+              {pickTotalCount > 0 ? (
+                <>
+                  <span className="font-extrabold text-on-surface">{pickTotalCount}</span> portion
+                  {pickTotalCount === 1 ? "" : "s"} selected
+                </>
+              ) : (
+                "Select items above, then add to the bill."
+              )}
+            </p>
+            <div className="flex flex-wrap gap-2 sm:justify-end">
+              <Button type="button" variant="ghost" size="md" onClick={() => setAddOpen(false)}>
+                Cancel
+              </Button>
+              <Button
+                type="button"
+                variant="primary"
+                size="md"
+                disabled={pickTotalCount === 0}
+                onClick={applyMenuSelectionsToBill}
+              >
+                <MaterialIcon name="add_shopping_cart" className="text-lg" />
+                Add to bill
+              </Button>
+            </div>
+          </div>
+        </div>
       </Modal>
 
       <Modal

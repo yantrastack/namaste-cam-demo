@@ -17,18 +17,18 @@ export default function RestaurantCreatePage() {
           </li>
           <li>
             <Link href="/restaurants" className="transition-colors hover:text-primary">
-              Partner directory
+              Restaurant management
             </Link>
           </li>
           <li aria-hidden className="text-on-surface-variant/60">
             /
           </li>
-          <li className="font-bold text-primary">Register new</li>
+          <li className="font-bold text-primary">Create new</li>
         </ol>
       </nav>
 
       <PageContainer
-        title="Register new restaurant"
+        title="Create new"
         description="Create a new restaurant profile in the Namaste Cam network."
       >
         <RestaurantOnboardForm />

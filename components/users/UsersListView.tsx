@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import {
@@ -8,9 +9,30 @@ import {
   useUsers,
   userStatusLabel,
 } from "@/components/users/UsersProvider";
-import { formatUserRole } from "@/lib/users/roles";
+import { formatUserRole, USER_ROLE_OPTIONS } from "@/lib/users/roles";
 import type { ManagedUser } from "@/lib/users/types";
 import { cn } from "@/lib/cn";
+
+/** YYYY-MM-DD or ISO prefix → sortable / displayable date part */
+function isoDatePrefix(raw: string | undefined): string | null {
+  if (!raw) return null;
+  const t = raw.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return t;
+  if (t.length >= 10 && /^\d{4}-\d{2}-\d{2}/.test(t)) return t.slice(0, 10);
+  return null;
+}
+
+function formatActivityCell(user: ManagedUser): string {
+  const iso = isoDatePrefix(user.lastActivity);
+  if (iso) return formatJoinDate(iso);
+  if (user.lastActivity?.trim()) return user.lastActivity.trim();
+  return formatJoinDate(user.joinDate);
+}
+
+function activitySortTime(user: ManagedUser): number {
+  const iso = isoDatePrefix(user.lastActivity);
+  return new Date(iso || user.joinDate).getTime();
+}
 
 function rolePillClass(role: ManagedUser["role"]): string {
   if (role === "admin") {
@@ -18,6 +40,18 @@ function rolePillClass(role: ManagedUser["role"]): string {
   }
   if (role === "restaurant_admin") {
     return "bg-secondary-container text-on-secondary-container";
+  }
+  if (role === "delivery_agent") {
+    return "bg-green-50 text-green-800";
+  }
+  if (role === "cook") {
+    return "bg-amber-50 text-amber-800";
+  }
+  if (role === "manager") {
+    return "bg-purple-50 text-purple-800";
+  }
+  if (role === "customer" || role === "user") {
+    return "bg-blue-50 text-blue-800";
   }
   return "bg-surface-container-high text-zinc-500";
 }
@@ -28,7 +62,8 @@ interface UsersListViewProps {
 }
 
 export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProps = {}) {
-  const { users, hydrated, updateUser } = useUsers();
+  const router = useRouter();
+  const { users, hydrated } = useUsers();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("latest_activity");
   const [filterRole, setFilterRole] = useState("all");
@@ -71,7 +106,7 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
       filteredUsers = filteredUsers.filter(u => u.role === filterRole);
     } else {
       // When "all" is selected, show at least one of each role
-      const roles = ["user", "admin", "restaurant_admin", "delivery_agent", "customer"];
+      const roles = USER_ROLE_OPTIONS.map((o) => o.value);
       const roleSamples: ManagedUser[] = [];
       
       roles.forEach(role => {
@@ -102,7 +137,9 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
 
     // Sort
     if (sortBy === "latest_activity") {
-      filteredUsers.sort((a, b) => new Date(b.lastActivity || b.joinDate).getTime() - new Date(a.lastActivity || a.joinDate).getTime());
+      filteredUsers.sort(
+        (a, b) => activitySortTime(b) - activitySortTime(a),
+      );
     } else if (sortBy === "name") {
       filteredUsers.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortBy === "join_date") {
@@ -122,12 +159,7 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
 
   const handleEditUser = (user: ManagedUser) => {
-    // For now, navigate to edit page
-    window.location.href = `/users/${user.id}`;
-  };
-
-  const handleBlockUser = (user: ManagedUser) => {
-    updateUser(user.id, { status: user.status === "active" ? "blocked" : "active" });
+    router.push(`/users/${user.id}`);
   };
 
   const exportCSV = () => {
@@ -138,7 +170,7 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
         u.email,
         formatUserRole(u.role),
         userStatusLabel(u.status),
-        u.lastActivity || "Never",
+        formatActivityCell(u),
         formatJoinDate(u.joinDate)
       ])
     ].map(row => row.join(",")).join("\n");
@@ -236,11 +268,11 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
                   className="mt-1 px-3 py-2 bg-surface-container-high rounded-lg text-sm focus:ring-2 focus:ring-primary/20"
                 >
                   <option value="all">All Roles</option>
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
-                  <option value="restaurant_admin">Restaurant Admin</option>
-                  <option value="delivery_agent">Delivery Agent</option>
-                  <option value="customer">Customer</option>
+                  {USER_ROLE_OPTIONS.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -315,23 +347,17 @@ export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProp
                     </div>
                   </td>
                   <td className="px-8 py-5 text-sm text-zinc-500">
-                    {user.lastActivity || formatJoinDate(user.joinDate)}
+                    {formatActivityCell(user)}
                   </td>
                   <td className="px-8 py-5">
-                    <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <button 
+                    <div className="flex items-center justify-end">
+                      <button
+                        type="button"
                         onClick={() => handleEditUser(user)}
-                        className="p-2 hover:bg-secondary-container rounded-lg transition-colors text-secondary" 
-                        title="Change Role"
+                        className="rounded-lg p-2 text-secondary transition-colors hover:bg-secondary-container"
+                        title="Edit details"
                       >
-                        <MaterialIcon name="edit_note" className="text-lg" />
-                      </button>
-                      <button 
-                        onClick={() => handleBlockUser(user)}
-                        className={`p-2 ${user.status === "active" ? "hover:bg-error-container text-error" : "bg-green-50 hover:bg-green-100 text-green-600"} rounded-lg transition-colors`} 
-                        title={user.status === "active" ? "Block User" : "Unblock User"}
-                      >
-                        <MaterialIcon name={user.status === "active" ? "block" : "check_circle"} className="text-lg" />
+                        <MaterialIcon name="edit" className="text-lg" />
                       </button>
                     </div>
                   </td>

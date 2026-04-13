@@ -14,13 +14,19 @@ export type FoodItem = {
 export type SelectedLine = {
   foodId: number;
   quantity: number;
+  /**
+   * When `false`, the dish is treated as a same-day extra: it can appear on Today’s
+   * menu for the configured weekdays but is not part of the recurring main roster.
+   * Omitted or `true` = part of the main menu.
+   */
+  includeInMainMenu?: boolean;
 };
 
-export type MealCategory = "lunch" | "dinner";
+export type MealCategory = "lunch" | "dinner" | "both";
 
 export type MenuKind = "normal" | "special" | "subscription";
 
-export type TableMenuType = "lunch" | "dinner" | "special" | "subscription";
+export type TableMenuType = "lunch" | "dinner" | "both" | "special" | "subscription";
 
 export type NormalMenuDetails = {
   category: MealCategory;
@@ -114,6 +120,67 @@ export function formatAvailabilityNormal(days: string[]): string {
   if (days.length === WEEKDAY_KEYS.length) return "Mon – Sun";
   if (days.length === 0) return "—";
   return days.join(", ");
+}
+
+/** Maps `Date` to the short weekday labels used in menu rows (`WEEKDAY_KEYS`). */
+export function weekdayKeyFromDate(d: Date): (typeof WEEKDAY_KEYS)[number] {
+  const map = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
+  return map[d.getDay()];
+}
+
+/** Lunch/dinner row applies to a given weekday (including “all week” menus). */
+export function normalMenuAppliesToWeekday(row: MenuRow, day: string): boolean {
+  if (row.tableType !== "lunch" && row.tableType !== "dinner" && row.tableType !== "both") return false;
+  const days = row.normalDetails?.days;
+  if (!days?.length) return false;
+  const coversAllWeek = days.length >= WEEKDAY_KEYS.length;
+  return coversAllWeek || days.includes(day);
+}
+
+const DAY_KEY_TO_JS: Record<(typeof WEEKDAY_KEYS)[number], number> = {
+  Sun: 0,
+  Mon: 1,
+  Tue: 2,
+  Wed: 3,
+  Thu: 4,
+  Fri: 5,
+  Sat: 6,
+};
+
+/** Calendar date in the same week as `anchor` for the given weekday key (Mon … Sun). */
+export function calendarDateForFocusDay(anchor: Date, focusDay: string): Date {
+  const key = focusDay as (typeof WEEKDAY_KEYS)[number];
+  const target = DAY_KEY_TO_JS[key];
+  const d = new Date(anchor.getFullYear(), anchor.getMonth(), anchor.getDate());
+  const cur = d.getDay();
+  d.setDate(d.getDate() + (target - cur));
+  return d;
+}
+
+function startOfLocalDayMs(d: Date): number {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
+}
+
+function parseISODateLocal(iso: string): number {
+  const [y, m, day] = iso.split("-").map(Number);
+  return new Date(y, m - 1, day).getTime();
+}
+
+/** Special menu is active on a calendar day (inclusive start/end). */
+export function specialAppliesOnDate(row: MenuRow, d: Date): boolean {
+  if (row.tableType !== "special" || !row.specialDetails) return false;
+  const { startDate, endDate } = row.specialDetails;
+  if (!startDate || !endDate) return false;
+  const t = startOfLocalDayMs(d);
+  return t >= parseISODateLocal(startDate) && t <= parseISODateLocal(endDate);
+}
+
+/** Subscription is still valid on a calendar day (before/on expiry). */
+export function subscriptionValidOnDate(row: MenuRow, d: Date): boolean {
+  if (row.tableType !== "subscription" || !row.subscriptionDetails) return false;
+  const exp = row.subscriptionDetails.expiryDate;
+  if (!exp) return false;
+  return startOfLocalDayMs(d) <= parseISODateLocal(exp);
 }
 
 export function formatAvailabilitySpecial(start: string, end: string): string {

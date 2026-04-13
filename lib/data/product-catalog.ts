@@ -20,6 +20,27 @@ export type DietaryFlagDef = {
   defaultChecked?: boolean;
 };
 
+/** Declared allergen chips — align IDs with catalog JSON where possible (e.g. `nuts`, `egg`). */
+export type DeclaredAllergenOption = { id: string; label: string };
+
+export const productDeclaredAllergenOptions: DeclaredAllergenOption[] = [
+  { id: "celery", label: "Celery" },
+  { id: "gluten", label: "Cereals containing gluten" },
+  { id: "crustaceans", label: "Crustaceans" },
+  { id: "egg", label: "Eggs" },
+  { id: "fish", label: "Fish" },
+  { id: "lupin", label: "Lupin" },
+  { id: "milk", label: "Milk" },
+  { id: "molluscs", label: "Molluscs" },
+  { id: "mustard", label: "Mustard" },
+  { id: "nuts", label: "Tree nuts" },
+  { id: "peanuts", label: "Peanuts" },
+  { id: "sesame", label: "Sesame" },
+  { id: "soy", label: "Soya" },
+  { id: "sulphites", label: "Sulphur dioxide / sulphites" },
+  { id: "coconut", label: "Coconut" },
+];
+
 export const productCurrencySymbol = "£";
 
 export const productDiscountTypes: ProductDiscountType[] = [

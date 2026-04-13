@@ -9,18 +9,18 @@
     },
     {
       "id": "restaurant-management",
-      "label": "Partner restaurants",
+      "label": "Restaurant management",
       "icon": "storefront",
       "children": [
         {
           "id": "restaurant-list",
-          "label": "Partner directory",
+          "label": "Restaurant management",
           "icon": "apartment",
           "href": "/restaurants"
         },
         {
           "id": "restaurant-create",
-          "label": "Register new restaurant",
+          "label": "Create new",
           "icon": "add_business",
           "href": "/restaurants/new"
         }
@@ -42,18 +42,25 @@
           "label": "Create menu",
           "icon": "playlist_add",
           "href": "/menu/create"
-        },
-        {
-          "id": "menu-create-subscription",
-          "label": "Create subscription menu",
-          "icon": "subscriptions",
-          "href": "/menu/create/subscription"
-        },
+        }
+      ]
+    },
+    {
+      "id": "menu-catalog",
+      "label": "Menu catalog",
+      "icon": "inventory_2",
+      "children": [
         {
           "id": "menu-new-product",
           "label": "Add product",
           "icon": "add",
           "href": "/menu/new"
+        },
+        {
+          "id": "menu-item-list",
+          "label": "Item list",
+          "icon": "format_list_bulleted",
+          "href": "/menu/item-list"
         }
       ]
     },
@@ -88,16 +95,16 @@
       "icon": "shopping_cart",
       "children": [
         {
+          "id": "orders-create",
+          "label": "Create order",
+          "icon": "add_shopping_cart",
+          "href": "/orders/create"
+        },
+        {
           "id": "orders-list",
           "label": "Active orders",
           "icon": "pending_actions",
           "href": "/orders"
-        },
-        {
-          "id": "orders-create",
-          "label": "New restaurant order",
-          "icon": "add_shopping_cart",
-          "href": "/orders/create"
         },
         {
           "id": "orders-history",
@@ -119,12 +126,6 @@
           "href": "/users"
         },
         {
-          "id": "users-directory",
-          "label": "User Directory",
-          "icon": "folder",
-          "href": "/users/directory"
-        },
-        {
           "id": "users-new",
           "label": "New user",
           "icon": "person_add",
@@ -134,9 +135,22 @@
     },
     {
       "id": "staff",
-      "label": "Staff Management",
-      "icon": "group",
-      "href": "/staff"
+      "label": "Staff management",
+      "icon": "badge",
+      "children": [
+        {
+          "id": "staff-attendance",
+          "label": "Attendance",
+          "icon": "event_available",
+          "href": "/staff/attendance"
+        },
+        {
+          "id": "staff-check",
+          "label": "Check-in / check-out",
+          "icon": "login",
+          "href": "/staff/check-in-out"
+        }
+      ]
     },
     {
       "id": "coupons",
@@ -156,18 +170,6 @@
           "href": "/coupons/new"
         }
       ]
-    },
-    {
-      "id": "favorites",
-      "label": "Favorites",
-      "icon": "favorite",
-      "href": "/user/favorites"
-    },
-    {
-      "id": "order-history",
-      "label": "Order History",
-      "icon": "history",
-      "href": "/user/order-history"
     },
     {
       "id": "notifications",

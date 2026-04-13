@@ -1,0 +1,93 @@
+{
+  "salesByLocation": {
+    "periodLabel": "Last 30 days · gross order value",
+    "locations": [
+      {
+        "id": "cambridge",
+        "name": "Cambridge",
+        "serviceMode": "Collection & delivery",
+        "revenue": "£182,940",
+        "deltaLabel": "+7.1%",
+        "deltaCaption": "vs prior 30 days",
+        "trend": "up",
+        "ordersLabel": "4.1k orders",
+        "highlight": true
+      },
+      {
+        "id": "peterborough",
+        "name": "Peterborough",
+        "serviceMode": "Delivery only",
+        "revenue": "£41,280",
+        "deltaLabel": "+3.4%",
+        "deltaCaption": "vs prior 30 days",
+        "trend": "up",
+        "ordersLabel": "982 orders",
+        "highlight": false
+      },
+      {
+        "id": "hertfordshire",
+        "name": "Hertfordshire & Luton",
+        "serviceMode": "Delivery only",
+        "revenue": "£67,200",
+        "deltaLabel": "+2.9%",
+        "deltaCaption": "vs prior 30 days",
+        "trend": "up",
+        "ordersLabel": "1.5k orders",
+        "highlight": false
+      },
+      {
+        "id": "network",
+        "name": "Network total",
+        "serviceMode": "All listed regions",
+        "revenue": "£291,420",
+        "deltaLabel": "+5.8%",
+        "deltaCaption": "vs prior 30 days",
+        "trend": "up",
+        "ordersLabel": "6.6k orders",
+        "highlight": false
+      }
+    ]
+  },
+  "rows": [
+    {
+      "id": "RES-1001",
+      "name": "Namaste Cam — Cambridge Hub",
+      "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuCfScIxUStx_eFLgv70o95oXW_cqjnhEJhfhhWeaZRkE6QePn_eR8dvlJr7PxnYcusRDc-06KYSGfUksLVBq88X7xjAEMrREljwNxiqyvP3ag_boaU3ftQ4lWaOVJxJodOhVB9xZyvvV5KXUcLLwMze0-KbDQRwGmKbhCmgmVN0VQrcQ6xIpEteD_IykDuiaWxZ0JtBLW5mvaMOpNx5AqAJSTS9107t3azn94ov6mJE71CbZzFtms90H4VYSZOWmGukpvkW04UPII4",
+      "owner": "Priya Nair",
+      "location": "Cambridge — collection & delivery",
+      "status": "active"
+    },
+    {
+      "id": "RES-1002",
+      "name": "Saffron & Stone",
+      "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuAsa4gGGpNcVlJB73hfaLIDtT57GPey_6CxvSwzp24YFnXsyZM06UscHqLl5P4tPb3GVcuowppYScgHfqaxVgipzdb7eZGEymgxzjFCKqDLWobOQaJLC5anhF94JuU52Dx_7vSsP1KzOCSN7NlW8PjBpEdHhVaiVPSoYVN0pgxGnAgcT5iQoevMc4XDhyOFx7A7CTSQIfSCOOPuW4_SABgBZs1bBcsqPe5HDsZAd_jhhoytOGegd7Vxg61dx9P_scB6QvbrdoSRDl4",
+      "owner": "Marcus Sterling",
+      "location": "Cambridge city centre",
+      "status": "active"
+    },
+    {
+      "id": "RES-1003",
+      "name": "Fen Kitchen",
+      "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuAvq6FCH5HxTRBVO5OzddsMlX7VqFYY3UD-YOazXAfCV7VUvn_X9wFiP-D45ygpoXV1hIMcTpCMD6CyQb6G1XHjNGotkkZ_4fpl8ZBbMs8kt3lU9XqndTDvbQBMJxUi0RvemhWw0Ua0L3alQL6D5oeXReOG5Dm6aKviRBSa0vSxItmMMe4Vo4wi7G_qu0_-G5mMNHo5gLp_7p2BOuUSGOJfUcRqJ0JaFlvr2Vua08pm_OTIPiv_mUHD9yhmQGknnvRNqkLLjQB1DjY",
+      "owner": "Elena Gomez",
+      "location": "Peterborough — delivery only",
+      "status": "pending"
+    },
+    {
+      "id": "RES-1004",
+      "name": "Coastal Thali House",
+      "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuBV19acRXmrBrSf5AiBG7Qqr3Z59uAj0qcBswLHxTp2TppLq5gnZQIWqsUpQpncgxLv0AU0imwEN033FN-aTroclWHnK7yGteUcxzlMlsroWLxn9j0jrx9Au1qodX7uGmjqB6yu9l2kvC2oBtzXJAumsrB2KASEuzV1E-4oyxsMD8dM3I-xB9yPf4YHTPL1EkT6TUdHMe2XLBLP7upBZUdwR-EXxiaJ39ldqqXr-BAz37o36XvIGNkyErtD0BREHYaK9gpMvZ8N5Ks",
+      "owner": "Akira Sato",
+      "location": "Hertfordshire & Luton corridor",
+      "status": "active"
+    },
+    {
+      "id": "RES-1005",
+      "name": "Letchworth Spice Route",
+      "imageSrc": "https://lh3.googleusercontent.com/aida-public/AB6AXuAvq6FCH5HxTRBVO5OzddsMlX7VqFYY3UD-YOazXAfCV7VUvn_X9wFiP-D45ygpoXV1hIMcTpCMD6CyQb6G1XHjNGotkkZ_4fpl8ZBbMs8kt3lU9XqndTDvbQBMJxUi0RvemhWw0Ua0L3alQL6D5oeXReOG5Dm6aKviRBSa0vSxItmMMe4Vo4wi7G_qu0_-G5mMNHo5gLp_7p2BOuUSGOJfUcRqJ0JaFlvr2Vua08pm_OTIPiv_mUHD9yhmQGknnvRNqkLLjQB1DjY",
+      "owner": "Jean-Marc Duprie",
+      "location": "Letchworth Garden City",
+      "status": "inactive"
+    }
+  ]
+}

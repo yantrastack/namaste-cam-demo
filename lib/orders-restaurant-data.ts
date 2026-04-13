@@ -26,7 +26,7 @@ export type OrderBillLine = {
   needsKitchen?: boolean;
 };
 
-export type PaymentMethod = "card" | "cash" | "upi";
+export type PaymentMethod = "card" | "cash" | "wallet";
 
 /** Settled tender shown on history / receipt (broader than split-line `PaymentMethod`). */
 export type CheckoutPaymentSummary =
@@ -62,6 +62,8 @@ export type RestaurantOrderRecord = {
   customerName: string;
   customerPhone: string;
   customerEmail?: string;
+  customerFirstName?: string;
+  customerLastName?: string;
   /** Table, room, or pass (in-house substitute for delivery map). */
   serviceLocation?: string;
   serviceLocationNote?: string;
@@ -229,7 +231,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     taxIncluded: false,
     discountMode: "flat",
     discountValue: 4,
-    payments: [{ id: "pay-3", method: "upi", amount: "" }],
+    payments: [{ id: "pay-3", method: "wallet", amount: "" }],
   },
   {
     id: "ord-ss-8288",
@@ -449,7 +451,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     taxIncluded: true,
     discountMode: "percent",
     discountValue: 0,
-    payments: [{ id: "pay-h5", method: "upi", amount: "32.40" }],
+    payments: [{ id: "pay-h5", method: "wallet", amount: "32.40" }],
   },
   {
     id: "ord-ss-8158",
@@ -528,7 +530,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     taxIncluded: false,
     discountMode: "flat",
     discountValue: 0,
-    payments: [{ id: "pay-d2", method: "upi", amount: "" }],
+    payments: [{ id: "pay-d2", method: "wallet", amount: "" }],
   },
 ];
 
@@ -537,7 +539,7 @@ const ordersById = new Map(RESTAURANT_ORDERS_SEED.map((o) => [o.id, o]));
 const CHECKOUT_PAYMENT_LABELS: Record<CheckoutPaymentSummary, string> = {
   cash: "Cash",
   card: "Card",
-  wallet: "Wallet",
+  wallet: "Apple Pay / Google Pay",
   subscription: "Subscription",
   multiple: "Multiple",
   credit: "Store credit",
@@ -552,6 +554,7 @@ export function formatCheckoutPaymentSummary(order: RestaurantOrderRecord): stri
   const m = methods[0]!;
   if (m === "card") return CHECKOUT_PAYMENT_LABELS.card;
   if (m === "cash") return CHECKOUT_PAYMENT_LABELS.cash;
+  if (m === "wallet") return CHECKOUT_PAYMENT_LABELS.wallet;
   return CHECKOUT_PAYMENT_LABELS.upi;
 }
 

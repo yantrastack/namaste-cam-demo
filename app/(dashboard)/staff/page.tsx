@@ -1,5 +1,5 @@
-import { StaffDirectoryView } from "@/components/staff/StaffDirectoryView";
+import { redirect } from "next/navigation";
 
-export default function StaffPage() {
-  return <StaffDirectoryView />;
+export default function StaffIndexPage() {
+  redirect("/staff/attendance");
 }

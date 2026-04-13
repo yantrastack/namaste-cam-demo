@@ -19,10 +19,10 @@ export default function OrderCreatePage() {
             Orders
           </Link>
           <MaterialIcon name="chevron_right" className="text-sm text-outline" />
-          <span className="text-primary">New restaurant order</span>
+          <span className="text-primary">Create order</span>
         </nav>
       }
-      title="Create restaurant order"
+      title="Create order"
       description="Add guests, build the ticket from the catalog, and reconcile split payments."
     >
       <OrderBillEditorClient mode="create" initial={draft} />

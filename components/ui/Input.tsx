@@ -23,7 +23,7 @@ export function Input({
   const state = error ? "error" : success ? "success" : "default";
 
   const fieldClass = cn(
-    "w-full rounded-xl border-none py-4 outline-none transition-all",
+    "box-border min-h-12 w-full rounded-xl border-none py-3 font-body text-sm font-semibold text-on-surface outline-none transition-all",
     left ? "pl-12 pr-4" : "px-4",
     state === "default" &&
       "bg-surface ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary",

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
+import { Switch } from "@/components/ui/Switch";
+import { Tooltip } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/cn";
 import { foodById, type FoodItem, type SelectedLine } from "./model";
 
@@ -12,6 +14,9 @@ export type SelectedItemsPanelProps = {
   lines: SelectedLine[];
   onChangeQuantity: (foodId: number, quantity: number) => void;
   onRemove: (foodId: number) => void;
+  /** Food IDs added this session (edit flow): those rows show the main-menu vs today-only switch. */
+  mainMenuScopeSessionFoodIds?: readonly number[];
+  onIncludeInMainMenuChange?: (foodId: number, includeInMainMenu: boolean) => void;
   title?: string;
   className?: string;
 };
@@ -21,6 +26,8 @@ export function SelectedItemsPanel({
   lines,
   onChangeQuantity,
   onRemove,
+  mainMenuScopeSessionFoodIds,
+  onIncludeInMainMenuChange,
   title = "Selected items",
   className,
 }: SelectedItemsPanelProps) {
@@ -44,6 +51,9 @@ export function SelectedItemsPanel({
           {lines.map((line) => {
             const item = foodById(foodItems, line.foodId);
             if (!item) return null;
+            const showMainMenuScope =
+              Boolean(onIncludeInMainMenuChange) &&
+              Boolean(mainMenuScopeSessionFoodIds?.includes(line.foodId));
             return (
               <li
                 key={line.foodId}
@@ -62,23 +72,56 @@ export function SelectedItemsPanel({
                     <p className="text-sm font-bold text-primary">₹{item.price}</p>
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-2 sm:justify-end">
-                  <QuantityStepper
-                    value={line.quantity}
-                    min={1}
-                    max={999}
-                    onChange={(n) => onChangeQuantity(line.foodId, n)}
-                  />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="text-secondary hover:text-error"
-                    onClick={() => onRemove(line.foodId)}
-                    aria-label={`Remove ${item.name}`}
-                  >
-                    <MaterialIcon name="delete" className="text-xl" />
-                  </Button>
+                <div className="flex w-full min-w-0 flex-1 flex-wrap items-center justify-between gap-2 sm:justify-end">
+                  {showMainMenuScope && onIncludeInMainMenuChange ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Switch
+                        checked={line.includeInMainMenu !== false}
+                        onCheckedChange={(checked) =>
+                          onIncludeInMainMenuChange(line.foodId, checked)
+                        }
+                        aria-label={`Add ${item.name} to main menu for every week`}
+                      />
+                      <span className="text-xs font-semibold text-on-surface">Add to main menu</span>
+                      <Tooltip
+                        content={
+                          <>
+                            <span className="font-bold text-on-surface">Main menu</span> dishes repeat on
+                            the weekdays you selected.{" "}
+                            <span className="font-bold text-on-surface">Today only</span> (switch off) keeps
+                            the dish on Today&apos;s menu for planning, but it is not saved as part of the
+                            recurring weekly roster.
+                          </>
+                        }
+                      >
+                        <button
+                          type="button"
+                          className="inline-flex size-8 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-container-high hover:text-on-surface"
+                          aria-label="Main menu vs today only"
+                        >
+                          <MaterialIcon name="error" className="text-lg text-primary" filled />
+                        </button>
+                      </Tooltip>
+                    </div>
+                  ) : null}
+                  <div className="flex items-center gap-2">
+                    <QuantityStepper
+                      value={line.quantity}
+                      min={1}
+                      max={999}
+                      onChange={(n) => onChangeQuantity(line.foodId, n)}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="text-secondary hover:text-error"
+                      onClick={() => onRemove(line.foodId)}
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      <MaterialIcon name="delete" className="text-xl" />
+                    </Button>
+                  </div>
                 </div>
               </li>
             );

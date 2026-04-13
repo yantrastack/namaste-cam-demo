@@ -61,7 +61,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
         >
           <MaterialIcon name="notifications" />
         </button>
-        <div className="ml-1 flex items-center gap-2 rounded-full bg-surface-container-high px-3 py-2">
+        <div className="ml-1 flex items-center gap-2 rounded-full bg-surface px-3 py-2 ring-1 ring-outline-variant/20">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
             {name ? name.slice(0, 1).toUpperCase() : "A"}
           </div>

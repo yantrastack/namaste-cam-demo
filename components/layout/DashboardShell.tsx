@@ -10,7 +10,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useMemo, useSyncExternalStore, useState, cloneElement, type ReactNode } from "react";
 import { DashboardMiniSidebar } from "@/components/layout/DashboardMiniSidebar";
 import { Header } from "@/components/layout/Header";
-import { Sidebar } from "@/components/layout/Sidebar";
 import { UsersProvider } from "@/components/users/UsersProvider";
 
 export function DashboardShell({ children }: { children: ReactNode }) {
@@ -44,12 +43,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
     );
   }
 
-  const isUsersShell = pathname.startsWith("/users");
-
   return (
     <UsersProvider>
       <div className="flex h-screen overflow-hidden bg-background">
-        {isUsersShell ? <Sidebar /> : <DashboardMiniSidebar />}
+        <DashboardMiniSidebar />
         <div
           className="flex min-w-0 flex-1 flex-col transition-all duration-300 ease-in-out"
           id="main-content"

@@ -1,14 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
+import { Switch } from "@/components/ui/Switch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+} from "@/components/ui/Table";
 import { cn } from "@/lib/cn";
 
 type OperationalStatus = "active" | "pending" | "inactive";
+
+type ServicePincodeRow = {
+  id: string;
+  pincode: string;
+  areaName: string;
+};
+
+function newPincodeId() {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `pc-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 
 const fieldLabel =
   "ml-1 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant";
@@ -50,7 +72,55 @@ function SectionCard({
 
 export function RestaurantOnboardForm() {
   const [status, setStatus] = useState<OperationalStatus>("active");
+  const [deliveryOnly, setDeliveryOnly] = useState(false);
   const [ownerLinked, setOwnerLinked] = useState(true);
+  const [servicePincodes, setServicePincodes] = useState<ServicePincodeRow[]>([]);
+  const [draftPincode, setDraftPincode] = useState("");
+  const [draftAreaName, setDraftAreaName] = useState("");
+  const [editingPincodeId, setEditingPincodeId] = useState<string | null>(null);
+
+  const servicePincodesPayload = useMemo(
+    () =>
+      JSON.stringify(
+        servicePincodes.map(({ pincode, areaName }) => ({ pincode, areaName })),
+      ),
+    [servicePincodes],
+  );
+
+  function resetPincodeDraft() {
+    setDraftPincode("");
+    setDraftAreaName("");
+    setEditingPincodeId(null);
+  }
+
+  function handleAddOrSavePincode() {
+    const pincode = draftPincode.trim();
+    const areaName = draftAreaName.trim();
+    if (!pincode || !areaName) return;
+
+    if (editingPincodeId) {
+      setServicePincodes((rows) =>
+        rows.map((row) =>
+          row.id === editingPincodeId ? { ...row, pincode, areaName } : row,
+        ),
+      );
+      resetPincodeDraft();
+      return;
+    }
+
+    setServicePincodes((rows) => [
+      ...rows,
+      { id: newPincodeId(), pincode, areaName },
+    ]);
+    setDraftPincode("");
+    setDraftAreaName("");
+  }
+
+  function handleStartEditPincode(row: ServicePincodeRow) {
+    setEditingPincodeId(row.id);
+    setDraftPincode(row.pincode);
+    setDraftAreaName(row.areaName);
+  }
 
   return (
     <form
@@ -125,6 +195,7 @@ export function RestaurantOnboardForm() {
         </SectionCard>
 
         <SectionCard icon="toggle_on" title="Operational status">
+          <input type="hidden" name="deliveryOnly" value={deliveryOnly ? "true" : "false"} readOnly />
           <div className="flex flex-wrap gap-4">
             {(
               [
@@ -155,6 +226,19 @@ export function RestaurantOnboardForm() {
               </label>
             ))}
           </div>
+          <FieldShell label="Delivery only">
+            <div className="flex items-center justify-between gap-4 rounded-xl bg-surface px-4 py-3 ring-1 ring-outline-variant/20">
+              <p className="min-w-0 text-sm text-on-surface-variant">
+                When enabled, this partner is shown for delivery only (no dine-in on Namaste Cam).
+              </p>
+              <Switch
+                checked={deliveryOnly}
+                onCheckedChange={setDeliveryOnly}
+                className="shrink-0"
+                aria-label="Delivery only"
+              />
+            </div>
+          </FieldShell>
         </SectionCard>
 
         <SectionCard icon="badge" title="Owner assignment">
@@ -205,13 +289,107 @@ export function RestaurantOnboardForm() {
       </SectionCard>
 
       <SectionCard icon="map" title="Service pincodes">
-        <FieldShell label="Enter pincodes">
-          <textarea
-            name="pincodes"
-            rows={3}
-            placeholder="Comma-separated list, e.g. CB1 1AA, CB2 3PQ"
-            className="w-full resize-y rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
-          />
+        <input type="hidden" name="servicePincodes" value={servicePincodesPayload} readOnly />
+        <FieldShell label={editingPincodeId ? "Edit service area" : "Add service area"}>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input
+              label="Pincode"
+              name="draftServicePincode"
+              value={draftPincode}
+              onChange={(e) => setDraftPincode(e.target.value)}
+              placeholder="e.g. CB1 1AA"
+              autoComplete="postal-code"
+            />
+            <Input
+              label="Area name"
+              name="draftServiceAreaName"
+              value={draftAreaName}
+              onChange={(e) => setDraftAreaName(e.target.value)}
+              placeholder="e.g. Cambridge city centre"
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Button
+              variant="primary"
+              size="sm"
+              type="button"
+              onClick={handleAddOrSavePincode}
+              disabled={!draftPincode.trim() || !draftAreaName.trim()}
+            >
+              <MaterialIcon name={editingPincodeId ? "save" : "add"} className="text-lg" />
+              {editingPincodeId ? "Save changes" : "Add pincode"}
+            </Button>
+            {editingPincodeId ? (
+              <Button variant="secondary" size="sm" type="button" onClick={resetPincodeDraft}>
+                Cancel
+              </Button>
+            ) : null}
+          </div>
+        </FieldShell>
+
+        <FieldShell label="Service areas">
+          {servicePincodes.length === 0 ? (
+            <p className="text-sm text-on-surface-variant">
+              No service areas yet. Add a pincode and area name above.
+            </p>
+          ) : (
+            <div className="overflow-hidden rounded-xl ring-1 ring-outline-variant/15">
+              <Table>
+                <TableHead className="border-b border-outline-variant/10 bg-surface-container-low/60">
+                  <tr>
+                    <TableHeaderCell className="py-3 text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
+                      Pincode
+                    </TableHeaderCell>
+                    <TableHeaderCell className="py-3 text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
+                      Area name
+                    </TableHeaderCell>
+                    <TableHeaderCell className="w-px py-3 text-right text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
+                      Actions
+                    </TableHeaderCell>
+                  </tr>
+                </TableHead>
+                <TableBody className="divide-y-0 bg-surface-container-lowest">
+                  {servicePincodes.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      className="border-b border-outline-variant/10 last:border-b-0 hover:bg-surface-container-low/40"
+                    >
+                      <TableCell className="py-3 text-sm font-bold text-on-surface">
+                        {row.pincode}
+                      </TableCell>
+                      <TableCell className="py-3 text-sm font-medium text-on-surface">
+                        {row.areaName}
+                      </TableCell>
+                      <TableCell className="py-3">
+                        <div className="flex justify-end gap-1">
+                          <button
+                            type="button"
+                            onClick={() => handleStartEditPincode(row)}
+                            className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-primary"
+                            aria-label={`Edit ${row.pincode}`}
+                          >
+                            <MaterialIcon name="edit" className="text-lg" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setServicePincodes((rows) => rows.filter((r) => r.id !== row.id));
+                              if (editingPincodeId === row.id) resetPincodeDraft();
+                            }}
+                            className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-error"
+                            aria-label={`Remove ${row.pincode}`}
+                          >
+                            <MaterialIcon name="delete" className="text-lg" />
+                          </button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
         </FieldShell>
       </SectionCard>
 

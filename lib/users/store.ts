@@ -1,7 +1,13 @@
 import seed from "@/data/users-seed.json";
-import type { ManagedUser, UserRole, UserStatus } from "./types";
+import { isStaffLikeRole } from "@/lib/users/role-policy";
+import type {
+  ManagedUser,
+  StaffProfile,
+  UserRole,
+  UserStatus,
+} from "./types";
 
-const STORAGE_KEY = "namaste-cam-users-store-v3";
+const STORAGE_KEY = "namaste-cam-users-store-v5";
 
 const FALLBACK_AVATAR =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuA9hbRJ_e1L8nTeuPZ77n1KRKKhkWcNcyg6UQMuiqJD-blZjfhk3xVk3pyotPX1BokJIlYuA9lUGXedKH5lgq8g8b5YW112Gq4JuIUKuNXDlrfoLQ0wpPCbTc0Fx0kiaOecQUe9B_qk1SACoJEIsknUjg7gPSzirDaQm8jNugiAb-ZX64oQWqKtLwlaR1fwlpbWhXdSdoMD0cLoICuCYAKuVJjsT_wpK0XigXC6yV_jXgOtUJji2LXGWZVu8Dz0My3D4O1fl3Y1KYg";
@@ -12,7 +18,30 @@ const ROLES: readonly UserRole[] = [
   "restaurant_admin",
   "delivery_agent",
   "customer",
+  "cook",
+  "manager",
 ];
+
+function normalizeStaffProfile(
+  raw: unknown,
+  role: UserRole,
+): StaffProfile | undefined {
+  if (!isStaffLikeRole(role)) return undefined;
+  const o = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const amt = Number(o.compensationAmount);
+  const compensationAmount = Number.isFinite(amt) ? Math.round(amt * 100) / 100 : 0;
+  const compType = o.compensationType === "monthly" ? "monthly" : "hourly";
+  return {
+    alternativeEmail: typeof o.alternativeEmail === "string" ? o.alternativeEmail : "",
+    secondaryPhone: typeof o.secondaryPhone === "string" ? o.secondaryPhone : "",
+    address: typeof o.address === "string" ? o.address : "",
+    idProofFileName: typeof o.idProofFileName === "string" ? o.idProofFileName : "",
+    cvFileName: typeof o.cvFileName === "string" ? o.cvFileName : "",
+    temporaryStaff: Boolean(o.temporaryStaff),
+    compensationType: compType,
+    compensationAmount,
+  };
+}
 
 export function normalizeManagedUser(
   raw: Partial<ManagedUser> & Pick<ManagedUser, "id">,
@@ -30,6 +59,7 @@ export function normalizeManagedUser(
     typeof raw.creditLimit === "number" && Number.isFinite(raw.creditLimit)
       ? raw.creditLimit
       : 0;
+  const staffProfile = normalizeStaffProfile(raw.staffProfile, role);
   return {
     id: raw.id,
     name: typeof raw.name === "string" ? raw.name : "",
@@ -49,8 +79,14 @@ export function normalizeManagedUser(
     walletBalance: wb,
     creditLimit: cl,
     walletNote: typeof raw.walletNote === "string" ? raw.walletNote : "",
+    strictCustomer: Boolean(raw.strictCustomer),
+    staffProfile,
     twoFactorEnabled: Boolean(raw.twoFactorEnabled),
     requirePasswordReset: Boolean(raw.requirePasswordReset),
+    lastActivity:
+      typeof raw.lastActivity === "string" && raw.lastActivity.length >= 8
+        ? raw.lastActivity
+        : undefined,
   };
 }
 

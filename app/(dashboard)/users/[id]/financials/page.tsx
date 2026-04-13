@@ -87,7 +87,13 @@ export default function UserFinancialsPage() {
   return (
     <UserModuleCanvas>
       <div className="mx-auto max-w-2xl">
-        <UserScreenToolbar title="Edit Financials" />
+        <UserScreenToolbar
+          breadcrumbs={[
+            { label: "Users", href: "/users" },
+            { label: user.name, href: `/users/${id}` },
+            { label: "Financials" },
+          ]}
+        />
 
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-6">
@@ -110,11 +116,11 @@ export default function UserFinancialsPage() {
             <div className="space-y-6">
               <div>
                 <label className={labelClass} htmlFor="fin-wallet">
-                  Wallet balance (USD)
+                  Wallet balance (GBP)
                 </label>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                    $
+                    £
                   </span>
                   <input
                     id="fin-wallet"
@@ -133,11 +139,11 @@ export default function UserFinancialsPage() {
 
               <div>
                 <label className={labelClass} htmlFor="fin-credit">
-                  Credit limit (USD)
+                  Credit limit (GBP)
                 </label>
                 <div className="relative">
                   <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                    $
+                    £
                   </span>
                   <input
                     id="fin-credit"

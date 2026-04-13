@@ -15,7 +15,12 @@ import {
   newUserId,
   saveUsersStore,
 } from "@/lib/users/store";
-import type { ManagedUser, UserRole, UserStatus } from "@/lib/users/types";
+import type {
+  ManagedUser,
+  StaffProfile,
+  UserRole,
+  UserStatus,
+} from "@/lib/users/types";
 
 export type UsersContextValue = {
   users: ManagedUser[];
@@ -30,6 +35,11 @@ export type UsersContextValue = {
     notes?: string;
     twoFactorEnabled?: boolean;
     requirePasswordReset?: boolean;
+    walletBalance?: number;
+    creditLimit?: number;
+    strictCustomer?: boolean;
+    staffProfile?: StaffProfile;
+    avatarUrl?: string;
   }) => ManagedUser;
 };
 
@@ -69,8 +79,15 @@ export function UsersProvider({ children }: { children: ReactNode }) {
       notes?: string;
       twoFactorEnabled?: boolean;
       requirePasswordReset?: boolean;
+      walletBalance?: number;
+      creditLimit?: number;
+      strictCustomer?: boolean;
+      staffProfile?: StaffProfile;
+      avatarUrl?: string;
     }): ManagedUser => {
       const today = new Date().toISOString().slice(0, 10);
+      const defaultAvatar =
+        "https://lh3.googleusercontent.com/aida-public/AB6AXuA9hbRJ_e1L8nTeuPZ77n1KRKKhkWcNcyg6UQMuiqJD-blZjfhk3xVk3pyotPX1BokJIlYuA9lUGXedKH5lgq8g8b5YW112Gq4JuIUKuNXDlrfoLQ0wpPCbTc0Fx0kiaOecQUe9B_qk1SACoJEIsknUjg7gPSzirDaQm8jNugiAb-ZX64oQWqKtLwlaR1fwlpbWhXdSdoMD0cLoICuCYAKuVJjsT_wpK0XigXC6yV_jXgOtUJji2LXGWZVu8Dz0My3D4O1fl3Y1KYg";
       const user: ManagedUser = {
         id: newUserId(),
         name: input.name.trim(),
@@ -80,11 +97,15 @@ export function UsersProvider({ children }: { children: ReactNode }) {
         status: "active",
         joinDate: today,
         avatarUrl:
-          "https://lh3.googleusercontent.com/aida-public/AB6AXuA9hbRJ_e1L8nTeuPZ77n1KRKKhkWcNcyg6UQMuiqJD-blZjfhk3xVk3pyotPX1BokJIlYuA9lUGXedKH5lgq8g8b5YW112Gq4JuIUKuNXDlrfoLQ0wpPCbTc0Fx0kiaOecQUe9B_qk1SACoJEIsknUjg7gPSzirDaQm8jNugiAb-ZX64oQWqKtLwlaR1fwlpbWhXdSdoMD0cLoICuCYAKuVJjsT_wpK0XigXC6yV_jXgOtUJji2LXGWZVu8Dz0My3D4O1fl3Y1KYg",
+          typeof input.avatarUrl === "string" && input.avatarUrl.length > 0
+            ? input.avatarUrl
+            : defaultAvatar,
         notes: input.notes?.trim() ?? "",
-        walletBalance: 0,
-        creditLimit: 500,
+        walletBalance: input.walletBalance ?? 0,
+        creditLimit: input.creditLimit ?? 500,
         walletNote: "",
+        strictCustomer: input.strictCustomer ?? false,
+        staffProfile: input.staffProfile,
         twoFactorEnabled: input.twoFactorEnabled ?? false,
         requirePasswordReset: input.requirePasswordReset ?? false,
       };

@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
@@ -55,6 +54,8 @@ type BuilderState = {
   bannerText: string;
   activeDay: number;
   itemsByDay: Record<number, SelectedLine[]>;
+  /** While editing a normal menu, foodIds added from the catalog this session (not on load). */
+  normalSessionAddedFoodIds: number[];
 };
 
 function newId() {
@@ -64,9 +65,14 @@ function newId() {
   return `menu-${Date.now()}`;
 }
 
-function mergeLines(lines: SelectedLine[], foodId: number): SelectedLine[] {
+function mergeLines(
+  lines: SelectedLine[],
+  foodId: number,
+  options?: { defaultIncludeInMainMenu?: boolean },
+): SelectedLine[] {
   if (lines.some((l) => l.foodId === foodId)) return lines;
-  return [...lines, { foodId, quantity: 15 }];
+  const includeInMainMenu = options?.defaultIncludeInMainMenu ?? true;
+  return [...lines, { foodId, quantity: 15, includeInMainMenu }];
 }
 
 function updateLineQty(lines: SelectedLine[], foodId: number, quantity: number): SelectedLine[] {
@@ -114,6 +120,7 @@ function createBuilderState(
     bannerText: "",
     activeDay: 1,
     itemsByDay: createEmptyDayMap(7),
+    normalSessionAddedFoodIds: [],
   };
 
   if (!menu && launchWithKind) {
@@ -178,6 +185,7 @@ function createBuilderState(
       mealCategory: n.category,
       days: n.days.length ? [...n.days] : [...WEEKDAY_KEYS],
       normalLines: n.items,
+      normalSessionAddedFoodIds: [],
     };
   }
 
@@ -187,6 +195,7 @@ function createBuilderState(
     kind: "normal",
     editId: menu.id,
     name: menu.name,
+    normalSessionAddedFoodIds: [],
   };
 }
 
@@ -270,7 +279,11 @@ export function MenuBuilderWorkspace({
         normalDetails: {
           category: s.mealCategory,
           days: s.days,
-          items: s.normalLines,
+          items: s.normalLines.map(({ foodId, quantity, includeInMainMenu }) => ({
+            foodId,
+            quantity,
+            ...(includeInMainMenu === false ? { includeInMainMenu: false } : {}),
+          })),
         },
       });
       return;
@@ -332,7 +345,15 @@ export function MenuBuilderWorkspace({
   const addFromCatalog = (foodId: number) => {
     setS((prev) => {
       if (prev.kind === "normal") {
-        return { ...prev, normalLines: mergeLines(prev.normalLines, foodId) };
+        const already = prev.normalLines.some((l) => l.foodId === foodId);
+        const normalLines = mergeLines(prev.normalLines, foodId, {
+          defaultIncludeInMainMenu: !menuToEdit,
+        });
+        const normalSessionAddedFoodIds =
+          menuToEdit && !already
+            ? [...prev.normalSessionAddedFoodIds, foodId]
+            : prev.normalSessionAddedFoodIds;
+        return { ...prev, normalLines, normalSessionAddedFoodIds };
       }
       if (prev.kind === "special") {
         return { ...prev, specialLines: mergeLines(prev.specialLines, foodId) };
@@ -341,10 +362,25 @@ export function MenuBuilderWorkspace({
         const cur = prev.itemsByDay[prev.activeDay] ?? [];
         return {
           ...prev,
-          itemsByDay: { ...prev.itemsByDay, [prev.activeDay]: mergeLines(cur, foodId) },
+          itemsByDay: {
+            ...prev.itemsByDay,
+            [prev.activeDay]: mergeLines(cur, foodId),
+          },
         };
       }
       return prev;
+    });
+  };
+
+  const setLineIncludeInMainMenu = (foodId: number, includeInMainMenu: boolean) => {
+    setS((prev) => {
+      if (prev.kind !== "normal") return prev;
+      return {
+        ...prev,
+        normalLines: prev.normalLines.map((l) =>
+          l.foodId === foodId ? { ...l, includeInMainMenu } : l,
+        ),
+      };
     });
   };
 
@@ -373,7 +409,11 @@ export function MenuBuilderWorkspace({
   const removeFromSelection = (foodId: number) => {
     setS((prev) => {
       if (prev.kind === "normal") {
-        return { ...prev, normalLines: removeLine(prev.normalLines, foodId) };
+        return {
+          ...prev,
+          normalLines: removeLine(prev.normalLines, foodId),
+          normalSessionAddedFoodIds: prev.normalSessionAddedFoodIds.filter((id) => id !== foodId),
+        };
       }
       if (prev.kind === "special") {
         return { ...prev, specialLines: removeLine(prev.specialLines, foodId) };
@@ -441,9 +481,6 @@ export function MenuBuilderWorkspace({
             </h2>
           </div>
         </div>
-        <Badge tone="warning" className="shrink-0">
-          Draft mode
-        </Badge>
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
@@ -487,6 +524,7 @@ export function MenuBuilderWorkspace({
               >
                 <option value="lunch">Lunch</option>
                 <option value="dinner">Dinner</option>
+                <option value="both">Both (lunch & dinner)</option>
               </SelectField>
             </div>
 
@@ -518,6 +556,8 @@ export function MenuBuilderWorkspace({
               <SelectedItemsPanel
                 foodItems={foodItems}
                 lines={linesForCatalog}
+                mainMenuScopeSessionFoodIds={s.normalSessionAddedFoodIds}
+                onIncludeInMainMenuChange={menuToEdit ? setLineIncludeInMainMenu : undefined}
                 onChangeQuantity={changeQty}
                 onRemove={removeFromSelection}
               />
@@ -697,9 +737,6 @@ export function MenuBuilderWorkspace({
           </Button>
         </div>
         <div className="flex flex-wrap gap-2 sm:justify-end">
-          <Button type="button" variant="outline" size="sm" disabled>
-            Save as template
-          </Button>
           <Button type="button" size="sm" disabled={!canSave} onClick={handleSave}>
             Save menu
           </Button>

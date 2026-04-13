@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
@@ -19,7 +18,24 @@ import {
   getPartnerDirectorySample,
   type PartnerDirectoryRow,
   type PartnerRestaurantStatus,
+  type SalesLocationTrend,
 } from "@/lib/restaurants-directory-sample";
+
+function SalesTrendIcon({ trend }: { trend: SalesLocationTrend }) {
+  if (trend === "up") {
+    return <MaterialIcon name="trending_up" className="text-sm text-green-600" />;
+  }
+  if (trend === "down") {
+    return <MaterialIcon name="trending_down" className="text-sm text-red-600" />;
+  }
+  return <MaterialIcon name="horizontal_rule" className="text-sm text-on-surface-variant" />;
+}
+
+function salesDeltaTone(trend: SalesLocationTrend) {
+  if (trend === "up") return "text-green-600";
+  if (trend === "down") return "text-red-600";
+  return "text-on-surface-variant";
+}
 
 function statusPill(status: PartnerRestaurantStatus) {
   const styles: Record<PartnerRestaurantStatus, { dot: string; wrap: string; text: string }> = {
@@ -54,59 +70,14 @@ function statusPill(status: PartnerRestaurantStatus) {
 }
 
 function RowActions({ row }: { row: PartnerDirectoryRow }) {
-  if (row.actionKind === "pending_review") {
-    return (
-      <div className="flex flex-wrap items-center justify-end gap-2">
-        <Button variant="primary" size="sm" type="button" className="min-w-0 rounded-full px-3 py-1.5 text-[11px]">
-          Approve
-        </Button>
-        <Button variant="secondary" size="sm" type="button" className="min-w-0 rounded-full px-3 py-1.5 text-[11px]">
-          Reject
-        </Button>
-      </div>
-    );
-  }
-  if (row.actionKind === "inactive") {
-    return (
-      <div className="flex items-center justify-end gap-2">
-        <button
-          type="button"
-          className="rounded-full px-2 py-2 text-xs font-bold uppercase text-primary hover:underline"
-        >
-          Activate
-        </button>
-        <button
-          type="button"
-          className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
-          aria-label={`Edit ${row.name}`}
-        >
-          <MaterialIcon name="edit" className="text-lg" />
-        </button>
-      </div>
-    );
-  }
   return (
-    <div className="flex items-center justify-end gap-1">
+    <div className="flex items-center justify-end">
       <button
         type="button"
         className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
         aria-label={`Edit ${row.name}`}
       >
         <MaterialIcon name="edit" className="text-lg" />
-      </button>
-      <button
-        type="button"
-        className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
-        aria-label={`Suspend ${row.name}`}
-      >
-        <MaterialIcon name="block" className="text-lg" />
-      </button>
-      <button
-        type="button"
-        className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
-        aria-label={`More actions for ${row.name}`}
-      >
-        <MaterialIcon name="more_vert" className="text-lg" />
       </button>
     </div>
   );
@@ -138,16 +109,8 @@ export default async function RestaurantsPage() {
     >
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <Card className="flex flex-col overflow-hidden p-0 lg:col-span-12">
-          <div className="flex flex-col gap-3 border-b border-outline-variant/10 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
-            <h3 className="text-lg font-bold text-on-surface">Partner directory</h3>
-            <div className="flex flex-wrap gap-2">
-              <span className="rounded-md bg-primary-fixed px-3 py-1 text-xs font-bold text-on-primary-fixed">
-                {data.pendingCount} pending
-              </span>
-              <span className="rounded-md bg-surface-container-high px-3 py-1 text-xs font-bold text-on-surface-variant">
-                {data.totalCount.toLocaleString()} total
-              </span>
-            </div>
+          <div className="border-b border-outline-variant/10 px-6 py-5">
+            <h3 className="text-lg font-bold text-on-surface">Restaurant listing</h3>
           </div>
           <Table>
             <TableHead className="bg-surface-container-low/50">
@@ -160,9 +123,6 @@ export default async function RestaurantsPage() {
                 </TableHeaderCell>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
                   Location
-                </TableHeaderCell>
-                <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
-                  Cuisine
                 </TableHeaderCell>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
                   Status
@@ -198,11 +158,6 @@ export default async function RestaurantsPage() {
                   <TableCell>
                     <p className="text-sm text-on-surface-variant">{row.location}</p>
                   </TableCell>
-                  <TableCell>
-                    <Badge tone="info" className="normal-case tracking-normal">
-                      {row.cuisine}
-                    </Badge>
-                  </TableCell>
                   <TableCell>{statusPill(row.status)}</TableCell>
                   <TableCell className="text-right">
                     <RowActions row={row} />
@@ -213,54 +168,40 @@ export default async function RestaurantsPage() {
           </Table>
         </Card>
 
-        <div className="col-span-1 grid gap-6 sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
-          <Card className="border-l-4 border-l-primary p-5">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-              New applications
-            </p>
-            <div className="flex items-end justify-between">
-              <p className="text-3xl font-extrabold text-on-surface">{data.kpis.newApplications.value}</p>
-              <span className="flex items-center text-xs font-bold text-green-600">
-                {data.kpis.newApplications.delta}{" "}
-                <MaterialIcon name="trending_up" className="text-sm" />
-              </span>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-              Total revenue share
-            </p>
-            <div className="flex items-end justify-between">
-              <p className="text-3xl font-extrabold text-on-surface">{data.kpis.revenueShare.value}</p>
-              <span className="flex items-center text-xs font-bold text-green-600">
-                {data.kpis.revenueShare.delta}{" "}
-                <MaterialIcon name="trending_up" className="text-sm" />
-              </span>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-              Partner satisfaction
-            </p>
-            <div className="flex items-end justify-between gap-2">
-              <p className="text-3xl font-extrabold text-on-surface">{data.kpis.satisfaction.value}</p>
-              <div className="flex text-tertiary" aria-hidden>
-                {[1, 2, 3, 4].map((i) => (
-                  <MaterialIcon key={i} name="star" className="text-sm" style={{ fontVariationSettings: "'FILL' 1" }} />
-                ))}
-                <MaterialIcon name="star_half" className="text-sm" style={{ fontVariationSettings: "'FILL' 1" }} />
-              </div>
-            </div>
-          </Card>
-          <Card className="p-5">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
-              Churn rate
-            </p>
-            <div className="flex items-end justify-between">
-              <p className="text-3xl font-extrabold text-on-surface">{data.kpis.churn.value}</p>
-              <span className="text-xs font-bold text-on-surface-variant">{data.kpis.churn.note}</span>
-            </div>
-          </Card>
+        <div className="col-span-1 space-y-3 lg:col-span-12">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between sm:gap-4">
+            <h3 className="text-base font-bold text-on-surface">Sales by location</h3>
+            <p className="text-sm text-on-surface-variant">{data.salesByLocation.periodLabel}</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {data.salesByLocation.locations.map((loc) => (
+              <Card
+                key={loc.id}
+                className={cn(
+                  "flex flex-col gap-3 p-5",
+                  loc.highlight && "border-l-4 border-l-primary",
+                )}
+              >
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">
+                    {loc.name}
+                  </p>
+                  <p className="mt-1 text-xs font-medium text-on-surface-variant">{loc.serviceMode}</p>
+                </div>
+                <div>
+                  <p className="text-3xl font-extrabold tracking-tight text-on-surface">{loc.revenue}</p>
+                  <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className={cn("flex items-center gap-1 text-xs font-bold", salesDeltaTone(loc.trend))}>
+                      {loc.deltaLabel}
+                      <SalesTrendIcon trend={loc.trend} />
+                    </span>
+                    <span className="text-xs text-on-surface-variant">{loc.deltaCaption}</span>
+                  </div>
+                </div>
+                <p className="mt-auto text-xs font-semibold text-on-surface-variant">{loc.ordersLabel}</p>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </PageContainer>

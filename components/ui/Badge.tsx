@@ -11,7 +11,8 @@ const tones: Record<BadgeTone, string> = {
   success: "bg-green-50 text-green-600 ring-1 ring-green-100",
   warning: "bg-amber-50 text-amber-600 ring-1 ring-amber-100",
   error: "bg-red-50 text-red-600 ring-1 ring-red-100",
-  neutral: "bg-stone-100 text-stone-600",
+  /** Ring matches other tones so mixed rows align to the same height */
+  neutral: "bg-stone-100 text-stone-600 ring-1 ring-stone-200/80",
   info: "bg-secondary-container text-on-secondary-container ring-1 ring-secondary-fixed-dim/40",
 };
 
@@ -23,7 +24,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest",
+        "inline-flex min-h-6 items-center justify-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest leading-none",
         tones[tone],
         className,
       )}

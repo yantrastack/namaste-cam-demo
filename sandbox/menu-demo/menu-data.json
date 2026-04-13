@@ -301,7 +301,8 @@
             { "size": "Small", "price_gbp": 4.25, "currency": "GBP" }
           ],
           "base_price_gbp": 8.49,
-          "available": true
+          "available": true,
+          "available_qty": 0
         }
       ]
     },

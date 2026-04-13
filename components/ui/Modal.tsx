@@ -16,6 +16,8 @@ export type ModalProps = {
   unpadded?: boolean;
   /** Scrim behind the dialog (defaults to a dim neutral veil). */
   backdropClassName?: string;
+  /** Edge-to-edge dialog (e.g. catalog preview). */
+  fullscreen?: boolean;
 };
 
 export function Modal({
@@ -28,6 +30,7 @@ export function Modal({
   className,
   unpadded,
   backdropClassName,
+  fullscreen = false,
 }: ModalProps) {
   useEffect(() => {
     if (!open) return;
@@ -42,7 +45,10 @@ export function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      className={cn(
+        "fixed inset-0 z-[100] flex",
+        fullscreen ? "items-stretch justify-stretch p-0" : "items-center justify-center p-4",
+      )}
       role="presentation"
     >
       <button
@@ -58,8 +64,12 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "relative z-[101] w-full max-w-sm rounded-xl border border-outline-variant/10 bg-surface-container-lowest shadow-xl",
-          !unpadded && "p-8",
+          "relative z-[101] w-full border border-outline-variant/10 bg-surface-container-lowest shadow-xl",
+          fullscreen
+            ? "flex max-h-[100dvh] min-h-0 max-w-none flex-1 flex-col rounded-none border-outline-variant/15"
+            : cn("rounded-xl", className?.trim() ? undefined : "max-w-sm"),
+          !unpadded && !fullscreen && "p-8",
+          (unpadded || fullscreen) && "p-0",
           className,
         )}
       >

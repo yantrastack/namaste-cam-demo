@@ -14,6 +14,10 @@ import {
   userStatusLabel,
 } from "@/components/users/UsersProvider";
 import { USER_ROLE_OPTIONS } from "@/lib/users/roles";
+import {
+  isCustomerLikeRole,
+  isStaffLikeRole,
+} from "@/lib/users/role-policy";
 import type { ManagedUser, UserRole, UserStatus } from "@/lib/users/types";
 import { PeerToggleRow } from "@/components/users/PeerToggleRow";
 import { UserAvatar } from "@/components/users/UserAvatar";
@@ -168,7 +172,14 @@ export function UserDetailView() {
         onChange={handleAvatarChange}
       />
       <div className="mx-auto max-w-5xl">
-        <UserScreenToolbar title="Edit User Profile" />
+        <UserScreenToolbar
+          breadcrumbs={[
+            { label: "Users", href: "/users" },
+            {
+              label: draft.name.trim() || "Profile",
+            },
+          ]}
+        />
 
         <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <div>
@@ -248,66 +259,143 @@ export function UserDetailView() {
               </div>
             </section>
 
-            <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
-              <div className="mb-6 flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="rounded-lg bg-amber-50 p-2">
+            {isCustomerLikeRole(saved.role) ? (
+              <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
+                <div className="mb-6 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-lg bg-amber-50 p-2">
+                      <MaterialIcon
+                        name="account_balance_wallet"
+                        className="text-amber-600"
+                      />
+                    </div>
+                    <h2 className="font-headline text-lg font-bold text-on-surface">
+                      Financials
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => router.push(`/users/${id}/financials`)}
+                    className="shrink-0 rounded-full border border-outline-variant px-4 py-2 text-xs font-bold text-secondary transition-colors hover:bg-stone-100"
+                  >
+                    Edit
+                  </button>
+                </div>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label className={fieldLabel}>Wallet Balance (GBP)</label>
+                    <div className="relative">
+                      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
+                        £
+                      </span>
+                      <input
+                        type="text"
+                        readOnly
+                        tabIndex={-1}
+                        value={saved.walletBalance.toFixed(2)}
+                        className="w-full rounded-xl border-none bg-surface py-4 pl-8 pr-4 text-xl font-bold text-primary transition-all focus:ring-2 focus:ring-primary/20"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-stone-500">Credit limit</span>
+                    <span className="font-bold text-on-surface">
+                      £{saved.creditLimit.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-stone-500">Strict customer</span>
+                    <span className="font-bold text-on-surface">
+                      {saved.strictCustomer ? "Yes" : "No"}
+                    </span>
+                  </div>
+                  {saved.walletNote ? (
+                    <div className="rounded-xl bg-surface px-4 py-3 text-left">
+                      <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
+                        Wallet note
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-secondary">
+                        {saved.walletNote}
+                      </p>
+                    </div>
+                  ) : null}
+                  <p className="px-1 text-[11px] leading-relaxed text-stone-400">
+                    Updating the wallet balance will trigger an automated
+                    notification to the user. Use Edit to change balance, limit,
+                    and notes.
+                  </p>
+                </div>
+              </section>
+            ) : isStaffLikeRole(saved.role) ? (
+              <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
+                <div className="mb-6 flex items-center gap-3">
+                  <div className="rounded-lg bg-purple-50 p-2">
                     <MaterialIcon
-                      name="account_balance_wallet"
-                      className="text-amber-600"
+                      name="badge"
+                      className="text-purple-800"
                     />
                   </div>
                   <h2 className="font-headline text-lg font-bold text-on-surface">
-                    Financials
+                    Staff record
                   </h2>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => router.push(`/users/${id}/financials`)}
-                  className="shrink-0 rounded-full border border-outline-variant px-4 py-2 text-xs font-bold text-secondary transition-colors hover:bg-stone-100"
-                >
-                  Edit
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className={fieldLabel}>Wallet Balance (USD)</label>
-                  <div className="relative">
-                    <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                      $
-                    </span>
-                    <input
-                      type="text"
-                      readOnly
-                      tabIndex={-1}
-                      value={saved.walletBalance.toFixed(2)}
-                      className="w-full rounded-xl border-none bg-surface py-4 pl-8 pr-4 text-xl font-bold text-primary transition-all focus:ring-2 focus:ring-primary/20"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-stone-500">Credit limit</span>
-                  <span className="font-bold text-on-surface">
-                    ${saved.creditLimit.toFixed(2)}
-                  </span>
-                </div>
-                {saved.walletNote ? (
-                  <div className="rounded-xl bg-surface px-4 py-3 text-left">
-                    <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                      Wallet note
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-secondary">
-                      {saved.walletNote}
-                    </p>
-                  </div>
-                ) : null}
-                <p className="px-1 text-[11px] leading-relaxed text-stone-400">
-                  Updating the wallet balance will trigger an automated
-                  notification to the user. Use Edit to change balance, limit,
-                  and notes.
-                </p>
-              </div>
-            </section>
+                {saved.staffProfile ? (
+                  <dl className="space-y-3 text-sm">
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-stone-500">Alt. email</dt>
+                      <dd className="max-w-[55%] truncate text-right font-semibold text-on-surface">
+                        {saved.staffProfile.alternativeEmail || "—"}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-stone-500">2nd phone</dt>
+                      <dd className="font-semibold text-on-surface">
+                        {saved.staffProfile.secondaryPhone || "—"}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-surface px-4 py-3">
+                      <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
+                        Address
+                      </p>
+                      <p className="mt-1 text-sm leading-relaxed text-secondary">
+                        {saved.staffProfile.address || "—"}
+                      </p>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-stone-500">Temporary</dt>
+                      <dd className="font-semibold text-on-surface">
+                        {saved.staffProfile.temporaryStaff ? "Yes" : "No"}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2">
+                      <dt className="text-stone-500">Compensation</dt>
+                      <dd className="font-semibold text-on-surface">
+                        £{saved.staffProfile.compensationAmount.toFixed(2)}{" "}
+                        {saved.staffProfile.compensationType === "hourly"
+                          ? "/ hr"
+                          : "/ mo"}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2 text-xs">
+                      <dt className="text-stone-500">ID proof</dt>
+                      <dd className="truncate font-medium text-on-surface">
+                        {saved.staffProfile.idProofFileName || "—"}
+                      </dd>
+                    </div>
+                    <div className="flex justify-between gap-2 text-xs">
+                      <dt className="text-stone-500">CV</dt>
+                      <dd className="truncate font-medium text-on-surface">
+                        {saved.staffProfile.cvFileName || "—"}
+                      </dd>
+                    </div>
+                  </dl>
+                ) : (
+                  <p className="text-sm text-stone-500">
+                    No extended staff details on file yet.
+                  </p>
+                )}
+              </section>
+            ) : null}
           </div>
 
           <div className="lg:col-span-2">

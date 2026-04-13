@@ -16,7 +16,6 @@ import { useMenuManagementDemo } from "./MenuManagementDemoContext";
 import { DEMO_FOOD_ITEMS, type MenuKind, type MenuRow } from "./model";
 import type { SubscriptionMenuDraft } from "./subscription-menu-model";
 import type { SubscriptionMenuRecord } from "./initial-demo-subscriptions";
-import { TodaySlotItemsDrawer, type TodaySlot } from "./TodaySlotItemsDrawer";
 
 function DietIcon({ veg }: { veg: boolean }) {
   return (
@@ -124,6 +123,18 @@ function specialMenuLinesToTodayItems(menu: MenuRow): TodayItem[] {
   });
 }
 
+function normalMenuLinesToTodayItems(menu: MenuRow | undefined): TodayItem[] | null {
+  const lines = menu?.normalDetails?.items;
+  if (!lines?.length) return null;
+  return lines.map((line) => {
+    const food = DEMO_FOOD_ITEMS.find((f) => f.id === line.foodId);
+    return {
+      name: food?.name ?? `Item #${line.foodId}`,
+      veg: food?.diet === "veg",
+    };
+  });
+}
+
 function subscriptionMenuDraftToTodayItems(menu: SubscriptionMenuDraft): TodayItem[] {
   const seen = new Set<string>();
   const out: TodayItem[] = [];
@@ -157,8 +168,6 @@ export function MenuCreateScreenClient() {
   const [builderOpen, setBuilderOpen] = useState(false);
   const [launchKind, setLaunchKind] = useState<MenuKind | null>(null);
   const [workspaceKey, setWorkspaceKey] = useState(0);
-  const [slotDrawerOpen, setSlotDrawerOpen] = useState(false);
-  const [todaySlot, setTodaySlot] = useState<TodaySlot>("lunch");
   const [outletToggleConfirm, setOutletToggleConfirm] = useState<OutletToggleConfirm | null>(null);
 
   const today = useMemo(() => new Date(), []);
@@ -177,18 +186,26 @@ export function MenuCreateScreenClient() {
 
   const todayLunchMenu = useMemo(
     () =>
-      menus.find(
-        (m) => m.tableType === "lunch" && m.normalDetails?.days?.includes(weekdayKey),
-      ),
+      menus.find((m) => m.tableType === "lunch" && m.normalDetails?.days?.includes(weekdayKey)) ??
+      menus.find((m) => m.tableType === "both" && m.normalDetails?.days?.includes(weekdayKey)),
     [menus, weekdayKey],
   );
 
   const todayDinnerMenu = useMemo(
     () =>
-      menus.find(
-        (m) => m.tableType === "dinner" && m.normalDetails?.days?.includes(weekdayKey),
-      ),
+      menus.find((m) => m.tableType === "dinner" && m.normalDetails?.days?.includes(weekdayKey)) ??
+      menus.find((m) => m.tableType === "both" && m.normalDetails?.days?.includes(weekdayKey)),
     [menus, weekdayKey],
+  );
+
+  const lunchItemsFromMenus = useMemo(
+    () => normalMenuLinesToTodayItems(todayLunchMenu),
+    [todayLunchMenu],
+  );
+
+  const dinnerItemsFromMenus = useMemo(
+    () => normalMenuLinesToTodayItems(todayDinnerMenu),
+    [todayDinnerMenu],
   );
 
   const specialsScheduledToday = useMemo(
@@ -211,7 +228,6 @@ export function MenuCreateScreenClient() {
   );
 
   const openBuilder = useCallback((kind: MenuKind | null) => {
-    setSlotDrawerOpen(false);
     setLaunchKind(kind);
     setWorkspaceKey((k) => k + 1);
     setBuilderOpen(true);
@@ -220,17 +236,6 @@ export function MenuCreateScreenClient() {
   const closeBuilder = useCallback(() => {
     setBuilderOpen(false);
     setLaunchKind(null);
-  }, []);
-
-  const openTodaySlotManage = useCallback((slot: TodaySlot) => {
-    setBuilderOpen(false);
-    setLaunchKind(null);
-    setTodaySlot(slot);
-    setSlotDrawerOpen(true);
-  }, []);
-
-  const closeTodaySlotManage = useCallback(() => {
-    setSlotDrawerOpen(false);
   }, []);
 
   const handleSave = useCallback(
@@ -313,21 +318,6 @@ export function MenuCreateScreenClient() {
             </button>
             <button
               type="button"
-              onClick={() => router.push("/menu/create/subscription")}
-              className="group w-full text-left transition-transform active:scale-[0.99]"
-            >
-              <Card className="h-full space-y-4 p-5 transition-shadow group-hover:shadow-primary-soft group-hover:ring-primary/15">
-                <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
-                  <MaterialIcon name="grid_view" className="text-2xl" filled />
-                </div>
-                <div>
-                  <p className="font-headline text-lg font-extrabold text-on-surface">Subscription menu</p>
-                  <p className="mt-2 text-sm font-medium text-on-surface-variant">Schedule rotations for the week</p>
-                </div>
-              </Card>
-            </button>
-            <button
-              type="button"
               onClick={() => openBuilder("special")}
               className="group w-full text-left transition-transform active:scale-[0.99]"
             >
@@ -338,6 +328,21 @@ export function MenuCreateScreenClient() {
                 <div>
                   <p className="font-headline text-lg font-extrabold text-on-surface">Add special menu</p>
                   <p className="mt-2 text-sm font-medium text-on-surface-variant">Create festive or themed offers</p>
+                </div>
+              </Card>
+            </button>
+            <button
+              type="button"
+              onClick={() => router.push("/menu/create/subscription")}
+              className="group w-full text-left transition-transform active:scale-[0.99]"
+            >
+              <Card className="h-full space-y-4 p-5 transition-shadow group-hover:shadow-primary-soft group-hover:ring-primary/15">
+                <div className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                  <MaterialIcon name="grid_view" className="text-2xl" filled />
+                </div>
+                <div>
+                  <p className="font-headline text-lg font-extrabold text-on-surface">Subscription menu</p>
+                  <p className="mt-2 text-sm font-medium text-on-surface-variant">Schedule rotations for the week</p>
                 </div>
               </Card>
             </button>
@@ -355,8 +360,7 @@ export function MenuCreateScreenClient() {
             <MealDayCard
               title="Lunch"
               coverSrc={TODAY_LUNCH_COVER}
-              items={LUNCH_ITEMS}
-              onManageItems={() => openTodaySlotManage("lunch")}
+              items={lunchItemsFromMenus ?? LUNCH_ITEMS}
               outletActive={todayLunchMenu?.active ?? false}
               onOutletActiveChange={
                 todayLunchMenu
@@ -369,8 +373,7 @@ export function MenuCreateScreenClient() {
             <MealDayCard
               title="Dinner"
               coverSrc={TODAY_DINNER_COVER}
-              items={DINNER_ITEMS}
-              onManageItems={() => openTodaySlotManage("dinner")}
+              items={dinnerItemsFromMenus ?? DINNER_ITEMS}
               outletActive={todayDinnerMenu?.active ?? false}
               onOutletActiveChange={
                 todayDinnerMenu
@@ -392,8 +395,6 @@ export function MenuCreateScreenClient() {
                       ? specialItems
                       : [{ name: `${menu.availability} · add dishes in the builder`, veg: true }]
                   }
-                  onManageItems={() => router.push(`/menu/${menu.id}/edit`)}
-                  footerLabel="View / edit"
                   outletActive={menu.active}
                   onOutletActiveChange={(checked) =>
                     requestOutletToggle(
@@ -432,12 +433,6 @@ export function MenuCreateScreenClient() {
                       title={title}
                       coverSrc={subscriptionCoverSrc(record)}
                       items={items}
-                      onManageItems={() =>
-                        router.push(
-                          `/menu/create/subscription?edit=${encodeURIComponent(record.id)}`,
-                        )
-                      }
-                      footerLabel="Edit subscription"
                       outletActive={record.active}
                       onOutletActiveChange={(checked) =>
                         requestSubscriptionOutletToggle(
@@ -543,25 +538,6 @@ export function MenuCreateScreenClient() {
           />
         ) : null}
       </Drawer>
-
-      <Drawer
-        open={slotDrawerOpen}
-        onClose={closeTodaySlotManage}
-        position="right"
-        className={cn(
-          "flex h-full w-[min(100vw,1120px)]! max-w-[min(100vw,1120px)]! flex-col sm:rounded-l-2xl",
-          "border-l border-outline-variant/15 shadow-2xl",
-        )}
-      >
-        {slotDrawerOpen ? (
-          <TodaySlotItemsDrawer
-            key={todaySlot}
-            slot={todaySlot}
-            dayLabel={todayLabel}
-            onClose={closeTodaySlotManage}
-          />
-        ) : null}
-      </Drawer>
     </>
   );
 }
@@ -570,8 +546,6 @@ function MealDayCard({
   title,
   coverSrc,
   items,
-  onManageItems,
-  footerLabel = "Manage items",
   outletActive,
   onOutletActiveChange,
   outletSwitchDisabled = false,
@@ -579,8 +553,6 @@ function MealDayCard({
   title: string;
   coverSrc: string;
   items: TodayItem[];
-  onManageItems: () => void;
-  footerLabel?: string;
   outletActive: boolean;
   onOutletActiveChange?: (checked: boolean) => void;
   outletSwitchDisabled?: boolean;
@@ -635,17 +607,6 @@ function MealDayCard({
           </li>
         ) : null}
       </ul>
-      <div className="mt-auto shrink-0 border-t border-outline-variant/10 p-4">
-        <Button
-          type="button"
-          variant="outline"
-          size="md"
-          className="w-full border-outline-variant/35 font-extrabold uppercase tracking-widest"
-          onClick={onManageItems}
-        >
-          {footerLabel}
-        </Button>
-      </div>
     </Card>
   );
 }

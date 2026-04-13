@@ -250,11 +250,11 @@ export function UserEditModal({
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label className={labelClass} htmlFor="edit-wallet">
-                Wallet Balance (USD)
+                Wallet Balance (GBP)
               </label>
               <div className="relative">
                 <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                  $
+                  £
                 </span>
                 <input
                   id="edit-wallet"
@@ -269,11 +269,11 @@ export function UserEditModal({
             </div>
             <div>
               <label className={labelClass} htmlFor="edit-credit">
-                Credit Limit (USD)
+                Credit Limit (GBP)
               </label>
               <div className="relative">
                 <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                  $
+                  £
                 </span>
                 <input
                   id="edit-credit"

@@ -21,7 +21,7 @@ export function SelectField({
   const state = error ? "error" : "default";
 
   const fieldClass = cn(
-    "w-full appearance-none rounded-xl border-none bg-surface py-3 pl-4 pr-10 font-body text-sm font-semibold text-on-surface outline-none transition-all",
+    "box-border min-h-12 w-full appearance-none rounded-xl border-none bg-surface py-3 pl-4 pr-10 font-body text-sm font-semibold text-on-surface outline-none transition-all",
     state === "default" && "ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary",
     state === "error" && "bg-red-50 ring-2 ring-red-500/30 focus:ring-2 focus:ring-red-500/40",
     className,

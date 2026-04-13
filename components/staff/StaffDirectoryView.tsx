@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState, useMemo } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
-import { AddStaffModal } from "./AddStaffModal";
 
 // Types for staff member
 interface StaffMember {
@@ -102,8 +101,7 @@ export function StaffDirectoryView() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterRole, setFilterRole] = useState("all");
   const [filterLocation, setFilterLocation] = useState("all");
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [staffMembers, setStaffMembers] = useState(mockStaffMembers);
+  const [staffMembers] = useState(mockStaffMembers);
 
   const filteredStaff = useMemo(() => {
     return staffMembers.filter(staff => {
@@ -130,18 +128,6 @@ export function StaffDirectoryView() {
       total: staffMembers.length
     };
   }, [staffMembers]);
-
-  const handleAddStaff = (newStaffData: any) => {
-    const newStaff: StaffMember = {
-      id: Date.now().toString(), // Generate unique ID
-      ...newStaffData,
-      lastLogin: "Just now",
-      avatarUrl: `https://ui-avatars.com/api/?name=${encodeURIComponent(newStaffData.name)}&background=random`
-    };
-    
-    setStaffMembers(prev => [...prev, newStaff]);
-    setIsAddModalOpen(false);
-  };
 
   const handleExportCSV = () => {
     const headers = ["Name", "Email", "Phone", "Role", "Location", "Status", "Priority Dispatch", "Last Login"];
@@ -185,13 +171,13 @@ export function StaffDirectoryView() {
           >
             Export CSV
           </button>
-          <button 
-            onClick={() => setIsAddModalOpen(true)}
-            className="px-6 py-2.5 bg-primary text-on-primary rounded-full text-sm font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-95 flex items-center gap-2"
+          <Link
+            href="/users/new?context=staff"
+            className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-on-primary shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 active:scale-95"
           >
             <MaterialIcon name="person_add" className="text-sm" />
             Add Staff
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -350,12 +336,6 @@ export function StaffDirectoryView() {
         )}
       </div>
 
-      {/* Add Staff Modal */}
-      <AddStaffModal
-        isOpen={isAddModalOpen}
-        onClose={() => setIsAddModalOpen(false)}
-        onSubmit={handleAddStaff}
-      />
     </div>
   );
 }
