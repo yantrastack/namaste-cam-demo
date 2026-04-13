@@ -45,8 +45,7 @@ export function Drawer({
         aria-modal="true"
         className={cn(
           "relative z-[101] h-full w-80 max-w-[85vw] bg-surface-container-lowest shadow-2xl transition-transform duration-300 ease-out",
-          position === "left" ? "translate-x-0" : "translate-x-0",
-          position === "left" ? "ml-auto" : "mr-auto",
+          position === "right" ? "ml-auto" : "mr-auto",
           className,
         )}
       >

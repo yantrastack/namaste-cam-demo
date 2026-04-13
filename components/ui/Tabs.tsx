@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useId, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useId, useMemo, useState } from "react";
 import { cn } from "@/lib/cn";
 
 type TabsContextValue = {
@@ -19,16 +19,33 @@ function useTabsContext() {
 
 export type TabsProps = {
   defaultValue: string;
+  /** Controlled tab value (pair with `onValueChange`). */
+  value?: string;
+  onValueChange?: (value: string) => void;
   children: React.ReactNode;
   className?: string;
 };
 
-export function Tabs({ defaultValue, children, className }: TabsProps) {
+export function Tabs({ defaultValue, value: controlledValue, onValueChange, children, className }: TabsProps) {
   const baseId = useId();
-  const [value, setValue] = useState(defaultValue);
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+  const isControlled = controlledValue !== undefined;
+  const value = isControlled ? controlledValue : uncontrolledValue;
+
+  const setValue = useCallback(
+    (next: string) => {
+      if (isControlled) {
+        onValueChange?.(next);
+      } else {
+        setUncontrolledValue(next);
+      }
+    },
+    [isControlled, onValueChange],
+  );
+
   const memo = useMemo(
     () => ({ value, setValue, baseId }),
-    [value, baseId],
+    [value, setValue, baseId],
   );
 
   return (

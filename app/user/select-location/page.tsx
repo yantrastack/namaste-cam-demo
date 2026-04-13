@@ -99,7 +99,7 @@ export default function SelectLocationPage() {
             onClick={handleBack}
             className="hover:bg-surface-container transition-colors active:scale-95 duration-200 p-2 rounded-full"
           >
-            <MaterialIcon icon="arrow_back" className="text-primary" />
+            <MaterialIcon name="arrow_back" className="text-primary" />
           </button>
           <h1 className="font-headline font-bold tracking-tight text-xl text-primary">
             Select Location
@@ -109,7 +109,7 @@ export default function SelectLocationPage() {
           onClick={() => router.push('/user/profile')}
           className="hover:bg-surface-container transition-colors active:scale-95 duration-200 p-2 rounded-full"
         >
-          <MaterialIcon icon="account_circle" className="text-secondary" />
+          <MaterialIcon name="account_circle" className="text-secondary" />
         </button>
       </header>
 
@@ -148,7 +148,7 @@ export default function SelectLocationPage() {
                   }`}
                 >
                   <MaterialIcon
-                    icon={location.icon}
+                    name={location.icon}
                     className={`text-3xl ${
                       location.type === 'collection_delivery' ? 'text-primary' : 'text-secondary'
                     }`}
@@ -178,7 +178,7 @@ export default function SelectLocationPage() {
               {location.warning && (
                 <div className="bg-tertiary-fixed/40 p-3 rounded-xl mb-4 flex gap-3 items-start">
                   <MaterialIcon
-                    icon="schedule"
+                    name="schedule"
                     className="text-on-tertiary-fixed-variant text-lg mt-0.5"
                   />
                   <p className="text-on-tertiary-fixed-variant text-xs font-semibold leading-normal">
@@ -190,7 +190,7 @@ export default function SelectLocationPage() {
               <div className="flex items-center text-primary font-bold text-sm">
                 <span>{isLoading && selectedLocation === location.id ? 'Loading...' : 'Explore Menu'}</span>
                 <MaterialIcon
-                  icon="chevron_right"
+                  name="chevron_right"
                   className="ml-2 text-lg group-hover:translate-x-1 transition-transform"
                 />
               </div>
@@ -205,7 +205,7 @@ export default function SelectLocationPage() {
             onClick={handleContactSupport}
             className="inline-flex items-center gap-2 text-primary font-bold px-6 py-3 rounded-full hover:bg-primary/5 transition-colors active:scale-95"
           >
-            <MaterialIcon icon="contact_support" />
+            <MaterialIcon name="contact_support" />
             <span>Contact Support</span>
           </button>
         </section>
@@ -217,28 +217,28 @@ export default function SelectLocationPage() {
           onClick={() => handleBottomNav('menu')}
           className="flex flex-col items-center justify-center text-secondary px-4 py-2 hover:text-primary active:scale-90 duration-300 ease-out transition-colors"
         >
-          <MaterialIcon icon="restaurant_menu" className="mb-1" />
+          <MaterialIcon name="restaurant_menu" className="mb-1" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Menu</span>
         </button>
         <button
           onClick={() => handleBottomNav('orders')}
           className="flex flex-col items-center justify-center text-secondary px-4 py-2 hover:text-primary active:scale-90 duration-300 ease-out transition-colors"
         >
-          <MaterialIcon icon="receipt_long" className="mb-1" />
+          <MaterialIcon name="receipt_long" className="mb-1" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Orders</span>
         </button>
         <button
           onClick={() => handleBottomNav('offers')}
           className="flex flex-col items-center justify-center text-secondary px-4 py-2 hover:text-primary active:scale-90 duration-300 ease-out transition-colors"
         >
-          <MaterialIcon icon="local_offer" className="mb-1" />
+          <MaterialIcon name="local_offer" className="mb-1" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Offers</span>
         </button>
         <button
           onClick={() => handleBottomNav('profile')}
           className="flex flex-col items-center justify-center bg-primary/10 text-primary rounded-2xl px-4 py-2 active:scale-90 duration-300 ease-out transition-colors"
         >
-          <MaterialIcon icon="person" className="mb-1" />
+          <MaterialIcon name="person" className="mb-1" />
           <span className="text-[10px] font-semibold uppercase tracking-wider">Profile</span>
         </button>
       </nav>

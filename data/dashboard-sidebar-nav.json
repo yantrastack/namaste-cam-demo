@@ -33,9 +33,21 @@
       "children": [
         {
           "id": "menu-overview",
-          "label": "Overview",
+          "label": "Menu Management",
           "icon": "menu_book",
           "href": "/menu"
+        },
+        {
+          "id": "menu-create-demo",
+          "label": "Create menu",
+          "icon": "playlist_add",
+          "href": "/menu/create"
+        },
+        {
+          "id": "menu-create-subscription",
+          "label": "Create subscription menu",
+          "icon": "subscriptions",
+          "href": "/menu/create/subscription"
         },
         {
           "id": "menu-new-product",

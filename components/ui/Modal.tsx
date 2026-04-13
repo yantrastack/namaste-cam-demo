@@ -7,6 +7,8 @@ export type ModalProps = {
   open: boolean;
   onClose: () => void;
   title?: string;
+  /** Rich heading (e.g. image + title). When set, overrides plain `title`. */
+  titleContent?: ReactNode;
   description?: string;
   children?: ReactNode;
   className?: string;
@@ -20,6 +22,7 @@ export function Modal({
   open,
   onClose,
   title,
+  titleContent,
   description,
   children,
   className,
@@ -60,7 +63,9 @@ export function Modal({
           className,
         )}
       >
-        {title ? (
+        {titleContent ? (
+          <div className="mb-2">{titleContent}</div>
+        ) : title ? (
           <h3 className="mb-2 text-2xl font-bold text-on-surface">{title}</h3>
         ) : null}
         {description ? (

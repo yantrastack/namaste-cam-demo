@@ -67,7 +67,7 @@ export default function LoginPage() {
         {/* Brand Header Section */}
         <header className="text-center space-y-4">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-container rounded-3xl mb-2">
-            <MaterialIcon icon="restaurant" className="text-on-primary-container text-3xl" />
+            <MaterialIcon name="restaurant" className="text-on-primary-container text-3xl" />
           </div>
           <h1 className="font-headline font-extrabold text-4xl tracking-tighter text-primary">
             Namaste Cam
@@ -98,7 +98,7 @@ export default function LoginPage() {
                 Email Address
               </label>
               <div className="relative flex items-center">
-                <MaterialIcon icon="mail" className="absolute left-4 text-secondary/60 text-xl" />
+                <MaterialIcon name="mail" className="absolute left-4 text-secondary/60 text-xl" />
                 <input
                   id="email"
                   type="email"
@@ -126,7 +126,7 @@ export default function LoginPage() {
                 </button>
               </div>
               <div className="relative flex items-center">
-                <MaterialIcon icon="lock" className="absolute left-4 text-secondary/60 text-xl" />
+                <MaterialIcon name="lock" className="absolute left-4 text-secondary/60 text-xl" />
                 <input
                   id="password"
                   type={showPassword ? 'text' : 'password'}
@@ -141,7 +141,7 @@ export default function LoginPage() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 text-secondary/60 hover:text-primary transition-colors"
                 >
-                  <MaterialIcon icon={showPassword ? 'visibility_off' : 'visibility'} className="text-xl" />
+                  <MaterialIcon name={showPassword ? 'visibility_off' : 'visibility'} className="text-xl" />
                 </button>
               </div>
             </div>
@@ -200,7 +200,7 @@ export default function LoginPage() {
               disabled={isLoading}
               className="w-full py-4 bg-surface-container-high text-on-surface-variant font-headline font-bold rounded-full flex items-center justify-center gap-3 active:scale-95 transition-all"
             >
-              <MaterialIcon icon="explore" className="text-xl" />
+              <MaterialIcon name="explore" className="text-xl" />
               Continue as Guest
             </button>
           </div>

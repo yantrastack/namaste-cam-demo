@@ -29,6 +29,8 @@ export default function NotificationsPage() {
     showToast('Rating modal would open here (Demo mode)', 'info')
   }
 
+  const handleRateMeal = handleRateOrder
+
   const handleReorder = () => {
     addItem({
       id: 'reorder-1',

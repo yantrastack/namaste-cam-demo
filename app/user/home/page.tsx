@@ -98,11 +98,12 @@ export default function HomePage() {
       <main className="pt-24 pb-8 max-w-7xl mx-auto px-4 sm:px-6">
         {/* Search Bar Section */}
         <section className="mb-8 sm:mb-10">
-          <div className="relative group">
+          <div className="relative group [&_label]:sr-only">
             <div className="absolute inset-y-0 left-4 sm:left-5 flex items-center pointer-events-none">
               <MaterialIcon name="search" className="text-outline text-xl sm:text-2xl" />
             </div>
             <Input
+              label="Search"
               type="text"
               placeholder="Search for flavors, cuisines, or restaurants"
               value={searchQuery}

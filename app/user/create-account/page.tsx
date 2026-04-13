@@ -128,7 +128,7 @@ export default function CreateAccountPage() {
                 </label>
                 <div className="relative group">
                   <MaterialIcon 
-                    icon="person" 
+                    name="person" 
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors text-xl" 
                   />
                   <input
@@ -154,7 +154,7 @@ export default function CreateAccountPage() {
                 </label>
                 <div className="relative group">
                   <MaterialIcon 
-                    icon="mail" 
+                    name="mail" 
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors text-xl" 
                   />
                   <input
@@ -180,7 +180,7 @@ export default function CreateAccountPage() {
                 </label>
                 <div className="relative group">
                   <MaterialIcon 
-                    icon="phone_iphone" 
+                    name="phone_iphone" 
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors text-xl" 
                   />
                   <input
@@ -206,7 +206,7 @@ export default function CreateAccountPage() {
                 </label>
                 <div className="relative group">
                   <MaterialIcon 
-                    icon="lock" 
+                    name="lock" 
                     className="absolute left-4 top-1/2 -translate-y-1/2 text-outline-variant group-focus-within:text-primary transition-colors text-xl" 
                   />
                   <input
@@ -226,7 +226,7 @@ export default function CreateAccountPage() {
                     disabled={isLoading}
                   >
                     <MaterialIcon 
-                      icon={showPassword ? 'visibility_off' : 'visibility'} 
+                      name={showPassword ? 'visibility_off' : 'visibility'} 
                       className="text-lg" 
                     />
                   </button>
@@ -245,7 +245,7 @@ export default function CreateAccountPage() {
                 {isLoading ? 'Creating Account...' : (
                   <>
                     Sign Up
-                    <MaterialIcon icon="arrow_forward" className="text-lg" />
+                    <MaterialIcon name="arrow_forward" className="text-lg" />
                   </>
                 )}
               </button>

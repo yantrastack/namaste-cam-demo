@@ -22,9 +22,7 @@ export function PageContainer({
 }: PageContainerProps) {
   return (
     <div className={cn("space-y-6", className)}>
-      {breadcrumbs ? (
-        <div className="text-xs font-bold uppercase tracking-widest text-secondary">{breadcrumbs}</div>
-      ) : null}
+      {breadcrumbs ? <div className="min-w-0">{breadcrumbs}</div> : null}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="font-headline text-2xl font-extrabold tracking-tight text-on-surface md:text-3xl">

@@ -24,6 +24,9 @@ export const dashboardSidebarNav = raw as DashboardSidebarNavFile;
 
 export function isNavLeafActive(href: string, pathname: string): boolean {
   if (pathname === href) return true;
+  if (href === "/menu") {
+    if (/^\/menu\/[^/]+\/edit$/.test(pathname)) return true;
+  }
   if (href === "/orders") {
     if (pathname.startsWith("/orders/create")) return false;
     if (pathname.startsWith("/orders/history")) return false;
