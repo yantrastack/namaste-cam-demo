@@ -40,7 +40,8 @@
           "image_url": "https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&q=80",
           "variants": [{ "size": "Regular", "price_gbp": 5.49, "currency": "GBP" }],
           "base_price_gbp": 5.49,
-          "available": true
+          "available": true,
+          "available_qty": 24
         },
         {
           "id": "WINGS_002",
@@ -76,7 +77,8 @@
           "image_url": "https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&q=80",
           "variants": [{ "size": "Regular", "price_gbp": 3.49, "currency": "GBP" }],
           "base_price_gbp": 3.49,
-          "available": true
+          "available": true,
+          "available_qty": 36
         },
         {
           "id": "STR_002",
@@ -517,6 +519,7 @@
           "variants": [{ "size": "Large", "price_gbp": 8.99, "currency": "GBP" }],
           "base_price_gbp": 8.99,
           "available": true,
+          "available_qty": 8,
           "stock_note": "Limited quantity available"
         },
         {
@@ -554,7 +557,8 @@
           "volume_ml": 330,
           "variants": [{ "size": "Regular", "price_gbp": 2.10, "currency": "GBP" }],
           "base_price_gbp": 2.10,
-          "available": true
+          "available": true,
+          "available_qty": 48
         },
         {
           "id": "DRK_002",

@@ -9,27 +9,35 @@ import { Input } from '@/components/ui/Input'
 import { useUserNavDrawer } from '@/components/layout/UserNavDrawer'
 import { categories, dishes, featuredBanner } from '../data/dummy-data'
 import { useCart } from '@/lib/cart/store'
+import { useFavorites } from '@/lib/favorites/store'
 
 export default function HomePage() {
   const router = useRouter()
   const { openDrawer } = useUserNavDrawer()
   const [searchQuery, setSearchQuery] = useState('')
-  const [activeCategory, setActiveCategory] = useState('1')
-  const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  const [activeCategory, setActiveCategory] = useState('all')
+  const [activeMealType, setActiveMealType] = useState<'lunch' | 'dinner'>('lunch')
+  const { items: favorites, toggleFavorite, isFavorite } = useFavorites()
   const { addItem, getTotalPrice, getTotalItems } = useCart()
 
   const handleCategoryClick = (categoryId: string) => {
     setActiveCategory(categoryId)
   }
 
-  const toggleFavorite = (dishId: string) => {
-    const newFavorites = new Set(favorites)
-    if (newFavorites.has(dishId)) {
-      newFavorites.delete(dishId)
-    } else {
-      newFavorites.add(dishId)
-    }
-    setFavorites(newFavorites)
+  const handleToggleFavorite = (dish: typeof dishes[0]) => {
+    toggleFavorite({
+      id: dish.id,
+      name: dish.name,
+      description: dish.description,
+      price: dish.price,
+      originalPrice: dish.originalPrice,
+      image: dish.image,
+      rating: dish.rating,
+      time: dish.time,
+      isVeg: dish.isVeg,
+      discount: dish.badge,
+      mealType: dish.mealType,
+    })
   }
 
   const handleAddToCart = (dish: typeof dishes[0]) => {
@@ -37,7 +45,12 @@ export default function HomePage() {
       id: dish.id,
       name: dish.name,
       price: dish.price,
+      originalPrice: dish.originalPrice,
       image: dish.image,
+      isVeg: dish.isVeg,
+      description: dish.description,
+      discount: dish.badge,
+      mealType: dish.mealType,
     })
   }
 
@@ -52,6 +65,25 @@ export default function HomePage() {
   const handleProductClick = (dishId: string) => {
     router.push(`/user/product/${dishId}`)
   }
+
+  // Filter dishes based on search query, category, and meal type
+  const filteredDishes = dishes.filter(dish => {
+    // Meal type filter - show dishes that include the active meal type
+    const mealTypeMatch = !dish.mealType || dish.mealType.includes(activeMealType)
+    
+    // Category filter - if "all" is selected, show all dishes
+    const selectedCategory = categories.find(c => c.id === activeCategory)
+    const categoryMatch = activeCategory === 'all'
+      ? true
+      : (selectedCategory ? dish.category === selectedCategory.name : true)
+
+    // Search filter
+    const searchMatch = !searchQuery.trim() || 
+      dish.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      dish.description.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return mealTypeMatch && categoryMatch && searchMatch
+  })
 
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
@@ -110,11 +142,32 @@ export default function HomePage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-14 sm:h-16 pl-12 sm:pl-14 pr-6 sm:pr-6 bg-surface-container-highest border-none rounded-full text-base sm:text-lg focus:ring-2 focus:ring-primary/20 transition-all"
             />
-            <div className="absolute inset-y-0 right-3 flex items-center">
-              <button className="bg-primary text-on-primary p-2 sm:p-3 rounded-full shadow-lg shadow-primary/20 active:scale-95 transition-transform">
-              <MaterialIcon name="tune" className="text-xl sm:text-2xl" />
-              </button>
-            </div>
+          </div>
+        </section>
+
+        {/* Lunch/Dinner Toggle */}
+        <section className="mb-6 sm:mb-8">
+          <div className="flex gap-4">
+            <button
+              onClick={() => setActiveMealType('lunch')}
+              className={`flex-1 h-12 sm:h-14 rounded-full font-headline font-bold text-sm sm:text-base transition-all active:scale-95 ${
+                activeMealType === 'lunch'
+                  ? 'bg-primary text-on-primary shadow-lg shadow-primary/25'
+                  : 'bg-surface-container-high text-on-surface'
+              }`}
+            >
+              Lunch
+            </button>
+            <button
+              onClick={() => setActiveMealType('dinner')}
+              className={`flex-1 h-12 sm:h-14 rounded-full font-headline font-bold text-sm sm:text-base transition-all active:scale-95 ${
+                activeMealType === 'dinner'
+                  ? 'bg-primary text-on-primary shadow-lg shadow-primary/25'
+                  : 'bg-surface-container-high text-on-surface'
+              }`}
+            >
+              Dinner
+            </button>
           </div>
         </section>
 
@@ -155,7 +208,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Featured Banner */}
+        {/* Featured Banner - Only show when All is selected */}
+        {activeCategory === 'all' && (
         <section className="mb-12 sm:mb-14">
           <div className="relative h-[300px] sm:h-[400px] w-full rounded-2xl sm:rounded-[2rem] overflow-hidden bg-zinc-900 group">
             <img
@@ -183,6 +237,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        )}
 
         {/* Popular Dishes Grid */}
         <section className="mb-12 sm:mb-14">
@@ -201,72 +256,98 @@ export default function HomePage() {
             </button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {dishes.map((dish, index) => (
-              <div
-                key={dish.id}
-                className={`group relative flex flex-col ${
-                  index === 1 ? 'translate-y-6 md:translate-y-12' : ''
-                }`}
-              >
+            {filteredDishes.length > 0 ? (
+              filteredDishes.map((dish, index) => (
                 <div
-                  onClick={() => handleProductClick(dish.id)}
-                  className="aspect-[4/5] rounded-2xl sm:rounded-[2rem] overflow-hidden mb-4 bg-surface-container-low shadow-sm relative cursor-pointer"
+                  key={dish.id}
+                  className={`group relative flex flex-col ${
+                    index === 1 ? 'translate-y-6 md:translate-y-12' : ''
+                  }`}
                 >
-                  <img
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    alt={dish.name}
-                    src={dish.image}
-                  />
-                  {dish.trending && (
-                    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 px-3 sm:px-4 py-1 sm:py-1.5 bg-tertiary text-on-tertiary text-[10px] font-black tracking-widest rounded-full uppercase">
-                      Trending
-                    </div>
-                  )}
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      toggleFavorite(dish.id)
-                    }}
-                    className="absolute top-4 sm:top-6 right-4 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/40 backdrop-blur-sm flex items-center justify-center text-zinc-900 active:scale-90 transition-all"
+                  <div
+                    onClick={() => handleProductClick(dish.id)}
+                    className="aspect-[4/5] rounded-2xl sm:rounded-[2rem] overflow-hidden mb-4 bg-surface-container-low shadow-sm relative cursor-pointer"
                   >
-                    <MaterialIcon
-                      name={favorites.has(dish.id) ? 'favorite' : 'favorite_border'}
-                      className={`text-xl sm:text-2xl ${favorites.has(dish.id) ? 'text-red-500' : ''}`}
+                    <img
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      alt={dish.name}
+                      src={dish.image}
                     />
-                  </button>
-                </div>
-                <div className="px-2">
-                  <div className="flex justify-between items-start mb-2">
-                    <h4
-                      onClick={() => handleProductClick(dish.id)}
-                      className="text-lg sm:text-xl font-headline font-bold text-on-surface tracking-tight cursor-pointer"
+                    {dish.trending && (
+                      <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 px-3 sm:px-4 py-1 sm:py-1.5 bg-tertiary text-on-tertiary text-[10px] font-black tracking-widest rounded-full uppercase">
+                        Trending
+                      </div>
+                    )}
+                    {/* Veg/Non-Veg Indicator */}
+                    <div
+                      className={`absolute top-4 sm:top-6 left-4 sm:left-6 w-6 h-6 sm:w-7 sm:h-7 rounded-full border-2 border-white shadow-lg flex items-center justify-center z-10 ${
+                        dish.isVeg ? 'bg-green-500' : 'bg-red-500'
+                      }`}
+                      title={dish.isVeg ? 'Vegetarian' : 'Non-Vegetarian'}
                     >
-                      {dish.name}
-                    </h4>
-                    <span className="text-primary font-bold">${dish.price.toFixed(2)}</span>
-                  </div>
-                  <div className="flex items-center gap-3 sm:gap-4 text-zinc-500 text-xs sm:text-sm">
-                    <div className="flex items-center gap-1">
-                      <MaterialIcon name="star" className="text-tertiary-container text-base" />
-                      <span className="font-bold text-on-surface">{dish.rating}</span>
+                      <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white rounded-full" />
                     </div>
-                    <div className="flex items-center gap-1">
-                      <MaterialIcon name="schedule" className="text-base" />
-                      <span>{dish.time}</span>
-                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleToggleFavorite(dish)
+                      }}
+                      className="absolute top-4 sm:top-6 right-4 sm:right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/40 backdrop-blur-sm flex items-center justify-center text-zinc-900 active:scale-90 transition-all z-10"
+                    >
+                      <MaterialIcon
+                        name="favorite"
+                        filled={isFavorite(dish.id)}
+                        className={`text-xl sm:text-2xl ${isFavorite(dish.id) ? 'text-orange-600' : 'text-zinc-900'}`}
+                      />
+                    </button>
                   </div>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      handleAddToCart(dish)
-                    }}
-                    className="w-full mt-3 sm:mt-4 bg-primary text-on-primary py-2 sm:py-3 rounded-full font-bold text-sm active:scale-95 transition-all"
-                  >
-                    Add to Cart
-                  </Button>
+                  <div className="px-2 pb-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4
+                        onClick={() => handleProductClick(dish.id)}
+                        className="text-lg sm:text-xl font-headline font-bold text-on-surface tracking-tight cursor-pointer"
+                      >
+                        {dish.name}
+                      </h4>
+                      <span className="text-primary font-bold">${dish.price.toFixed(2)}</span>
+                    </div>
+                    <div className="flex items-center gap-3 sm:gap-4 text-zinc-500 text-xs sm:text-sm">
+                      <div className="flex items-center gap-1">
+                        <MaterialIcon name="star" className="text-tertiary-container text-base" />
+                        <span className="font-bold text-on-surface">{dish.rating}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MaterialIcon name="schedule" className="text-base" />
+                        <span>{dish.time}</span>
+                      </div>
+                    </div>
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleAddToCart(dish)
+                      }}
+                      className="w-full mt-3 sm:mt-4 bg-primary text-on-primary py-2 sm:py-3 rounded-full font-bold text-sm active:scale-95 transition-all"
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <div className="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mx-auto mb-4">
+                  <MaterialIcon name="search_off" className="text-3xl text-secondary" />
+                </div>
+                <h4 className="text-lg font-headline font-bold text-on-surface mb-2">
+                  No dishes found
+                </h4>
+                <p className="text-on-surface-variant text-sm">
+                  {searchQuery.trim()
+                    ? 'Try searching with different keywords'
+                    : 'No items available in this category'}
+                </p>
               </div>
-            ))}
+            )}
           </div>
         </section>
 

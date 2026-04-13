@@ -87,7 +87,11 @@ export default function MenuPage() {
       id: item.id,
       name: item.name,
       price: item.price,
+      originalPrice: item.originalPrice,
       image: item.image,
+      isVeg: item.isVegetarian,
+      description: item.description,
+      discount: item.discount,
     })
   }
 
@@ -183,12 +187,14 @@ export default function MenuPage() {
                     alt={item.name}
                     src={item.image}
                   />
-                  <div className="absolute top-2 left-2 bg-white/90 backdrop-blur p-1 rounded-md">
-                    <MaterialIcon
-                      name="fiber_manual_record"
-                      className={`text-xs ${item.isVegetarian ? 'text-green-600' : 'text-primary'}`}
-                      style={{ fontVariationSettings: "'FILL' 1" }}
-                    />
+                  {/* Veg/Non-Veg Indicator */}
+                  <div
+                    className={`absolute top-2 right-2 w-5 h-5 rounded-full border-2 border-white shadow-lg flex items-center justify-center z-10 ${
+                      item.isVegetarian ? 'bg-green-500' : 'bg-red-500'
+                    }`}
+                    title={item.isVegetarian ? 'Vegetarian' : 'Non-Vegetarian'}
+                  >
+                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
                   </div>
                 </div>
                 <div className="flex-grow flex flex-col justify-between">

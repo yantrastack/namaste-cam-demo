@@ -224,13 +224,12 @@ export default function LoginPage() {
           <div className="pt-2 text-center sm:pt-4">
             <p className="text-sm font-medium text-secondary">
               Don&apos;t have an account?{" "}
-              <a
-                href="#"
+              <Link
+                href="/user/create-account"
                 className="font-bold text-primary underline-offset-4 hover:underline"
-                onClick={(e) => e.preventDefault()}
               >
                 Create account
-              </a>
+              </Link>
             </p>
           </div>
 
