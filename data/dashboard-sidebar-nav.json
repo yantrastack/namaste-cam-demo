@@ -83,6 +83,12 @@
       "href": "/staff"
     },
     {
+      "id": "attendance",
+      "label": "Attendance",
+      "icon": "schedule",
+      "href": "/attendance"
+    },
+    {
       "id": "coupons",
       "label": "Coupons & Promotions",
       "icon": "confirmation_number",

@@ -31,6 +31,12 @@ export function isNavLeafActive(href: string, pathname: string): boolean {
   ) {
     return true;
   }
+  if (
+    href === "/attendance" &&
+    pathname.startsWith("/attendance/")
+  ) {
+    return true;
+  }
   return false;
 }
 
