@@ -34,6 +34,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
   }, [userJson]);
 
   const isUsersPage = pathname === "/users";
+  const isSettingsPage = pathname === "/settings";
 
   return (
     <header className="relative z-[802] flex items-center justify-between gap-4 border-b border-outline-variant/10 bg-white/80 px-6 py-4 backdrop-blur-md">
@@ -46,7 +47,13 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
             type="search"
             value={isUsersPage && searchQuery !== undefined ? searchQuery : ""}
             onChange={(e) => isUsersPage && onSearchChange ? onSearchChange(e.target.value) : undefined}
-            placeholder={isUsersPage ? "Search users by name or email..." : "Search orders, menus, users..."}
+            placeholder={
+              isUsersPage
+                ? "Search users by name or email..."
+                : isSettingsPage
+                  ? "Search settings..."
+                  : "Search orders, menus, users..."
+            }
             className="w-full rounded-full bg-surface py-3 pl-12 pr-4 text-sm font-medium text-on-surface ring-1 ring-outline-variant/20 outline-none transition-all focus:ring-2 focus:ring-primary"
           />
         </div>

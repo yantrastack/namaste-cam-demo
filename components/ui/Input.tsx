@@ -19,7 +19,7 @@ export function Input({
   left,
   className,
   id,
-  size = "md",
+  controlSize = "md",
   ...props
 }: InputProps) {
   const inputId = id ?? props.name;
@@ -27,7 +27,7 @@ export function Input({
 
   const fieldClass = cn(
     "box-border w-full border-none font-body font-semibold text-on-surface outline-none transition-all",
-    size === "sm"
+    controlSize === "sm"
       ? "min-h-9 rounded-lg py-2 text-xs"
       : "min-h-12 rounded-xl py-3 text-sm",
     left ? "pl-12 pr-4" : "px-4",
@@ -49,7 +49,7 @@ export function Input({
               htmlFor={inputId}
               className={cn(
                 "ml-1 font-bold text-on-surface",
-                size === "sm" ? "text-xs" : "text-sm",
+                controlSize === "sm" ? "text-xs" : "text-sm",
               )}
             >
               {label}
@@ -58,7 +58,7 @@ export function Input({
             <p
               className={cn(
                 "ml-1 font-bold text-on-surface",
-                size === "sm" ? "text-xs" : "text-sm",
+                controlSize === "sm" ? "text-xs" : "text-sm",
               )}
             >
               {label}

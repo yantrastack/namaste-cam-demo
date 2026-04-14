@@ -9,7 +9,7 @@ const DashboardShell = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-screen items-center justify-center bg-background text-sm text-stone-500">
+      <div className="flex h-dvh max-h-dvh min-h-0 items-center justify-center overflow-hidden bg-background text-sm text-stone-500">
         Loading…
       </div>
     ),
