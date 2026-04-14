@@ -250,6 +250,12 @@
           "href": "/notifications/admin"
         }
       ]
+    },
+    {
+      "id": "settings",
+      "label": "Settings",
+      "icon": "settings",
+      "href": "/settings"
     }
   ]
 }
