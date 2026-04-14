@@ -65,31 +65,6 @@
       ]
     },
     {
-      "id": "delivery",
-      "label": "Delivery",
-      "icon": "local_shipping",
-      "children": [
-        {
-          "id": "delivery-assign",
-          "label": "Assign orders",
-          "icon": "assignment_ind",
-          "href": "/delivery/assign"
-        },
-        {
-          "id": "delivery-routes",
-          "label": "Optimized routes",
-          "icon": "route",
-          "href": "/delivery/routes"
-        },
-        {
-          "id": "delivery-overview",
-          "label": "Area & status",
-          "icon": "map",
-          "href": "/delivery/overview"
-        }
-      ]
-    },
-    {
       "id": "orders",
       "label": "Orders",
       "icon": "shopping_cart",
@@ -111,6 +86,31 @@
           "label": "Order history",
           "icon": "history",
           "href": "/orders/history"
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "label": "Delivery",
+      "icon": "local_shipping",
+      "children": [
+        {
+          "id": "delivery-assign",
+          "label": "Assign orders",
+          "icon": "assignment_ind",
+          "href": "/delivery/assign"
+        },
+        {
+          "id": "delivery-routes",
+          "label": "Optimized routes",
+          "icon": "route",
+          "href": "/delivery/routes"
+        },
+        {
+          "id": "delivery-overview",
+          "label": "Area & status",
+          "icon": "map",
+          "href": "/delivery/overview"
         }
       ]
     },
