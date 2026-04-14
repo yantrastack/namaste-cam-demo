@@ -36,7 +36,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
   const isUsersPage = pathname === "/users";
 
   return (
-    <header className="flex items-center justify-between gap-4 border-b border-outline-variant/10 bg-white/80 px-6 py-4 backdrop-blur-md">
+    <header className="relative z-[802] flex items-center justify-between gap-4 border-b border-outline-variant/10 bg-white/80 px-6 py-4 backdrop-blur-md">
       <div className="hidden min-w-0 flex-1 md:block">
         <div className="relative max-w-md">
           <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-stone-400">

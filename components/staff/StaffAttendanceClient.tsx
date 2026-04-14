@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
@@ -20,7 +19,6 @@ type AttendanceRow = {
   name: string;
   /** Matches a role on the check-in/out screen for deep links. */
   defaultPunchRole: string;
-  avatarUrl: string;
   checkIn: string;
   checkOut: string | null;
   totalHours: string | null;
@@ -33,8 +31,6 @@ const MOCK_ROWS: AttendanceRow[] = [
     category: "Kitchen Staff",
     name: "Marcus Chen",
     defaultPunchRole: "Executive sous chef",
-    avatarUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDHLajKyimQyGESuCj0IGy-hUkCqUx0Aah7NaAKNQwDHGOzAQQ2GuFvIU5_7X67qvpa4Mklf5c0YJOFXGj4f1KfTlxHzGNyW6OnqiIVT68OfceeY4ktfe7JufYcFQHHCLx71USAqSW863DTWFAES_6wRisnPYGZdLC9FTNoiFtvElVJCGlbfqFVSObJhEbmRr4ZOFlN8q9RimhIjlvgoBaSaA5EMRtvBMlAb9yNYZEdEgEBXds_vRW4y7-M_o78xqWy1GuTllZwYN0",
     checkIn: "09:30 AM",
     checkOut: null,
     totalHours: "8h 15m",
@@ -45,8 +41,6 @@ const MOCK_ROWS: AttendanceRow[] = [
     category: "Kitchen Staff",
     name: "Elena Rodriguez",
     defaultPunchRole: "Pastry chef",
-    avatarUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCEffu9YXH9aruk8Sd2T9AP9r7sW69FBve9bqUSq7ILQshbwEnFBtx4TEF4mCANtYWyDUz7W5ELelrZMuw9k_coZnNhpzckG472vZTgDmvGwQasUhwFluIQvXQ-asnfU52RXDDFU5p_gAMNsjTjWYcScoXNXRWp8INMUevmTPc2FJSQeWRf9FPeiZJdJqvHnz9no7foPp83tWvY5oSePbjV44WF_gP6s80WQ5g-RM8S4ISXD1YGUTAF35RQlPA8yyrk9c5wkUvi_aQ",
     checkIn: "10:15 AM",
     checkOut: null,
     totalHours: null,
@@ -57,8 +51,6 @@ const MOCK_ROWS: AttendanceRow[] = [
     category: "Delivery Staff",
     name: "James Wilson",
     defaultPunchRole: "Delivery driver",
-    avatarUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDSRWzZK2RnD7KG1rvGCaQY1lGLU0voJXQQGTtzbDSExfxFTvjatFRFa0DPyH83ZBBwqZ0sgW0gWJQOekQbES_5DOAmchuKS3ClyPmk62gndv5wG8PulMRaecsKZKkST9bXWLT50zbXpv556qp6x9MZUjdiLz3-YeWJJIwj8hdo8kK5XqRMyHsgMyzjNrg1oFhTsdPH3zQ-3sz8emZiA_vZxCkZ0s8LPOf1N9FMke9aWCJ6E76aUd29M4xE_a36ew2lMczlr0QCl2M",
     checkIn: "08:45 AM",
     checkOut: "05:00 PM",
     totalHours: "8h 15m",
@@ -69,8 +61,6 @@ const MOCK_ROWS: AttendanceRow[] = [
     category: "Management",
     name: "Sarah Thompson",
     defaultPunchRole: "Floor manager",
-    avatarUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCto_nrbq5CccRRrPYdgXFD_1Lk4M2sw7kdPrASoR0xwTBseo36K285FVqHbEtRt-_BmwL9z_kVjOyX3DbIPuus2SIpf3vfpAlrZii5s49glEkYanRMxfdDuiUf025LNZA2iIPAMcR16LQpjAHHdDfWsef3bC6kf_w19wOZv45IiV5m74rAnFae4GzZnKh9T1zQK3cxij58vsOyTjbk7X1jtog2sVK9VtPEHo-1SO5enEKNA3X2ZAzuwBRRNhVXjkAlciRXItCkLoE",
     checkIn: "08:00 AM",
     checkOut: null,
     totalHours: "7h 30m",
@@ -99,8 +89,31 @@ function checkInOutCheckoutHref(row: AttendanceRow): string {
   return `/staff/check-in-out?${qs.toString()}`;
 }
 
+/** Theme token pairs for initials discs (stable index from row id). */
+const INITIALS_SURFACE_STYLES = [
+  "bg-primary-fixed text-on-primary-fixed ring-1 ring-outline-variant/15",
+  "bg-secondary-container text-on-secondary-container ring-1 ring-outline-variant/15",
+  "bg-tertiary-fixed text-on-tertiary-fixed ring-1 ring-outline-variant/15",
+  "bg-error-container text-on-error-container ring-1 ring-outline-variant/15",
+] as const;
+
+function initialsFromName(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0]!}${parts[parts.length - 1]![0]!}`.toUpperCase();
+}
+
+function initialsDiscClass(rowId: string): string {
+  const n = Number.parseInt(rowId, 10);
+  const idx = Number.isNaN(n) ? 0 : Math.abs(n - 1) % INITIALS_SURFACE_STYLES.length;
+  return INITIALS_SURFACE_STYLES[idx]!;
+}
+
 const checkoutLinkClass =
-  "inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary bg-transparent px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/5 active:scale-95";
+  "inline-flex items-center justify-center rounded-full border border-primary bg-transparent px-3 py-1 text-xs font-bold text-primary transition-all hover:bg-primary/5 active:scale-95";
+
+const ROLE_SECTION_ORDER = ["Kitchen Staff", "Delivery Staff", "Management"] as const;
 
 export function StaffAttendanceClient() {
   const [query, setQuery] = useState("");
@@ -141,15 +154,16 @@ export function StaffAttendanceClient() {
     };
   }, []);
 
-  const grouped = useMemo(() => {
-    const map = new Map<string, AttendanceRow[]>();
-    for (const row of filtered) {
-      const key = row.category;
-      const list = map.get(key) ?? [];
-      list.push(row);
-      map.set(key, list);
-    }
-    return map;
+  const tableRows = useMemo(() => {
+    const rank = (category: string) => {
+      const idx = ROLE_SECTION_ORDER.indexOf(category as (typeof ROLE_SECTION_ORDER)[number]);
+      return idx === -1 ? 99 : idx;
+    };
+    return [...filtered].sort((a, b) => {
+      const byGroup = rank(a.category) - rank(b.category);
+      if (byGroup !== 0) return byGroup;
+      return a.name.localeCompare(b.name);
+    });
   }, [filtered]);
 
   return (
@@ -264,87 +278,85 @@ export function StaffAttendanceClient() {
           </div>
         </Card>
 
-        <div className="space-y-8">
-          {Array.from(grouped.entries()).map(([title, rows]) => (
-            <section key={title} className="space-y-3">
-              <h2 className="font-headline text-lg font-extrabold text-on-surface">{title}</h2>
-              <Card className="overflow-hidden p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-[720px] text-left text-sm">
-                    <thead className="border-b border-outline-variant/20 bg-surface-container-low/60">
-                      <tr>
-                        <th className="px-4 py-3 font-bold text-secondary">Staff</th>
-                        <th className="px-4 py-3 font-bold text-secondary">Check-in</th>
-                        <th className="px-4 py-3 font-bold text-secondary">Check-out</th>
-                        <th className="px-4 py-3 font-bold text-secondary">Total hours</th>
-                        <th className="px-4 py-3 font-bold text-secondary">Status</th>
-                        <th className="px-4 py-3 text-right font-bold text-secondary">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rows.map((row) => (
-                        <tr
-                          key={row.id}
-                          className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/40"
+        {filtered.length === 0 ? (
+          <Card className="p-8 text-center">
+            <p className="font-semibold text-on-surface">No rows match your filters</p>
+            <p className="mt-1 text-sm text-secondary">Try clearing search or widening role and status.</p>
+          </Card>
+        ) : (
+          <Card className="overflow-hidden p-0">
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[800px] text-left text-sm">
+                  <thead className="border-b border-outline-variant/20 bg-surface-container-low/60">
+                    <tr>
+                      <th className="px-4 py-3 font-bold text-secondary">Staff</th>
+                      <th className="px-4 py-3 font-bold text-secondary">Role</th>
+                      <th className="px-4 py-3 font-bold text-secondary">Check-in</th>
+                      <th className="px-4 py-3 font-bold text-secondary">Check-out</th>
+                      <th className="px-4 py-3 font-bold text-secondary">Total hours</th>
+                      <th className="px-4 py-3 font-bold text-secondary">Status</th>
+                      <th className="px-4 py-3 text-right font-bold text-secondary">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tableRows.map((row) => (
+                      <tr
+                        key={row.id}
+                        className="border-b border-outline-variant/10 last:border-0 hover:bg-surface-container-low/40"
+                      >
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-3">
+                            <span
+                              className={cn(
+                                "flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-extrabold tracking-tight",
+                                initialsDiscClass(row.id),
+                              )}
+                              aria-hidden="true"
+                            >
+                              {initialsFromName(row.name)}
+                            </span>
+                            <span className="font-semibold text-on-surface">{row.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 font-medium text-on-surface">{row.category}</td>
+                        <td className="px-4 py-3 font-medium text-on-surface">{row.checkIn}</td>
+                        <td className="px-4 py-3 font-medium text-secondary">
+                          {row.checkOut ?? "—:—"}
+                        </td>
+                        <td
+                          className={cn(
+                            "px-4 py-3 font-semibold",
+                            row.totalHours ? "text-primary" : "text-secondary",
+                          )}
                         >
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-3">
-                              <Image
-                                src={row.avatarUrl}
-                                alt=""
-                                width={40}
-                                height={40}
-                                className="h-10 w-10 rounded-full object-cover ring-1 ring-outline-variant/20"
-                              />
-                              <span className="font-semibold text-on-surface">{row.name}</span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-3 font-medium text-on-surface">{row.checkIn}</td>
-                          <td className="px-4 py-3 font-medium text-secondary">
-                            {row.checkOut ?? "—:—"}
-                          </td>
-                          <td
-                            className={cn(
-                              "px-4 py-3 font-semibold",
-                              row.totalHours ? "text-primary" : "text-secondary",
-                            )}
-                          >
-                            {row.totalHours ?? "—"}
-                          </td>
-                          <td className="px-4 py-3">
-                            <Badge tone={statusBadgeTone(row.status)} className="normal-case">
-                              {statusLabel(row.status)}
-                            </Badge>
-                          </td>
-                          <td className="px-4 py-3 text-right">
-                            {row.status === "completed" ? (
-                              <Button type="button" variant="ghost" size="sm" disabled>
-                                Checked out
-                              </Button>
-                            ) : (
-                              <Link
-                                href={checkInOutCheckoutHref(row)}
-                                className={checkoutLinkClass}
-                              >
-                                Check-out
-                              </Link>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Card>
-            </section>
-          ))}
-          {filtered.length === 0 ? (
-            <Card className="p-8 text-center">
-              <p className="font-semibold text-on-surface">No rows match your filters</p>
-              <p className="mt-1 text-sm text-secondary">Try clearing search or widening role and status.</p>
+                          {row.totalHours ?? "—"}
+                        </td>
+                        <td className="px-4 py-3">
+                          <Badge tone={statusBadgeTone(row.status)} className="normal-case">
+                            {statusLabel(row.status)}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          {row.status === "completed" ? (
+                            <Button type="button" variant="ghost" size="sm" disabled>
+                              Checked out
+                            </Button>
+                          ) : (
+                            <Link
+                              href={checkInOutCheckoutHref(row)}
+                              className={checkoutLinkClass}
+                            >
+                              Check-out
+                            </Link>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </Card>
-          ) : null}
-        </div>
+        )}
       </div>
     </PageContainer>
   );

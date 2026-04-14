@@ -17,7 +17,7 @@ export default function RestaurantCreatePage() {
           </li>
           <li>
             <Link href="/restaurants" className="transition-colors hover:text-primary">
-              Restaurant management
+              Manage restaurant
             </Link>
           </li>
           <li aria-hidden className="text-on-surface-variant/60">

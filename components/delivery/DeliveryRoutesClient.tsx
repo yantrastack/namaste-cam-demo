@@ -161,7 +161,7 @@ export function DeliveryRoutesClient({ initialPlans }: DeliveryRoutesClientProps
 
         <div className="pointer-events-none absolute inset-0 z-[620]">
           <div className="pointer-events-auto absolute left-6 top-6 max-w-[min(100%-3rem,320px)]">
-            <div className="flex items-center gap-4 rounded-2xl bg-white/90 p-4 shadow-xl ring-1 ring-outline-variant/15 backdrop-blur-md dark:bg-inverse-surface/90">
+            <div className="flex items-center gap-4 rounded-2xl bg-surface-container-lowest p-4 shadow-xl ring-1 ring-outline-variant/15 dark:bg-surface-container-lowest">
               <div
                 className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-fixed text-primary"
                 aria-hidden

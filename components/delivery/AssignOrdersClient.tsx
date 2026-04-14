@@ -274,11 +274,11 @@ export function AssignOrdersClient({
   const toggleGroup = (outcode: string) => {
     setOpenGroups((prev) => ({
       ...prev,
-      [outcode]: prev[outcode] === false,
+      [outcode]: !prev[outcode],
     }));
   };
 
-  const isOpen = (outcode: string) => openGroups[outcode] !== false;
+  const isOpen = (outcode: string) => Boolean(openGroups[outcode]);
 
   const toggleRow = (o: DeliveryOrder) => {
     if (o.dispatchStatus !== "unassigned") return;
@@ -388,7 +388,12 @@ export function AssignOrdersClient({
             </Card>
           ) : null}
           {groups.map(({ outcode, areaLabel, orders: bucket }) => {
-            const unassigned = bucket.filter((o) => o.dispatchStatus === "unassigned").length;
+            const total = bucket.length;
+            const notAssigned = bucket.filter((o) => o.dispatchStatus === "unassigned").length;
+            const assignedDelivery = bucket.filter(
+              (o) => o.dispatchStatus === "assigned" || o.dispatchStatus === "en_route",
+            ).length;
+            const completed = bucket.filter((o) => o.dispatchStatus === "delivered").length;
             return (
               <Card key={outcode} className="overflow-hidden p-0">
                 <button
@@ -404,14 +409,21 @@ export function AssignOrdersClient({
                       <Badge tone="neutral" className="normal-case tracking-normal">
                         {areaLabel}
                       </Badge>
-                      {unassigned > 0 ? (
-                        <Badge tone="warning">{unassigned} need driver</Badge>
-                      ) : (
-                        <Badge tone="success">Fully assigned</Badge>
-                      )}
                     </div>
                     <p className="text-sm font-medium text-secondary">
-                      {bucket.length} order{bucket.length === 1 ? "" : "s"} in this patch
+                      <span className="font-headline font-extrabold tabular-nums text-on-surface">{total}</span>
+                      {" total"}
+                      <span className="text-on-surface-variant"> · </span>
+                      <span className="font-headline font-extrabold tabular-nums text-on-surface">{notAssigned}</span>
+                      {" not assigned"}
+                      <span className="text-on-surface-variant"> · </span>
+                      <span className="font-headline font-extrabold tabular-nums text-on-surface">
+                        {assignedDelivery}
+                      </span>
+                      {" assigned (delivery)"}
+                      <span className="text-on-surface-variant"> · </span>
+                      <span className="font-headline font-extrabold tabular-nums text-on-surface">{completed}</span>
+                      {" completed"}
                     </p>
                   </div>
                   <MaterialIcon

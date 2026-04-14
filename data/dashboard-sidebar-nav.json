@@ -9,12 +9,12 @@
     },
     {
       "id": "restaurant-management",
-      "label": "Restaurant management",
+      "label": "Manage restaurant",
       "icon": "storefront",
       "children": [
         {
           "id": "restaurant-list",
-          "label": "Restaurant management",
+          "label": "Manage restaurant",
           "icon": "apartment",
           "href": "/restaurants"
         },

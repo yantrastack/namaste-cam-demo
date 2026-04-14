@@ -89,7 +89,7 @@ export default async function RestaurantsPage() {
 
   return (
     <PageContainer
-      title="Restaurant management"
+      title="Manage restaurant"
       description="Monitor, verify, and manage culinary partners across the Namaste Cam network."
       actions={
         <>
