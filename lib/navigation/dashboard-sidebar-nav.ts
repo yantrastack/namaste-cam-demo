@@ -28,8 +28,14 @@ export function isNavLeafActive(href: string, pathname: string): boolean {
     if (/^\/menu\/[^/]+\/edit$/.test(pathname)) return true;
   }
   if (href === "/orders") {
-    if (pathname.startsWith("/orders/create")) return false;
-    if (pathname.startsWith("/orders/history")) return false;
+    const inactiveUnderOrders = [
+      "/orders/create",
+      "/orders/history",
+      "/orders/driver-orders",
+    ] as const;
+    if (inactiveUnderOrders.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
+      return false;
+    }
     if (pathname.startsWith("/orders/")) return true;
   }
   if (

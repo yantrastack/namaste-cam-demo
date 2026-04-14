@@ -174,11 +174,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
               <MaterialIcon name="electric_scooter" className="text-[16px] sm:text-[18px]" />
               <span>{deliveryPerson.vehicle} • <span className="text-on-surface font-medium">{deliveryPerson.plateNumber}</span></span>
             </div>
-<<<<<<< Updated upstream
             <Badge tone="info" className="bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold text-on-tertiary-fixed uppercase tracking-tighter self-center">
-=======
-            <Badge tone="neutral" className="bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold text-on-tertiary-fixed uppercase tracking-tighter self-center">
->>>>>>> Stashed changes
               {deliveryPerson.badge}
             </Badge>
           </div>

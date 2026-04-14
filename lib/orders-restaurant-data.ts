@@ -66,6 +66,10 @@ export type RestaurantOrderRecord = {
   customerName: string;
   customerPhone: string;
   customerEmail?: string;
+  /** Guest star rating for this order (1–5), when captured after fulfilment. */
+  customerOrderRating?: number;
+  /** Short guest review for this order. */
+  customerOrderReview?: string;
   customerFirstName?: string;
   customerLastName?: string;
   /** Table, room, or pass (in-house substitute for delivery map). */
@@ -81,6 +85,12 @@ export type RestaurantOrderRecord = {
   payments: PaymentSplitRow[];
   /** Filled for closed tickets — delivery or hand-off time for history. */
   completedAtLabel?: string;
+  /** Courier — shown on completed delivery detail. */
+  deliveryDriverName?: string;
+  /** Promised door time (minutes from the same baseline as {@link deliveryActualMinutes}). */
+  deliveryPromisedMinutes?: number;
+  /** Actual door time in minutes for the same baseline as promised. */
+  deliveryActualMinutes?: number;
   /** How the guest settled (history table + archive detail). */
   checkoutPaymentSummary?: CheckoutPaymentSummary;
   /** Present when the ticket was voided or declined after confirmation. */
@@ -168,6 +178,16 @@ function line(id: string, productId: string, quantity: number, needsKitchen?: bo
     unitPriceExTax: p.unitPriceExTax,
     needsKitchen: kitchen,
   };
+}
+
+/** Human-readable door performance, e.g. `30 mins (on time)` or `40 mins (10 mins late)`. */
+export function formatDeliveryTimePerformance(promisedMinutes: number, actualMinutes: number): string {
+  const actualLabel = `${actualMinutes} mins`;
+  if (actualMinutes <= promisedMinutes) {
+    return `${actualLabel} (on time)`;
+  }
+  const late = actualMinutes - promisedMinutes;
+  return `${actualLabel} (${late} min${late === 1 ? "" : "s"} late)`;
 }
 
 export function getOrderFulfillmentType(order: RestaurantOrderRecord): OrderFulfillmentType {
@@ -391,6 +411,12 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     serverName: "Priya K.",
     customerName: "Samira Khan",
     customerPhone: "+44 20 7946 2210",
+    customerEmail: "samira.khan@example.com",
+    customerOrderRating: 5,
+    customerOrderReview: "Hot on arrival and the dosa was crisp — will order again.",
+    deliveryDriverName: "Aiden Marshall",
+    deliveryPromisedMinutes: 30,
+    deliveryActualMinutes: 30,
     serviceLocation: "Bar pickup",
     lines: [line("ln-h3", "prd-dosa", 1), line("ln-h4", "prd-masala-chai", 2)],
     internalNotes: "",
@@ -415,6 +441,11 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     customerName: "The Cambridge Society",
     customerPhone: "+44 1223 902100",
     customerEmail: "events@cam-soc.example.org",
+    customerOrderRating: 4,
+    customerOrderReview: "Great food; delivery was a bit later than quoted.",
+    deliveryDriverName: "Jordan Lee",
+    deliveryPromisedMinutes: 45,
+    deliveryActualMinutes: 55,
     serviceLocation: "Private room B",
     lines: [
       line("ln-h5", "prd-tandoori", 4),
@@ -442,6 +473,11 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     serverName: "Marc A.",
     customerName: "Noah Williams",
     customerPhone: "+44 20 7123 3344",
+    customerEmail: "noah.w@example.com",
+    customerOrderRating: 4.5,
+    deliveryDriverName: "Priya Nair",
+    deliveryPromisedMinutes: 60,
+    deliveryActualMinutes: 67,
     serviceLocation: "Table 22",
     lines: [line("ln-h8", "prd-truffle-pasta", 1), line("ln-h9", "prd-saffron-old", 2)],
     internalNotes: "Loyalty £15 applied at close.",

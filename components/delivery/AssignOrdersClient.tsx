@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/Table";
 import { cn } from "@/lib/cn";
 import {
+  formatKitchenToDoorSummary,
   groupDeliveryOrdersByOutcode,
   outwardUkPostcode,
   type DeliveryAgent,
@@ -212,7 +213,8 @@ export function AssignOrdersClient({
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [agentId, setAgentId] = useState<string>(agents[0]?.id ?? "");
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
+  /** Explicit accordion state; omitted keys follow pin default (open when URL pin matches). */
+  const [openOverrides, setOpenOverrides] = useState<Record<string, boolean>>({});
 
   const pinFromUrl = useMemo(
     () => normalizePinParam(searchParams.get("pin")),
@@ -271,14 +273,30 @@ export function AssignOrdersClient({
     [filtered],
   );
 
-  const toggleGroup = (outcode: string) => {
-    setOpenGroups((prev) => ({
-      ...prev,
-      [outcode]: !prev[outcode],
-    }));
-  };
+  const isOpen = useCallback(
+    (outcode: string) => {
+      if (Object.prototype.hasOwnProperty.call(openOverrides, outcode)) {
+        return openOverrides[outcode]!;
+      }
+      if (!pinFromUrl) return false;
+      const oc = outcode.toUpperCase();
+      return oc === pinFromUrl || oc.startsWith(pinFromUrl);
+    },
+    [openOverrides, pinFromUrl],
+  );
 
-  const isOpen = (outcode: string) => Boolean(openGroups[outcode]);
+  const toggleGroup = (outcode: string) => {
+    setOpenOverrides((prev) => {
+      const resolved = Object.prototype.hasOwnProperty.call(prev, outcode)
+        ? prev[outcode]!
+        : (() => {
+            if (!pinFromUrl) return false;
+            const oc = outcode.toUpperCase();
+            return oc === pinFromUrl || oc.startsWith(pinFromUrl);
+          })();
+      return { ...prev, [outcode]: !resolved };
+    });
+  };
 
   const toggleRow = (o: DeliveryOrder) => {
     if (o.dispatchStatus !== "unassigned") return;
@@ -464,6 +482,13 @@ export function AssignOrdersClient({
                           const canPick = o.dispatchStatus === "unassigned";
                           const lockedChecked = isAssignedOrDelivered(o.dispatchStatus);
                           const checked = canPick ? selected.has(o.id) : lockedChecked;
+                          const deliveredTiming =
+                            o.dispatchStatus === "delivered"
+                              ? formatKitchenToDoorSummary(
+                                  o.kitchenToDoorMinutes,
+                                  o.promisedKitchenToDoorMinutes,
+                                )
+                              : null;
                           return (
                             <TableRow
                               key={o.id}
@@ -517,6 +542,11 @@ export function AssignOrdersClient({
                                   <div className="mt-1 text-xs font-medium text-secondary">
                                     {agents.find((ag) => ag.id === o.assignedAgentId)?.name ?? "Driver"}
                                   </div>
+                                ) : null}
+                                {deliveredTiming ? (
+                                  <p className="mt-1 text-xs font-semibold leading-snug text-on-surface-variant">
+                                    {deliveredTiming}
+                                  </p>
                                 ) : null}
                               </TableCell>
                               <TableCell className="px-4 py-3 text-right">

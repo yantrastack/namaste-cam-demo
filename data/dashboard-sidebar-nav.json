@@ -82,6 +82,18 @@
           "href": "/orders"
         },
         {
+          "id": "orders-driver-orders",
+          "label": "Driver orders",
+          "icon": "badge",
+          "href": "/orders/driver-orders"
+        },
+        {
+          "id": "orders-area-status",
+          "label": "Area wise orders",
+          "icon": "map",
+          "href": "/delivery/overview"
+        },
+        {
           "id": "orders-history",
           "label": "Order history",
           "icon": "history",
@@ -105,12 +117,6 @@
           "label": "Optimized routes",
           "icon": "route",
           "href": "/delivery/routes"
-        },
-        {
-          "id": "delivery-overview",
-          "label": "Area & status",
-          "icon": "map",
-          "href": "/delivery/overview"
         }
       ]
     },
@@ -149,6 +155,68 @@
           "label": "Check-in / check-out",
           "icon": "login",
           "href": "/staff/check-in-out"
+        },
+        {
+          "id": "staff-earnings",
+          "label": "Staff earnings",
+          "icon": "payments",
+          "href": "/staff/earnings"
+        }
+      ]
+    },
+    {
+      "id": "inventory",
+      "label": "Inventory",
+      "icon": "warehouse",
+      "children": [
+        {
+          "id": "inventory-overview",
+          "label": "Overview",
+          "icon": "dashboard",
+          "href": "/inventory"
+        }
+      ]
+    },
+    {
+      "id": "reports",
+      "label": "Reports",
+      "icon": "bar_chart",
+      "children": [
+        {
+          "id": "reports-hub",
+          "label": "Overview",
+          "icon": "hub",
+          "href": "/reports"
+        },
+        {
+          "id": "reports-sales",
+          "label": "Sales",
+          "icon": "payments",
+          "href": "/reports/sales"
+        },
+        {
+          "id": "reports-orders",
+          "label": "Orders",
+          "icon": "shopping_cart",
+          "href": "/reports/orders"
+        },
+        {
+          "id": "reports-delivery",
+          "label": "Delivery",
+          "icon": "local_shipping",
+          "href": "/reports/delivery"
+        },
+        {
+          "id": "reports-menu",
+          "label": "Menu performance",
+          "icon": "restaurant_menu",
+          "href": "/reports/menu"
+        },
+        {
+          "id": "reports-staff",
+          "label": "Staff summary",
+          "icon": "badge",
+          "href": "/reports/staff"
         }
       ]
     },

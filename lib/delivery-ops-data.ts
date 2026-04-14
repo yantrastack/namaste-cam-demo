@@ -6,6 +6,11 @@ export type DeliveryDispatchStatus =
   | "en_route"
   | "delivered";
 
+/** Customer pickup at counter / kerbside (not courier drop-off). */
+export type DeliveryCollectionPickupStatus =
+  | "awaiting_pickup"
+  | "collected";
+
 export type DeliveryOrder = {
   id: string;
   code: string;
@@ -16,11 +21,20 @@ export type DeliveryOrder = {
   addressLine: string;
   placedAtLabel: string;
   dispatchStatus: DeliveryDispatchStatus;
+  /** When set, order is counted in collections summary (pickup workflow). */
+  collectionPickup?: { status: DeliveryCollectionPickupStatus };
   assignedAgentId?: string;
   lat: number;
   lng: number;
   /** When set, links to restaurant order detail. */
   linkedRestaurantOrderId?: string;
+  /**
+   * Delivered orders: minutes from kitchen ready to customer drop-off.
+   * Pair with `promisedKitchenToDoorMinutes` for SLA copy in ops UI.
+   */
+  kitchenToDoorMinutes?: number;
+  /** Promised max minutes from kitchen ready (same clock as actual). */
+  promisedKitchenToDoorMinutes?: number;
 };
 
 export type DeliveryAgent = {
@@ -40,6 +54,12 @@ export type DeliveryAreaStat = {
   assigned: number;
   enRoute: number;
   delivered: number;
+};
+
+export type DeliveryCollectionSummary = {
+  total: number;
+  yetToCollect: number;
+  collected: number;
 };
 
 export type RouteStop = {
@@ -109,6 +129,7 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "12 Birdcage Walk",
     placedAtLabel: "Today · 14:22",
     dispatchStatus: "unassigned",
+    collectionPickup: { status: "awaiting_pickup" },
     lat: 51.5007,
     lng: -0.143,
     linkedRestaurantOrderId: "ord-ss-8291",
@@ -149,6 +170,7 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "19 Silver Street",
     placedAtLabel: "Today · 12:58",
     dispatchStatus: "unassigned",
+    collectionPickup: { status: "awaiting_pickup" },
     lat: 52.2025,
     lng: 0.1189,
     linkedRestaurantOrderId: "ord-ss-8275",
@@ -162,6 +184,7 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Milton Road retail park",
     placedAtLabel: "Today · 13:12",
     dispatchStatus: "unassigned",
+    collectionPickup: { status: "awaiting_pickup" },
     lat: 52.242,
     lng: 0.153,
     linkedRestaurantOrderId: "ord-ss-8280",
@@ -201,6 +224,7 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Farringdon station pickup",
     placedAtLabel: "Today · 12:40",
     dispatchStatus: "assigned",
+    collectionPickup: { status: "awaiting_pickup" },
     assignedAgentId: "ag-raj",
     lat: 51.5205,
     lng: -0.105,
@@ -214,6 +238,7 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "22 Wardour Street",
     placedAtLabel: "Today · 12:15",
     dispatchStatus: "unassigned",
+    collectionPickup: { status: "awaiting_pickup" },
     lat: 51.513,
     lng: -0.131,
     linkedRestaurantOrderId: "ord-ss-8142",
@@ -240,10 +265,13 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Brooks Road industrial",
     placedAtLabel: "Mon · 12:48",
     dispatchStatus: "delivered",
+    collectionPickup: { status: "collected" },
     assignedAgentId: "ag-li",
     lat: 52.188,
     lng: 0.142,
     linkedRestaurantOrderId: "ord-ss-8138",
+    kitchenToDoorMinutes: 18,
+    promisedKitchenToDoorMinutes: 20,
   },
   {
     id: "ord-del-507",
@@ -254,9 +282,12 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Parker's Piece kiosk",
     placedAtLabel: "Fri · 12:10",
     dispatchStatus: "delivered",
+    collectionPickup: { status: "collected" },
     assignedAgentId: "ag-li",
     lat: 52.203,
     lng: 0.124,
+    kitchenToDoorMinutes: 30,
+    promisedKitchenToDoorMinutes: 20,
   },
   {
     id: "ord-del-508",
@@ -267,10 +298,13 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Whitehall service entrance",
     placedAtLabel: "Wed · 12:05",
     dispatchStatus: "delivered",
+    collectionPickup: { status: "collected" },
     assignedAgentId: "ag-sam",
     lat: 51.5045,
     lng: -0.1275,
     linkedRestaurantOrderId: "ord-ss-8158",
+    kitchenToDoorMinutes: 22,
+    promisedKitchenToDoorMinutes: 25,
   },
   {
     id: "ord-del-509",
@@ -281,9 +315,12 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
     addressLine: "Chesterton Road flats",
     placedAtLabel: "Wed · 18:20",
     dispatchStatus: "delivered",
+    collectionPickup: { status: "collected" },
     assignedAgentId: "ag-li",
     lat: 52.239,
     lng: 0.148,
+    kitchenToDoorMinutes: 35,
+    promisedKitchenToDoorMinutes: 30,
   },
 ];
 
@@ -343,6 +380,26 @@ function nearestNeighborFromDepot(orders: DeliveryOrder[]): DeliveryOrder[] {
   return ordered;
 }
 
+/** Human line for kitchen-to-door timing vs promised SLA (delivered orders). */
+export function formatKitchenToDoorSummary(
+  actualMinutes?: number,
+  promisedMinutes?: number,
+): string | null {
+  if (
+    actualMinutes == null ||
+    promisedMinutes == null ||
+    actualMinutes < 0 ||
+    promisedMinutes <= 0
+  ) {
+    return null;
+  }
+  if (actualMinutes <= promisedMinutes) {
+    return `${actualMinutes} mins (on time)`;
+  }
+  const late = actualMinutes - promisedMinutes;
+  return `${actualMinutes} mins (${late} mins late)`;
+}
+
 export function listDeliveryAgents(): DeliveryAgent[] {
   return [...DELIVERY_AGENTS_SEED];
 }
@@ -374,6 +431,36 @@ export function groupDeliveryOrdersByOutcode(
       orders: v.orders.sort((a, b) => a.code.localeCompare(b.code)),
     }))
     .sort((a, b) => a.outcode.localeCompare(b.outcode));
+}
+
+/** Same area filter as the overview table search (outward code + area label). */
+export function filterDeliveryOrdersByAreaSearch(
+  orders: DeliveryOrder[],
+  query: string,
+): DeliveryOrder[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return orders;
+  return orders.filter((o) => {
+    const oc = outwardUkPostcode(o.postcode).toLowerCase();
+    return oc.includes(q) || o.areaLabel.toLowerCase().includes(q);
+  });
+}
+
+export function computeDeliveryCollectionSummary(
+  orders: DeliveryOrder[],
+): DeliveryCollectionSummary {
+  let yetToCollect = 0;
+  let collected = 0;
+  for (const o of orders) {
+    if (!o.collectionPickup) continue;
+    if (o.collectionPickup.status === "awaiting_pickup") yetToCollect++;
+    else collected++;
+  }
+  return {
+    total: yetToCollect + collected,
+    yetToCollect,
+    collected,
+  };
 }
 
 export function computeDeliveryAreaStats(

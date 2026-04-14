@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageContainer";
@@ -13,7 +14,12 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 import { cn } from "@/lib/cn";
-import type { DeliveryAreaStat } from "@/lib/delivery-ops-data";
+import {
+  computeDeliveryAreaStats,
+  computeDeliveryCollectionSummary,
+  filterDeliveryOrdersByAreaSearch,
+  type DeliveryOrder,
+} from "@/lib/delivery-ops-data";
 
 function Num({ n, tone }: { n: number; tone?: "default" | "warn" | "muted" }) {
   return (
@@ -31,21 +37,27 @@ function Num({ n, tone }: { n: number; tone?: "default" | "warn" | "muted" }) {
 }
 
 type DeliveryOverviewClientProps = {
-  rows: DeliveryAreaStat[];
+  orders: DeliveryOrder[];
 };
 
-export function DeliveryOverviewClient({ rows }: DeliveryOverviewClientProps) {
+export function DeliveryOverviewClient({ orders }: DeliveryOverviewClientProps) {
+  const router = useRouter();
   const [query, setQuery] = useState("");
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return rows;
-    return rows.filter(
-      (r) =>
-        r.outcode.toLowerCase().includes(q) ||
-        r.areaLabel.toLowerCase().includes(q),
-    );
-  }, [rows, query]);
+  const filteredOrders = useMemo(
+    () => filterDeliveryOrdersByAreaSearch(orders, query),
+    [orders, query],
+  );
+
+  const filtered = useMemo(
+    () => computeDeliveryAreaStats(filteredOrders),
+    [filteredOrders],
+  );
+
+  const collectionSummary = useMemo(
+    () => computeDeliveryCollectionSummary(filteredOrders),
+    [filteredOrders],
+  );
 
   const totals = useMemo(() => {
     return filtered.reduce(
@@ -145,7 +157,26 @@ export function DeliveryOverviewClient({ rows }: DeliveryOverviewClientProps) {
               </TableRow>
             ) : (
               filtered.map((r) => (
-                <TableRow key={r.outcode} className="hover:bg-surface-container-low/30">
+                <TableRow
+                  key={r.outcode}
+                  tabIndex={0}
+                  role="link"
+                  aria-label={`Assign orders for ${r.outcode} ${r.areaLabel}`}
+                  className="cursor-pointer hover:bg-surface-container-low/30"
+                  onClick={() =>
+                    router.push(
+                      `/delivery/assign?pin=${encodeURIComponent(r.outcode.toUpperCase())}`,
+                    )
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      router.push(
+                        `/delivery/assign?pin=${encodeURIComponent(r.outcode.toUpperCase())}`,
+                      );
+                    }
+                  }}
+                >
                   <TableCell className="px-5 py-4">
                     <span className="font-headline text-lg font-extrabold text-on-surface">{r.outcode}</span>
                     <div className="text-sm font-medium text-secondary">{r.areaLabel}</div>
@@ -192,6 +223,37 @@ export function DeliveryOverviewClient({ rows }: DeliveryOverviewClientProps) {
             ) : null}
           </TableBody>
         </Table>
+      </Card>
+
+      <Card className="p-5">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="font-headline text-lg font-extrabold text-on-surface">Collections</h2>
+            <p className="mt-1 text-sm font-medium text-secondary">
+              Customer pickup tickets — handoff at counter or kerbside, separate from courier drops.
+            </p>
+          </div>
+        </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-xl bg-surface-container-low/50 p-4 ring-1 ring-outline-variant/10">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">Total</p>
+            <p className="mt-2 font-headline text-3xl font-extrabold tabular-nums text-on-surface">
+              {collectionSummary.total}
+            </p>
+          </div>
+          <div className="rounded-xl bg-surface-container-low/50 p-4 ring-1 ring-amber-100/80">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">Yet to collect</p>
+            <p className="mt-2 font-headline text-3xl font-extrabold tabular-nums text-primary">
+              {collectionSummary.yetToCollect}
+            </p>
+          </div>
+          <div className="rounded-xl bg-surface-container-low/50 p-4 ring-1 ring-outline-variant/10">
+            <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">Collected</p>
+            <p className="mt-2 font-headline text-3xl font-extrabold tabular-nums text-on-surface">
+              {collectionSummary.collected}
+            </p>
+          </div>
+        </div>
       </Card>
     </PageContainer>
   );

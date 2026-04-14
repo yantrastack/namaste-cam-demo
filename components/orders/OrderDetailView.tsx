@@ -29,6 +29,7 @@ import {
 import type { OrderStatus, RestaurantOrderRecord } from "@/lib/orders-restaurant-data";
 import {
   formatCheckoutPaymentSummary,
+  formatDeliveryTimePerformance,
   getCatalogProduct,
   getOrderFulfillmentType,
   resolveLineNeedsKitchen,
@@ -91,6 +92,20 @@ function initials(name: string) {
   if (parts.length === 0) return "?";
   if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
   return `${parts[0]![0] ?? ""}${parts[parts.length - 1]![0] ?? ""}`.toUpperCase();
+}
+
+/** Per-star state for a 1–5 rating (supports half star on the boundary bucket). */
+function orderRatingStarStates(rating: number): ("full" | "half" | "empty")[] {
+  const r = Math.min(5, Math.max(0, rating));
+  const full = Math.floor(r);
+  const frac = r - full;
+  return Array.from({ length: 5 }, (_, i) => {
+    if (i < full) return "full";
+    if (i > full) return "empty";
+    if (frac >= 0.75) return "full";
+    if (frac >= 0.25) return "half";
+    return "empty";
+  });
 }
 
 type Props = {
@@ -175,6 +190,19 @@ export function OrderDetailView({ order: serverOrder }: Props) {
 
   const lineCount = order.lines.length;
   const fulfillment = getOrderFulfillmentType(order);
+
+  const deliveryTimeSummary =
+    order.deliveryPromisedMinutes != null && order.deliveryActualMinutes != null
+      ? formatDeliveryTimePerformance(order.deliveryPromisedMinutes, order.deliveryActualMinutes)
+      : null;
+  const showCompletedDeliveryHandoff =
+    order.status === "completed" &&
+    fulfillment === "delivery" &&
+    Boolean(order.deliveryDriverName || deliveryTimeSummary);
+
+  const hasGuestFeedback =
+    order.customerOrderRating != null || Boolean(order.customerOrderReview?.trim());
+  const ratingStars = order.customerOrderRating != null ? orderRatingStarStates(order.customerOrderRating) : null;
 
   return (
     <div className="space-y-6">
@@ -299,17 +327,62 @@ export function OrderDetailView({ order: serverOrder }: Props) {
                 </div>
                 <div className="min-w-0">
                   <p className="font-headline font-bold text-on-surface">{order.customerName || "Guest"}</p>
+                </div>
+              </div>
+              <div className="space-y-3 border-t border-outline-variant/15 pt-3">
+                <div className="flex items-center gap-2 text-sm font-medium text-on-surface">
+                  <MaterialIcon name="call" className="shrink-0 text-secondary" />
+                  <span className="min-w-0">{order.customerPhone}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm">
+                  <MaterialIcon name="mail" className="shrink-0 text-secondary" />
                   {order.customerEmail ? (
-                    <p className="truncate text-sm text-secondary">{order.customerEmail}</p>
+                    <a
+                      href={`mailto:${order.customerEmail}`}
+                      className="min-w-0 break-all font-medium text-primary underline-offset-2 hover:underline"
+                    >
+                      {order.customerEmail}
+                    </a>
+                  ) : (
+                    <span className="font-medium text-secondary">Not on file</span>
+                  )}
+                </div>
+              </div>
+              {hasGuestFeedback ? (
+                <div className="space-y-3 border-t border-outline-variant/15 pt-3">
+                  <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">Guest feedback</p>
+                  {order.customerOrderRating != null && ratingStars ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div
+                        className="flex items-center gap-0.5"
+                        role="img"
+                        aria-label={`${order.customerOrderRating} out of 5 stars`}
+                      >
+                        {ratingStars.map((state, i) =>
+                          state === "full" ? (
+                            <MaterialIcon key={i} name="star" filled className="text-lg text-tertiary-container" />
+                          ) : state === "half" ? (
+                            <MaterialIcon key={i} name="star_half" className="text-lg text-tertiary-container" />
+                          ) : (
+                            <MaterialIcon key={i} name="star" className="text-lg text-outline-variant/45" />
+                          ),
+                        )}
+                      </div>
+                      <span className="font-headline text-sm font-bold tabular-nums text-on-surface">
+                        {Number.isInteger(order.customerOrderRating)
+                          ? `${order.customerOrderRating} / 5`
+                          : `${order.customerOrderRating.toFixed(1)} / 5`}
+                      </span>
+                    </div>
+                  ) : null}
+                  {order.customerOrderReview?.trim() ? (
+                    <div className="flex gap-2 rounded-xl bg-surface-container-low/80 p-3 ring-1 ring-outline-variant/10">
+                      <MaterialIcon name="rate_review" className="mt-0.5 shrink-0 text-secondary" />
+                      <p className="text-sm font-medium leading-relaxed text-on-surface">{order.customerOrderReview.trim()}</p>
+                    </div>
                   ) : null}
                 </div>
-              </div>
-              <div className="space-y-2 border-t border-outline-variant/15 pt-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-on-surface">
-                  <MaterialIcon name="call" className="text-secondary" />
-                  {order.customerPhone}
-                </div>
-              </div>
+              ) : null}
             </Card>
 
             <Card className="flex flex-col gap-4 p-6">
@@ -350,6 +423,33 @@ export function OrderDetailView({ order: serverOrder }: Props) {
                       {order.postcode}
                     </span>
                   </p>
+                  {showCompletedDeliveryHandoff ? (
+                    <div className="mt-3 space-y-3 border-t border-outline-variant/15 pt-3">
+                      <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">
+                        Delivery handoff
+                      </p>
+                      {order.deliveryDriverName ? (
+                        <div className="flex gap-3">
+                          <MaterialIcon name="delivery_dining" className="mt-0.5 shrink-0 text-lg text-secondary" />
+                          <div className="min-w-0">
+                            <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">Driver</p>
+                            <p className="mt-0.5 font-headline font-bold text-on-surface">{order.deliveryDriverName}</p>
+                          </div>
+                        </div>
+                      ) : null}
+                      {deliveryTimeSummary ? (
+                        <div className="flex gap-3">
+                          <MaterialIcon name="schedule" className="mt-0.5 shrink-0 text-lg text-secondary" />
+                          <div className="min-w-0">
+                            <p className="text-xs font-extrabold uppercase tracking-widest text-secondary">
+                              Door time
+                            </p>
+                            <p className="mt-0.5 text-sm font-bold text-on-surface">{deliveryTimeSummary}</p>
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
+                  ) : null}
                 </>
               )}
             </Card>
