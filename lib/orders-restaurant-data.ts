@@ -58,6 +58,10 @@ export type RestaurantOrderRecord = {
   postcode: string;
   /** ISO-ish display string */
   placedAtLabel: string;
+  /** Calendar day for filters (`yyyy-mm-dd`). Optional on legacy or archived payloads. */
+  placedAtDate?: string;
+  /** Calendar day when the ticket closed (completed or cancelled), for history filters. */
+  closedAtDate?: string;
   serverName: string;
   customerName: string;
   customerPhone: string;
@@ -188,6 +192,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "SW1A 1AA",
     placedAtLabel: "Today, 14:22",
+    placedAtDate: "2026-04-14",
     serverName: "Marc A.",
     customerName: "Benjamin Harrison",
     customerPhone: "+44 20 7123 4567",
@@ -217,6 +222,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "E1 6AN",
     placedAtLabel: "Today, 14:05",
+    placedAtDate: "2026-04-14",
     serverName: "Priya K.",
     customerName: "Elena Rostova",
     customerPhone: "+44 20 7946 0958",
@@ -241,6 +247,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Patio & bar",
     postcode: "CB2 1TP",
     placedAtLabel: "Today, 13:40",
+    placedAtDate: "2026-04-14",
     serverName: "Marc A.",
     customerName: "Jordan Lee",
     customerPhone: "+44 1223 461234",
@@ -261,6 +268,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Private dining",
     postcode: "CB5 8RX",
     placedAtLabel: "Today, 13:12",
+    placedAtDate: "2026-04-14",
     serverName: "Sam R.",
     customerName: "Walk-in",
     customerPhone: "—",
@@ -279,6 +287,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Cambridge lab kitchen",
     postcode: "CB2 1TP",
     placedAtLabel: "Today, 12:58",
+    placedAtDate: "2026-04-14",
     serverName: "Priya K.",
     customerName: "Amelia Grant",
     customerPhone: "+44 1223 902881",
@@ -299,6 +308,8 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "W1D 4FA",
     placedAtLabel: "Tue, 8 Apr · 18:40",
+    placedAtDate: "2026-04-08",
+    closedAtDate: "2026-04-08",
     serverName: "Marc A.",
     customerName: "Riley Brooks",
     customerPhone: "+44 20 7123 2210",
@@ -324,6 +335,8 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Cambridge lab kitchen",
     postcode: "CB2 3QZ",
     placedAtLabel: "Mon, 7 Apr · 12:48",
+    placedAtDate: "2026-04-07",
+    closedAtDate: "2026-04-07",
     serverName: "Sam R.",
     customerName: "Studio Catering Ltd",
     customerPhone: "+44 1223 550001",
@@ -348,7 +361,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "SW1A 2AB",
     placedAtLabel: "Fri, 11 Apr · 12:10",
+    placedAtDate: "2026-04-11",
     completedAtLabel: "Fri, 11 Apr · 12:58",
+    closedAtDate: "2026-04-11",
     serverName: "Marc A.",
     customerName: "Oliver Chen",
     customerPhone: "+44 20 7123 8891",
@@ -370,7 +385,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Patio & bar",
     postcode: "E1 6AN",
     placedAtLabel: "Fri, 11 Apr · 11:02",
+    placedAtDate: "2026-04-11",
     completedAtLabel: "Fri, 11 Apr · 11:34",
+    closedAtDate: "2026-04-11",
     serverName: "Priya K.",
     customerName: "Samira Khan",
     customerPhone: "+44 20 7946 2210",
@@ -391,7 +408,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Cambridge lab kitchen",
     postcode: "CB2 1TP",
     placedAtLabel: "Thu, 10 Apr · 19:15",
+    placedAtDate: "2026-04-10",
     completedAtLabel: "Thu, 10 Apr · 20:02",
+    closedAtDate: "2026-04-10",
     serverName: "Sam R.",
     customerName: "The Cambridge Society",
     customerPhone: "+44 1223 902100",
@@ -417,7 +436,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "EC1A 1BB",
     placedAtLabel: "Thu, 10 Apr · 13:48",
+    placedAtDate: "2026-04-10",
     completedAtLabel: "Thu, 10 Apr · 14:55",
+    closedAtDate: "2026-04-10",
     serverName: "Marc A.",
     customerName: "Noah Williams",
     customerPhone: "+44 20 7123 3344",
@@ -441,7 +462,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Patio & bar",
     postcode: "CB5 8RX",
     placedAtLabel: "Wed, 9 Apr · 18:20",
+    placedAtDate: "2026-04-09",
     completedAtLabel: "Wed, 9 Apr · 18:52",
+    closedAtDate: "2026-04-09",
     serverName: "Priya K.",
     customerName: "Alex Morgan",
     customerPhone: "+44 1223 461999",
@@ -461,7 +484,9 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Flagship dining",
     postcode: "SW1A 1AA",
     placedAtLabel: "Wed, 9 Apr · 12:05",
+    placedAtDate: "2026-04-09",
     completedAtLabel: "Wed, 9 Apr · 12:40",
+    closedAtDate: "2026-04-09",
     serverName: "Sam R.",
     customerName: "Guest — walk-out",
     customerPhone: "—",
@@ -482,6 +507,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Namaste Cam — Dispatch",
     postcode: "NW1 8NH",
     placedAtLabel: "Today, 15:01",
+    placedAtDate: "2026-04-14",
     serverName: "Marc A.",
     customerName: "Chris Patel",
     customerPhone: "+44 20 7123 8890",
@@ -502,6 +528,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Namaste Cam — Dispatch",
     postcode: "SE10 9NF",
     placedAtLabel: "Today, 15:18",
+    placedAtDate: "2026-04-14",
     serverName: "Priya K.",
     customerName: "Morgan Ellis",
     customerPhone: "+44 20 7946 7781",
@@ -522,6 +549,7 @@ export const RESTAURANT_ORDERS_SEED: RestaurantOrderRecord[] = [
     venueLabel: "Namaste Cam — Dispatch",
     postcode: "W2 3XA",
     placedAtLabel: "Today, 15:26",
+    placedAtDate: "2026-04-14",
     serverName: "Sam R.",
     customerName: "Taylor Brooks",
     customerPhone: "+44 20 7123 6602",
@@ -581,6 +609,7 @@ export function listCompletedRestaurantOrders(): RestaurantOrderRecord[] {
 }
 
 export function emptyDraftOrder(): RestaurantOrderRecord {
+  const today = new Date().toISOString().slice(0, 10);
   return {
     id: "new",
     code: "NEW",
@@ -589,6 +618,7 @@ export function emptyDraftOrder(): RestaurantOrderRecord {
     venueLabel: "Namaste Cam — Floor",
     postcode: "EC1A 1BB",
     placedAtLabel: "Just now",
+    placedAtDate: today,
     serverName: "You",
     customerName: "",
     customerPhone: "",

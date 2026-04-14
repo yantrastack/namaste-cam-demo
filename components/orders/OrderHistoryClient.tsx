@@ -108,6 +108,8 @@ export function OrderHistoryClient({ orders }: Props) {
   const [query, setQuery] = useState("");
   const [postcodeFilter, setPostcodeFilter] = useState<string>("all");
   const [postcodeSort, setPostcodeSort] = useState<PostcodeSort>("none");
+  const [placedFrom, setPlacedFrom] = useState("");
+  const [placedTo, setPlacedTo] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
 
@@ -121,6 +123,13 @@ export function OrderHistoryClient({ orders }: Props) {
     let list = mergedOrders.filter((o) => {
       if (postcodeFilter !== "all" && normalizeUkPostcode(o.postcode) !== normalizeUkPostcode(postcodeFilter)) {
         return false;
+      }
+      const placed = o.placedAtDate;
+      if (placedFrom) {
+        if (!placed || placed < placedFrom) return false;
+      }
+      if (placedTo) {
+        if (!placed || placed > placedTo) return false;
       }
       if (!q) return true;
       return (
@@ -144,11 +153,11 @@ export function OrderHistoryClient({ orders }: Props) {
     }
 
     return list;
-  }, [mergedOrders, query, postcodeFilter, postcodeSort]);
+  }, [mergedOrders, query, postcodeFilter, postcodeSort, placedFrom, placedTo]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, postcodeFilter, postcodeSort]);
+  }, [query, postcodeFilter, postcodeSort, placedFrom, placedTo]);
 
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const currentPage = Math.min(page, totalPages);
@@ -164,6 +173,22 @@ export function OrderHistoryClient({ orders }: Props) {
 
   const goToDetail = (id: string) => {
     router.push(`/orders/${id}`);
+  };
+
+  const hasActiveFilters =
+    query.trim() !== "" ||
+    postcodeFilter !== "all" ||
+    postcodeSort !== "none" ||
+    placedFrom !== "" ||
+    placedTo !== "";
+
+  const clearAllFilters = () => {
+    setQuery("");
+    setPostcodeFilter("all");
+    setPostcodeSort("none");
+    setPlacedFrom("");
+    setPlacedTo("");
+    setPage(1);
   };
 
   return (
@@ -218,10 +243,48 @@ export function OrderHistoryClient({ orders }: Props) {
             />
           </div>
         </div>
-        <div className="ml-auto flex flex-wrap gap-2">
-          <Button type="button" variant="secondary" size="md">
-            <MaterialIcon name="download" />
-            Export
+        <div className="flex min-w-[160px] flex-col gap-1">
+          <label
+            htmlFor="history-orders-placed-from"
+            className="ml-1 text-xs font-bold uppercase tracking-widest text-secondary"
+          >
+            Placed from
+          </label>
+          <Input
+            id="history-orders-placed-from"
+            name="historyPlacedFrom"
+            type="date"
+            value={placedFrom}
+            onChange={(e) => setPlacedFrom(e.target.value)}
+            left={<MaterialIcon name="calendar_today" className="text-xl text-secondary" />}
+          />
+        </div>
+        <div className="flex min-w-[160px] flex-col gap-1">
+          <label
+            htmlFor="history-orders-placed-to"
+            className="ml-1 text-xs font-bold uppercase tracking-widest text-secondary"
+          >
+            Placed to
+          </label>
+          <Input
+            id="history-orders-placed-to"
+            name="historyPlacedTo"
+            type="date"
+            value={placedTo}
+            onChange={(e) => setPlacedTo(e.target.value)}
+            left={<MaterialIcon name="calendar_today" className="text-xl text-secondary" />}
+          />
+        </div>
+        <div className="ml-auto flex flex-wrap items-end">
+          <Button
+            type="button"
+            variant="secondary"
+            size="md"
+            disabled={!hasActiveFilters}
+            onClick={clearAllFilters}
+          >
+            <MaterialIcon name="filter_alt_off" />
+            Clear filter
           </Button>
         </div>
       </Card>

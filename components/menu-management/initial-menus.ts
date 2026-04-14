@@ -153,23 +153,23 @@ export const INITIAL_MENUS: MenuRow[] = [
       ]),
     },
   },
-  {
-    id: "demo-default-all-days",
-    name: "Default Menu (All Days)",
-    tableType: "dinner",
-    availability: "Mon – Sun",
-    imageUrl: "https://picsum.photos/seed/default-menu/96/96",
-    active: true,
-    normalDetails: {
-      category: "dinner",
-      days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-      items: few([
-        { foodId: 2, quantity: 15 },
-        { foodId: 3, quantity: 15 },
-        { foodId: 4, quantity: 15 },
-      ]),
-    },
-  },
+  // {
+  //   id: "demo-default-all-days",
+  //   name: "Default Menu (All Days)",
+  //   tableType: "dinner",
+  //   availability: "Mon – Sun",
+  //   imageUrl: "https://picsum.photos/seed/default-menu/96/96",
+  //   active: true,
+  //   normalDetails: {
+  //     category: "dinner",
+  //     days: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  //     items: few([
+  //       { foodId: 2, quantity: 15 },
+  //       { foodId: 3, quantity: 15 },
+  //       { foodId: 4, quantity: 15 },
+  //     ]),
+  //   },
+  // },
   {
     id: "demo-office-weekly",
     name: "Office Weekly Subscription",

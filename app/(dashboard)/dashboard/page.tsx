@@ -4,13 +4,16 @@ import { DashboardKpiGrid } from "@/components/dashboard/DashboardKpiGrid";
 import { OrdersTrendPanel } from "@/components/dashboard/OrdersTrendPanel";
 import { RevenueByCategoryPanel } from "@/components/dashboard/RevenueByCategoryPanel";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { RecentOrdersSection } from "@/components/orders/RecentOrdersSection";
+import { DashboardRecentActiveOrders } from "@/components/orders/DashboardRecentActiveOrders";
 import { Button } from "@/components/ui/Button";
-import { generateDashboardSampleData } from "@/lib/dashboard-sample-data";
+import { buildActiveOrdersKpi, generateDashboardSampleData } from "@/lib/dashboard-sample-data";
+import { listActiveRestaurantOrders } from "@/lib/orders-restaurant-data";
 
 export default async function DashboardPage() {
   await connection();
   const data = generateDashboardSampleData();
+  const activeOrders = listActiveRestaurantOrders();
+  const kpis = [...data.kpis, buildActiveOrdersKpi(activeOrders.length)];
 
   return (
     <>
@@ -31,7 +34,7 @@ export default async function DashboardPage() {
         }
       >
         <div className="space-y-10">
-          <DashboardKpiGrid kpis={data.kpis} />
+          <DashboardKpiGrid kpis={kpis} />
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <OrdersTrendPanel
               className="lg:col-span-2"
@@ -40,7 +43,7 @@ export default async function DashboardPage() {
             />
             <RevenueByCategoryPanel rows={data.revenueCategories} insight={data.insight} />
           </div>
-          <RecentOrdersSection orders={data.orders} />
+          <DashboardRecentActiveOrders orders={activeOrders} />
         </div>
       </PageContainer>
       <Button

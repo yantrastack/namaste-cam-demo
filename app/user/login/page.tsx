@@ -19,9 +19,9 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    
+
     await new Promise(resolve => setTimeout(resolve, 1000))
-    
+
     router.push('/user/select-location')
     setIsLoading(false)
   }
@@ -81,7 +81,7 @@ export default function LoginPage() {
         <main className="bg-surface-container-lowest p-8 md:p-10 rounded-3xl space-y-8 relative overflow-hidden">
           {/* Subtle Asymmetric Decorative Element */}
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
-          
+
           <div className="space-y-2">
             <h2 className="font-headline font-bold text-2xl text-on-surface">
               Welcome back

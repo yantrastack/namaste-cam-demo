@@ -175,7 +175,26 @@
       "id": "notifications",
       "label": "Notifications",
       "icon": "notifications",
-      "href": "/user/notifications"
+      "children": [
+        {
+          "id": "notifications-create",
+          "label": "Create notification",
+          "icon": "campaign",
+          "href": "/notifications/create"
+        },
+        {
+          "id": "notifications-list",
+          "label": "Notifications list",
+          "icon": "format_list_bulleted",
+          "href": "/notifications/list"
+        },
+        {
+          "id": "notifications-admin",
+          "label": "Admin notifications",
+          "icon": "admin_panel_settings",
+          "href": "/notifications/admin"
+        }
+      ]
     }
   ]
 }

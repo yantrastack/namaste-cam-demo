@@ -90,17 +90,22 @@ function sortPrimaryRows(a: MenuRow, b: MenuRow): number {
   return a.name.localeCompare(b.name);
 }
 
+function sortByName(a: MenuRow, b: MenuRow): number {
+  return a.name.localeCompare(b.name);
+}
+
 const PAGE_SIZE = 6;
+
+type MenuListScope = "today" | "weekdays" | "special" | "subscription" | "all";
 
 export function MasterMenuClient() {
   const { menus, deleteMenu, setMenuActive } = useMenuManagementDemo();
   const [query, setQuery] = useState("");
-  const [mealFilter, setMealFilter] = useState("");
+  const [scopeFilter, setScopeFilter] = useState<MenuListScope>("today");
   const [dayFilter, setDayFilter] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<MenuRow | null>(null);
 
-  const [pagePrimary, setPagePrimary] = useState(1);
-  const [pageRemaining, setPageRemaining] = useState(1);
+  const [page, setPage] = useState(1);
 
   const focusDay = dayFilter || weekdayKeyFromDate(new Date());
   const referenceDate = useMemo(
@@ -119,8 +124,6 @@ export function MasterMenuClient() {
   const q = query.trim().toLowerCase();
 
   const matchesQuery = (m: MenuRow) => !q || m.name.toLowerCase().includes(q);
-
-  const mealMatchesRow = (m: MenuRow) => !mealFilter || m.tableType === mealFilter;
 
   const lunchDinnerRows = useMemo(
     () =>
@@ -146,27 +149,27 @@ export function MasterMenuClient() {
     return ids;
   }, [lunchDinnerRows, menus, focusDay, referenceDate]);
 
-  const primaryDisplayed = useMemo(() => {
-    return menus
-      .filter((m) => primaryCandidateIds.has(m.id) && matchesQuery(m) && mealMatchesRow(m))
-      .sort(sortPrimaryRows);
-  }, [menus, primaryCandidateIds, q, mealFilter]);
-
-  const remainingDisplayed = useMemo(() => {
-    return menus
-      .filter((m) => {
-        if (!matchesQuery(m)) return false;
-        if (primaryCandidateIds.has(m.id)) {
-          return !mealMatchesRow(m);
-        }
-        return mealMatchesRow(m);
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [menus, primaryCandidateIds, q, mealFilter]);
+  const filteredDisplayed = useMemo(() => {
+    const base = menus.filter(matchesQuery);
+    if (scopeFilter === "today") {
+      return base.filter((m) => primaryCandidateIds.has(m.id)).sort(sortPrimaryRows);
+    }
+    if (scopeFilter === "weekdays") {
+      return base
+        .filter((m) => m.tableType === "lunch" || m.tableType === "dinner" || m.tableType === "both")
+        .sort(sortByName);
+    }
+    if (scopeFilter === "special") {
+      return base.filter((m) => m.tableType === "special").sort(sortByName);
+    }
+    if (scopeFilter === "subscription") {
+      return base.filter((m) => m.tableType === "subscription").sort(sortByName);
+    }
+    return base.sort(sortByName);
+  }, [menus, primaryCandidateIds, q, scopeFilter]);
 
   const resetPages = () => {
-    setPagePrimary(1);
-    setPageRemaining(1);
+    setPage(1);
   };
 
   const renderPagination = (
@@ -290,21 +293,8 @@ export function MasterMenuClient() {
       </TableRow>
     ));
 
-  const primaryPag = renderPagination(primaryDisplayed.length, pagePrimary, setPagePrimary);
-  const primaryPageRows = primaryDisplayed.slice(
-    primaryPag.sliceStart,
-    primaryPag.sliceStart + PAGE_SIZE,
-  );
-
-  const remainingPag = renderPagination(
-    remainingDisplayed.length,
-    pageRemaining,
-    setPageRemaining,
-  );
-  const remainingPageRows = remainingDisplayed.slice(
-    remainingPag.sliceStart,
-    remainingPag.sliceStart + PAGE_SIZE,
-  );
+  const pag = renderPagination(filteredDisplayed.length, page, setPage);
+  const pageRows = filteredDisplayed.slice(pag.sliceStart, pag.sliceStart + PAGE_SIZE);
 
   const handleDelete = () => {
     if (!deleteTarget) return;
@@ -332,40 +322,41 @@ export function MasterMenuClient() {
               />
             </div>
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end lg:w-auto">
-              <div className="min-w-[160px] sm:min-w-[180px]">
+              <div className="min-w-[160px] sm:min-w-[200px]">
                 <SelectField
-                  label="Meal"
-                  value={mealFilter}
+                  label="Menus"
+                  value={scopeFilter}
                   onChange={(e) => {
-                    setMealFilter(e.target.value);
+                    setScopeFilter(e.target.value as MenuListScope);
                     resetPages();
                   }}
                 >
-                  <option value="">All types</option>
-                  <option value="lunch">Lunch</option>
-                  <option value="dinner">Dinner</option>
-                  <option value="both">Lunch & dinner</option>
-                  <option value="special">Special</option>
-                  <option value="subscription">Subscription</option>
+                  <option value="today">Today menu</option>
+                  <option value="weekdays">Weekday menus</option>
+                  <option value="special">Special menus</option>
+                  <option value="subscription">Subscription menus</option>
+                  <option value="all">All</option>
                 </SelectField>
               </div>
-              <div className="min-w-[140px] sm:min-w-[160px]">
-                <SelectField
-                  label="Day"
-                  value={dayFilter}
-                  onChange={(e) => {
-                    setDayFilter(e.target.value);
-                    resetPages();
-                  }}
-                >
-                  <option value="">Today ({weekdayKeyFromDate(new Date())})</option>
-                  {WEEKDAY_KEYS.map((d) => (
-                    <option key={d} value={d}>
-                      {d}
-                    </option>
-                  ))}
-                </SelectField>
-              </div>
+              {scopeFilter === "today" ? (
+                <div className="min-w-[140px] sm:min-w-[160px]">
+                  <SelectField
+                    label="Day"
+                    value={dayFilter}
+                    onChange={(e) => {
+                      setDayFilter(e.target.value);
+                      resetPages();
+                    }}
+                  >
+                    <option value="">Today ({weekdayKeyFromDate(new Date())})</option>
+                    {WEEKDAY_KEYS.map((d) => (
+                      <option key={d} value={d}>
+                        {d}
+                      </option>
+                    ))}
+                  </SelectField>
+                </div>
+              ) : null}
               <Link
                 href="/menu/create"
                 className={cn(
@@ -380,104 +371,111 @@ export function MasterMenuClient() {
           </div>
         }
       >
-        <div className="flex flex-col gap-10">
-          <section className="flex flex-col gap-4">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">
-                  {dayFilter ? "Preview day" : "Today"}
-                </p>
-                <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
-                  {calendarLabel}
-                </h2>
-                <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
-                  <span className="font-bold text-on-surface">{focusDay}</span> lunch and dinner, plus specials
-                  running on this calendar date and subscriptions still valid. Rows are ordered lunch, dinner,
-                  then promotions.
-                </p>
-              </div>
+        <section className="flex flex-col gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              {scopeFilter === "today" ? (
+                <>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">
+                    {dayFilter ? "Preview day" : "Today"}
+                  </p>
+                  <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
+                    {calendarLabel}
+                  </h2>
+                  <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
+                    <span className="font-bold text-on-surface">{focusDay}</span> lunch and dinner, plus specials
+                    running on this calendar date and subscriptions still valid. Rows are ordered lunch, dinner,
+                    then promotions.
+                  </p>
+                </>
+              ) : scopeFilter === "weekdays" ? (
+                <>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">Rotation</p>
+                  <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
+                    Weekday menus
+                  </h2>
+                  <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
+                    Lunch, dinner, and combined schedules. Switch to Today menu to see what is live for a given
+                    calendar day.
+                  </p>
+                </>
+              ) : scopeFilter === "special" ? (
+                <>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">Promotions</p>
+                  <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
+                    Special menus
+                  </h2>
+                  <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
+                    Date-bound specials. Use Today menu to see which ones apply on a specific day.
+                  </p>
+                </>
+              ) : scopeFilter === "subscription" ? (
+                <>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">Plans</p>
+                  <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
+                    Subscription menus
+                  </h2>
+                  <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
+                    Packaged meal plans. Use Today menu to see which subscriptions are still valid on a date.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[10px] font-extrabold uppercase tracking-widest text-primary">Library</p>
+                  <h2 className="mt-1 font-headline text-2xl font-extrabold tracking-tight text-on-surface">
+                    All menus
+                  </h2>
+                  <p className="mt-1 max-w-2xl text-sm font-medium text-on-surface-variant">
+                    Every menu in this demo workspace, sorted by name.
+                  </p>
+                </>
+              )}
+            </div>
+            {scopeFilter === "today" ? (
               <Badge tone="info" className="shrink-0">
                 <MaterialIcon name="restaurant_menu" className="text-base" />
                 Service board
               </Badge>
-            </div>
+            ) : null}
+          </div>
 
-            <Card className="overflow-hidden p-0">
-              <div className="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/10 bg-surface-container-low/40 px-5 py-4">
-                <h3 className="font-headline text-lg font-extrabold tracking-tight text-on-surface">
-                  Menus for this day
-                </h3>
-                <Badge tone="neutral">{primaryDisplayed.length} shown</Badge>
-              </div>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableHeaderCell>Menu</TableHeaderCell>
-                    <TableHeaderCell>Type</TableHeaderCell>
-                    <TableHeaderCell>Availability</TableHeaderCell>
-                    <TableHeaderCell className="w-[140px] whitespace-nowrap">Active</TableHeaderCell>
-                    <TableHeaderCell className="text-right">Actions</TableHeaderCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {primaryDisplayed.length === 0 ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={5}
-                        className="py-10 text-center text-sm font-semibold text-secondary"
-                      >
-                        No menus match this day and your filters. Try clearing search or the meal filter.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    renderRows(primaryPageRows)
-                  )}
-                </TableBody>
-              </Table>
-              {primaryDisplayed.length > 0 ? primaryPag.footer : null}
-            </Card>
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <div>
-              <h2 className="font-headline text-xl font-extrabold tracking-tight text-on-surface">
-                All other menus
-              </h2>
-              <p className="mt-1 text-sm font-medium text-on-surface-variant">
-                Everything not on the day board above (other weekdays, out-of-range specials, expired
-                subscriptions, or rows moved here when a meal filter hides them from the first table).
-              </p>
+          <Card className="overflow-hidden p-0">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant/10 bg-surface-container-low/40 px-5 py-4">
+              <h3 className="font-headline text-lg font-extrabold tracking-tight text-on-surface">Menus</h3>
+              <Badge tone="neutral">{filteredDisplayed.length} shown</Badge>
             </div>
-            <Card className="overflow-hidden p-0">
-              <Table>
-                <TableHead>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableHeaderCell>Menu</TableHeaderCell>
+                  <TableHeaderCell>Type</TableHeaderCell>
+                  <TableHeaderCell>Availability</TableHeaderCell>
+                  <TableHeaderCell className="w-[140px] whitespace-nowrap">Active</TableHeaderCell>
+                  <TableHeaderCell className="text-right">Actions</TableHeaderCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredDisplayed.length === 0 ? (
                   <TableRow>
-                    <TableHeaderCell>Menu</TableHeaderCell>
-                    <TableHeaderCell>Type</TableHeaderCell>
-                    <TableHeaderCell>Availability</TableHeaderCell>
-                    <TableHeaderCell className="w-[140px] whitespace-nowrap">Active</TableHeaderCell>
-                    <TableHeaderCell className="text-right">Actions</TableHeaderCell>
+                    <TableCell
+                      colSpan={5}
+                      className="py-10 text-center text-sm font-semibold text-secondary"
+                    >
+                      {scopeFilter === "today"
+                        ? "No menus apply to this day. Try another day from the Day control or clear search."
+                        : scopeFilter === "all"
+                          ? "No menus match your search."
+                          : "No menus in this category match your search."}
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {remainingDisplayed.length === 0 ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={5}
-                        className="py-10 text-center text-sm font-semibold text-secondary"
-                      >
-                        No other menus match your filters.
-                      </TableCell>
-                    </TableRow>
-                  ) : (
-                    renderRows(remainingPageRows)
-                  )}
-                </TableBody>
-              </Table>
-              {remainingDisplayed.length > 0 ? remainingPag.footer : null}
-            </Card>
-          </section>
-        </div>
+                ) : (
+                  renderRows(pageRows)
+                )}
+              </TableBody>
+            </Table>
+            {filteredDisplayed.length > 0 ? pag.footer : null}
+          </Card>
+        </section>
       </PageContainer>
 
       <DeleteConfirmModal

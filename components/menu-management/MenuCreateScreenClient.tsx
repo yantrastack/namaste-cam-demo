@@ -349,7 +349,7 @@ export function MenuCreateScreenClient() {
           </div>
         </section>
 
-        <section className="min-w-0 space-y-4">
+        <section className="hidden min-w-0 space-y-4" aria-hidden="true">
           <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-end">
             <h2 className="font-headline text-xl font-extrabold tracking-tight text-on-surface sm:text-2xl">
               Today&apos;s menu

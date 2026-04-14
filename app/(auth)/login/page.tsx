@@ -10,6 +10,12 @@ import { setSessionUser } from "@/lib/auth";
 const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuCYkd4drFgOEK09S_e2xfCodfqSc20bdyGGLEutU7vMfQ3f3VdK8X7g1uJWOxuRcvFddlQBhmn5YeIwHFQknO_jTmjBnBS200c0HBlDDAZX7YV5z55rn9oRTA5j3ByGC7Qblg2MwhIOFHm9nIlD5e0CuZNSabjw7rZOvc2V5r0awfbH5HEcQjPVOrPIvLzKFHtE_McyAJPsn-yNjjfJCmP_0W3knt3RTkf6T6xc5xHY9YeeLsI4MkTk9pSkKsJQhuVxU3mQGfVZ9go";
 
+/** Google/Facebook buttons and “Or continue with” divider. */
+const ENABLE_SOCIAL_LOGIN = false;
+
+/** Create-account prompt and tagline / design-system links at the bottom. */
+const ENABLE_LOGIN_FOOTER_EXTRAS = false;
+
 function GoogleIcon() {
   return (
     <svg
@@ -156,13 +162,13 @@ export default function LoginPage() {
                 >
                   Password
                 </label>
-                <a
+                {/* <a
                   href="#"
                   className="self-start text-xs font-bold text-primary underline-offset-4 hover:underline sm:self-auto"
                   onClick={(e) => e.preventDefault()}
                 >
                   Forgot password?
-                </a>
+                </a> */}
               </div>
               <div className="relative">
                 <input
@@ -196,56 +202,64 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="relative flex items-center py-1 sm:py-2">
-            <div className="flex-grow border-t border-surface-container-high" />
-            <span className="mx-3 flex-shrink text-[10px] font-bold uppercase tracking-widest text-stone-400 sm:mx-4 sm:text-xs">
-              Or continue with
-            </span>
-            <div className="flex-grow border-t border-surface-container-high" />
-          </div>
+          {ENABLE_SOCIAL_LOGIN ? (
+            <>
+              <div className="relative flex items-center py-1 sm:py-2">
+                <div className="flex-grow border-t border-surface-container-high" />
+                <span className="mx-3 flex-shrink text-[10px] font-bold uppercase tracking-widest text-stone-400 sm:mx-4 sm:text-xs">
+                  Or continue with
+                </span>
+                <div className="flex-grow border-t border-surface-container-high" />
+              </div>
 
-          <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
-            <button
-              type="button"
-              className="font-headline flex min-h-12 items-center justify-center gap-2 rounded-full border border-surface-container-high px-4 py-3.5 transition-colors hover:bg-surface-container-low active:scale-[0.98] sm:gap-3 sm:py-4"
-            >
-              <GoogleIcon />
-              <span className="text-sm font-bold">Google</span>
-            </button>
-            <button
-              type="button"
-              className="font-headline flex min-h-12 items-center justify-center gap-2 rounded-full border border-surface-container-high px-4 py-3.5 transition-colors hover:bg-surface-container-low active:scale-[0.98] sm:gap-3 sm:py-4"
-            >
-              <FacebookIcon />
-              <span className="text-sm font-bold">Facebook</span>
-            </button>
-          </div>
+              <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
+                <button
+                  type="button"
+                  className="font-headline flex min-h-12 items-center justify-center gap-2 rounded-full border border-surface-container-high px-4 py-3.5 transition-colors hover:bg-surface-container-low active:scale-[0.98] sm:gap-3 sm:py-4"
+                >
+                  <GoogleIcon />
+                  <span className="text-sm font-bold">Google</span>
+                </button>
+                <button
+                  type="button"
+                  className="font-headline flex min-h-12 items-center justify-center gap-2 rounded-full border border-surface-container-high px-4 py-3.5 transition-colors hover:bg-surface-container-low active:scale-[0.98] sm:gap-3 sm:py-4"
+                >
+                  <FacebookIcon />
+                  <span className="text-sm font-bold">Facebook</span>
+                </button>
+              </div>
+            </>
+          ) : null}
 
-          <div className="pt-2 text-center sm:pt-4">
-            <p className="text-sm font-medium text-secondary">
-              Don&apos;t have an account?{" "}
-              <Link
-                href="/user/create-account"
-                className="font-bold text-primary underline-offset-4 hover:underline"
-              >
-                Create account
-              </Link>
-            </p>
-          </div>
+          {ENABLE_LOGIN_FOOTER_EXTRAS ? (
+            <>
+              <div className="pt-2 text-center sm:pt-4">
+                <p className="text-sm font-medium text-secondary">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    href="/user/create-account"
+                    className="font-bold text-primary underline-offset-4 hover:underline"
+                  >
+                    Create account
+                  </Link>
+                </p>
+              </div>
 
-          <div className="space-y-3 pb-2 text-center sm:mt-8">
-            <p className="text-[10px] uppercase leading-relaxed tracking-widest text-stone-400">
-              Authentic • Traditional • Crafted with care
-            </p>
-            <p className="text-xs text-stone-400">
-              <Link
-                href="/design-system"
-                className="font-bold text-primary underline-offset-4 hover:underline"
-              >
-                Design system
-              </Link>
-            </p>
-          </div>
+              <div className="space-y-3 pb-2 text-center sm:mt-8">
+                <p className="text-[10px] uppercase leading-relaxed tracking-widest text-stone-400">
+                  Authentic • Traditional • Crafted with care
+                </p>
+                <p className="text-xs text-stone-400">
+                  <Link
+                    href="/design-system"
+                    className="font-bold text-primary underline-offset-4 hover:underline"
+                  >
+                    Design system
+                  </Link>
+                </p>
+              </div>
+            </>
+          ) : null}
         </div>
       </div>
     </div>

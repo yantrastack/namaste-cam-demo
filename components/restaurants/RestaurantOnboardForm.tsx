@@ -15,9 +15,6 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@/components/ui/Table";
-import { cn } from "@/lib/cn";
-
-type OperationalStatus = "active" | "pending" | "inactive";
 
 type ServicePincodeRow = {
   id: string;
@@ -71,7 +68,7 @@ function SectionCard({
 }
 
 export function RestaurantOnboardForm() {
-  const [status, setStatus] = useState<OperationalStatus>("active");
+  const [operationalActive, setOperationalActive] = useState(true);
   const [deliveryOnly, setDeliveryOnly] = useState(false);
   const [ownerLinked, setOwnerLinked] = useState(true);
   const [servicePincodes, setServicePincodes] = useState<ServicePincodeRow[]>([]);
@@ -195,37 +192,33 @@ export function RestaurantOnboardForm() {
         </SectionCard>
 
         <SectionCard icon="toggle_on" title="Operational status">
+          <input
+            type="hidden"
+            name="operationalStatus"
+            value={operationalActive ? "active" : "inactive"}
+            readOnly
+          />
           <input type="hidden" name="deliveryOnly" value={deliveryOnly ? "true" : "false"} readOnly />
-          <div className="flex flex-wrap gap-4">
-            {(
-              [
-                { id: "active" as const, label: "Active", dot: "bg-green-500" },
-                { id: "pending" as const, label: "Pending", dot: "bg-amber-500" },
-                { id: "inactive" as const, label: "Inactive", dot: "bg-stone-400" },
-              ] satisfies { id: OperationalStatus; label: string; dot: string }[]
-            ).map((opt) => (
-              <label
-                key={opt.id}
-                className={cn(
-                  "flex cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm font-bold ring-1 transition-all",
-                  status === opt.id
-                    ? "bg-surface-container-low text-on-surface ring-primary/30"
-                    : "bg-surface text-on-surface-variant ring-outline-variant/20 hover:bg-surface-container-low",
-                )}
-              >
-                <input
-                  type="radio"
-                  name="operationalStatus"
-                  value={opt.id}
-                  checked={status === opt.id}
-                  onChange={() => setStatus(opt.id)}
-                  className="sr-only"
-                />
-                <span className={cn("size-2 shrink-0 rounded-full", opt.dot)} />
-                {opt.label}
-              </label>
-            ))}
-          </div>
+          <FieldShell label="Partner visibility">
+            <div className="flex items-center justify-between gap-4 rounded-xl bg-surface px-4 py-3 ring-1 ring-outline-variant/20">
+              <div className="min-w-0 space-y-1">
+                <p className="text-sm font-bold text-on-surface">
+                  {operationalActive ? "Active" : "Inactive"}
+                </p>
+                <p className="text-sm text-on-surface-variant">
+                  {operationalActive
+                    ? "This partner can appear on Namaste Cam and receive orders."
+                    : "This partner is hidden from discovery and cannot receive new orders."}
+                </p>
+              </div>
+              <Switch
+                checked={operationalActive}
+                onCheckedChange={setOperationalActive}
+                className="shrink-0"
+                aria-label={operationalActive ? "Set partner inactive" : "Set partner active"}
+              />
+            </div>
+          </FieldShell>
           <FieldShell label="Delivery only">
             <div className="flex items-center justify-between gap-4 rounded-xl bg-surface px-4 py-3 ring-1 ring-outline-variant/20">
               <p className="min-w-0 text-sm text-on-surface-variant">

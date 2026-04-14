@@ -8,6 +8,7 @@ import {
 } from "@/lib/auth";
 import { useMemo, useSyncExternalStore } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
+import { HeaderNotificationBell } from "@/components/notifications/HeaderNotificationBell";
 import { usePathname } from "next/navigation";
 
 interface HeaderProps {
@@ -54,13 +55,7 @@ export function Header({ searchQuery, onSearchChange }: HeaderProps = {}) {
         Namaste Cam
       </p>
       <div className="flex items-center gap-2">
-        <button
-          type="button"
-          className="rounded-full p-2 text-stone-500 transition-colors hover:bg-surface-container-high hover:text-primary"
-          aria-label="Notifications"
-        >
-          <MaterialIcon name="notifications" />
-        </button>
+        <HeaderNotificationBell />
         <div className="ml-1 flex items-center gap-2 rounded-full bg-surface px-3 py-2 ring-1 ring-outline-variant/20">
           <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
             {name ? name.slice(0, 1).toUpperCase() : "A"}

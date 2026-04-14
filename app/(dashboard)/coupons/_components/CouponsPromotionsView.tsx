@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
-import { Modal } from "@/components/ui/Modal";
+import { SelectField } from "@/components/ui/SelectField";
 import {
   Table,
   TableBody,
@@ -68,7 +68,7 @@ export function CouponsPromotionsView() {
   const [filter, setFilter] = useState<"all" | CouponStatus>("all");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [moreOpen, setMoreOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [minRedemptions, setMinRedemptions] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<{
     id: string;
@@ -146,37 +146,6 @@ export function CouponsPromotionsView() {
     persist([copy, ...coupons]);
   };
 
-  const exportCsv = () => {
-    const headers = [
-      "code",
-      "campaign",
-      "type",
-      "value",
-      "expiry",
-      "status",
-      "redemptions",
-      "revenue_gbp",
-    ];
-    const rows = filtered.map((c) => [
-      c.code,
-      c.campaignName,
-      typeLabel(c.type),
-      formatCouponValue(c),
-      formatDisplayDate(c.expiryDate),
-      c.status,
-      String(c.redemptions),
-      String(c.revenueFromDiscount),
-    ]);
-    const body = [headers, ...rows].map((r) => r.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(",")).join("\n");
-    const blob = new Blob([body], { type: "text/csv;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "namaste-cam-coupons.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   if (!ready) {
     return (
       <PageContainer title="Coupons & Promotions" description="Loading your marketing data…">
@@ -250,36 +219,65 @@ export function CouponsPromotionsView() {
 
         <Card className="overflow-hidden p-0">
           <div className="flex flex-col gap-4 border-b border-outline-variant/15 p-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <h2 className="font-headline text-lg font-bold text-on-surface">Active promotions</h2>
-              <div className="flex flex-wrap gap-1 rounded-full bg-surface-container-high/80 p-1">
-                {FILTER_TABS.map((t) => (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => setFilter(t.id)}
-                    className={cn(
-                      "rounded-full px-4 py-1.5 text-xs font-bold transition-all",
-                      filter === t.id
-                        ? "bg-surface-container-lowest text-primary shadow-sm ring-1 ring-outline-variant/20"
-                        : "text-secondary hover:text-primary",
-                    )}
-                  >
-                    {t.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={() => setMoreOpen(true)}>
+            <h2 className="font-headline text-lg font-bold text-on-surface">Active promotions</h2>
+            <details
+              className="relative"
+              open={filtersOpen}
+              onToggle={(e) => setFiltersOpen((e.currentTarget as HTMLDetailsElement).open)}
+            >
+              <summary
+                className={cn(
+                  "inline-flex list-none cursor-pointer items-center justify-center gap-2 rounded-full border-2 border-primary bg-transparent px-4 py-2 text-sm font-bold text-primary transition-all hover:bg-primary/5 active:scale-95 [&::-webkit-details-marker]:hidden",
+                )}
+              >
                 <MaterialIcon name="filter_list" className="text-lg" />
-                More filters
-              </Button>
-              <Button type="button" variant="outline" size="sm" onClick={exportCsv}>
-                <MaterialIcon name="download" className="text-lg" />
-                Export CSV
-              </Button>
-            </div>
+                All filters
+              </summary>
+              <div className="absolute right-0 z-20 mt-2 w-[min(100vw-3rem,20rem)] rounded-xl bg-surface-container-lowest p-4 shadow-sm ring-1 ring-outline-variant/10">
+                <div className="space-y-4">
+                  <SelectField
+                    label="Status"
+                    id="coupon-status-filter"
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value as "all" | CouponStatus)}
+                  >
+                    {FILTER_TABS.map((t) => (
+                      <option key={t.id} value={t.id}>
+                        {t.label}
+                      </option>
+                    ))}
+                  </SelectField>
+                  <Input
+                    label="Minimum redemptions"
+                    type="number"
+                    min={0}
+                    placeholder="e.g. 100"
+                    value={minRedemptions}
+                    onChange={(e) => setMinRedemptions(e.target.value)}
+                  />
+                  <p className="text-xs text-secondary">
+                    Filters apply together with search below.
+                  </p>
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setFilter("all");
+                        setMinRedemptions("");
+                        setFiltersOpen(false);
+                      }}
+                    >
+                      Clear
+                    </Button>
+                    <Button type="button" size="sm" onClick={() => setFiltersOpen(false)}>
+                      Apply
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </details>
           </div>
 
           <div className="border-b border-outline-variant/10 px-6 py-4">
@@ -484,39 +482,6 @@ export function CouponsPromotionsView() {
         confirmLabel="Delete coupon"
       />
 
-      <Modal
-        open={moreOpen}
-        onClose={() => setMoreOpen(false)}
-        title="More filters"
-        description="Refine the table. These apply together with the status chips and search."
-      >
-        <div className="space-y-4">
-          <Input
-            label="Minimum redemptions"
-            type="number"
-            min={0}
-            placeholder="e.g. 100"
-            value={minRedemptions}
-            onChange={(e) => setMinRedemptions(e.target.value)}
-          />
-          <div className="flex flex-wrap justify-end gap-2">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setMinRedemptions("");
-                setMoreOpen(false);
-              }}
-            >
-              Clear
-            </Button>
-            <Button type="button" size="sm" onClick={() => setMoreOpen(false)}>
-              Apply
-            </Button>
-          </div>
-        </div>
-      </Modal>
     </>
   );
 }
