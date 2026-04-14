@@ -1,12 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
-import { cn } from "@/lib/cn";
 import type { OrderStatus, RestaurantOrderRecord } from "@/lib/orders-restaurant-data";
 import { formatOrderFulfillmentType, normalizeUkPostcode } from "@/lib/orders-restaurant-data";
 import { ORDER_ARCHIVES_EVENT, filterActiveOrdersWithArchives, readOrderArchivesMap } from "@/lib/order-session-archives";
@@ -48,8 +46,6 @@ export function ActiveOrdersClient({ orders }: Props) {
   const [status, setStatus] = useState<(typeof STATUS_OPTIONS)[number]["value"]>("all");
   const [postcodeFilter, setPostcodeFilter] = useState<string>("all");
   const [postcodeSort, setPostcodeSort] = useState<PostcodeSort>("none");
-  const [placedFrom, setPlacedFrom] = useState("");
-  const [placedTo, setPlacedTo] = useState("");
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE_OPTIONS[0]);
 
@@ -64,13 +60,6 @@ export function ActiveOrdersClient({ orders }: Props) {
       if (status !== "all" && o.status !== status) return false;
       if (postcodeFilter !== "all" && normalizeUkPostcode(o.postcode) !== normalizeUkPostcode(postcodeFilter)) {
         return false;
-      }
-      const placed = o.placedAtDate;
-      if (placedFrom) {
-        if (!placed || placed < placedFrom) return false;
-      }
-      if (placedTo) {
-        if (!placed || placed > placedTo) return false;
       }
       if (!q) return true;
       return (
@@ -94,11 +83,11 @@ export function ActiveOrdersClient({ orders }: Props) {
     }
 
     return list;
-  }, [visibleOrders, query, status, postcodeFilter, postcodeSort, placedFrom, placedTo]);
+  }, [visibleOrders, query, status, postcodeFilter, postcodeSort]);
 
   useEffect(() => {
     setPage(1);
-  }, [query, status, postcodeFilter, postcodeSort, placedFrom, placedTo]);
+  }, [query, status, postcodeFilter, postcodeSort]);
 
   const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
   const currentPage = Math.min(page, totalPages);
@@ -116,17 +105,13 @@ export function ActiveOrdersClient({ orders }: Props) {
     query.trim() !== "" ||
     status !== "all" ||
     postcodeFilter !== "all" ||
-    postcodeSort !== "none" ||
-    placedFrom !== "" ||
-    placedTo !== "";
+    postcodeSort !== "none";
 
   const clearAllFilters = () => {
     setQuery("");
     setStatus("all");
     setPostcodeFilter("all");
     setPostcodeSort("none");
-    setPlacedFrom("");
-    setPlacedTo("");
     setPage(1);
   };
 
@@ -202,49 +187,7 @@ export function ActiveOrdersClient({ orders }: Props) {
             />
           </div>
         </div>
-        <div className="flex min-w-[160px] flex-col gap-1">
-          <label
-            htmlFor="active-orders-placed-from"
-            className="ml-1 text-xs font-bold uppercase tracking-widest text-secondary"
-          >
-            Placed from
-          </label>
-          <Input
-            id="active-orders-placed-from"
-            name="placedFrom"
-            type="date"
-            value={placedFrom}
-            onChange={(e) => setPlacedFrom(e.target.value)}
-            left={<MaterialIcon name="calendar_today" className="text-xl text-secondary" />}
-          />
-        </div>
-        <div className="flex min-w-[160px] flex-col gap-1">
-          <label
-            htmlFor="active-orders-placed-to"
-            className="ml-1 text-xs font-bold uppercase tracking-widest text-secondary"
-          >
-            Placed to
-          </label>
-          <Input
-            id="active-orders-placed-to"
-            name="placedTo"
-            type="date"
-            value={placedTo}
-            onChange={(e) => setPlacedTo(e.target.value)}
-            left={<MaterialIcon name="calendar_today" className="text-xl text-secondary" />}
-          />
-        </div>
         <div className="ml-auto flex flex-wrap items-end gap-2">
-          <Link
-            href="/orders/create"
-            className={cn(
-              "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-bold shadow-md transition-all active:scale-95",
-              "bg-primary text-on-primary shadow-primary-soft hover:bg-primary/90",
-            )}
-          >
-            <MaterialIcon name="add" />
-            Manual order
-          </Link>
           <Button
             type="button"
             variant="secondary"

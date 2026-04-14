@@ -29,7 +29,7 @@ export function PageContainer({
             {title}
           </h1>
           {description ? (
-            <div className="mt-1 font-medium text-on-surface-variant">{description}</div>
+            <div className="mt-1 font-medium text-secondary">{description}</div>
           ) : null}
         </div>
         {actions ? (

@@ -18,7 +18,7 @@ import {
   isCustomerLikeRole,
   isStaffLikeRole,
 } from "@/lib/users/role-policy";
-import type { ManagedUser, UserRole, UserStatus } from "@/lib/users/types";
+import type { ManagedUser, UserRole } from "@/lib/users/types";
 import { PeerToggleRow } from "@/components/users/PeerToggleRow";
 import { UserAvatar } from "@/components/users/UserAvatar";
 import { cn } from "@/lib/cn";
@@ -31,7 +31,6 @@ type Draft = Pick<
   | "role"
   | "status"
   | "notes"
-  | "twoFactorEnabled"
   | "requirePasswordReset"
 >;
 
@@ -43,7 +42,6 @@ function userToDraft(u: ManagedUser): Draft {
     role: u.role,
     status: u.status,
     notes: u.notes,
-    twoFactorEnabled: u.twoFactorEnabled,
     requirePasswordReset: u.requirePasswordReset,
   };
 }
@@ -470,28 +468,6 @@ export function UserDetailView() {
                     />
                   </div>
                 </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label className={fieldLabel} htmlFor="user-status">
-                    Account status
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="user-status"
-                      className={selectClass}
-                      value={draft.status}
-                      onChange={(e) =>
-                        setField("status", e.target.value as UserStatus)
-                      }
-                    >
-                      <option value="active">Active</option>
-                      <option value="inactive">Inactive</option>
-                    </select>
-                    <MaterialIcon
-                      name="expand_more"
-                      className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-stone-400"
-                    />
-                  </div>
-                </div>
                 <div className="space-y-2 pt-2 md:col-span-2">
                   <label className={fieldLabel} htmlFor="user-notes">
                     Administrative Notes
@@ -514,14 +490,14 @@ export function UserDetailView() {
                 </h3>
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   <PeerToggleRow
-                    title="Two-Factor Auth"
+                    title="Deactivate user"
                     description={
-                      draft.twoFactorEnabled
-                        ? "Enabled for this account"
-                        : "Currently disabled for this account"
+                      draft.status === "inactive"
+                        ? "Sign-in and ordering are disabled for this account"
+                        : "Account is active"
                     }
-                    checked={draft.twoFactorEnabled}
-                    onChange={(v) => setField("twoFactorEnabled", v)}
+                    checked={draft.status === "inactive"}
+                    onChange={(v) => setField("status", v ? "inactive" : "active")}
                   />
                   <PeerToggleRow
                     title="Require PW Reset"

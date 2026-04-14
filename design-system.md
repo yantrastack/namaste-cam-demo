@@ -14,7 +14,7 @@ Saffron & Stone is a design system that marries the warmth of traditional herita
 
 The palette is rooted in a high-contrast relationship between a deep, "Saffron-Heat" Red (`primary`) and a "Cool Stone" Neutral base.
 
-
+- **Text roles:** `on_surface` / `on_background` (#252B31) for primary copy; `on_surface_variant` (#4A5056) for descriptions, metadata, and secondary table cells — same cool slate family, not red-tinted.
 
 - **The "No-Line" Rule:** Visual separation is achieved through tonal shifts in the surface hierarchy. Avoid using 1px borders to separate content blocks. Instead, use `surface_container_lowest` cards against a `surface` background to define boundaries.
 
@@ -94,7 +94,7 @@ Elevation is expressed through soft, ambient light rather than physical height.
 
 **Don't:**
 
-- Do not use black (#000000). Use `on_surface` (#191C1D) for text and `stone-500` for icons.
+- Do not use black (#000000). Use `on_surface` (#252B31) for text and `stone-500` for icons.
 
 - Avoid sharp corners; all structural containers should have at least an 8px (lg) or 12px (xl) radius.
 

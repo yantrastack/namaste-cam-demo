@@ -7,9 +7,10 @@ import {
   subscribeSessionUser,
 } from "@/lib/auth";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect, useMemo, useSyncExternalStore, useState, cloneElement, type ReactNode } from "react";
+import { useEffect, useMemo, useSyncExternalStore, useState, type ReactNode } from "react";
 import { DashboardMiniSidebar } from "@/components/layout/DashboardMiniSidebar";
 import { Header } from "@/components/layout/Header";
+import { UsersPageSearchProvider } from "@/components/users/UsersPageSearchContext";
 import { UsersProvider } from "@/components/users/UsersProvider";
 
 export function DashboardShell({ children }: { children: ReactNode }) {
@@ -30,6 +31,14 @@ export function DashboardShell({ children }: { children: ReactNode }) {
       return null;
     }
   }, [userJson]);
+
+  const usersPageSearch = useMemo(
+    () =>
+      pathname === "/users"
+        ? { searchQuery, onSearchChange: setSearchQuery }
+        : null,
+    [pathname, searchQuery],
+  );
 
   useEffect(() => {
     if (user === null) router.replace("/login");
@@ -56,12 +65,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             onSearchChange={pathname === "/users" ? setSearchQuery : undefined}
           />
           <main className="flex-1 overflow-y-auto p-6">
-            {pathname === "/users" && typeof children === "object" && children !== null
-              ? cloneElement(children as any, {
-                  searchQuery,
-                  onSearchChange: setSearchQuery,
-                })
-              : children}
+            <UsersPageSearchProvider value={usersPageSearch}>{children}</UsersPageSearchProvider>
           </main>
         </div>
       </div>

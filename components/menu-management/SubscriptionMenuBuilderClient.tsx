@@ -287,7 +287,6 @@ export function SubscriptionMenuBuilderClient() {
   return (
     <PageContainer
       title={isEditing ? "Edit subscription menu" : "Create subscription menu"}
-      description="Plans are saved in this browser (localStorage). Use ?edit=id from Create menu to edit an existing plan."
       breadcrumbs={
         <nav className="flex flex-wrap items-center gap-2" aria-label="Breadcrumb">
           <Link href="/menu" className="text-sm font-semibold text-secondary transition-colors hover:text-primary">
@@ -347,46 +346,6 @@ export function SubscriptionMenuBuilderClient() {
         addSubscription={addSubscription}
         updateSubscription={updateSubscription}
       />
-
-      {subscriptions.length > 0 ? (
-        <Card className="p-6">
-          <h2 className="font-headline text-lg font-extrabold text-on-surface">Your subscription plans</h2>
-          <p className="mt-1 text-sm text-on-surface-variant">
-            Newest first. Stored in this browser. Toggle outlets on Create menu.
-          </p>
-          <ul className="mt-4 space-y-3">
-            {[...subscriptions]
-              .sort((a, b) => b.createdAt - a.createdAt)
-              .map((s) => (
-                <li
-                  key={s.id}
-                  className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-container-high/30 px-4 py-3 ring-1 ring-outline-variant/10"
-                >
-                  <div className="min-w-0 flex-1">
-                    <p className="font-bold text-on-surface">{s.menu.name.trim() || "Untitled"}</p>
-                    <p className="text-xs font-medium text-secondary">
-                      {s.menu.totalDays} days · Outlets {s.active ? "on" : "off"}
-                      {s.createdAt > 0 ? ` · ${new Date(s.createdAt).toLocaleString()}` : ""}
-                    </p>
-                  </div>
-                  <div className="flex shrink-0 flex-wrap items-center gap-2">
-                    <Badge tone={s.active ? "success" : "neutral"}>{s.menu.sections.length} section(s)</Badge>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        router.push(`/menu/create/subscription?edit=${encodeURIComponent(s.id)}`)
-                      }
-                    >
-                      Edit
-                    </Button>
-                  </div>
-                </li>
-              ))}
-          </ul>
-        </Card>
-      ) : null}
     </PageContainer>
   );
 }

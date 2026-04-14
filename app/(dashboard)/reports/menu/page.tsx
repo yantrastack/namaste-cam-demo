@@ -15,7 +15,7 @@ export default function ReportsMenuPage() {
   return (
     <PageContainer
       title="Menu & catalog performance"
-      description="Merchandising and pricing still live under Menu catalog; this view is read-only demand signals."
+      description="Merchandising and pricing still live under Products; this view is read-only demand signals."
       actions={<ReportsToolbar />}
     >
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

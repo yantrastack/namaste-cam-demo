@@ -32,8 +32,8 @@ export type UsersContextValue = {
     email: string;
     phone: string;
     role: UserRole;
+    status?: UserStatus;
     notes?: string;
-    twoFactorEnabled?: boolean;
     requirePasswordReset?: boolean;
     walletBalance?: number;
     creditLimit?: number;
@@ -76,8 +76,8 @@ export function UsersProvider({ children }: { children: ReactNode }) {
       email: string;
       phone: string;
       role: UserRole;
+      status?: UserStatus;
       notes?: string;
-      twoFactorEnabled?: boolean;
       requirePasswordReset?: boolean;
       walletBalance?: number;
       creditLimit?: number;
@@ -88,13 +88,15 @@ export function UsersProvider({ children }: { children: ReactNode }) {
       const today = new Date().toISOString().slice(0, 10);
       const defaultAvatar =
         "https://lh3.googleusercontent.com/aida-public/AB6AXuA9hbRJ_e1L8nTeuPZ77n1KRKKhkWcNcyg6UQMuiqJD-blZjfhk3xVk3pyotPX1BokJIlYuA9lUGXedKH5lgq8g8b5YW112Gq4JuIUKuNXDlrfoLQ0wpPCbTc0Fx0kiaOecQUe9B_qk1SACoJEIsknUjg7gPSzirDaQm8jNugiAb-ZX64oQWqKtLwlaR1fwlpbWhXdSdoMD0cLoICuCYAKuVJjsT_wpK0XigXC6yV_jXgOtUJji2LXGWZVu8Dz0My3D4O1fl3Y1KYg";
+      const initialStatus: UserStatus =
+        input.status === "inactive" ? "inactive" : "active";
       const user: ManagedUser = {
         id: newUserId(),
         name: input.name.trim(),
         email: input.email.trim(),
         phone: input.phone.trim(),
         role: input.role,
-        status: "active",
+        status: initialStatus,
         joinDate: today,
         avatarUrl:
           typeof input.avatarUrl === "string" && input.avatarUrl.length > 0
@@ -106,7 +108,7 @@ export function UsersProvider({ children }: { children: ReactNode }) {
         walletNote: "",
         strictCustomer: input.strictCustomer ?? false,
         staffProfile: input.staffProfile,
-        twoFactorEnabled: input.twoFactorEnabled ?? false,
+        twoFactorEnabled: false,
         requirePasswordReset: input.requirePasswordReset ?? false,
       };
       setUsers((prev) => [...prev, user]);

@@ -47,18 +47,18 @@
     },
     {
       "id": "menu-catalog",
-      "label": "Menu catalog",
+      "label": "Products",
       "icon": "inventory_2",
       "children": [
         {
           "id": "menu-new-product",
-          "label": "Add product",
+          "label": "New product",
           "icon": "add",
           "href": "/menu/new"
         },
         {
           "id": "menu-item-list",
-          "label": "Item list",
+          "label": "Product list",
           "icon": "format_list_bulleted",
           "href": "/menu/item-list"
         }
@@ -126,16 +126,16 @@
       "icon": "group",
       "children": [
         {
-          "id": "users-all",
-          "label": "All users",
-          "icon": "groups",
-          "href": "/users"
-        },
-        {
           "id": "users-new",
           "label": "New user",
           "icon": "person_add",
           "href": "/users/new"
+        },
+        {
+          "id": "users-all",
+          "label": "All users",
+          "icon": "groups",
+          "href": "/users"
         }
       ]
     },
@@ -161,19 +161,6 @@
           "label": "Staff earnings",
           "icon": "payments",
           "href": "/staff/earnings"
-        }
-      ]
-    },
-    {
-      "id": "inventory",
-      "label": "Inventory",
-      "icon": "warehouse",
-      "children": [
-        {
-          "id": "inventory-overview",
-          "label": "Overview",
-          "icon": "dashboard",
-          "href": "/inventory"
         }
       ]
     },

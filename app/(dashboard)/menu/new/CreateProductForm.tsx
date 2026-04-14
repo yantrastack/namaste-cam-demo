@@ -516,7 +516,7 @@ export function CreateProductForm() {
 
   return (
     <PageContainer
-      title={isEditingFromCatalog ? "Edit product" : "Add product"}
+      title={isEditingFromCatalog ? "Edit product" : "New product"}
       description={
         <span className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-widest text-secondary">
           <Link href="/menu" className="transition-colors hover:text-primary">

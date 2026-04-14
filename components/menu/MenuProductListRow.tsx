@@ -40,16 +40,36 @@ function primaryPrice(item: MenuProduct): number {
   return v?.price_gbp ?? item.base_price_gbp;
 }
 
-/** Remaining count shown under price; subtracts lines already on this picker. */
+/** Secondary line under price: portion (if any), basket count, and numeric qty when known. */
 function stockLabel(item: MenuProduct, pickedQty: number): string | null {
   if (!item.available) return null;
-  if (typeof item.available_qty === "number") {
-    if (item.available_qty <= 0) return null;
-    const remaining = Math.max(0, item.available_qty - pickedQty);
-    return `${remaining} available`;
+  if (typeof item.available_qty === "number" && item.available_qty <= 0) {
+    return null;
   }
-  if (item.stock_note) return item.stock_note;
-  return "In stock";
+
+  const parts: string[] = [];
+  if (item.quantity?.trim()) {
+    parts.push(item.quantity.trim());
+  }
+
+  if (typeof item.available_qty === "number" && item.available_qty > 0) {
+    const remaining = Math.max(0, item.available_qty - pickedQty);
+    if (pickedQty > 0) {
+      parts.push(`In basket: ${pickedQty}`);
+      parts.push(`Qty: ${remaining} / ${item.available_qty}`);
+    } else {
+      parts.push(`Qty: ${item.available_qty}`);
+    }
+  } else {
+    if (pickedQty > 0) {
+      parts.push(`In basket: ${pickedQty}`);
+    }
+    if (item.stock_note) {
+      parts.push(item.stock_note);
+    }
+  }
+
+  return parts.length > 0 ? parts.join(" · ") : null;
 }
 
 export function MenuProductListRow({
@@ -259,9 +279,7 @@ export function MenuProductListRow({
                 Unavailable
               </Badge>
             ) : outOfStock ? (
-              <Badge tone="error" className="w-fit normal-case tracking-normal">
-                Out of stock
-              </Badge>
+              <span className="text-xs font-medium text-error">Out of stock</span>
             ) : label ? (
               <span className="text-xs text-secondary">{label}</span>
             ) : null}

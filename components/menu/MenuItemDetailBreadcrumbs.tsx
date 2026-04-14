@@ -25,7 +25,7 @@ export function MenuItemDetailBreadcrumbs({
         href={listHref}
         className="text-secondary transition-colors hover:text-primary"
       >
-        Item list
+        Product list
       </Link>
       <MaterialIcon name="chevron_right" className="!text-base text-outline" aria-hidden />
       <span className="min-w-0 truncate text-on-surface" title={itemName}>

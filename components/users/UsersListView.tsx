@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
+import { useUsersPageSearch } from "@/components/users/UsersPageSearchContext";
 import {
   formatJoinDate,
   useUsers,
@@ -56,13 +57,10 @@ function rolePillClass(role: ManagedUser["role"]): string {
   return "bg-surface-container-high text-zinc-500";
 }
 
-interface UsersListViewProps {
-  searchQuery?: string;
-  onSearchChange?: (query: string) => void;
-}
-
-export function UsersListView({ searchQuery, onSearchChange }: UsersListViewProps = {}) {
+export function UsersListView() {
   const router = useRouter();
+  const usersPageSearch = useUsersPageSearch();
+  const searchQuery = usersPageSearch?.searchQuery ?? "";
   const { users, hydrated } = useUsers();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("latest_activity");

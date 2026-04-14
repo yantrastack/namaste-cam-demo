@@ -39,7 +39,7 @@ export function MenuItemDetailRouteClient({ itemId }: { itemId: string }) {
             No menu item matches <span className="font-mono text-on-surface">{itemId}</span>. Add
             a product from{" "}
             <Link href="/menu/new" className="font-semibold text-primary hover:underline">
-              Add product
+              New product
             </Link>{" "}
             to store it in this browser.
           </p>
@@ -58,7 +58,7 @@ export function MenuItemDetailRouteClient({ itemId }: { itemId: string }) {
         <>
           <span className="text-on-surface-variant">{found.category.category}</span>
           <span className="text-secondary"> · </span>
-          <span className="text-on-surface-variant">Menu catalog</span>
+          <span className="text-on-surface-variant">Products</span>
         </>
       }
     >

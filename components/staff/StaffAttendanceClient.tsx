@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/Input";
 import { SelectField } from "@/components/ui/SelectField";
 import { cn } from "@/lib/cn";
 
-type RowStatus = "active" | "late" | "completed";
+type RowStatus = "check_in" | "checkout" | "late" | "overtime";
 
 type AttendanceRow = {
   id: string;
@@ -34,7 +34,7 @@ const MOCK_ROWS: AttendanceRow[] = [
     checkIn: "09:30 AM",
     checkOut: null,
     totalHours: "8h 15m",
-    status: "active",
+    status: "check_in",
   },
   {
     id: "2",
@@ -54,7 +54,7 @@ const MOCK_ROWS: AttendanceRow[] = [
     checkIn: "08:45 AM",
     checkOut: "05:00 PM",
     totalHours: "8h 15m",
-    status: "completed",
+    status: "checkout",
   },
   {
     id: "4",
@@ -63,21 +63,23 @@ const MOCK_ROWS: AttendanceRow[] = [
     defaultPunchRole: "Floor manager",
     checkIn: "08:00 AM",
     checkOut: null,
-    totalHours: "7h 30m",
-    status: "active",
+    totalHours: "9h 45m",
+    status: "overtime",
   },
 ];
 
-function statusBadgeTone(s: RowStatus): "success" | "error" | "neutral" {
-  if (s === "active") return "success";
+function statusBadgeTone(s: RowStatus): "success" | "error" | "neutral" | "warning" {
+  if (s === "check_in") return "success";
   if (s === "late") return "error";
+  if (s === "overtime") return "warning";
   return "neutral";
 }
 
 function statusLabel(s: RowStatus): string {
-  if (s === "active") return "Active";
+  if (s === "check_in") return "Check-in";
   if (s === "late") return "Late";
-  return "Completed";
+  if (s === "overtime") return "Overtime";
+  return "Checkout";
 }
 
 function checkInOutCheckoutHref(row: AttendanceRow): string {
@@ -145,12 +147,12 @@ export function StaffAttendanceClient() {
   const totals = useMemo(() => {
     const checkedIn = MOCK_ROWS.filter((r) => r.checkOut === null).length;
     const checkedOut = MOCK_ROWS.filter((r) => r.checkOut !== null).length;
-    const activeNow = MOCK_ROWS.filter((r) => r.status === "active").length;
+    const checkInOnTime = MOCK_ROWS.filter((r) => r.status === "check_in").length;
     return {
       total: MOCK_ROWS.length,
       checkedIn,
       checkedOut,
-      activeNow,
+      checkInOnTime,
     };
   }, []);
 
@@ -219,10 +221,10 @@ export function StaffAttendanceClient() {
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-secondary">
-                Active now
+                On time
               </p>
               <p className="font-headline text-2xl font-extrabold text-on-surface">
-                {totals.activeNow}
+                {totals.checkInOnTime}
               </p>
             </div>
           </Card>
@@ -255,10 +257,11 @@ export function StaffAttendanceClient() {
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
               >
-                <option value="all">All status</option>
-                <option value="active">Active</option>
+                <option value="all">All statuses</option>
+                <option value="check_in">Check-in</option>
+                <option value="checkout">Checkout</option>
                 <option value="late">Late</option>
-                <option value="completed">Completed</option>
+                <option value="overtime">Overtime</option>
               </SelectField>
               <div className="space-y-2">
                 <label
@@ -337,7 +340,7 @@ export function StaffAttendanceClient() {
                           </Badge>
                         </td>
                         <td className="px-4 py-3 text-right">
-                          {row.status === "completed" ? (
+                          {row.status === "checkout" ? (
                             <Button type="button" variant="ghost" size="sm" disabled>
                               Checked out
                             </Button>

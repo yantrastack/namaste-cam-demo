@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
@@ -14,10 +14,10 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@/components/ui/Table";
-import { TabList, TabTrigger, Tabs } from "@/components/ui/Tabs";
 import { formatGbp } from "@/lib/order-bill-math";
 import { cn } from "@/lib/cn";
 import {
+  codCashHeldForPeriod,
   getStaffEarningsSample,
   hoursForPeriod,
   periodLaborGbp,
@@ -26,6 +26,50 @@ import {
   type StaffPayModel,
   type StaffRoleCategory,
 } from "@/lib/staff-earnings-data";
+
+function periodHeading(period: StaffEarningsPeriod, dateIso: string): string {
+  if (period === "week") return "This week";
+  if (period === "month") return "This month";
+  if (!dateIso.trim()) return "By day";
+  const d = new Date(`${dateIso}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return "By day";
+  return d.toLocaleDateString("en-GB", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function dayBadgeLabel(dateIso: string): string {
+  if (!dateIso.trim()) return "By day";
+  const d = new Date(`${dateIso}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return "By day";
+  return d.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function openNativeDatePicker(input: HTMLInputElement | null) {
+  if (!input) return;
+  try {
+    if (typeof input.showPicker === "function") {
+      void input.showPicker();
+      return;
+    }
+  } catch {
+    /* showPicker can throw if not user-initiated in strict browsers */
+  }
+  input.focus();
+  input.click();
+}
+
+const PERIOD_OPTIONS: { value: Exclude<StaffEarningsPeriod, "day">; label: string }[] = [
+  { value: "week", label: "This week" },
+  { value: "month", label: "This month" },
+];
 const ROLE_FILTER_ALL = "all" as const;
 const PAY_FILTER_ALL = "all" as const;
 
@@ -53,6 +97,8 @@ function rateColumnLabel(row: StaffEarningsRecord): string {
 export function StaffEarningsClient() {
   const baseRows = useMemo(() => getStaffEarningsSample(), []);
   const [period, setPeriod] = useState<StaffEarningsPeriod>("week");
+  const [selectedDate, setSelectedDate] = useState("");
+  const dateInputRef = useRef<HTMLInputElement>(null);
   const [roleFilter, setRoleFilter] = useState<RoleFilter>(ROLE_FILTER_ALL);
   const [payFilter, setPayFilter] = useState<PayFilter>(PAY_FILTER_ALL);
   const [query, setQuery] = useState("");
@@ -77,12 +123,15 @@ export function StaffEarningsClient() {
     let cod = 0;
     for (const row of filtered) {
       labor += periodLaborGbp(row, period);
-      cod += row.codCashHeldGbp;
+      cod += codCashHeldForPeriod(row, period);
     }
     return { labor, cod };
   }, [filtered, period]);
 
-  const periodLabel = period === "week" ? "This week" : "This month";
+  const periodLabel = useMemo(
+    () => periodHeading(period, selectedDate),
+    [period, selectedDate],
+  );
 
   return (
     <PageContainer
@@ -114,16 +163,83 @@ export function StaffEarningsClient() {
       </div>
 
       <Card className="p-5">
-        <Tabs
-          defaultValue="week"
-          value={period}
-          onValueChange={(v) => setPeriod(v as StaffEarningsPeriod)}
+        <input
+          ref={dateInputRef}
+          id="staff-earnings-date"
+          name="staff-earnings-date"
+          type="date"
+          value={selectedDate}
+          onChange={(e) => {
+            setSelectedDate(e.target.value);
+            setPeriod("day");
+          }}
+          tabIndex={-1}
+          className="sr-only"
+          aria-hidden="true"
+        />
+        <div
+          className="flex flex-wrap gap-2"
+          role="group"
+          aria-label="Earnings period"
         >
-          <TabList className="border-none pb-0">
-            <TabTrigger value="week">This week</TabTrigger>
-            <TabTrigger value="month">This month</TabTrigger>
-          </TabList>
-        </Tabs>
+          {PERIOD_OPTIONS.map(({ value, label }) => {
+            const selected = period === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                className={cn(
+                  "rounded-full p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest",
+                )}
+                aria-pressed={selected}
+                aria-label={label}
+                onClick={() => {
+                  setPeriod(value);
+                  setSelectedDate("");
+                }}
+              >
+                <Badge
+                  size="md"
+                  tone={selected ? "primary" : "neutral"}
+                  className={cn(
+                    "normal-case tracking-normal font-bold",
+                    !selected && "opacity-80",
+                  )}
+                >
+                  {label}
+                </Badge>
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            className={cn(
+              "rounded-full p-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-container-lowest",
+            )}
+            aria-pressed={period === "day"}
+            aria-controls="staff-earnings-date"
+            aria-label={
+              selectedDate.trim()
+                ? `By day, ${dayBadgeLabel(selectedDate)}. Change date`
+                : "By day, choose date"
+            }
+            onClick={() => {
+              setPeriod("day");
+              queueMicrotask(() => openNativeDatePicker(dateInputRef.current));
+            }}
+          >
+            <Badge
+              size="md"
+              tone={period === "day" ? "primary" : "neutral"}
+              className={cn(
+                "max-w-[12rem] truncate normal-case tracking-normal font-bold",
+                period !== "day" && "opacity-80",
+              )}
+            >
+              {dayBadgeLabel(selectedDate)}
+            </Badge>
+          </button>
+        </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
           <Input
@@ -187,7 +303,7 @@ export function StaffEarningsClient() {
               filtered.map((row) => {
                 const hours = hoursForPeriod(row, period);
                 const labor = periodLaborGbp(row, period);
-                const cod = row.codCashHeldGbp;
+                const cod = codCashHeldForPeriod(row, period);
                 const netAfterCod = labor - cod;
                 return (
                   <TableRow key={row.id}>
@@ -234,25 +350,6 @@ export function StaffEarningsClient() {
             )}
           </TableBody>
         </Table>
-      </Card>
-
-      <Card className="p-5">
-        <p className="text-sm font-bold text-on-surface">How to read this</p>
-        <ul className="mt-2 list-inside list-disc space-y-1 text-sm font-medium text-on-surface-variant">
-          <li>
-            <span className="font-semibold text-on-surface">Labor</span> is hours times hourly
-            rate, or a monthly salary split across weeks when &quot;This week&quot; is selected.
-          </li>
-          <li>
-            <span className="font-semibold text-on-surface">COD held</span> is cash collected from
-            customers on delivery runs; it should be remitted separately from wage calculations.
-          </li>
-          <li>
-            <span className="font-semibold text-on-surface">Net</span> is labor minus COD held —
-            a quick settlement view after drivers remit cash (negative if COD exceeds labor for the
-            period).
-          </li>
-        </ul>
       </Card>
     </PageContainer>
   );

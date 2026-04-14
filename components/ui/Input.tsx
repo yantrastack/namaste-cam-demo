@@ -1,12 +1,14 @@
 import type { InputHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
+export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
   label?: string;
   hint?: string;
   error?: string;
   success?: string;
   left?: ReactNode;
+  /** Compact control (smaller min height, padding, type). Default matches existing screens. */
+  controlSize?: "md" | "sm";
 };
 
 export function Input({
@@ -17,13 +19,17 @@ export function Input({
   left,
   className,
   id,
+  size = "md",
   ...props
 }: InputProps) {
   const inputId = id ?? props.name;
   const state = error ? "error" : success ? "success" : "default";
 
   const fieldClass = cn(
-    "box-border min-h-12 w-full rounded-xl border-none py-3 font-body text-sm font-semibold text-on-surface outline-none transition-all",
+    "box-border w-full border-none font-body font-semibold text-on-surface outline-none transition-all",
+    size === "sm"
+      ? "min-h-9 rounded-lg py-2 text-xs"
+      : "min-h-12 rounded-xl py-3 text-sm",
     left ? "pl-12 pr-4" : "px-4",
     state === "default" &&
       "bg-surface ring-1 ring-outline-variant/20 focus:ring-2 focus:ring-primary",
@@ -41,12 +47,22 @@ export function Input({
           {inputId ? (
             <label
               htmlFor={inputId}
-              className="ml-1 text-sm font-bold text-on-surface"
+              className={cn(
+                "ml-1 font-bold text-on-surface",
+                size === "sm" ? "text-xs" : "text-sm",
+              )}
             >
               {label}
             </label>
           ) : (
-            <p className="ml-1 text-sm font-bold text-on-surface">{label}</p>
+            <p
+              className={cn(
+                "ml-1 font-bold text-on-surface",
+                size === "sm" ? "text-xs" : "text-sm",
+              )}
+            >
+              {label}
+            </p>
           )}
         </>
       )}

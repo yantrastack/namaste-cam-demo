@@ -6,7 +6,7 @@ export default function MenuNewProductPage() {
   return (
     <Suspense
       fallback={
-        <PageContainer title="Add product" description="Loading…">
+        <PageContainer title="New product" description="Loading…">
           <div className="h-24" />
         </PageContainer>
       }

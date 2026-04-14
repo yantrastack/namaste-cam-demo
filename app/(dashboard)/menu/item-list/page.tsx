@@ -4,7 +4,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { MenuItemListClient, type MenuDocument } from "@/components/menu";
 
 export const metadata: Metadata = {
-  title: "Item list",
+  title: "Product list",
   description: "Preview menu items with UK pricing and availability",
 };
 
@@ -13,7 +13,7 @@ export default function MenuItemListPage() {
 
   return (
     <PageContainer
-      title="Menu item list"
+      title="Product list"
       description={`${doc.restaurant.name} — browse categories, stock, and basket controls (demo data).`}
     >
       <div className="mx-auto w-full max-w-6xl">

@@ -178,31 +178,30 @@ export function MenuProductList({
 
   return (
     <div className={cn("relative z-0 space-y-6", className)}>
-      <div className="sticky -top-2 z-30 isolate border-b border-outline-variant/15 bg-background pt-6 pb-4 shadow-sm shadow-outline-variant/10">
-        <div className="relative z-20 space-y-4">
-          <Input
-            id="menu-item-search"
-            name="menu-item-search"
-            placeholder="Search dishes, descriptions, or IDs…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            aria-label="Search menu items"
-            autoComplete="off"
-            left={<MaterialIcon name="search" className="!text-xl text-secondary" />}
-            className="relative z-10"
-          />
+      <div className="sticky -top-2 z-30 isolate bg-background pb-4 pt-6">
+        <div
+          className="relative z-20 space-y-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low p-4 shadow-sm shadow-outline-variant/10 sm:p-5"
+          role="search"
+        >
+          <div className="relative z-10 rounded-full border border-outline-variant/45 bg-surface-container-lowest transition-[box-shadow,border-color] focus-within:border-outline-variant/70 focus-within:shadow-sm focus-within:shadow-outline-variant/15 focus-within:ring-1 focus-within:ring-primary/30">
+            <Input
+              id="menu-item-search"
+              name="menu-item-search"
+              placeholder="Search dishes, descriptions, or IDs…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search menu items"
+              autoComplete="off"
+              left={<MaterialIcon name="search" className="!text-lg text-secondary" />}
+              className="relative z-10 min-h-11 !rounded-full !border-0 !bg-transparent py-2.5 !shadow-none !ring-0 placeholder:font-body placeholder:font-medium placeholder:text-secondary/75 focus:!ring-0 focus:!ring-offset-0"
+            />
+          </div>
 
           <div
-            className={cn(
-              "relative z-0 -mx-1 overflow-x-auto scroll-smooth pb-1 pt-0.5",
-              "[scrollbar-width:thin] [scrollbar-color:var(--color-outline-variant)_transparent]",
-              "[&::-webkit-scrollbar]:h-1.5",
-              "[&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-surface-container-high/50",
-              "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-outline-variant/45",
-              "hover:[&::-webkit-scrollbar-thumb]:bg-outline-variant/70",
-            )}
+            className="flex flex-wrap gap-2"
+            role="tablist"
+            aria-label="Menu categories"
           >
-            <div className="flex min-w-min gap-2 px-1" role="tablist" aria-label="Menu categories">
             {filteredCategories.map((cat) => {
               const active = cat.category_id === activeSectionId;
               return (
@@ -210,13 +209,14 @@ export function MenuProductList({
                   key={cat.category_id}
                   type="button"
                   size="sm"
-                  variant={active ? "primary" : "outline"}
+                  variant={active ? "primary" : "ghost"}
                   role="tab"
                   aria-selected={active}
                   className={cn(
-                    "shrink-0 whitespace-nowrap",
+                    "h-auto min-h-0 shrink-0 !rounded-full !px-3 !py-1.5 font-body text-[11px] font-bold uppercase leading-tight tracking-wide shadow-none active:scale-100",
+                    active && "!border-transparent !shadow-none",
                     !active &&
-                      "border-outline-variant/40 text-on-surface bg-surface-container-lowest",
+                      "!border !border-outline-variant/50 !bg-surface-container-lowest !text-on-surface hover:!bg-surface-container-high/50",
                   )}
                   onClick={() => scrollToSection(cat.category_id)}
                 >
@@ -224,7 +224,6 @@ export function MenuProductList({
                 </Button>
               );
             })}
-            </div>
           </div>
         </div>
       </div>
@@ -241,7 +240,7 @@ export function MenuProductList({
               id={`menu-section-${cat.category_id}`}
               data-menu-section={cat.category_id}
               aria-labelledby={`menu-heading-${cat.category_id}`}
-              className="relative z-0 scroll-mt-44"
+              className="relative z-0 scroll-mt-52"
             >
               <div className="mb-4 flex items-center gap-3">
                 <h2

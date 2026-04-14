@@ -7,7 +7,13 @@ export type StaffPayModel = "hourly" | "monthly";
 
 export type StaffRoleCategory = "Kitchen" | "Front of house" | "Delivery" | "Management";
 
-export type StaffEarningsPeriod = "week" | "month";
+export type StaffEarningsPeriod = "week" | "month" | "day";
+
+/** Calendar days used to show a daily slice of monthly salary (sample UI). */
+export const CALENDAR_DAYS_PER_MONTH = 30;
+
+/** Calendar days in a week for prorating weekly hours / COD in “By day” view. */
+export const CALENDAR_DAYS_PER_WEEK = 7;
 
 export type StaffEarningsRecord = {
   id: string;
@@ -147,16 +153,39 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
   ];
 }
 
+/** Typical hours attributed to one calendar day from the weekly sample total. */
+export function hoursForDay(row: StaffEarningsRecord): number {
+  const h = row.hoursWorkedWeek / CALENDAR_DAYS_PER_WEEK;
+  return Math.round(h * 10) / 10;
+}
+
 export function hoursForPeriod(row: StaffEarningsRecord, period: StaffEarningsPeriod): number {
+  if (period === "day") return hoursForDay(row);
   return period === "week" ? row.hoursWorkedWeek : row.hoursWorkedMonth;
 }
 
 /** Labor cost for the selected period (GBP). */
 export function periodLaborGbp(row: StaffEarningsRecord, period: StaffEarningsPeriod): number {
+  if (period === "day") {
+    if (row.payModel === "hourly") {
+      const rate = row.hourlyRateGbp ?? 0;
+      return hoursForDay(row) * rate;
+    }
+    const monthly = row.monthlySalaryGbp ?? 0;
+    return monthly / CALENDAR_DAYS_PER_MONTH;
+  }
   if (row.payModel === "hourly") {
     const rate = row.hourlyRateGbp ?? 0;
     return hoursForPeriod(row, period) * rate;
   }
   const monthly = row.monthlySalaryGbp ?? 0;
   return period === "week" ? monthly / WEEKS_PER_MONTH_AVG : monthly;
+}
+
+/** COD attributed to the period (full week/month sample, or prorated for one day). */
+export function codCashHeldForPeriod(row: StaffEarningsRecord, period: StaffEarningsPeriod): number {
+  if (period === "day") {
+    return Math.round((row.codCashHeldGbp / CALENDAR_DAYS_PER_WEEK) * 100) / 100;
+  }
+  return row.codCashHeldGbp;
 }

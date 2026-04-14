@@ -257,7 +257,7 @@ export function NewUserForm() {
   const [values, setValues] = useState<NewUserFormValues>(() =>
     defaultNewUserFormValues(),
   );
-  const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
+  const [deactivateUser, setDeactivateUser] = useState(false);
   const [requirePasswordReset, setRequirePasswordReset] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [idProofName, setIdProofName] = useState("");
@@ -355,8 +355,8 @@ export function NewUserForm() {
       email: values.email.trim(),
       phone: values.phone.trim(),
       role: values.role,
+      status: deactivateUser ? "inactive" : "active",
       notes: values.notes.trim(),
-      twoFactorEnabled,
       requirePasswordReset,
       walletBalance,
       creditLimit,
@@ -668,14 +668,14 @@ export function NewUserForm() {
                     </h3>
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <PeerToggleRow
-                        title="Two-Factor Auth"
+                        title="Deactivate user"
                         description={
-                          twoFactorEnabled
-                            ? "Will be enabled for this account"
-                            : "Currently disabled for this account"
+                          deactivateUser
+                            ? "Account will be created as inactive"
+                            : "Account will be active after creation"
                         }
-                        checked={twoFactorEnabled}
-                        onChange={setTwoFactorEnabled}
+                        checked={deactivateUser}
+                        onChange={setDeactivateUser}
                       />
                       <PeerToggleRow
                         title="Require PW Reset"
