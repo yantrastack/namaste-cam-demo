@@ -141,7 +141,7 @@ export default function FavoritesPage() {
                       </div>
                       <div className="flex items-center justify-between mt-3">
                         <span className="font-headline font-bold text-primary text-lg">
-                          ${item.price.toFixed(2)}
+                          £{item.price.toFixed(2)}
                         </span>
                         {quantity > 0 ? (
                           <div className="flex items-center justify-between bg-primary-container text-on-primary-container rounded-full px-1 py-1 w-32 shadow-inner">

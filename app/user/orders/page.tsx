@@ -77,15 +77,15 @@ export default function OrdersPage() {
   const orders = activeTab === 'active' ? activeOrders : completedOrders
 
   return (
-    <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
+    <div className="min-h-screen bg-surface font-body text-on-surface pb-32">
       {/* TopAppBar */}
       <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-7xl mx-auto">
+        <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button onClick={openDrawer} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
               <MaterialIcon name="menu" className="text-2xl" />
             </button>
-            <h1 className="font-headline font-bold tracking-tight text-lg sm:text-xl text-primary">
+            <h1 className="font-headline font-bold tracking-tight text-lg text-primary">
               My Orders
             </h1>
           </div>
@@ -101,16 +101,16 @@ export default function OrdersPage() {
         </div>
       </header>
 
-      <main className="pt-24 pb-8 px-4 sm:px-6 max-w-2xl mx-auto">
+      <main className="pt-24 pb-8 px-4">
         {/* Editorial Header */}
-        <header className="mb-8 sm:mb-10">
+        <header className="mb-8">
           <span className="text-primary font-bold tracking-widest text-[10px] uppercase block mb-2">History &amp; Archives</span>
-          <h2 className="font-headline font-extrabold text-3xl sm:text-4xl tracking-tight text-on-surface">Your Culinary Timeline</h2>
+          <h2 className="font-headline font-extrabold text-3xl tracking-tight text-on-surface">Your Culinary Timeline</h2>
           <p className="text-on-surface-variant mt-2 text-sm leading-relaxed">Review your curated dining experiences and reorder your favorites with a single tap.</p>
         </header>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 sm:mb-8">
+        <div className="flex gap-2 mb-6">
           <Button
             onClick={() => setActiveTab('active')}
             variant={activeTab === 'active' ? 'primary' : 'outline'}
@@ -128,17 +128,17 @@ export default function OrdersPage() {
         </div>
 
         {/* Orders List - Editorial Style */}
-        <div className="flex flex-col gap-4 sm:gap-6">
+        <div className="flex flex-col gap-4">
           {orders.map((order) => (
             <Card
               key={order.id}
-              className={`p-4 sm:p-5 overflow-hidden group ${order.status === 'Cancelled' ? 'bg-surface-container-low/50 opacity-80' : 'bg-surface-container-lowest'}`}
+              className={`p-4 overflow-hidden group ${order.status === 'Cancelled' ? 'bg-surface-container-low/50 opacity-80' : 'bg-surface-container-lowest'}`}
             >
               <div className="flex justify-between items-start mb-4">
-                <div className="flex gap-3 sm:gap-4">
+                <div className="flex gap-3">
                   <div
                     onClick={order.status === 'Delivered' || order.status === 'Cancelled' ? () => handleViewDetails(order.id) : undefined}
-                    className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden bg-surface-container-low flex-shrink-0 ${order.status === 'Delivered' || order.status === 'Cancelled' ? 'cursor-pointer active:scale-95 transition-transform' : ''} ${order.status === 'Cancelled' ? 'grayscale' : ''}`}
+                    className={`w-14 h-14 rounded-lg overflow-hidden bg-surface-container-low flex-shrink-0 ${order.status === 'Delivered' || order.status === 'Cancelled' ? 'cursor-pointer active:scale-95 transition-transform' : ''} ${order.status === 'Cancelled' ? 'grayscale' : ''}`}
                   >
                     <img
                       className="w-full h-full object-cover"
@@ -149,7 +149,7 @@ export default function OrdersPage() {
                   <div>
                     <h3
                       onClick={order.status === 'Delivered' || order.status === 'Cancelled' ? () => handleViewDetails(order.id) : undefined}
-                      className={`font-headline font-bold text-base sm:text-lg text-on-surface group-hover:text-primary transition-colors ${order.status === 'Delivered' || order.status === 'Cancelled' ? 'cursor-pointer active:opacity-70' : ''} ${order.status === 'Cancelled' ? '' : ''}`}
+                      className={`font-headline font-bold text-base text-on-surface group-hover:text-primary transition-colors ${order.status === 'Delivered' || order.status === 'Cancelled' ? 'cursor-pointer active:opacity-70' : ''} ${order.status === 'Cancelled' ? '' : ''}`}
                     >
                       {order.restaurant}
                     </h3>
@@ -175,7 +175,7 @@ export default function OrdersPage() {
                 </p>
                 <div className={`mt-2 flex items-center justify-between ${order.status === 'Cancelled' ? 'border-t border-outline-variant/10 pt-2' : ''}`}>
                   <span className="text-xs text-on-surface-variant">Order #{order.id}</span>
-                  <span className="font-headline font-bold text-on-surface">${order.total.toFixed(2)}</span>
+                  <span className="font-headline font-bold text-on-surface">£{order.total.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -250,8 +250,8 @@ export default function OrdersPage() {
         )}
       </main>
 
-      {/* BottomNavBar - Mobile Only */}
-      <nav className="fixed bottom-0 left-0 w-full h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] md:hidden">
+      {/* BottomNavBar */}
+      <nav className="fixed bottom-0 left-0 w-full h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
         <div
           onClick={() => router.push('/user/home')}
           className="flex flex-col items-center justify-center text-zinc-400 hover:text-primary active:scale-90 transition-all duration-300 ease-out cursor-pointer"

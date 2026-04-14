@@ -51,28 +51,29 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
+    <div className="min-h-screen bg-surface font-body text-on-surface pb-32">
       {/* TopAppBar */}
       <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-7xl mx-auto">
+        <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button onClick={openDrawer} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
               <MaterialIcon name="menu" className="text-2xl" />
             </button>
-            <h1 className="font-headline font-bold tracking-tight text-lg sm:text-xl text-primary">
+            <h1 className="font-headline font-bold tracking-tight text-lg text-primary">
               Profile
             </h1>
           </div>
-          <button
-            onClick={handleSettingsClick}
-            className="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-zinc-500 hover:text-primary transition-colors"
-          >
-            <MaterialIcon name="settings" className="text-xl" />
-          </button>
+          <div className="w-10 h-10 rounded-full bg-surface-container-highest overflow-hidden cursor-pointer">
+            <img
+              className="w-full h-full object-cover"
+              alt="User profile avatar"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBLTUkPph8lyHdvxM66U8H8_95GCrxcO46WjeUi1MA8D_FLTN_SqQI_uHSLGUH4fRbtI-TWsvVTblcDWvFLs5gV6EzM206c91DoW-Vls_ueYkDqnk7RJTlWExOxMpUrTXveRmq1FXVGud-Gx0U9sZp5lBnZ3pSRAhdVzDiODC0m82H4g1hIcxeYsStCVVUYcmHuodFLRLd3zt3C_ZnQs7PeYRVZ8pQ6sX-a2D11H9-liDxAmBIDHyOgJT5_mbENQgB5M2lZxJdFes"
+            />
+          </div>
         </div>
       </header>
 
-      <main className="pt-24 pb-8 max-w-md mx-auto px-4 sm:px-6">
+      <main className="pt-24 pb-8 px-4">
         {/* User Profile Section */}
         <section className="mb-6">
           <Card className="p-6">
@@ -144,7 +145,7 @@ export default function ProfilePage() {
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-on-surface">Wallet Balance</h3>
-                <p className="text-2xl font-headline font-bold text-primary">$2,450.00</p>
+                <p className="text-2xl font-headline font-bold text-primary">£2,450.00</p>
               </div>
               <MaterialIcon name="chevron_right" className="text-secondary" />
             </div>

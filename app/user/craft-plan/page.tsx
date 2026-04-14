@@ -17,9 +17,9 @@ export default function CraftPlanPage() {
   const [selectedAddons, setSelectedAddons] = useState(['fried-curd'])
 
   const mealPlans = [
-    { id: 'executive', name: 'The Executive Meal', price: '$299/mo', badge: 'BÁLÁCUAD', highlighted: true },
-    { id: 'student', name: 'Student Special', price: '$149', badge: null, highlighted: false },
-    { id: 'lite', name: 'Lite & Healthy', price: '$199', badge: null, highlighted: false },
+    { id: 'executive', name: 'The Executive Meal', price: '£299/mo', badge: 'BÁLÁCUAD', highlighted: true },
+    { id: 'student', name: 'Student Special', price: '£149', badge: null, highlighted: false },
+    { id: 'lite', name: 'Lite & Healthy', price: '£199', badge: null, highlighted: false },
   ]
 
   const riceOptions = ['Jeera Rice', 'Brown Rice', 'Basmati']

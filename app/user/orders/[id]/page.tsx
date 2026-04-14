@@ -174,11 +174,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
               <MaterialIcon name="electric_scooter" className="text-[16px] sm:text-[18px]" />
               <span>{deliveryPerson.vehicle} • <span className="text-on-surface font-medium">{deliveryPerson.plateNumber}</span></span>
             </div>
-<<<<<<< Updated upstream
             <Badge tone="info" className="bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold text-on-tertiary-fixed uppercase tracking-tighter self-center">
-=======
-            <Badge tone="neutral" className="bg-tertiary-fixed px-2 py-0.5 rounded text-[10px] font-bold text-on-tertiary-fixed uppercase tracking-tighter self-center">
->>>>>>> Stashed changes
               {deliveryPerson.badge}
             </Badge>
           </div>
@@ -189,7 +185,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
           <Card className="bg-surface-container-low p-4 rounded-xl">
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Your Order</p>
             <p className="text-xs sm:text-sm font-bold text-on-surface truncate">{orderData.items.join(' + ')}</p>
-            <p className="text-xs text-zinc-500 mt-1">${orderData.total.toFixed(2)} • Paid via {orderData.paymentMethod}</p>
+            <p className="text-xs text-zinc-500 mt-1">£{orderData.total.toFixed(2)} • Paid via {orderData.paymentMethod}</p>
           </Card>
           <Card className="bg-surface-container-low p-4 rounded-xl">
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Delivery To</p>

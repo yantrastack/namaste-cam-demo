@@ -365,7 +365,7 @@ export default function CheckoutPage() {
                 className={`flex-1 min-w-40 flex items-center gap-3 p-4 cursor-pointer transition-all active:scale-95 ${paymentMethod === 'cash' ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
                 onClick={() => handlePaymentMethodClick('cash')}
               >
-                <MaterialIcon name="payments" className={`text-2xl ${paymentMethod === 'cash' ? 'text-primary' : 'text-secondary'}`} filled={paymentMethod === 'cash'} />
+                <MaterialIcon name="currency_pound" className={`text-2xl ${paymentMethod === 'cash' ? 'text-primary' : 'text-secondary'}`} filled={paymentMethod === 'cash'} />
                 <div className="text-left">
                   <p className="text-sm font-bold">Cash on Delivery</p>
                   <p className="text-[10px] text-secondary">Pay at your door</p>
@@ -510,7 +510,7 @@ export default function CheckoutPage() {
                       { id: 'pluxee', name: 'Pluxee', icon: 'account_balance_wallet', desc: 'Corporate meal benefits' },
                       { id: 'wallets', name: 'Wallets', icon: 'smartphone', desc: 'PhonePe, Amazon Pay & more' },
                       { id: 'netbanking', name: 'Netbanking', icon: 'account_balance', desc: 'All major banks supported' },
-                      { id: 'pay_on_delivery', name: 'Pay on Delivery', icon: 'payments', desc: 'Cash or UPI at doorstep' },
+                      { id: 'pay_on_delivery', name: 'Pay on Delivery', icon: 'currency_pound', desc: 'Cash or UPI at doorstep' },
                     ].map((option) => (
                       <Card
                         key={option.id}
@@ -572,33 +572,33 @@ export default function CheckoutPage() {
                       </div>
                       <div>
                         <p className="text-xs sm:text-sm font-bold">{item.name}</p>
-                        <p className="text-[10px] sm:text-xs text-secondary">{item.quantity} × ${item.price.toFixed(2)}</p>
+                        <p className="text-[10px] sm:text-xs text-secondary">{item.quantity} × £{item.price.toFixed(2)}</p>
                       </div>
                     </div>
-                    <p className="text-xs sm:text-sm font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="text-xs sm:text-sm font-bold">£{(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
               <div className="space-y-3 pt-4 sm:pt-6 border-t border-surface-container">
                 <div className="flex justify-between text-xs sm:text-sm text-secondary">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>£{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xs sm:text-sm text-secondary">
                   <span>Delivery Fee</span>
-                  <span>${deliveryFee.toFixed(2)}</span>
+                  <span>£{deliveryFee.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-xs sm:text-sm text-secondary">
                   <span>Service Fee</span>
-                  <span>${serviceFee.toFixed(2)}</span>
+                  <span>£{serviceFee.toFixed(2)}</span>
                 </div>
                 <div className={`flex justify-between text-xs sm:text-sm ${orderMethod === 'pickup' ? 'text-green-600' : 'text-error'}`}>
                   <span>{orderMethod === 'pickup' ? 'Pickup Discount' : 'Delivery Surcharge'}</span>
-                  <span>{orderMethod === 'pickup' ? '-$5.00' : '+$5.00'}</span>
+                  <span>{orderMethod === 'pickup' ? '-£5.00' : '+£5.00'}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 sm:pt-4 mt-2 border-t border-surface-container">
                   <span className="font-bold text-base sm:text-lg">Total</span>
-                  <span className="font-headline font-extrabold text-xl sm:text-2xl text-primary tracking-tight">${total.toFixed(2)}</span>
+                  <span className="font-headline font-extrabold text-xl sm:text-2xl text-primary tracking-tight">£{total.toFixed(2)}</span>
                 </div>
               </div>
             </Card>

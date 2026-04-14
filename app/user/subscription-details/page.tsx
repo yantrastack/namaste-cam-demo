@@ -140,7 +140,7 @@ export default function SubscriptionDetailsPage() {
                 <p className="font-semibold text-on-surface">30 Days (22 Deliveries)</p>
               </div>
               <div className="text-right">
-                <p className="text-2xl font-headline font-bold text-primary">$249.00</p>
+                <p className="text-2xl font-headline font-bold text-primary">£249.00</p>
               </div>
             </div>
           </Card>

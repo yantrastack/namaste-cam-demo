@@ -99,7 +99,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-surface font-body text-on-surface pb-40">
       {/* Top Navigation Bar */}
       <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-2xl mx-auto">
+        <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => router.back()} 
@@ -117,7 +117,7 @@ export default function CartPage() {
         </div>
       </header>
 
-      <main className="pt-20 px-4 sm:px-6 max-w-2xl mx-auto">
+      <main className="pt-20 px-4">
         {/* Review Order Section */}
         <section className="py-4">
           <h2 className="font-headline font-extrabold text-xl tracking-tight mb-4">Review Order</h2>
@@ -344,16 +344,14 @@ export default function CartPage() {
 
       {/* Fixed Checkout Footer */}
       <footer className="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl pt-4 pb-6 px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50">
-        <div className="max-w-2xl mx-auto">
-          <Button
-            onClick={handleCheckout}
-            disabled={items.length === 0}
-            className="w-full h-14 bg-error text-on-primary font-headline font-bold text-base rounded-full shadow-lg shadow-error/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-          >
-            <span>Proceed to Checkout</span>
-            <MaterialIcon name="arrow_forward" className="text-lg" />
-          </Button>
-        </div>
+        <Button
+          onClick={handleCheckout}
+          disabled={items.length === 0}
+          className="w-full h-14 bg-error text-on-primary font-headline font-bold text-base rounded-full shadow-lg shadow-error/20 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          <span>Proceed to Checkout</span>
+          <MaterialIcon name="arrow_forward" className="text-lg" />
+        </Button>
       </footer>
 
       <style jsx global>{`
