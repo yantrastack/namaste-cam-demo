@@ -19,6 +19,13 @@ export default function CheckoutPage() {
     { id: 'office', label: 'Office', icon: 'work', address: 'The Shard, 32 London Bridge St\nLondon, SE1 9SG' },
   ])
   const [newAddress, setNewAddress] = useState({ label: '', postcode: '', street: '' })
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null)
+  const [editAddress, setEditAddress] = useState({ label: '', postcode: '', street: '' })
+  const [showPaymentOptions, setShowPaymentOptions] = useState(false)
+  const [savedCards, setSavedCards] = useState<Array<{ id: string; last4: string; expiry: string; brand: string }>>([])
+  const [showAddCard, setShowAddCard] = useState(false)
+  const [newCard, setNewCard] = useState({ number: '', name: '', expiry: '', cvv: '' })
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null)
 
   const handleNavClick = (nav: string) => {
     if (nav === 'home') {
@@ -43,7 +50,8 @@ export default function CheckoutPage() {
   const subtotal = items.reduce((sum: number, item) => sum + (item.price * item.quantity), 0)
   const deliveryFee = orderMethod === 'delivery' ? 2.50 : 0
   const serviceFee = 1.20
-  const total = subtotal + deliveryFee + serviceFee
+  const discountSurcharge = orderMethod === 'delivery' ? 5 : -5
+  const total = subtotal + deliveryFee + serviceFee + discountSurcharge
 
   const handleSaveAddress = () => {
     if (newAddress.label && newAddress.postcode && newAddress.street) {
@@ -57,6 +65,78 @@ export default function CheckoutPage() {
       setNewAddress({ label: '', postcode: '', street: '' })
       setShowAddAddress(false)
       setSelectedAddress(id)
+    }
+  }
+
+  const handleEditAddress = (addressId: string) => {
+    const address = addresses.find(addr => addr.id === addressId)
+    if (address) {
+      const lines = address.address.split('\n')
+      setEditAddress({
+        label: address.label,
+        postcode: lines[1] || '',
+        street: lines[0] || ''
+      })
+      setEditingAddressId(addressId)
+    }
+  }
+
+  const handleUpdateAddress = () => {
+    if (editingAddressId && editAddress.label && editAddress.postcode && editAddress.street) {
+      setAddresses(addresses.map(addr => 
+        addr.id === editingAddressId
+          ? { ...addr, label: editAddress.label, address: `${editAddress.street}\n${editAddress.postcode}` }
+          : addr
+      ))
+      setEditAddress({ label: '', postcode: '', street: '' })
+      setEditingAddressId(null)
+    }
+  }
+
+  const handleDeleteAddress = (addressId: string) => {
+    if (addresses.length > 1) {
+      setAddresses(addresses.filter(addr => addr.id !== addressId))
+      if (selectedAddress === addressId) {
+        setSelectedAddress(addresses[0].id)
+      }
+      setEditingAddressId(null)
+      setEditAddress({ label: '', postcode: '', street: '' })
+    }
+  }
+
+  const handleCancelEdit = () => {
+    setEditingAddressId(null)
+    setEditAddress({ label: '', postcode: '', street: '' })
+  }
+
+  const handleSaveCard = () => {
+    if (newCard.number && newCard.name && newCard.expiry && newCard.cvv) {
+      const id = Date.now().toString()
+      const brand = newCard.number.startsWith('4') ? 'Visa' : 'Mastercard'
+      setSavedCards([...savedCards, {
+        id,
+        last4: newCard.number.slice(-4),
+        expiry: newCard.expiry,
+        brand
+      }])
+      setNewCard({ number: '', name: '', expiry: '', cvv: '' })
+      setShowAddCard(false)
+    }
+  }
+
+  const handleDeleteCard = (cardId: string) => {
+    setSavedCards(savedCards.filter(card => card.id !== cardId))
+    if (selectedPaymentMethod === cardId) {
+      setSelectedPaymentMethod(null)
+    }
+  }
+
+  const handlePaymentMethodClick = (method: 'online' | 'cash') => {
+    setPaymentMethod(method)
+    if (method === 'online') {
+      setShowPaymentOptions(!showPaymentOptions)
+    } else {
+      setShowPaymentOptions(false)
     }
   }
 
@@ -106,13 +186,23 @@ export default function CheckoutPage() {
             </div>
           </section>
 
+          {/* Discount Banner */}
+          <section>
+            <Card className="bg-tertiary-fixed/20 p-4 flex items-center gap-3 border border-tertiary-fixed/30">
+              <MaterialIcon name="local_offer" className="text-tertiary text-xl" />
+              <p className="text-sm font-medium text-on-tertiary-fixed">
+                You get a 5 pounds discount on pickup
+              </p>
+            </Card>
+          </section>
+
           {/* Delivery Address */}
           {orderMethod === 'delivery' && (
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="font-headline text-xl sm:text-2xl font-bold tracking-tight">Delivery Address</h2>
                 <button onClick={() => setShowAddAddress(!showAddAddress)} className="text-primary font-semibold text-sm hover:opacity-80 transition-opacity">
-                  {showAddAddress ? 'Cancel' : 'Edit'}
+                  {showAddAddress ? 'Cancel' : 'New'}
                 </button>
               </div>
               
@@ -120,19 +210,28 @@ export default function CheckoutPage() {
                 {addresses.map((addr) => (
                   <Card
                     key={addr.id}
-                    className={`p-4 sm:p-6 cursor-pointer transition-all ${selectedAddress === addr.id ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
+                    className={`relative p-4 sm:p-6 cursor-pointer transition-all ${selectedAddress === addr.id ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
                     onClick={() => setSelectedAddress(addr.id)}
                   >
                     <div className="flex items-start gap-4">
                       <div className={`p-3 rounded-lg ${selectedAddress === addr.id ? 'bg-primary-fixed' : 'bg-surface-container-high'}`}>
                         <MaterialIcon name={addr.icon} className={`text-xl ${selectedAddress === addr.id ? 'text-primary' : 'text-secondary'}`} />
                       </div>
-                      <div>
+                      <div className="flex-1">
                         <h3 className="font-bold text-base sm:text-lg mb-1">{addr.label}</h3>
                         <p className="text-secondary text-xs sm:text-sm leading-relaxed whitespace-pre-line">{addr.address}</p>
                       </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleEditAddress(addr.id)
+                        }}
+                        className="absolute top-4 right-4 text-secondary hover:text-primary transition-colors p-1"
+                      >
+                        <MaterialIcon name="edit" className="text-xl" />
+                      </button>
                       {selectedAddress === addr.id && (
-                        <div className="absolute top-4 right-4 text-primary">
+                        <div className="absolute top-4 right-12 text-primary">
                           <MaterialIcon name="check_circle" className="text-xl" filled />
                         </div>
                       )}
@@ -186,6 +285,65 @@ export default function CheckoutPage() {
                   </div>
                 </Card>
               )}
+
+              {editingAddressId && (
+                <Card className="p-6 sm:p-8 space-y-6 border-2 border-primary">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <MaterialIcon name="edit" className="text-primary text-xl" />
+                      <h3 className="font-bold">Edit Address</h3>
+                    </div>
+                    <button
+                      onClick={() => handleDeleteAddress(editingAddressId)}
+                      className="text-error hover:opacity-80 transition-opacity flex items-center gap-1 text-sm font-medium"
+                      disabled={addresses.length <= 1}
+                    >
+                      <MaterialIcon name="delete" className="text-lg" />
+                      Delete
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-secondary px-1">Address Label</label>
+                      <input 
+                        className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" 
+                        placeholder="Work, Home, etc." 
+                        type="text" 
+                        value={editAddress.label}
+                        onChange={(e) => setEditAddress({ ...editAddress, label: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-secondary px-1">Postcode</label>
+                      <input 
+                        className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" 
+                        placeholder="SW1A 1AA" 
+                        type="text" 
+                        value={editAddress.postcode}
+                        onChange={(e) => setEditAddress({ ...editAddress, postcode: e.target.value })}
+                      />
+                    </div>
+                    <div className="md:col-span-2 space-y-1">
+                      <label className="text-xs font-bold text-secondary px-1">Street Address</label>
+                      <input 
+                        className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" 
+                        placeholder="Enter your full street address" 
+                        type="text" 
+                        value={editAddress.street}
+                        onChange={(e) => setEditAddress({ ...editAddress, street: e.target.value })}
+                      />
+                    </div>
+                    <div className="md:col-span-2 flex gap-3">
+                      <Button variant="primary" className="flex-1" onClick={handleUpdateAddress}>
+                        Update Address
+                      </Button>
+                      <Button variant="ghost" className="flex-1" onClick={handleCancelEdit}>
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              )}
             </section>
           )}
 
@@ -195,7 +353,7 @@ export default function CheckoutPage() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Card
                 className={`flex-1 min-w-40 flex items-center gap-3 p-4 cursor-pointer transition-all active:scale-95 ${paymentMethod === 'online' ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
-                onClick={() => setPaymentMethod('online')}
+                onClick={() => handlePaymentMethodClick('online')}
               >
                 <MaterialIcon name="account_balance_wallet" className={`text-2xl ${paymentMethod === 'online' ? 'text-primary' : 'text-secondary'}`} filled={paymentMethod === 'online'} />
                 <div className="text-left">
@@ -205,7 +363,7 @@ export default function CheckoutPage() {
               </Card>
               <Card
                 className={`flex-1 min-w-40 flex items-center gap-3 p-4 cursor-pointer transition-all active:scale-95 ${paymentMethod === 'cash' ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
-                onClick={() => setPaymentMethod('cash')}
+                onClick={() => handlePaymentMethodClick('cash')}
               >
                 <MaterialIcon name="payments" className={`text-2xl ${paymentMethod === 'cash' ? 'text-primary' : 'text-secondary'}`} filled={paymentMethod === 'cash'} />
                 <div className="text-left">
@@ -214,6 +372,174 @@ export default function CheckoutPage() {
                 </div>
               </Card>
             </div>
+
+            {/* Payment Options - Expandable */}
+            {showPaymentOptions && paymentMethod === 'online' && (
+              <div className="space-y-6 mt-6">
+                {/* Save more with payment offers banner */}
+                <Card className="bg-tertiary-fixed/20 p-4 flex items-center gap-3 border border-tertiary-fixed/30">
+                  <MaterialIcon name="local_offer" className="text-tertiary text-xl" />
+                  <p className="text-sm font-medium text-on-tertiary-fixed">
+                    Save more with payment offers
+                  </p>
+                </Card>
+
+                {/* Credit & Debit Cards */}
+                <div className="space-y-4">
+                  <h3 className="font-bold text-lg">Credit & Debit Cards</h3>
+                  <div className="space-y-3">
+                    {savedCards.map((card) => (
+                      <Card
+                        key={card.id}
+                        className={`relative p-4 cursor-pointer transition-all ${selectedPaymentMethod === card.id ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
+                        onClick={() => setSelectedPaymentMethod(card.id)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <MaterialIcon name="credit_card" className={`text-2xl ${selectedPaymentMethod === card.id ? 'text-primary' : 'text-secondary'}`} />
+                            <div>
+                              <p className="font-bold text-sm">{card.brand} •••• {card.last4}</p>
+                              <p className="text-xs text-secondary">Expires {card.expiry}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {selectedPaymentMethod === card.id && (
+                              <MaterialIcon name="check_circle" className="text-xl text-primary" filled />
+                            )}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                handleDeleteCard(card.id)
+                              }}
+                              className="text-secondary hover:text-error transition-colors p-1"
+                            >
+                              <MaterialIcon name="delete" className="text-lg" />
+                            </button>
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                    <Card
+                      className={`p-4 cursor-pointer transition-all border-2 border-dashed border-outline-variant hover:border-primary ${showAddCard ? 'border-primary bg-primary/5' : ''}`}
+                      onClick={() => setShowAddCard(!showAddCard)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <MaterialIcon name="add_circle" className="text-2xl text-primary" />
+                        <p className="font-bold text-sm text-primary">Add New Card</p>
+                      </div>
+                    </Card>
+                  </div>
+
+                  {/* Add New Card Form */}
+                  {showAddCard && (
+                    <Card className="p-6 space-y-4 border-2 border-primary">
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-secondary px-1">Card Number</label>
+                        <input
+                          className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm"
+                          placeholder="1234 5678 9012 3456"
+                          type="text"
+                          maxLength={19}
+                          value={newCard.number}
+                          onChange={(e) => {
+                            const formatted = e.target.value.replace(/\s/g, '').replace(/(\d{4})/g, '$1 ').trim()
+                            setNewCard({ ...newCard, number: formatted })
+                          }}
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-secondary px-1">Cardholder Name</label>
+                        <input
+                          className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm"
+                          placeholder="John Doe"
+                          type="text"
+                          value={newCard.name}
+                          onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-1">
+                          <label className="text-xs font-bold text-secondary px-1">Expiry (MM/YY)</label>
+                          <input
+                            className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm"
+                            placeholder="MM/YY"
+                            type="text"
+                            maxLength={5}
+                            value={newCard.expiry}
+                            onChange={(e) => {
+                              let value = e.target.value.replace(/\D/g, '')
+                              if (value.length >= 2) {
+                                value = value.slice(0, 2) + '/' + value.slice(2, 4)
+                              }
+                              setNewCard({ ...newCard, expiry: value })
+                            }}
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-xs font-bold text-secondary px-1">CVV</label>
+                          <input
+                            className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm"
+                            placeholder="123"
+                            type="text"
+                            maxLength={3}
+                            value={newCard.cvv}
+                            onChange={(e) => setNewCard({ ...newCard, cvv: e.target.value.replace(/\D/g, '') })}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex gap-3">
+                        <Button variant="primary" className="flex-1" onClick={handleSaveCard}>
+                          Save Card
+                        </Button>
+                        <Button variant="ghost" className="flex-1" onClick={() => {
+                          setShowAddCard(false)
+                          setNewCard({ number: '', name: '', expiry: '', cvv: '' })
+                        }}>
+                          Cancel
+                        </Button>
+                      </div>
+                    </Card>
+                  )}
+                </div>
+
+                {/* More Payment Options */}
+                <div className="space-y-4">
+                  <h3 className="font-bold text-lg">More Payment Options</h3>
+                  <div className="space-y-3">
+                    {[
+                      { id: 'pluxee', name: 'Pluxee', icon: 'account_balance_wallet', desc: 'Corporate meal benefits' },
+                      { id: 'wallets', name: 'Wallets', icon: 'smartphone', desc: 'PhonePe, Amazon Pay & more' },
+                      { id: 'netbanking', name: 'Netbanking', icon: 'account_balance', desc: 'All major banks supported' },
+                      { id: 'pay_on_delivery', name: 'Pay on Delivery', icon: 'payments', desc: 'Cash or UPI at doorstep' },
+                    ].map((option) => (
+                      <Card
+                        key={option.id}
+                        className={`p-4 cursor-pointer transition-all ${selectedPaymentMethod === option.id ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
+                        onClick={() => setSelectedPaymentMethod(option.id)}
+                      >
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`p-2 rounded-lg ${selectedPaymentMethod === option.id ? 'bg-primary-fixed' : 'bg-surface-container-high'}`}>
+                              <MaterialIcon name={option.icon} className={`text-xl ${selectedPaymentMethod === option.id ? 'text-primary' : 'text-secondary'}`} />
+                            </div>
+                            <div>
+                              <p className="font-bold text-sm">{option.name}</p>
+                              <p className="text-xs text-secondary">{option.desc}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {selectedPaymentMethod === option.id && (
+                              <MaterialIcon name="check_circle" className="text-xl text-primary" filled />
+                            )}
+                            <MaterialIcon name="arrow_forward_ios" className="text-lg text-secondary" />
+                          </div>
+                        </div>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
         </div>
 
@@ -265,6 +591,10 @@ export default function CheckoutPage() {
                 <div className="flex justify-between text-xs sm:text-sm text-secondary">
                   <span>Service Fee</span>
                   <span>${serviceFee.toFixed(2)}</span>
+                </div>
+                <div className={`flex justify-between text-xs sm:text-sm ${orderMethod === 'pickup' ? 'text-green-600' : 'text-error'}`}>
+                  <span>{orderMethod === 'pickup' ? 'Pickup Discount' : 'Delivery Surcharge'}</span>
+                  <span>{orderMethod === 'pickup' ? '-$5.00' : '+$5.00'}</span>
                 </div>
                 <div className="flex justify-between items-center pt-2 sm:pt-4 mt-2 border-t border-surface-container">
                   <span className="font-bold text-base sm:text-lg">Total</span>
