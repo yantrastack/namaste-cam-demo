@@ -822,7 +822,7 @@ export function OrderBillEditorClient({ mode, initial }: Props) {
       <Modal
         open={addOpen}
         onClose={() => setAddOpen(false)}
-        className="flex max-h-[92dvh] min-h-0 w-full max-w-7xl flex-col overflow-hidden rounded-xl p-0"
+        className="flex max-h-[92dvh] min-h-0 w-full max-w-7xl flex-col overflow-hidden rounded-xl p-0 bg-white"
         unpadded
       >
         <div className="flex min-h-0 min-w-0 flex-1 flex-col">

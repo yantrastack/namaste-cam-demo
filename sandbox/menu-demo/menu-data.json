@@ -58,7 +58,7 @@
           "name": "Green Chilli Blaze Wings",
           "description": "Tender wings glazed with our signature green chilli butter sauce - earthy, vibrant, and irresistibly hot.",
           "type": "non-veg",
-          "image_url": "https://images.unsplash.com/photo-1608039858788-667850f129f8?w=400&q=80",
+          "image_url": "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=400&q=80",
           "variants": [{ "size": "Regular", "price_gbp": 5.49, "currency": "GBP" }],
           "base_price_gbp": 5.49,
           "available": true

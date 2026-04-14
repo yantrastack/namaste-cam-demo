@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { cn } from "@/lib/cn";
@@ -24,6 +25,10 @@ export type MenuProductListProps = {
   productEditBasePath?: string;
   /** When false, hides the row info icon (e.g. order “Add menu items” picker). */
   showItemInfo?: boolean;
+  /** When true, enables stock editing mode where edit button updates available_qty instead of cart quantity. */
+  enableStockEdit?: boolean;
+  /** Called when stock quantity is updated in stock editing mode. */
+  onStockUpdate?: (itemId: string, newStock: number) => void;
 };
 
 function filterCategories(
@@ -54,16 +59,29 @@ export function MenuProductList({
   showCartControls = true,
   productEditBasePath,
   showItemInfo = true,
+  enableStockEdit = false,
+  onStockUpdate,
 }: MenuProductListProps) {
   const categories = data.menu;
   const [query, setQuery] = useState("");
   const [activeSectionId, setActiveSectionId] = useState(categories[0]?.category_id ?? "");
   const [quantities, setQuantities] = useState<Record<string, number>>({});
+  const [stockOverrides, setStockOverrides] = useState<Record<string, number>>({});
   const scrollSpySkip = useRef(false);
 
   const filteredCategories = useMemo(
-    () => filterCategories(categories, query),
-    [categories, query],
+    () => {
+      const filtered = filterCategories(categories, query);
+      // Apply stock overrides to items for immediate UI updates
+      return filtered.map(cat => ({
+        ...cat,
+        items: cat.items.map(item => ({
+          ...item,
+          available_qty: stockOverrides[item.id] ?? item.available_qty,
+        }))
+      }));
+    },
+    [categories, query, stockOverrides],
   );
 
   const setQty = useCallback(
@@ -72,12 +90,15 @@ export function MenuProductList({
         const copy = { ...prev };
         if (next <= 0) delete copy[id];
         else copy[id] = next;
-        onCartChange?.(copy);
         return copy;
       });
     },
-    [onCartChange],
+    [],
   );
+
+  useEffect(() => {
+    onCartChange?.(quantities);
+  }, [quantities, onCartChange]);
 
   const bump = useCallback(
     (item: MenuProduct, delta: number) => {
@@ -110,6 +131,17 @@ export function MenuProductList({
       setQty(item.id, clamped);
     },
     [setQty],
+  );
+
+  const handleStockUpdate = useCallback(
+    (itemId: string, newStock: number) => {
+      setStockOverrides(prev => ({
+        ...prev,
+        [itemId]: newStock,
+      }));
+      onStockUpdate?.(itemId, newStock);
+    },
+    [onStockUpdate],
   );
 
   const scrollToSection = useCallback((categoryId: string) => {
@@ -177,8 +209,8 @@ export function MenuProductList({
   );
 
   return (
-    <div className={cn("relative z-0 space-y-6", className)}>
-      <div className="sticky -top-2 z-30 isolate border-b border-outline-variant/15 bg-background pt-6 pb-4 shadow-sm shadow-outline-variant/10">
+    <div className={cn("relative z-0", className)}>
+      <div className="sticky top-0 z-50 bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4">
         <div className="relative z-20 space-y-4">
           <Input
             id="menu-item-search"
@@ -189,95 +221,88 @@ export function MenuProductList({
             aria-label="Search menu items"
             autoComplete="off"
             left={<MaterialIcon name="search" className="!text-xl text-secondary" />}
-            className="relative z-10"
+            className="relative z-10 bg-white border border-gray-200 rounded-lg shadow-sm"
           />
 
-          <div
-            className={cn(
-              "relative z-0 -mx-1 overflow-x-auto scroll-smooth pb-1 pt-0.5",
-              "[scrollbar-width:thin] [scrollbar-color:var(--color-outline-variant)_transparent]",
-              "[&::-webkit-scrollbar]:h-1.5",
-              "[&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-surface-container-high/50",
-              "[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-outline-variant/45",
-              "hover:[&::-webkit-scrollbar-thumb]:bg-outline-variant/70",
-            )}
-          >
-            <div className="flex min-w-min gap-2 px-1" role="tablist" aria-label="Menu categories">
+          <div className="flex flex-wrap gap-2" role="tablist" aria-label="Menu categories">
             {filteredCategories.map((cat) => {
               const active = cat.category_id === activeSectionId;
               return (
-                <Button
+                <Badge
                   key={cat.category_id}
-                  type="button"
-                  size="sm"
-                  variant={active ? "primary" : "outline"}
                   role="tab"
                   aria-selected={active}
                   className={cn(
-                    "shrink-0 whitespace-nowrap",
-                    !active &&
-                      "border-outline-variant/40 text-on-surface bg-surface-container-lowest",
+                    "cursor-pointer transition-all duration-200 px-3 py-1.5 rounded-full text-sm font-medium",
+                    active
+                      ? "!bg-red-500 !text-white !border-red-500 shadow-sm hover:!bg-red-600"
+                      : "!bg-white !text-gray-700 !border !border-gray-300 hover:!bg-gray-50 hover:!border-gray-400",
                   )}
                   onClick={() => scrollToSection(cat.category_id)}
                 >
                   {cat.category}
-                </Button>
+                </Badge>
               );
             })}
-            </div>
           </div>
         </div>
       </div>
 
-      {filteredCategories.length === 0 ? (
-        <p className="rounded-xl bg-surface-container-low px-4 py-6 text-center text-sm text-secondary ring-1 ring-outline-variant/15">
-          No items match your search. Try a different term.
-        </p>
-      ) : (
-        <div className="relative z-0 space-y-10">
-          {filteredCategories.map((cat) => (
-            <section
-              key={cat.category_id}
-              id={`menu-section-${cat.category_id}`}
-              data-menu-section={cat.category_id}
-              aria-labelledby={`menu-heading-${cat.category_id}`}
-              className="relative z-0 scroll-mt-44"
-            >
-              <div className="mb-4 flex items-center gap-3">
-                <h2
-                  id={`menu-heading-${cat.category_id}`}
-                  className="font-headline text-lg font-bold text-on-surface"
-                >
-                  {cat.category}
-                </h2>
-                <div className="h-px flex-1 bg-outline-variant/40" aria-hidden />
-              </div>
+      <div className="space-y-6">
+        {filteredCategories.length === 0 ? (
+          <p className="rounded-xl bg-surface-container-low px-4 py-6 text-center text-sm text-secondary ring-1 ring-outline-variant/15">
+            No items match your search. Try a different term.
+          </p>
+        ) : (
+          <div className="relative z-0 space-y-10">
+            {filteredCategories.map((cat) => (
+              <section
+                key={cat.category_id}
+                id={`menu-section-${cat.category_id}`}
+                data-menu-section={cat.category_id}
+                aria-labelledby={`menu-heading-${cat.category_id}`}
+                className="relative z-0 scroll-mt-32"
+              >
+                <div className="mb-4 flex items-center gap-3">
+                  <h2
+                    id={`menu-heading-${cat.category_id}`}
+                    className="font-headline text-lg font-bold text-on-surface"
+                  >
+                    {cat.category}
+                  </h2>
+                  <div className="h-px flex-1 bg-outline-variant/40" aria-hidden />
+                </div>
 
-              <ul className="space-y-3">
-                {cat.items.map((item) => (
-                  <li key={item.id}>
-                    <MenuProductListRow
-                      item={item}
-                      quantity={quantities[item.id] ?? 0}
-                      onAdd={() => addOne(item)}
-                      onIncrement={() => bump(item, 1)}
-                      onDecrement={() => bump(item, -1)}
-                      onRemove={() => setQty(item.id, 0)}
-                      detailHref={detailHrefFor(item.id)}
-                      showCartControls={showCartControls}
-                      productEditHref={editHrefFor(item.id)}
-                      showItemInfo={showItemInfo}
-                      onQuantityCommit={
-                        showCartControls ? (n) => commitQuantity(item, n) : undefined
-                      }
-                    />
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-      )}
+                <ul className="flex flex-col gap-4">
+                  {cat.items.map((item) => {
+                    return (
+                      <li key={item.id}>
+                        <MenuProductListRow
+                          item={item}
+                          quantity={quantities[item.id] ?? 0}
+                          onAdd={() => addOne(item)}
+                          onIncrement={() => bump(item, 1)}
+                          onDecrement={() => bump(item, -1)}
+                          onRemove={() => setQty(item.id, 0)}
+                          detailHref={detailHrefFor(item.id)}
+                          showCartControls={showCartControls}
+                          productEditHref={editHrefFor(item.id)}
+                          showItemInfo={showItemInfo}
+                          onQuantityCommit={
+                            showCartControls ? (n) => commitQuantity(item, n) : undefined
+                          }
+                          enableStockEdit={enableStockEdit}
+                          onStockUpdate={handleStockUpdate}
+                        />
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

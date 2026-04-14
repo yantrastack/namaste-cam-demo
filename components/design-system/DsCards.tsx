@@ -18,7 +18,7 @@ export function DsCards() {
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuClk9eu46S9Lqmjc-qYq29kw3Jk_WoxY76HMrRrPwmW8QeMg3jyw3CXuGsLb6xgUGxiA18yqBgwlxfKStP1z4bz651AcJ16tlymkyTuU3_zJnB5DFSr15dbUEsaijzxoxDL49vvEK91HRW48eQoVw9dYjgUtEyRWxj2bDwhnE_FzHY3ylKXotRqE77C8BCbwD1Xk48pWHlLMWxJ8Q0YK2eyHQCgER9ClmNLuJ4ucLN6wSomBqE0ZXI3jbnFvwGbSU9YGjtS1Vh3KEe6"
               fill
               className="rounded-lg object-cover"
-              sizes="(max-width: 768px) 100vw, 25vw"
+              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           </div>
           <div className="space-y-2 p-5">
@@ -94,7 +94,7 @@ export function DsCards() {
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuD225yBu0s9aSQtUJPWyDzYyPonYGmrrkxCX5Un2DfOcncIdqjWMlHeyV8f0LdDctiSrDrGNxah7o31Xe7B2hpcFAs1TlDXL4lvzN-psm6Ut1QdSYzurY6iuyjzLIpClEpAHRICpEU1OMHGJJHBqbxcR63By64BffxIinYXdNdwa-sXZuhw5xX3FVsr_iOED5Uw9JnUmZyJkMrRvAURPnQzEfLOUI5SDlVBZnr9EY4GhezoeGb92xOTSaXLYSrOrN49FUy076uPcVks"
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-110"
-            sizes="(max-width: 768px) 100vw, 25vw"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-stone-900/90 via-stone-900/20 to-transparent" />
           <div className="absolute bottom-0 left-0 w-full border-t border-white/10 bg-white/10 p-6 backdrop-blur-md">

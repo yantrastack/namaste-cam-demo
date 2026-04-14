@@ -3,9 +3,9 @@
 /* Namaste Cam — tokens from design playground (code.html), Tailwind v4 @theme */
 @theme inline {
   /* Surfaces & text */
-  --color-background: #f8f9fa;
-  --color-surface: #f8f9fa;
-  --color-surface-bright: #f8f9fa;
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-bright: #ffffff;
   --color-surface-dim: #d9dadb;
   --color-surface-variant: #e1e3e4;
   --color-surface-container: #edeeef;

@@ -32,6 +32,10 @@ export type MenuProductListRowProps = {
   showItemInfo?: boolean;
   /** Direct quantity entry (clamped by parent). Shown before Add / before the +/- stepper when in cart. */
   onQuantityCommit?: (next: number) => void;
+  /** When true, enables stock editing mode where edit button updates available_qty instead of cart quantity. */
+  enableStockEdit?: boolean;
+  /** Callback for stock quantity updates when enableStockEdit is true. */
+  onStockUpdate?: (itemId: string, newStock: number) => void;
   className?: string;
 };
 
@@ -49,7 +53,11 @@ function stockLabel(item: MenuProduct, pickedQty: number): string | null {
     return `${remaining} available`;
   }
   if (item.stock_note) return item.stock_note;
-  return "In stock";
+  // Generate random available quantity from [10, 20, 30] based on product ID
+  const quantities = [10, 20, 30];
+  const randomIndex = item.id.charCodeAt(0) % quantities.length;
+  const randomQty = quantities[randomIndex];
+  return `${randomQty} available`;
 }
 
 export function MenuProductListRow({
@@ -64,6 +72,8 @@ export function MenuProductListRow({
   productEditHref,
   showItemInfo = true,
   onQuantityCommit,
+  enableStockEdit = false,
+  onStockUpdate,
   className,
 }: MenuProductListRowProps) {
   const [imgSrc, setImgSrc] = useState(item.image_url);
@@ -72,13 +82,23 @@ export function MenuProductListRow({
   const qtyInputId = useId();
 
   const commitDraft = useCallback(() => {
-    if (!onQuantityCommit) return;
     const t = draft.trim();
     const parsed = t === "" ? 0 : Number.parseInt(t, 10);
-    onQuantityCommit(Number.isNaN(parsed) ? 0 : parsed);
+    const value = Number.isNaN(parsed) ? 0 : parsed;
+    
+    if (enableStockEdit && onStockUpdate) {
+      // Stock editing mode - add value to existing available_qty
+      const currentStock = item.available_qty ?? 0;
+      const newStock = currentStock + value;
+      onStockUpdate(item.id, newStock);
+    } else if (onQuantityCommit) {
+      // Cart editing mode - update cart quantity
+      onQuantityCommit(value);
+    }
+    
     setEditingQty(false);
     setDraft("");
-  }, [draft, onQuantityCommit]);
+  }, [draft, onQuantityCommit, enableStockEdit, onStockUpdate, item.id, item.available_qty]);
 
   useEffect(() => {
     if (!editingQty) return;
@@ -89,7 +109,7 @@ export function MenuProductListRow({
 
   const price = primaryPrice(item);
   const label = stockLabel(item, quantity);
-  const inCart = quantity > 0;
+  const inCart = !enableStockEdit && quantity > 0; // Only consider inCart if not in stock edit mode
   const shelfEmpty = typeof item.available_qty === "number" && item.available_qty <= 0;
   const outOfStock = item.available && shelfEmpty;
   const canAdd =
@@ -98,7 +118,7 @@ export function MenuProductListRow({
     (item.available_qty === undefined || item.available_qty > quantity);
 
   const directQtyControl =
-    showCartControls && onQuantityCommit ? (
+    (showCartControls && onQuantityCommit) || (enableStockEdit && onStockUpdate) ? (
       editingQty ? (
         <div className="flex shrink-0 items-center gap-1">
           <Input
@@ -121,7 +141,9 @@ export function MenuProductListRow({
                 setDraft("");
               }
             }}
-            aria-label={`Quantity for ${item.name}`}
+            aria-label={enableStockEdit 
+            ? `Stock quantity for ${item.name}` 
+            : `Quantity for ${item.name}`}
             className="!min-h-10 w-[4.25rem] shrink-0 !px-2 !py-2 text-center tabular-nums"
           />
           <button
@@ -129,7 +151,9 @@ export function MenuProductListRow({
             onMouseDown={(e) => e.preventDefault()}
             onClick={commitDraft}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-primary hover:bg-primary/10"
-            aria-label={`Apply quantity for ${item.name}`}
+            aria-label={enableStockEdit 
+            ? `Apply stock quantity for ${item.name}` 
+            : `Apply quantity for ${item.name}`}
           >
             <MaterialIcon name="check" className="!text-xl" />
           </button>
@@ -139,10 +163,18 @@ export function MenuProductListRow({
           type="button"
           onClick={() => {
             setEditingQty(true);
-            setDraft(quantity > 0 ? String(quantity) : "");
+            const defaultValue = enableStockEdit 
+              ? (item.available_qty ?? 0) 
+              : quantity;
+            setDraft(defaultValue > 0 ? String(defaultValue) : "");
           }}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-secondary hover:bg-surface-container-high hover:text-on-surface"
-          aria-label={`Set quantity for ${item.name}`}
+          className={cn(
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-secondary hover:bg-surface-container-high hover:text-on-surface",
+            enableStockEdit && "bg-amber-50 hover:bg-amber-100 text-amber-700"
+          )}
+          aria-label={enableStockEdit 
+            ? `Edit stock quantity for ${item.name}` 
+            : `Set quantity for ${item.name}`}
         >
           <MaterialIcon name="edit_note" className="!text-xl" />
         </button>
@@ -152,7 +184,7 @@ export function MenuProductListRow({
   return (
     <Card
       className={cn(
-        "relative z-0 flex gap-4 p-4 shadow-md ring-outline-variant/15",
+        "relative z-0 flex gap-4 w-full p-4 rounded-xl shadow-sm border border-gray-200",
         (!item.available || outOfStock) && "opacity-80",
         className,
       )}
