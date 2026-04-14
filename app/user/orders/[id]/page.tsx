@@ -185,7 +185,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
           <Card className="bg-surface-container-low p-4 rounded-xl">
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Your Order</p>
             <p className="text-xs sm:text-sm font-bold text-on-surface truncate">{orderData.items.join(' + ')}</p>
-            <p className="text-xs text-zinc-500 mt-1">${orderData.total.toFixed(2)} • Paid via {orderData.paymentMethod}</p>
+            <p className="text-xs text-zinc-500 mt-1">£{orderData.total.toFixed(2)} • Paid via {orderData.paymentMethod}</p>
           </Card>
           <Card className="bg-surface-container-low p-4 rounded-xl">
             <p className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold mb-1">Delivery To</p>

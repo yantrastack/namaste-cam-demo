@@ -148,7 +148,7 @@ export default function ProductDetailPage() {
               </div>
               <div className="text-right">
                 <span className="font-headline font-bold text-2xl text-primary">
-                  ${basePrice.toFixed(2)}
+                  £{basePrice.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -192,7 +192,7 @@ export default function ProductDetailPage() {
                         <span className="font-medium text-on-surface">{option.name}</span>
                       </div>
                       <span className="text-xs text-secondary font-medium">
-                        {option.price > 0 ? `+ $${option.price.toFixed(2)}` : '+ $0.00'}
+                        {option.price > 0 ? `+ £{option.price.toFixed(2)}` : '+ £0.00'}
                       </span>
                     </label>
                   ))}
@@ -218,7 +218,7 @@ export default function ProductDetailPage() {
                         <span className="font-medium text-on-surface">{option.name}</span>
                       </div>
                       <span className="text-xs font-bold text-primary">
-                        + ${option.price.toFixed(2)}
+                        + £{option.price.toFixed(2)}
                       </span>
                     </label>
                   ))}
@@ -267,7 +267,7 @@ export default function ProductDetailPage() {
           >
             Add to Cart
             <span className="w-1 h-1 rounded-full bg-white/30" />
-            ${totalPrice.toFixed(2)}
+            £{totalPrice.toFixed(2)}
           </button>
         </div>
       </footer>

@@ -119,7 +119,7 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-4 sm:px-6 h-16">
+      <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-4 h-16">
         <div className="flex items-center gap-4">
           <button onClick={openDrawer} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
             <MaterialIcon name="menu" className="text-secondary" />
@@ -137,7 +137,7 @@ export default function MenuPage() {
         </div>
       </header>
 
-      <main className="pt-20 pb-32 px-4 max-w-3xl mx-auto">
+      <main className="pt-20 pb-32 px-4">
         {/* Header Section */}
         <section className="mb-8">
           <h2 className="text-3xl font-headline font-extrabold tracking-tight text-on-surface mb-2">

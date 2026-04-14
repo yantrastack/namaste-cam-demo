@@ -142,7 +142,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
           <div className="text-right">
-            <p className="font-headline font-extrabold text-primary text-base sm:text-lg">${orderData.total.toFixed(2)}</p>
+            <p className="font-headline font-extrabold text-primary text-base sm:text-lg">£{orderData.total.toFixed(2)}</p>
             <p className="text-[10px] text-secondary uppercase font-bold tracking-tighter">Paid ({orderData.paymentMethod})</p>
           </div>
         </Card>

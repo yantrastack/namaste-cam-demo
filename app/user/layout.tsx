@@ -10,7 +10,9 @@ export default function UserLayout({ children }: { children: ReactNode }) {
     <FavoritesProvider>
       <UserNavDrawerProvider>
         <ToastProvider>
-          {children}
+          <div className="min-h-screen bg-surface">
+            {children}
+          </div>
         </ToastProvider>
       </UserNavDrawerProvider>
     </FavoritesProvider>
