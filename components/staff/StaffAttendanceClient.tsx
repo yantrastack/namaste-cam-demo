@@ -176,7 +176,7 @@ export function StaffAttendanceClient() {
         <span className="text-sm font-semibold text-secondary">{headerDate}</span>
       }
     >
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+      <div className="flex min-w-0 w-full flex-col gap-6">
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Card className="flex items-center gap-4 p-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-container text-on-secondary-container">

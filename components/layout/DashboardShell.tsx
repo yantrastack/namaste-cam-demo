@@ -88,7 +88,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             searchQuery={pathname === "/users" ? searchQuery : undefined}
             onSearchChange={pathname === "/users" ? setSearchQuery : undefined}
           />
-          <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-6">
+          <main className="min-h-0 w-full flex-1 overflow-y-auto overflow-x-hidden p-6">
             <UsersPageSearchProvider value={usersPageSearch}>{children}</UsersPageSearchProvider>
           </main>
         </div>

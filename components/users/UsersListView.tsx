@@ -160,51 +160,21 @@ export function UsersListView() {
     router.push(`/users/${user.id}`);
   };
 
-  const exportCSV = () => {
-    const csv = [
-      ["Name", "Email", "Role", "Status", "Last Activity", "Join Date"],
-      ...filtered.map(u => [
-        u.name,
-        u.email,
-        formatUserRole(u.role),
-        userStatusLabel(u.status),
-        formatActivityCell(u),
-        formatJoinDate(u.joinDate)
-      ])
-    ].map(row => row.join(",")).join("\n");
-
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "users.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="w-full">
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
           <h2 className="text-3xl font-extrabold tracking-tight text-on-surface mb-2">User Directory</h2>
           <p className="text-zinc-500">Manage administrative privileges and monitor system-wide user activity.</p>
         </div>
-        <div className="flex items-center gap-3">
-          <button 
-            onClick={exportCSV}
-            className="px-6 py-2.5 bg-secondary-container text-on-secondary-container rounded-full text-sm font-semibold hover:bg-zinc-200 transition-all active:scale-95"
-          >
-            Export CSV
-          </button>
-          <Link
-            href="/users/new"
-            className="px-6 py-2.5 bg-primary text-on-primary rounded-full text-sm font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-95 flex items-center gap-2"
-          >
-            <MaterialIcon name="person_add" className="text-sm" />
-            Add User
-          </Link>
-        </div>
+        <Link
+          href="/users/new"
+          className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-on-primary shadow-lg shadow-primary/20 transition-all hover:shadow-primary/30 active:scale-95"
+        >
+          <MaterialIcon name="person_add" className="text-sm" />
+          Add User
+        </Link>
       </div>
 
       {/* Stats Overview */}

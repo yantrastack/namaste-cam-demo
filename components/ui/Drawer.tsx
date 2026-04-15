@@ -31,7 +31,7 @@ export function Drawer({
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex"
+      className="fixed inset-0 z-[900] flex"
       role="presentation"
     >
       <button
@@ -44,7 +44,7 @@ export function Drawer({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "relative z-[101] h-full w-80 max-w-[85vw] bg-surface-container-lowest shadow-2xl transition-transform duration-300 ease-out",
+          "relative z-[901] h-full w-80 max-w-[85vw] bg-surface-container-lowest shadow-2xl transition-transform duration-300 ease-out",
           position === "right" ? "ml-auto" : "mr-auto",
           className,
         )}

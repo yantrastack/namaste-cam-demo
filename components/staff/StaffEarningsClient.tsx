@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Badge } from "@/components/ui/Badge";
@@ -95,6 +96,7 @@ function rateColumnLabel(row: StaffEarningsRecord): string {
 }
 
 export function StaffEarningsClient() {
+  const router = useRouter();
   const baseRows = useMemo(() => getStaffEarningsSample(), []);
   const [period, setPeriod] = useState<StaffEarningsPeriod>("week");
   const [selectedDate, setSelectedDate] = useState("");
@@ -136,7 +138,7 @@ export function StaffEarningsClient() {
   return (
     <PageContainer
       title="Staff earnings"
-      description="Labor cost by period, pay model, and hours. Delivery COD shows cash still with drivers for settlement."
+      description="Payroll cost by period, pay model, and hours. Delivery COD shows cash still with drivers for settlement."
     >
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card className="p-5">
@@ -281,19 +283,20 @@ export function StaffEarningsClient() {
               <TableHeaderCell>Staff</TableHeaderCell>
               <TableHeaderCell>Role</TableHeaderCell>
               <TableHeaderCell>Pay</TableHeaderCell>
+              <TableHeaderCell className="tabular-nums">Check-in</TableHeaderCell>
+              <TableHeaderCell className="tabular-nums">Check-out</TableHeaderCell>
               <TableHeaderCell className="text-right">Hours ({periodLabel})</TableHeaderCell>
               <TableHeaderCell className="text-right">Rate / salary</TableHeaderCell>
-              <TableHeaderCell className="text-right">Labor ({periodLabel})</TableHeaderCell>
+              <TableHeaderCell className="text-right">Payroll ({periodLabel})</TableHeaderCell>
               <TableHeaderCell className="text-right">COD held</TableHeaderCell>
               <TableHeaderCell className="text-right">Net</TableHeaderCell>
-              <TableHeaderCell>Notes</TableHeaderCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {filtered.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={9}
+                  colSpan={10}
                   className="py-12 text-center text-sm font-medium text-secondary"
                 >
                   No staff match these filters.
@@ -306,7 +309,21 @@ export function StaffEarningsClient() {
                 const cod = codCashHeldForPeriod(row, period);
                 const netAfterCod = labor - cod;
                 return (
-                  <TableRow key={row.id}>
+                  <TableRow
+                    key={row.id}
+                    tabIndex={0}
+                    className="cursor-pointer"
+                    aria-label={`Open daily earnings for ${row.name}`}
+                    onClick={() => {
+                      router.push(`/staff/earnings/${row.id}`);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        router.push(`/staff/earnings/${row.id}`);
+                      }
+                    }}
+                  >
                     <TableCell>
                       <div className="flex flex-col gap-0.5">
                         <span className="font-semibold text-on-surface">{row.name}</span>
@@ -320,6 +337,12 @@ export function StaffEarningsClient() {
                       <Badge tone={row.payModel === "hourly" ? "success" : "neutral"}>
                         {payModelLabel(row.payModel)}
                       </Badge>
+                    </TableCell>
+                    <TableCell className="text-sm font-semibold tabular-nums text-on-surface">
+                      {row.typicalCheckIn}
+                    </TableCell>
+                    <TableCell className="text-sm font-semibold tabular-nums text-on-surface">
+                      {row.typicalCheckOut}
                     </TableCell>
                     <TableCell className="text-right font-semibold tabular-nums text-on-surface">
                       {formatHours(hours)}
@@ -340,9 +363,6 @@ export function StaffEarningsClient() {
                       )}
                     >
                       {formatGbp(netAfterCod)}
-                    </TableCell>
-                    <TableCell className="max-w-xs text-sm text-secondary">
-                      {row.settlementNote ?? "—"}
                     </TableCell>
                   </TableRow>
                 );

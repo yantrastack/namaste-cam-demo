@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { DeliveryRouteLeafletMap } from "@/components/delivery/DeliveryRouteLeafletMap";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/lib/cn";
 import {
+  DELIVERY_ROUTE_HUB_ADDRESS,
   estimatedMinutesForStops,
   outwardUkPostcode,
   type DeliveryRoutePlan,
@@ -46,9 +48,14 @@ type DeliveryRoutesClientProps = {
 };
 
 export function DeliveryRoutesClient({ initialPlans }: DeliveryRoutesClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const highlightFromUrl = (searchParams.get("highlight") ?? "").trim();
+
   const [plans, setPlans] = useState<DeliveryRoutePlan[]>(initialPlans);
   const baselineRef = useRef<DeliveryRoutePlan[]>([]);
-  const [activeAgentId, setActiveAgentId] = useState(() => initialPlans[0]?.agentId ?? "");
+  const [selectedAgentId, setSelectedAgentId] = useState(() => initialPlans[0]?.agentId ?? "");
   const [mapRefresh, setMapRefresh] = useState(0);
   const [dispatchHint, setDispatchHint] = useState<string | null>(null);
 
@@ -58,18 +65,42 @@ export function DeliveryRoutesClient({ initialPlans }: DeliveryRoutesClientProps
 
   useEffect(() => {
     if (plans.length === 0) return;
-    if (!plans.some((p) => p.agentId === activeAgentId)) {
-      setActiveAgentId(plans[0]!.agentId);
+    if (!plans.some((p) => p.agentId === selectedAgentId)) {
+      setSelectedAgentId(plans[0]!.agentId);
     }
-  }, [plans, activeAgentId]);
+  }, [plans, selectedAgentId]);
+
+  const effectiveAgentId = useMemo(() => {
+    const highlightOk =
+      highlightFromUrl !== "" && plans.some((p) => p.agentId === highlightFromUrl);
+    if (highlightOk) return highlightFromUrl;
+    if (plans.some((p) => p.agentId === selectedAgentId)) return selectedAgentId;
+    return plans[0]?.agentId ?? "";
+  }, [highlightFromUrl, plans, selectedAgentId]);
 
   useEffect(() => {
     setMapRefresh((n) => n + 1);
-  }, [activeAgentId]);
+  }, [effectiveAgentId]);
+
+  const clearHighlightQuery = useCallback(() => {
+    if (!searchParams.get("highlight")) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("highlight");
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }, [pathname, router, searchParams]);
+
+  const selectAgent = useCallback(
+    (agentId: string) => {
+      setSelectedAgentId(agentId);
+      clearHighlightQuery();
+    },
+    [clearHighlightQuery],
+  );
 
   const activePlan = useMemo(() => {
-    return plans.find((p) => p.agentId === activeAgentId) ?? plans[0] ?? null;
-  }, [plans, activeAgentId]);
+    return plans.find((p) => p.agentId === effectiveAgentId) ?? plans[0] ?? null;
+  }, [plans, effectiveAgentId]);
 
   const routeSignature = useMemo(() => {
     if (!activePlan) return "";
@@ -180,6 +211,9 @@ export function DeliveryRoutesClient({ initialPlans }: DeliveryRoutesClientProps
                   Optimized · {activePlan.agentName}
                 </p>
                 <p className="truncate text-xs font-medium text-on-surface-variant">{activePlan.vehicle}</p>
+                <p className="mt-1 line-clamp-2 text-[11px] font-medium leading-snug text-secondary">
+                  Hub · {DELIVERY_ROUTE_HUB_ADDRESS}
+                </p>
               </div>
             </div>
           </div>
@@ -191,17 +225,22 @@ export function DeliveryRoutesClient({ initialPlans }: DeliveryRoutesClientProps
           {plans.length > 1 ? (
             <div className="flex flex-wrap gap-2">
               {plans.map((p) => {
-                const selected = p.agentId === activeAgentId;
+                const selected = p.agentId === effectiveAgentId;
+                const urlHighlight = highlightFromUrl !== "" && highlightFromUrl === p.agentId;
                 return (
                   <button
                     key={p.agentId}
                     type="button"
-                    onClick={() => setActiveAgentId(p.agentId)}
+                    onClick={() => selectAgent(p.agentId)}
                     className={cn(
                       "rounded-full px-4 py-2 text-sm font-bold transition-colors",
                       selected
                         ? "bg-primary text-on-primary shadow-md shadow-primary-soft"
                         : "bg-surface-container-high/70 text-secondary hover:bg-surface-container-high",
+                      urlHighlight &&
+                        (selected
+                          ? "ring-2 ring-on-primary/60 ring-offset-2 ring-offset-surface-container-low"
+                          : "ring-2 ring-primary ring-offset-2 ring-offset-surface-container-low"),
                     )}
                   >
                     {p.agentName}

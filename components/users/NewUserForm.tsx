@@ -394,7 +394,7 @@ export function NewUserForm() {
       <form
         id="new-user-form"
         onSubmit={handleSubmit}
-        className="mx-auto max-w-5xl"
+        className="w-full"
       >
         <UserScreenToolbar
           breadcrumbs={[

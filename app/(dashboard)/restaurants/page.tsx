@@ -1,9 +1,7 @@
 import { connection } from "next/server";
 import Image from "next/image";
-import Link from "next/link";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import {
   Table,
@@ -75,7 +73,7 @@ function RowActions({ row }: { row: PartnerDirectoryRow }) {
       <button
         type="button"
         className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
-        aria-label={`Edit ${row.name}`}
+        aria-label={`Edit ${row.location} · #${row.id}`}
       >
         <MaterialIcon name="edit" className="text-lg" />
       </button>
@@ -91,21 +89,6 @@ export default async function RestaurantsPage() {
     <PageContainer
       title="Manage restaurant"
       description="Monitor, verify, and manage culinary partners across the Namaste Cam network."
-      actions={
-        <>
-          <Button variant="secondary" size="sm" type="button">
-            <MaterialIcon name="download" className="text-lg" />
-            Export data
-          </Button>
-          <Link
-            href="/restaurants/new"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-bold text-on-primary shadow-md shadow-primary-soft transition-all hover:bg-primary/90 active:scale-95"
-          >
-            <MaterialIcon name="add" className="text-lg" />
-            Onboard new
-          </Link>
-        </>
-      }
     >
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <Card className="flex flex-col overflow-hidden p-0 lg:col-span-12">
@@ -116,13 +99,16 @@ export default async function RestaurantsPage() {
             <TableHead className="bg-surface-container-low/50">
               <tr>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
-                  Restaurant
+                  Location name
                 </TableHeaderCell>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
-                  Owner
+                  Manager
                 </TableHeaderCell>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
-                  Location
+                  Venue
+                </TableHeaderCell>
+                <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
+                  Service mode
                 </TableHeaderCell>
                 <TableHeaderCell className="text-[10px] font-extrabold uppercase tracking-widest text-on-surface-variant">
                   Status
@@ -147,16 +133,19 @@ export default async function RestaurantsPage() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-on-surface">{row.name}</p>
+                        <p className="text-sm font-bold text-on-surface">{row.location}</p>
                         <p className="text-[10px] italic text-on-surface-variant">ID: #{row.id}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <p className="text-sm font-medium text-on-surface">{row.owner}</p>
+                    <p className="text-sm font-medium text-on-surface">{row.manager}</p>
                   </TableCell>
                   <TableCell>
-                    <p className="text-sm text-on-surface-variant">{row.location}</p>
+                    <p className="text-sm text-on-surface-variant">{row.name}</p>
+                  </TableCell>
+                  <TableCell>
+                    <p className="text-sm text-on-surface-variant">{row.serviceMode}</p>
                   </TableCell>
                   <TableCell>{statusPill(row.status)}</TableCell>
                   <TableCell className="text-right">

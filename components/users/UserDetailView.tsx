@@ -169,7 +169,7 @@ export function UserDetailView() {
         tabIndex={-1}
         onChange={handleAvatarChange}
       />
-      <div className="mx-auto max-w-5xl">
+      <div className="w-full">
         <UserScreenToolbar
           breadcrumbs={[
             { label: "Users", href: "/users" },

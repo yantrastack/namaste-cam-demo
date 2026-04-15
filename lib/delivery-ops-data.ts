@@ -83,8 +83,12 @@ export type DeliveryRoutePlan = {
   estimatedMinutes: number;
 };
 
-/** Kitchen / dispatch hub (Covent Garden) — used for sequencing and route maps. */
-export const DELIVERY_ROUTE_HUB = { lat: 51.5033, lng: -0.1195 } as const;
+/** Kitchen / dispatch hub — used for sequencing, ETA estimates, and route maps. */
+export const DELIVERY_ROUTE_HUB = { lat: 52.192015, lng: 0.137726 } as const;
+
+/** Full hub address (Namaste Cam Cambridge kitchen). */
+export const DELIVERY_ROUTE_HUB_ADDRESS =
+  "43 Clifton Rd, Cambridge CB1 7ED, United Kingdom" as const;
 
 const DEPOT: { lat: number; lng: number } = DELIVERY_ROUTE_HUB;
 
@@ -204,30 +208,30 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
   {
     id: "ord-del-502",
     code: "SS-8502",
-    areaLabel: "Holborn & City",
-    postcode: "EC1A 1BB",
+    areaLabel: "Cambridge city",
+    postcode: "CB2 1TP",
     customerName: "Noah Williams",
-    addressLine: "45 Leather Lane",
+    addressLine: "4 Trumpington Street (side entrance)",
     placedAtLabel: "Today · 13:20",
     dispatchStatus: "en_route",
     assignedAgentId: "ag-raj",
-    lat: 51.5185,
-    lng: -0.1075,
+    lat: 52.2012,
+    lng: 0.1165,
     linkedRestaurantOrderId: "ord-ss-8171",
   },
   {
     id: "ord-del-503",
     code: "SS-8503",
-    areaLabel: "Holborn & City",
-    postcode: "EC1A 1BB",
+    areaLabel: "Cambridge north",
+    postcode: "CB4 1DY",
     customerName: "Studio 4 Catering",
-    addressLine: "Farringdon station pickup",
+    addressLine: "Milton Road business park gate B",
     placedAtLabel: "Today · 12:40",
     dispatchStatus: "assigned",
     collectionPickup: { status: "awaiting_pickup" },
     assignedAgentId: "ag-raj",
-    lat: 51.5205,
-    lng: -0.105,
+    lat: 52.2412,
+    lng: 0.1524,
   },
   {
     id: "ord-del-504",
@@ -246,15 +250,41 @@ const DELIVERY_ORDERS_SEED: DeliveryOrder[] = [
   {
     id: "ord-del-505",
     code: "SS-8505",
-    areaLabel: "Shoreditch & east",
-    postcode: "E1 6AN",
+    areaLabel: "Cambridge city",
+    postcode: "CB2 3PJ",
     customerName: "Samira Khan",
-    addressLine: "Brick Lane yard gate",
+    addressLine: "Market Square loading bay",
     placedAtLabel: "Today · 11:50",
     dispatchStatus: "en_route",
     assignedAgentId: "ag-amy",
-    lat: 51.522,
-    lng: -0.072,
+    lat: 52.2053,
+    lng: 0.119,
+  },
+  {
+    id: "ord-del-510",
+    code: "SS-8510",
+    areaLabel: "Cambridge east",
+    postcode: "CB1 3ER",
+    customerName: "Harriet Wells",
+    addressLine: "Coldhams Lane retail strip",
+    placedAtLabel: "Today · 11:18",
+    dispatchStatus: "assigned",
+    assignedAgentId: "ag-amy",
+    lat: 52.1986,
+    lng: 0.1508,
+  },
+  {
+    id: "ord-del-511",
+    code: "SS-8511",
+    areaLabel: "Cambridge south",
+    postcode: "CB2 0QQ",
+    customerName: "Morgan Ellis",
+    addressLine: "Long Road / Addenbrooke's approach lay-by",
+    placedAtLabel: "Today · 11:02",
+    dispatchStatus: "assigned",
+    assignedAgentId: "ag-amy",
+    lat: 52.1758,
+    lng: 0.1414,
   },
   {
     id: "ord-del-506",

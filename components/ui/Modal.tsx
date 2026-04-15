@@ -46,7 +46,7 @@ export function Modal({
   return (
     <div
       className={cn(
-        "fixed inset-0 z-[100] flex",
+        "fixed inset-0 z-[900] flex",
         fullscreen ? "items-stretch justify-stretch p-0" : "items-center justify-center p-4",
       )}
       role="presentation"
@@ -64,7 +64,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         className={cn(
-          "relative z-[101] w-full border border-outline-variant/10 bg-surface-container-lowest shadow-xl",
+          "relative z-[901] w-full border border-outline-variant/10 bg-surface-container-lowest shadow-xl",
           fullscreen
             ? "flex max-h-[100dvh] min-h-0 max-w-none flex-1 flex-col rounded-none border-outline-variant/15"
             : cn("rounded-xl", className?.trim() ? undefined : "max-w-sm"),

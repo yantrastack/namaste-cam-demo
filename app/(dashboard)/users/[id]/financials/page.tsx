@@ -86,7 +86,7 @@ export default function UserFinancialsPage() {
 
   return (
     <UserModuleCanvas>
-      <div className="mx-auto max-w-2xl">
+      <div className="w-full">
         <UserScreenToolbar
           breadcrumbs={[
             { label: "Users", href: "/users" },

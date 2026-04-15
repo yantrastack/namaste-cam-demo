@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import namasteCamLogo from "@/app/namaste-cam-logo.jpeg";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { NavGroup, NavLeafLink } from "@/components/layout/SidebarNavBlocks";
@@ -71,21 +73,33 @@ export function DashboardMiniSidebar() {
         )}
       >
         {!collapsed ? (
-          <div className="min-w-0 flex-1 px-1">
-            <p className="font-headline text-lg font-extrabold tracking-tight text-primary">
-              Namaste Cam
-            </p>
-            <p className="text-xs font-medium uppercase tracking-widest text-secondary">
-              Admin
-            </p>
-          </div>
+          <>
+            <Image
+              src={namasteCamLogo}
+              alt=""
+              width={40}
+              height={40}
+              className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-outline-variant/15"
+              priority
+            />
+            <div className="min-w-0 flex-1 px-1">
+              <p className="font-headline text-lg font-extrabold tracking-tight text-primary">
+                Namaste Cam
+              </p>
+              <p className="text-xs font-medium uppercase tracking-widest text-secondary">
+                Admin
+              </p>
+            </div>
+          </>
         ) : (
-          <span
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 font-headline text-sm font-extrabold text-primary"
-            aria-hidden
-          >
-            N
-          </span>
+          <Image
+            src={namasteCamLogo}
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 shrink-0 rounded-full object-cover ring-1 ring-outline-variant/15"
+            priority
+          />
         )}
         <button
           type="button"

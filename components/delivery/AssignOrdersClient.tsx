@@ -16,6 +16,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@/components/ui/Table";
+import { useToast } from "@/components/ui/Toast";
 import { cn } from "@/lib/cn";
 import {
   formatKitchenToDoorSummary,
@@ -208,6 +209,7 @@ export function AssignOrdersClient({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { showToast } = useToast();
 
   const [orders, setOrders] = useState<DeliveryOrder[]>(initialOrders);
   const [query, setQuery] = useState(() => searchParams.get("q") ?? "");
@@ -311,6 +313,9 @@ export function AssignOrdersClient({
   const assignSelected = () => {
     if (!agentId || selected.size === 0) return;
     const ids = selected;
+    const count = ids.size;
+    const targetAgentId = agentId;
+    const driver = agents.find((a) => a.id === targetAgentId);
     setOrders((prev) =>
       prev.map((o) =>
         ids.has(o.id) && o.dispatchStatus === "unassigned"
@@ -323,6 +328,13 @@ export function AssignOrdersClient({
       ),
     );
     setSelected(new Set());
+    showToast(
+      count === 1
+        ? `Assigned 1 order to ${driver?.name ?? "driver"}.`
+        : `Assigned ${count} orders to ${driver?.name ?? "driver"}.`,
+      "success",
+    );
+    router.push(`/delivery/routes?highlight=${encodeURIComponent(targetAgentId)}`);
   };
 
   const selectedAgent = agents.find((a) => a.id === agentId);
@@ -393,13 +405,8 @@ export function AssignOrdersClient({
         </div>
       }
     >
-      <div
-        className={cn(
-          "flex min-h-0 flex-col gap-6",
-          "lg:max-h-[calc(100dvh-10.5rem)]",
-        )}
-      >
-        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-y-contain pr-0.5 [-webkit-overflow-scrolling:touch]">
+      <div className="flex flex-col gap-6">
+        <div className="space-y-4">
           {groups.length === 0 ? (
             <Card className="p-10 text-center font-medium text-on-surface-variant">
               No orders match this search.

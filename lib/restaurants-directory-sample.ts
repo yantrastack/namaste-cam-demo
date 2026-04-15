@@ -6,8 +6,9 @@ export type PartnerDirectoryRow = {
   id: string;
   name: string;
   imageSrc: string;
-  owner: string;
+  manager: string;
   location: string;
+  serviceMode: string;
   status: PartnerRestaurantStatus;
 };
 

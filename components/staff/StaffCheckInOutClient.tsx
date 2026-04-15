@@ -228,7 +228,7 @@ export function StaffCheckInOutClient() {
       title="Check-in / check-out"
       description="Front-of-house punch clock for shifts (demo data — connect your time system later)."
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-12">
+      <div className="grid min-w-0 w-full gap-6 lg:grid-cols-12">
         <Card className="space-y-5 p-6 sm:p-8 lg:col-span-7">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div className="flex min-w-0 gap-4">

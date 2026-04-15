@@ -35,6 +35,9 @@ export type StaffEarningsRecord = {
   codCashHeldGbp: number;
   /** Short admin-facing note for edge cases. */
   settlementNote?: string;
+  /** Sample shift punch times (HH:mm, 24h) for earnings UI. */
+  typicalCheckIn: string;
+  typicalCheckOut: string;
 };
 
 /** ~4.33 weeks per month for salaried weekly accrual display. */
@@ -55,6 +58,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedMonth: 162,
       codCashHeldGbp: 428.6,
       settlementNote: "High COD week — reconcile before Friday payout.",
+      typicalCheckIn: "08:12",
+      typicalCheckOut: "16:48",
     },
     {
       id: "se-2",
@@ -69,6 +74,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedMonth: 96,
       codCashHeldGbp: 0,
       settlementNote: "Card-only routes this period.",
+      typicalCheckIn: "09:05",
+      typicalCheckOut: "17:22",
     },
     {
       id: "se-3",
@@ -83,6 +90,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedMonth: 188,
       codCashHeldGbp: 119.4,
       settlementNote: "Monthly pay + logged overtime (not auto-calculated).",
+      typicalCheckIn: "07:55",
+      typicalCheckOut: "18:10",
     },
     {
       id: "se-4",
@@ -96,6 +105,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedWeek: 40,
       hoursWorkedMonth: 168,
       codCashHeldGbp: 0,
+      typicalCheckIn: "10:00",
+      typicalCheckOut: "18:30",
     },
     {
       id: "se-5",
@@ -110,6 +121,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedMonth: 118,
       codCashHeldGbp: 0,
       settlementNote: "Part-time schedule — under monthly FT threshold.",
+      typicalCheckIn: "11:30",
+      typicalCheckOut: "19:00",
     },
     {
       id: "se-6",
@@ -123,6 +136,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedWeek: 44,
       hoursWorkedMonth: 176,
       codCashHeldGbp: 0,
+      typicalCheckIn: "08:45",
+      typicalCheckOut: "17:15",
     },
     {
       id: "se-7",
@@ -136,6 +151,8 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedWeek: 18,
       hoursWorkedMonth: 78,
       codCashHeldGbp: 0,
+      typicalCheckIn: "12:15",
+      typicalCheckOut: "20:00",
     },
     {
       id: "se-8",
@@ -149,8 +166,124 @@ export function getStaffEarningsSample(): StaffEarningsRecord[] {
       hoursWorkedWeek: 42,
       hoursWorkedMonth: 165,
       codCashHeldGbp: 0,
+      typicalCheckIn: "09:20",
+      typicalCheckOut: "17:55",
     },
   ];
+}
+
+function timeToMinutes(hm: string): number {
+  const [h, m] = hm.split(":").map((x) => Number.parseInt(x, 10));
+  if (!Number.isFinite(h) || !Number.isFinite(m)) return 9 * 60;
+  return h * 60 + m;
+}
+
+function minutesToTime(total: number): string {
+  const wrapped = ((total % (24 * 60)) + 24 * 60) % (24 * 60);
+  const h = Math.floor(wrapped / 60);
+  const m = wrapped % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+}
+
+function hashStaffDay(staffId: string, isoDate: string): number {
+  const s = `${staffId}:${isoDate}`;
+  let h = 0;
+  for (let i = 0; i < s.length; i += 1) {
+    h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  }
+  return Math.abs(h);
+}
+
+export type StaffSampleDayKind = "worked" | "absent" | "early_leave";
+
+export type StaffSampleDayBreakdown = {
+  kind: StaffSampleDayKind;
+  checkIn: string | null;
+  checkOut: string | null;
+  hours: number;
+  payrollGbp: number;
+  codGbp: number;
+};
+
+function checkTimesForWorkedDay(
+  record: StaffEarningsRecord,
+  n: number,
+  workedHours: number,
+): { checkIn: string; checkOut: string } {
+  const startJitter = (n % 23) - 11;
+  const inM = timeToMinutes(record.typicalCheckIn) + startJitter;
+  const workedM = Math.max(24, Math.round(workedHours * 60));
+  const lunchSkew = ((n >> 6) % 3) * 15;
+  const outM = inM + workedM + lunchSkew;
+  return { checkIn: minutesToTime(inM), checkOut: minutesToTime(outM) };
+}
+
+/**
+ * Deterministic per-day sample for the staff earnings detail table:
+ * small hour/pay/COD drift, occasional absent day, occasional early leave.
+ */
+export function sampleStaffDayBreakdown(
+  record: StaffEarningsRecord,
+  isoDate: string,
+): StaffSampleDayBreakdown {
+  const n = hashStaffDay(record.id, isoDate);
+  const baseHours = hoursForDay(record);
+  const baseCod = codCashHeldForPeriod(record, "day");
+  const rate = record.hourlyRateGbp ?? 0;
+  const monthlySlice = (record.monthlySalaryGbp ?? 0) / CALENDAR_DAYS_PER_MONTH;
+
+  if (n % 11 === 2) {
+    return {
+      kind: "absent",
+      checkIn: null,
+      checkOut: null,
+      hours: 0,
+      payrollGbp: 0,
+      codGbp: 0,
+    };
+  }
+
+  let kind: StaffSampleDayKind = "worked";
+  let mult = 0.92 + ((n >> 4) % 13) * 0.012;
+
+  if (n % 13 === 7) {
+    kind = "early_leave";
+    mult *= 0.74 + (n % 6) * 0.025;
+  } else if (n % 17 === 4) {
+    mult *= 0.9 + (n % 4) * 0.02;
+  }
+
+  const safeBase = Math.max(baseHours, 0.01);
+  let hours = Math.round(baseHours * mult * 10) / 10;
+  if (hours < 0.25) hours = 0.25;
+
+  let payrollGbp: number;
+  if (record.payModel === "hourly") {
+    payrollGbp = Math.round(hours * rate * 100) / 100;
+  } else {
+    payrollGbp = Math.round(monthlySlice * (hours / safeBase) * 100) / 100;
+  }
+
+  const codScale = baseCod <= 0 ? 0 : 0.9 + (n % 9) * 0.025;
+  const codGbp =
+    baseCod <= 0
+      ? 0
+      : Math.round(baseCod * (hours / safeBase) * codScale * 100) / 100;
+
+  const punches = checkTimesForWorkedDay(record, n, hours);
+
+  return {
+    kind,
+    checkIn: punches.checkIn,
+    checkOut: punches.checkOut,
+    hours,
+    payrollGbp,
+    codGbp,
+  };
+}
+
+export function getStaffEarningsById(id: string): StaffEarningsRecord | undefined {
+  return getStaffEarningsSample().find((r) => r.id === id);
 }
 
 /** Typical hours attributed to one calendar day from the weekly sample total. */
@@ -164,7 +297,7 @@ export function hoursForPeriod(row: StaffEarningsRecord, period: StaffEarningsPe
   return period === "week" ? row.hoursWorkedWeek : row.hoursWorkedMonth;
 }
 
-/** Labor cost for the selected period (GBP). */
+/** Payroll cost for the selected period (GBP). */
 export function periodLaborGbp(row: StaffEarningsRecord, period: StaffEarningsPeriod): number {
   if (period === "day") {
     if (row.payModel === "hourly") {
