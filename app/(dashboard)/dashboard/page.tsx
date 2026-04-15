@@ -1,4 +1,3 @@
-import { connection } from "next/server";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { DashboardKpiGrid } from "@/components/dashboard/DashboardKpiGrid";
 import { OrdersTrendPanel } from "@/components/dashboard/OrdersTrendPanel";
@@ -10,7 +9,6 @@ import { buildActiveOrdersKpi, generateDashboardSampleData } from "@/lib/dashboa
 import { listActiveRestaurantOrders } from "@/lib/orders-restaurant-data";
 
 export default async function DashboardPage() {
-  await connection();
   const data = generateDashboardSampleData();
   const activeOrders = listActiveRestaurantOrders();
   const kpis = [...data.kpis, buildActiveOrdersKpi(activeOrders.length)];

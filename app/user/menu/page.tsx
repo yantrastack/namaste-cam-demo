@@ -27,7 +27,7 @@ const menuItems: MenuItem[] = [
     name: 'Old Delhi Butter Chicken',
     description: 'Tandoori-grilled chicken thighs simmered in a rich, creamy tomato and fenugreek sauce.',
     price: 14.50,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCxhgKG2-8XL9hqdKZWIyGY9GuxFw4KEL0xWLqYGFuqtMVPU3VYxSl_dZ4Biur4dwQ_8zoEPNWlwxSL2D0p5pZ56_dHp3SJqpFf0_MppL9DZYT3XhwKPD3BKWepYNh-NBHPI1I0jbT_Eu8WG41RW-I9nKPGsNkI20EF0dnyumwDvcceQmANu-_5qkGilgBMBoc0HDzAH7H3tPXOhUrxPEoXSidzQj2p_8997640XS2WObUTxd1EBKyUA2FRrgvYGa6Dkoo1REDMBDo',
+    image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=600',
     category: 'Tandoori',
     rating: 4.8,
     time: '25-35 min',
@@ -40,7 +40,7 @@ const menuItems: MenuItem[] = [
     description: 'Slow-cooked tender lamb chunks layered with aromatic long-grain basmati rice and spices.',
     price: 12.75,
     originalPrice: 15.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDswlkOV6y5l68uDIh7kvV1ZrfRZVyFgOJ6tSvQACId_l3UeqmJ5aWFZtpdyrWdjsrDSVEDxlUa30nSajNKvrFPnlPgNG2BmPqzxEOMVEx7g6wVLNLBk4CATqltiKp-yeRAERxUWCL2nnw3N6H_FXCNNsz-oaaVWbJcGapt2--me5q4xJe8DV2lyyaiWi8wa3WvBA8ITJpfkijdDLEhifiL82DyfJKLSqhSGeATnGAihUiApRZsmreWVGmeRAgUHRPADlPePKAVL5Q',
+    image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600',
     category: 'Biryani',
     rating: 4.9,
     time: '30-40 min',
@@ -53,7 +53,7 @@ const menuItems: MenuItem[] = [
     name: 'Paneer Tikka Salad',
     description: 'Chargrilled paneer cubes tossed with garden fresh greens and zesty mint vinaigrette.',
     price: 10.95,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCBxv1N7vjIcGv8e-zdJESEauPhWxwsctynSWQ0TM1bkyaCExokwcfBcvdLHqVwi_5JEqPqGS1cjJpb9sU0l6mGz6g-oSB9E8_yj5r0QNUi4_Jp9tEN1OLOmD5Z4vDRF9eMFJW1sNf-BzHFHfHeW4vDuUXyoLm6ZJmgfS5ECnGmZxdbhNGgHKB5D08lcqqn7vfj9bL8Ss0S9dFVy4OKUa2qbhZ1nMkisJjg7VrdHB3VK8zo1hJSyxNpAsW3vkH8iIzjUYhRfahXGEE',
+    image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=600',
     category: 'Sides',
     rating: 4.6,
     time: '15-20 min',
@@ -65,7 +65,7 @@ const menuItems: MenuItem[] = [
     name: 'Garlic & Cilantro Naan',
     description: 'Freshly baked in our clay oven, brushed with garlic butter and fresh cilantro.',
     price: 3.50,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAOyWkqOruDvr_9quixHdZeP9vUSmbuNyxD6VTTEOJnD3Be5bXElVkSq-mrOC4dRawn93gXQYG35HQZXfQoMbY1qPwnK63F2mDjZg3ShO_p9yoUrhFER7-opKhcr89r5Dq-Y-x9api9389kAO_CEa0HbCOo-bkjG2PUmMFa6g2YmcyPcm81Bae2XOVXY17JmRq6WmT0mNc-HFhTjz9Twp5S5IfvDzP9wWDusMzRbE35oPKF0JIs-HF4NEAjskiitJqS9l_yLQ5sW-U',
+    image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600',
     category: 'Sides',
     rating: 4.7,
     time: '10-15 min',
@@ -226,28 +226,32 @@ export default function MenuPage() {
                     </div>
                   </div>
                   {quantity > 0 ? (
-                    <div className="flex items-center justify-between bg-primary-container text-on-primary-container rounded-full px-1 py-1 w-32 shadow-inner">
+                    <div className="self-end flex h-10 w-32 shrink-0 items-center justify-between rounded-full bg-primary px-1 text-on-primary shadow-lg shadow-primary/20">
                       <button
+                        type="button"
                         onClick={() => handleRemoveFromCart(item.id)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full hover:bg-on-primary/15 transition-colors active:scale-90"
                       >
                         <MaterialIcon name="remove" className="text-lg" />
                       </button>
-                      <span className="font-bold text-sm">{quantity}</span>
+                      <span className="min-w-[1.25rem] text-center font-bold text-sm tabular-nums">{quantity}</span>
                       <button
+                        type="button"
                         onClick={() => handleAddToCart(item)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full hover:bg-on-primary/15 transition-colors active:scale-90"
                       >
                         <MaterialIcon name="add" className="text-lg" />
                       </button>
                     </div>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => handleAddToCart(item)}
-                      className="w-full md:w-max px-8 py-2.5 bg-primary text-on-primary rounded-full text-sm font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                      aria-label={`Add ${item.name} to cart`}
+                      className="self-end flex h-10 w-32 shrink-0 items-center justify-center gap-1 rounded-full bg-primary px-2 text-on-primary text-[11px] font-bold leading-none tracking-tight shadow-lg shadow-primary/20 active:scale-95 transition-all"
                     >
-                      <MaterialIcon name="add" className="text-sm" />
-                      Add to Cart
+                      <MaterialIcon name="add" className="text-base shrink-0" />
+                      Add to cart
                     </button>
                   )}
                 </div>

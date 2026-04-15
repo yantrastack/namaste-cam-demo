@@ -8,6 +8,7 @@ import { MaterialIcon } from '@/components/MaterialIcon'
 import { Badge } from '@/components/ui/Badge'
 import { useCart } from '@/lib/cart/store'
 import { useToast } from '@/components/ui/Toast'
+import { Textarea } from '@/components/ui/Textarea'
 import { getOrderById } from '@/lib/orders/store'
 
 export default function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -15,6 +16,9 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
   const { addItem } = useCart()
   const { showToast } = useToast()
   const [rating, setRating] = useState(0)
+  const [isReviewOpen, setIsReviewOpen] = useState(false)
+  const [reviewText, setReviewText] = useState('')
+  const [reviewError, setReviewError] = useState('')
   const { id } = use(params)
   const [orderData, setOrderData] = useState(getOrderById(id))
 
@@ -70,6 +74,28 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
     if (stars > 0) {
       showToast(`Thanks for rating ${stars} stars!`, 'success')
     }
+  }
+
+  const handleOpenReview = () => {
+    setIsReviewOpen(true)
+    setReviewError('')
+  }
+
+  const handleCloseReview = () => {
+    setIsReviewOpen(false)
+    setReviewText('')
+    setReviewError('')
+  }
+
+  const handleSubmitReview = () => {
+    if (!reviewText.trim()) {
+      setReviewError('Please write something')
+      return
+    }
+    showToast('Thanks for review', 'success')
+    setIsReviewOpen(false)
+    setReviewText('')
+    setReviewError('')
   }
 
   const getTimelineSteps = () => {
@@ -263,7 +289,11 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
               </button>
             ))}
           </div>
-          <Button variant="ghost" className="text-primary font-bold text-xs sm:text-sm hover:underline active:scale-95 transition-transform p-0">
+          <Button 
+            onClick={handleOpenReview}
+            variant="ghost" 
+            className="text-primary font-bold text-xs sm:text-sm hover:underline active:scale-95 transition-transform p-0"
+          >
             Write a review
           </Button>
         </Card>
@@ -292,6 +322,67 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
           </button>
         </section>
       </main>
+
+      {/* Review Bottom Sheet */}
+      {isReviewOpen && (
+        <div className="fixed inset-0 z-[100] flex items-end">
+          <button
+            type="button"
+            aria-label="Close review"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-200"
+            onClick={handleCloseReview}
+          />
+          <div 
+            role="dialog"
+            aria-modal="true"
+            className="relative z-[101] w-full h-[40%] bg-surface-container-lowest rounded-t-2xl shadow-2xl animate-in slide-in-from-bottom duration-300 flex flex-col"
+          >
+            {/* Handle bar */}
+            <div className="flex justify-center pt-3 pb-2">
+              <div className="w-12 h-1.5 bg-surface-variant rounded-full"></div>
+            </div>
+            
+            {/* Header */}
+            <div className="px-4 sm:px-6 pb-4 border-b border-surface-variant">
+              <h3 className="font-headline font-bold text-lg text-on-surface">Write a Review</h3>
+              <p className="text-xs text-secondary">Share your experience with us</p>
+            </div>
+            
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+              <Textarea
+                label="Your Review"
+                placeholder="Tell us about your food and delivery experience..."
+                value={reviewText}
+                onChange={(e) => {
+                  setReviewText(e.target.value)
+                  if (e.target.value.trim()) setReviewError('')
+                }}
+                error={reviewError}
+                className="min-h-28"
+              />
+            </div>
+            
+            {/* Footer */}
+            <div className="p-4 sm:p-6 border-t border-surface-variant flex gap-3">
+              <Button
+                onClick={handleCloseReview}
+                variant="outline"
+                className="flex-1 py-3 rounded-full font-bold text-sm"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmitReview}
+                variant="primary"
+                className="flex-1 py-3 rounded-full font-bold text-sm text-white"
+              >
+                Submit
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* BottomNavBar - Mobile Only */}
       <nav className="bg-white/80 backdrop-blur-md shadow-lg fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 z-50 rounded-t-2xl md:hidden">
