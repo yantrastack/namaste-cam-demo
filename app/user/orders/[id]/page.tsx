@@ -52,7 +52,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
     vehicle: 'Electric Scooter',
     plateNumber: 'SF-2921',
     badge: 'Top Rated',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDYkxrzH5tzODRszzjoeHvEDzOn3SdnW_xZ2zTb2XwaBUf_yA3lJ8o1A6R1TfivGWPsom44HGnGgAcKboAqt3J0ZLP1_BaW1AowX7g9DTGakixo2IhwKrsFk5BAg4Y1nCOIFCtT53PsVTBmZvQI7KBWyqzZxZ_EJovyNO3wagZqhdud0a2HxP17CmJepOGjLzRZZfZZnptzLlsHpYHc88AUbov-tVSL6ONdfQFa-S7eJqLvajUV_IuY6gg38Jvk2UfglIuANXh_wmU',
+    image: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600',
   }
 
   return (
@@ -72,7 +72,7 @@ export default function OrderTrackingPage({ params }: { params: Promise<{ id: st
             <img
               alt="User Profile"
               className="w-full h-full object-cover"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9lVXcCi7qdwMMPGJtDyYgA6mgdwEucaps4IHnzLhmNncDmOIfvvt8gPJIJtCJgLWta9si_KnkmTUVM790igEC4LWofPINUXdrtdN5myxbryZ5KzoORmGYvmSWkgWY3PxWsF9ix8kZErr5caU_awABuRd5WgkUEfH9KHY0xd3oCQQPn-2pZLnq8_Oozj1dnZZa4j5rBnO0EF6J4i6Cu634VUTPesMj0lO3CIo2iCZVl1rELym3HFOkKRIRJ39GyANL0_0_dnJSeus"
+              src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=600"
             />
           </div>
         </div>

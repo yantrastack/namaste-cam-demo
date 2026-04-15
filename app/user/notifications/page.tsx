@@ -38,7 +38,7 @@ export default function NotificationsPage() {
       id: 'reorder-1',
       name: 'Rigatoni Carbonara',
       price: 18.50,
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDZK3tdQTZotJ_jiwyi1FE0lWmrSoNlpbsjF_QfzbIpIsSj3qfheRwjWdNIb3OC6Wze4kL6xmuQuia3OXj0jb3WZeYigdASjQwvhu5khgEylKbKbrQvlsn329yENOlEB2TJYQp7xZFPxOzQAZTMwgwVR0CUYrTuzazRSE-KJ1Tn9tfEM6EXM64qF0WAq6T3VynWFjcn03R-uuQEXuCenzfrDWCUBLldsPpkuksUtqL4fP9ZxTtZbqn0zBt4XLdmNNZqrTbXG5kG3o',
+      image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600',
     })
     router.push('/user/cart')
   }
@@ -65,7 +65,7 @@ export default function NotificationsPage() {
       time: '2 hours ago',
       unread: false,
       icon: 'star',
-      image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBDZK3tdQTZotJ_jiwyi1FE0lWmrSoNlpbsjF_QfzbIpIsSj3qfheRwjWdNIb3OC6Wze4kL6xmuQuia3OXj0jb3WZeYigdASjQwvhu5khgEylKbKbrQvlsn329yENOlEB2TJYQp7xZFPxOzQAZTMwgwVR0CUYrTuzazRSE-KJ1Tn9tfEM6EXM64qF0WAq6T3VynWFjcn03R-uuQEXuCenzfrDWCUBLldsPpkuksUtqL4fP9ZxTtZbqn0zBt4XLdmNNZqrTbXG5kG3o',
+      image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?w=600',
       badge: 'LIMITED TIME OFFER',
     },
     {
