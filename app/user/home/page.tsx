@@ -266,14 +266,14 @@ export default function HomePage() {
               filteredDishes.map((dish) => (
                 <div
                   key={dish.id}
-                  className="group relative flex flex-col"
+                  className="relative flex flex-col"
                 >
                   <div
                     onClick={() => handleProductClick(dish.id)}
-                    className="aspect-[4/5] rounded-2xl overflow-hidden mb-4 bg-surface-container-low shadow-sm relative cursor-pointer"
+                    className="aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-surface-container-low shadow-sm relative cursor-pointer"
                   >
                     <img
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="h-full w-full object-cover"
                       alt={dish.name}
                       src={dish.image}
                     />
@@ -305,8 +305,8 @@ export default function HomePage() {
                       />
                     </button>
                   </div>
-                  <div className="px-2 pb-4">
-                    <div className="flex justify-between items-start mb-2">
+                  <div className="px-2 pb-4 flex flex-col items-end">
+                    <div className="flex w-full justify-between items-start mb-2">
                       <h4
                         onClick={() => handleProductClick(dish.id)}
                         className="text-lg font-headline font-bold text-on-surface tracking-tight cursor-pointer"
@@ -315,7 +315,7 @@ export default function HomePage() {
                       </h4>
                       <span className="text-primary font-bold">£{dish.price.toFixed(2)}</span>
                     </div>
-                    <div className="flex items-center gap-3 text-zinc-500 text-xs">
+                    <div className="flex w-full items-center gap-3 text-zinc-500 text-xs">
                       <div className="flex items-center gap-1">
                         <MaterialIcon name="star" className="text-tertiary-container text-base" />
                         <span className="font-bold text-on-surface">{dish.rating}</span>
@@ -326,34 +326,37 @@ export default function HomePage() {
                       </div>
                     </div>
                     {getCartItemQuantity(dish.id) > 0 ? (
-                      <div className="flex items-center justify-between bg-primary-container text-on-primary-container rounded-full px-1 py-1 w-36 shadow-inner mt-3 mx-auto">
+                      <div className="flex w-28 items-center justify-between gap-1 bg-primary text-on-primary rounded-full px-0.5 py-0.5 shadow-md shadow-primary-soft mt-3">
                         <button
+                          type="button"
                           onClick={(e) => {
                             e.stopPropagation()
                             handleDecreaseQuantity(dish.id)
                           }}
-                          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                          className="w-7 h-7 shrink-0 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
                         >
-                          <MaterialIcon name="remove" className="text-lg" />
+                          <MaterialIcon name="remove" className="text-base" />
                         </button>
-                        <span className="font-bold text-sm">{getCartItemQuantity(dish.id)}</span>
+                        <span className="font-bold text-xs tabular-nums min-w-[1.25rem] text-center">{getCartItemQuantity(dish.id)}</span>
                         <button
+                          type="button"
                           onClick={(e) => {
                             e.stopPropagation()
                             handleIncreaseQuantity(dish)
                           }}
-                          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                          className="w-7 h-7 shrink-0 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
                         >
-                          <MaterialIcon name="add" className="text-lg" />
+                          <MaterialIcon name="add" className="text-base" />
                         </button>
                       </div>
                     ) : (
                       <Button
+                        size="sm"
                         onClick={(e) => {
                           e.stopPropagation()
                           handleAddToCart(dish)
                         }}
-                        className="w-full mt-3 bg-primary text-on-primary py-2 rounded-full font-bold text-sm active:scale-95 transition-all"
+                        className="mt-3 bg-primary text-on-primary px-3 py-1.5 text-xs rounded-full font-bold active:scale-95 transition-all"
                       >
                         Add to Cart
                       </Button>

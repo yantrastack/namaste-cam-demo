@@ -14,7 +14,7 @@ const suggestions = [
     id: 's1',
     name: 'Gulab Jamun',
     price: 5.50,
-    image: 'https://images.unsplash.com/photo-1666190092159-3171cf0fbb12?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    image: 'https://aartimadan.com/wp-content/uploads/2020/11/milk-powder-gulab-jamuns.jpg',
   },
   {
     id: 's2',
@@ -139,21 +139,21 @@ export default function CartPage() {
     const originalPrice = item.originalPrice || item.price
     return sum + (originalPrice * item.quantity)
   }, 0)
-  
+
   const discountedTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
   const promotionalDiscount = cartTotal - discountedTotal
-  
+
   // Coupon discount (example: 20% off with WELCOME20)
   let couponSavings = 0
   if (appliedCoupon === 'WELCOME20') {
     couponSavings = discountedTotal * 0.20
   }
-  
+
   const subtotalAfterCoupon = discountedTotal - couponSavings
   const deliveryFee = 2.99
   const tax = subtotalAfterCoupon * 0.08
   const totalPayable = subtotalAfterCoupon + deliveryFee + tax
-  
+
   // Calculate progress to next discount
   const progressPercent = Math.min((totalPayable / 70) * 100, 100)
   const remainingForDiscount = Math.max(0, 70 - totalPayable)
@@ -166,8 +166,8 @@ export default function CartPage() {
       <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
-            <button 
-              onClick={() => router.back()} 
+            <button
+              onClick={() => router.back()}
               className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors active:scale-95 cursor-pointer"
             >
               <MaterialIcon name="arrow_back" className="text-secondary" />
@@ -186,7 +186,7 @@ export default function CartPage() {
         {/* Review Order Section */}
         <section className="py-4">
           <h2 className="font-headline font-extrabold text-xl tracking-tight mb-4">Review Order</h2>
-          
+
           <div className="space-y-4">
             {items.map((item) => (
               <div key={item.id} className="flex gap-4 p-4 bg-white rounded-2xl shadow-sm border border-outline-variant/10">
@@ -357,31 +357,31 @@ export default function CartPage() {
             <span>Cart Total</span>
             <span className="font-headline font-medium">£{cartTotal.toFixed(2)}</span>
           </div>
-          
+
           {promotionalDiscount > 0 && (
             <div className="flex justify-between text-green-600 text-sm">
               <span>Promotional Discounts</span>
               <span className="font-headline font-medium">-£{promotionalDiscount.toFixed(2)}</span>
             </div>
           )}
-          
+
           {couponSavings > 0 && (
             <div className="flex justify-between text-green-600 text-sm">
               <span>Coupon Savings ({appliedCoupon})</span>
               <span className="font-headline font-medium">-£{couponSavings.toFixed(2)}</span>
             </div>
           )}
-          
+
           <div className="flex justify-between text-on-surface-variant text-sm">
             <span>Delivery Fee</span>
             <span className="font-headline font-medium">£{deliveryFee.toFixed(2)}</span>
           </div>
-          
+
           <div className="flex justify-between text-on-surface-variant text-sm">
             <span>Taxes</span>
             <span className="font-headline font-medium">£{tax.toFixed(2)}</span>
           </div>
-          
+
           <div className="pt-3 mt-2 border-t border-outline-variant/20 flex justify-between items-end">
             <div>
               <span className="text-on-surface-variant text-xs uppercase tracking-wider font-bold">Total Payable</span>
@@ -405,7 +405,7 @@ export default function CartPage() {
                 </span>
               </div>
               <div className="h-1.5 bg-surface-container-high rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-primary rounded-full transition-all"
                   style={{ width: `${progressPercent}%` }}
                 />

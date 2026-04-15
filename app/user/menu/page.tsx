@@ -226,28 +226,32 @@ export default function MenuPage() {
                     </div>
                   </div>
                   {quantity > 0 ? (
-                    <div className="flex items-center justify-between bg-primary-container text-on-primary-container rounded-full px-1 py-1 w-32 shadow-inner">
+                    <div className="self-end flex h-10 w-32 shrink-0 items-center justify-between rounded-full bg-primary px-1 text-on-primary shadow-lg shadow-primary/20">
                       <button
+                        type="button"
                         onClick={() => handleRemoveFromCart(item.id)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full hover:bg-on-primary/15 transition-colors active:scale-90"
                       >
                         <MaterialIcon name="remove" className="text-lg" />
                       </button>
-                      <span className="font-bold text-sm">{quantity}</span>
+                      <span className="min-w-[1.25rem] text-center font-bold text-sm tabular-nums">{quantity}</span>
                       <button
+                        type="button"
                         onClick={() => handleAddToCart(item)}
-                        className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/20 transition-colors active:scale-90"
+                        className="flex size-8 shrink-0 items-center justify-center rounded-full hover:bg-on-primary/15 transition-colors active:scale-90"
                       >
                         <MaterialIcon name="add" className="text-lg" />
                       </button>
                     </div>
                   ) : (
                     <button
+                      type="button"
                       onClick={() => handleAddToCart(item)}
-                      className="w-full md:w-max px-8 py-2.5 bg-primary text-on-primary rounded-full text-sm font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2"
+                      aria-label={`Add ${item.name} to cart`}
+                      className="self-end flex h-10 w-32 shrink-0 items-center justify-center gap-1 rounded-full bg-primary px-2 text-on-primary text-[11px] font-bold leading-none tracking-tight shadow-lg shadow-primary/20 active:scale-95 transition-all"
                     >
-                      <MaterialIcon name="add" className="text-sm" />
-                      Add to Cart
+                      <MaterialIcon name="add" className="text-base shrink-0" />
+                      Add to cart
                     </button>
                   )}
                 </div>
