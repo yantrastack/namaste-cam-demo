@@ -4,19 +4,19 @@ import { MaterialIcon } from "@/components/MaterialIcon";
 
 export function DsTopBar() {
   return (
-    <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-stone-200/10 bg-white/80 px-8 py-3 shadow-sm backdrop-blur-md dark:bg-stone-950/80">
+    <header className="sticky top-0 z-50 flex w-full items-center justify-between border-b border-outline-variant/20 bg-surface-container-lowest/80 px-8 py-3 shadow-sm backdrop-blur-md">
       <div className="flex items-center gap-4">
-        <span className="font-headline text-xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50">
+        <span className="font-headline text-xl font-extrabold tracking-tight text-on-surface">
           Namaste Cam
         </span>
         <div className="ml-10 hidden h-full items-center gap-8 md:flex">
           <span className="border-b-2 border-primary py-1 font-bold text-primary transition-colors duration-200">
             Design System
           </span>
-          <span className="py-1 text-stone-500 transition-colors duration-200 dark:text-stone-400">
+          <span className="py-1 text-on-surface-variant transition-colors duration-200">
             Components
           </span>
-          <span className="py-1 text-stone-500 transition-colors duration-200 dark:text-stone-400">
+          <span className="py-1 text-on-surface-variant transition-colors duration-200">
             Resources
           </span>
         </div>
@@ -24,14 +24,14 @@ export function DsTopBar() {
       <div className="flex items-center gap-4">
         <button
           type="button"
-          className="scale-95 p-2 text-stone-500 transition-transform hover:text-primary active:scale-90"
+          className="scale-95 p-2 text-on-surface-variant transition-transform hover:text-primary active:scale-90"
           aria-label="Notifications"
         >
           <MaterialIcon name="notifications" />
         </button>
         <button
           type="button"
-          className="scale-95 p-2 text-stone-500 transition-transform hover:text-primary active:scale-90"
+          className="scale-95 p-2 text-on-surface-variant transition-transform hover:text-primary active:scale-90"
           aria-label="Settings"
         >
           <MaterialIcon name="settings" />

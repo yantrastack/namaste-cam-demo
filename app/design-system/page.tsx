@@ -8,6 +8,7 @@ import { DsHero } from "@/components/design-system/DsHero";
 import { DsInventory } from "@/components/design-system/DsInventory";
 import { DsSideNav } from "@/components/design-system/DsSideNav";
 import { DsTopBar } from "@/components/design-system/DsTopBar";
+import { DsProjectReference } from "@/components/design-system/DsProjectReference";
 import { DsTypography } from "@/components/design-system/DsTypography";
 import { Tabs, TabList, TabPanel, TabTrigger } from "@/components/ui/Tabs";
 
@@ -17,7 +18,7 @@ export const metadata = {
 
 export default function DesignSystemPage() {
   return (
-    <div className="min-h-screen bg-surface text-on-surface">
+    <div className="min-h-screen bg-surface text-on-surface [color-scheme:light]">
       <DsTopBar />
       <div className="flex">
         <DsSideNav />
@@ -32,6 +33,7 @@ export default function DesignSystemPage() {
                 <TabTrigger value="forms">Forms</TabTrigger>
                 <TabTrigger value="tables">Tables</TabTrigger>
                 <TabTrigger value="feedback">Feedback</TabTrigger>
+                <TabTrigger value="tokens">Tokens</TabTrigger>
               </TabList>
               <TabPanel value="typography">
                 <a className="text-primary underline" href="#typography">
@@ -58,6 +60,11 @@ export default function DesignSystemPage() {
                   Jump to feedback
                 </a>
               </TabPanel>
+              <TabPanel value="tokens">
+                <a className="text-primary underline" href="#project-tokens">
+                  Jump to tokens
+                </a>
+              </TabPanel>
             </Tabs>
           </section>
           <DsTypography />
@@ -67,6 +74,7 @@ export default function DesignSystemPage() {
           <DsInventory />
           <DsFeedback />
           <DsEmpty />
+          <DsProjectReference />
         </main>
       </div>
       <DsChefFab />
