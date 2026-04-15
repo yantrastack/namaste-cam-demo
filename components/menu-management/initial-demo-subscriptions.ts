@@ -17,7 +17,7 @@ export const INITIAL_DEMO_SUBSCRIPTIONS: SubscriptionMenuRecord[] = [
     menu: {
       name: "Weekly office meals",
       totalDays: 7,
-      expiry: "",
+      expiry: "2026-12-31",
       price: "2499",
       discount: "100",
       bannerText: "Includes lunch mains + add-ons",

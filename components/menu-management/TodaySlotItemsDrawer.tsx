@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { FoodCatalogPanel } from "./FoodCatalogPanel";
 import { SelectedItemsPanel } from "./SelectedItemsPanel";
-import { DEMO_FOOD_ITEMS, type SelectedLine } from "./model";
+import { DEMO_FOOD_ITEMS, patchSelectedLineSlotAvailability, type SelectedLine } from "./model";
 
 export type TodaySlot = "lunch" | "dinner";
 
@@ -104,6 +104,9 @@ export function TodaySlotItemsDrawer({ onClose, slot, dayLabel }: TodaySlotItems
             foodItems={DEMO_FOOD_ITEMS}
             lines={lines}
             title={"Today's picks"}
+            onLineSlotAvailabilityChange={(foodId, slot) =>
+              setLines((prev) => patchSelectedLineSlotAvailability(prev, foodId, slot))
+            }
             onChangeQuantity={(foodId, quantity) =>
               setLines((prev) => updateLineQty(prev, foodId, quantity))
             }

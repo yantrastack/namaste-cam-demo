@@ -1,13 +1,22 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
+import { Modal } from "@/components/ui/Modal";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
 import { Switch } from "@/components/ui/Switch";
 import { Tooltip } from "@/components/ui/Tooltip";
 import { cn } from "@/lib/cn";
-import { foodById, type FoodItem, type SelectedLine } from "./model";
+import { ProductLineAvailabilityFields } from "./ProductLineAvailabilityFields";
+import {
+  foodById,
+  mergeSelectedLineSlotAvailability,
+  type FoodItem,
+  type SelectedLine,
+  type SelectedLineSlotAvailability,
+} from "./model";
 
 export type SelectedItemsPanelProps = {
   foodItems: FoodItem[];
@@ -17,6 +26,8 @@ export type SelectedItemsPanelProps = {
   /** Food IDs added this session (edit flow): those rows show the main-menu vs today-only switch. */
   mainMenuScopeSessionFoodIds?: readonly number[];
   onIncludeInMainMenuChange?: (foodId: number, includeInMainMenu: boolean) => void;
+  /** When set, each row shows an availability control that opens a popup editor. */
+  onLineSlotAvailabilityChange?: (foodId: number, slot: SelectedLineSlotAvailability) => void;
   title?: string;
   className?: string;
 };
@@ -28,9 +39,16 @@ export function SelectedItemsPanel({
   onRemove,
   mainMenuScopeSessionFoodIds,
   onIncludeInMainMenuChange,
+  onLineSlotAvailabilityChange,
   title = "Selected items",
   className,
 }: SelectedItemsPanelProps) {
+  const [availabilityFoodId, setAvailabilityFoodId] = useState<number | null>(null);
+  const availabilityLine =
+    availabilityFoodId != null ? lines.find((l) => l.foodId === availabilityFoodId) : undefined;
+  const availabilityItem =
+    availabilityFoodId != null ? foodById(foodItems, availabilityFoodId) : undefined;
+
   return (
     <div className={cn("flex min-h-0 flex-col gap-3", className)}>
       <div className="flex items-center justify-between gap-2">
@@ -105,6 +123,18 @@ export function SelectedItemsPanel({
                     </div>
                   ) : null}
                   <div className="flex items-center gap-2">
+                    {onLineSlotAvailabilityChange ? (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="size-9 shrink-0 rounded-full p-0"
+                        onClick={() => setAvailabilityFoodId(line.foodId)}
+                        aria-label={`Availability for ${item.name}`}
+                      >
+                        <MaterialIcon name="event_available" className="text-xl text-primary" />
+                      </Button>
+                    ) : null}
                     <QuantityStepper
                       value={line.quantity}
                       min={1}
@@ -128,6 +158,30 @@ export function SelectedItemsPanel({
           })}
         </ul>
       )}
+
+      {onLineSlotAvailabilityChange &&
+      availabilityFoodId != null &&
+      availabilityLine &&
+      availabilityItem ? (
+        <Modal
+          open
+          onClose={() => setAvailabilityFoodId(null)}
+          title="Availability"
+          description={`Adjust how ${availabilityItem.name} is offered in this menu.`}
+          className="max-w-lg"
+          frameClassName="z-[960]"
+        >
+          <ProductLineAvailabilityFields
+            value={mergeSelectedLineSlotAvailability(availabilityLine)}
+            onChange={(next) => onLineSlotAvailabilityChange(availabilityFoodId, next)}
+          />
+          <div className="mt-6 flex justify-end">
+            <Button type="button" size="sm" onClick={() => setAvailabilityFoodId(null)}>
+              Done
+            </Button>
+          </div>
+        </Modal>
+      ) : null}
     </div>
   );
 }

@@ -37,3 +37,8 @@ export type PartnerDirectorySample = {
 export function getPartnerDirectorySample(): PartnerDirectorySample {
   return listing as PartnerDirectorySample;
 }
+
+export function getPartnerDirectoryRowById(id: string): PartnerDirectoryRow | undefined {
+  const { rows } = getPartnerDirectorySample();
+  return rows.find((row) => row.id === id);
+}

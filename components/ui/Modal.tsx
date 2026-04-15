@@ -18,6 +18,8 @@ export type ModalProps = {
   backdropClassName?: string;
   /** Edge-to-edge dialog (e.g. catalog preview). */
   fullscreen?: boolean;
+  /** Merged onto the fixed full-screen frame (e.g. higher z-index when nested in another overlay). */
+  frameClassName?: string;
 };
 
 export function Modal({
@@ -31,6 +33,7 @@ export function Modal({
   unpadded,
   backdropClassName,
   fullscreen = false,
+  frameClassName,
 }: ModalProps) {
   useEffect(() => {
     if (!open) return;
@@ -48,6 +51,7 @@ export function Modal({
       className={cn(
         "fixed inset-0 z-[900] flex",
         fullscreen ? "items-stretch justify-stretch p-0" : "items-center justify-center p-4",
+        frameClassName,
       )}
       role="presentation"
     >

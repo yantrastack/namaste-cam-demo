@@ -13,16 +13,16 @@
       "icon": "storefront",
       "children": [
         {
-          "id": "restaurant-list",
-          "label": "Manage restaurant",
-          "icon": "apartment",
-          "href": "/restaurants"
-        },
-        {
           "id": "restaurant-create",
           "label": "Create new",
           "icon": "add_business",
           "href": "/restaurants/new"
+        },
+        {
+          "id": "restaurant-list",
+          "label": "Manage restaurant",
+          "icon": "apartment",
+          "href": "/restaurants"
         }
       ]
     },
@@ -32,16 +32,16 @@
       "icon": "restaurant_menu",
       "children": [
         {
-          "id": "menu-overview",
-          "label": "Menu Management",
-          "icon": "menu_book",
-          "href": "/menu"
-        },
-        {
           "id": "menu-create-demo",
           "label": "Create menu",
           "icon": "playlist_add",
           "href": "/menu/create"
+        },
+        {
+          "id": "menu-overview",
+          "label": "Menu Management",
+          "icon": "menu_book",
+          "href": "/menu"
         }
       ]
     },
@@ -209,20 +209,20 @@
     },
     {
       "id": "coupons",
-      "label": "Coupons & Promotions",
+      "label": "Coupons",
       "icon": "confirmation_number",
       "children": [
+        {
+          "id": "coupons-add",
+          "label": "Add Coupon",
+          "icon": "add_circle",
+          "href": "/coupons/new"
+        },
         {
           "id": "coupons-list",
           "label": "Coupons",
           "icon": "list_alt",
           "href": "/coupons"
-        },
-        {
-          "id": "coupons-add",
-          "label": "Add promotion",
-          "icon": "add_circle",
-          "href": "/coupons/new"
         }
       ]
     },

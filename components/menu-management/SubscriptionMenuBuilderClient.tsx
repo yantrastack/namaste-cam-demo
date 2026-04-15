@@ -69,6 +69,7 @@ type SubscriptionMenuFormBodyProps = {
   subscriptions: SubscriptionMenuRecord[];
   addSubscription: (menu: SubscriptionMenuDraft) => void;
   updateSubscription: (id: string, menu: SubscriptionMenuDraft) => void;
+  onSaveSuccess?: (menu: SubscriptionMenuDraft) => void;
 };
 
 function SubscriptionMenuFormBody({
@@ -77,6 +78,7 @@ function SubscriptionMenuFormBody({
   subscriptions,
   addSubscription,
   updateSubscription,
+  onSaveSuccess,
 }: SubscriptionMenuFormBodyProps) {
   const [name, setName] = useState(() => seedMenu?.name ?? "");
   const [totalDays, setTotalDays] = useState<7 | 15 | 30>(() => seedMenu?.totalDays ?? 7);
@@ -118,9 +120,11 @@ function SubscriptionMenuFormBody({
       }
       updateSubscription(editId, menu);
       setSaveMessage(`“${label}” saved. Changes sync to Create menu and your browser storage.`);
+      onSaveSuccess?.(menu);
     } else {
       addSubscription(menu);
       setSaveMessage(`“${label}” added to your subscription plans (Create menu + browser storage).`);
+      onSaveSuccess?.(menu);
     }
     setTimeout(() => setSaveMessage(null), 4000);
   };
@@ -264,10 +268,20 @@ function SubscriptionMenuFormBody({
   );
 }
 
-export function SubscriptionMenuBuilderClient() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const editId = searchParams.get("edit");
+type SubscriptionMenuEditorCoreProps = {
+  editId: string | null;
+  /** `drawer` adds a sticky header with close and save (same fields as the full-page builder). */
+  chrome: "page" | "drawer";
+  onClose?: () => void;
+  onSaveSuccess?: (menu: SubscriptionMenuDraft) => void;
+};
+
+function SubscriptionMenuEditorCore({
+  editId,
+  chrome,
+  onClose,
+  onSaveSuccess,
+}: SubscriptionMenuEditorCoreProps) {
   const { subscriptions, addSubscription, updateSubscription } = useMenuManagementDemo();
 
   const seedMenu = useMemo(() => {
@@ -279,6 +293,119 @@ export function SubscriptionMenuBuilderClient() {
   const editLinkBroken = Boolean(editId && !seedMenu);
   const isEditing = Boolean(editId && seedMenu);
   const formMountKey = editId ?? "__create__";
+
+  const brokenAlert = editLinkBroken ? (
+    <p
+      role="alert"
+      className="rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 ring-1 ring-amber-200"
+    >
+      No subscription matches this link.{" "}
+      <Link href="/menu/create/subscription" className="font-bold text-primary underline">
+        Start a new plan
+      </Link>{" "}
+      or open it from Menu → Create menu.
+    </p>
+  ) : null;
+
+  const form = (
+    <>
+      {brokenAlert}
+      <SubscriptionMenuFormBody
+        key={formMountKey}
+        editId={editId}
+        seedMenu={seedMenu}
+        subscriptions={subscriptions}
+        addSubscription={addSubscription}
+        updateSubscription={updateSubscription}
+        onSaveSuccess={onSaveSuccess}
+      />
+    </>
+  );
+
+  if (chrome === "drawer" && onClose) {
+    return (
+      <div className="flex h-full min-h-0 flex-col bg-surface-container-lowest">
+        <div className="flex shrink-0 flex-col gap-4 border-b border-outline-variant/10 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:px-6 sm:py-5">
+          <div className="flex min-w-0 items-start gap-3">
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="size-10 shrink-0 rounded-full p-0 text-secondary"
+              onClick={onClose}
+              aria-label="Close subscription editor"
+            >
+              <MaterialIcon name="close" className="text-2xl" />
+            </Button>
+            <div className="min-w-0">
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary">
+                Subscription builder
+              </p>
+              <h2 className="mt-1 truncate font-headline text-lg font-extrabold tracking-tight text-on-surface sm:text-xl">
+                {isEditing ? "Edit subscription menu" : "Create subscription menu"}
+              </h2>
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            <Button type="button" variant="outline" size="md" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant="primary"
+              size="md"
+              disabled={editLinkBroken}
+              onClick={() => document.getElementById("subscription-builder-save")?.click()}
+            >
+              <MaterialIcon name="save" className="text-xl" />
+              {isEditing ? "Save changes" : "Save subscription"}
+            </Button>
+          </div>
+        </div>
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6 sm:py-6">
+          <div className="space-y-6">{form}</div>
+        </div>
+      </div>
+    );
+  }
+
+  return <div className="space-y-6">{form}</div>;
+}
+
+/** Full subscription combo builder for a right-side drawer (e.g. Master Menu → edit plan). */
+export function SubscriptionPlanDrawerEditor({
+  planId,
+  onClose,
+  onSaveSuccess,
+}: {
+  planId: string;
+  onClose: () => void;
+  onSaveSuccess?: (menu: SubscriptionMenuDraft) => void;
+}) {
+  return (
+    <SubscriptionMenuEditorCore
+      editId={planId}
+      chrome="drawer"
+      onClose={onClose}
+      onSaveSuccess={onSaveSuccess}
+    />
+  );
+}
+
+export function SubscriptionMenuBuilderClient() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const editId = searchParams.get("edit");
+  const { subscriptions } = useMenuManagementDemo();
+
+  const seedMenu = useMemo(() => {
+    if (!editId) return null;
+    const rec = subscriptions.find((s) => s.id === editId);
+    return rec ? cloneMenuDraft(rec.menu) : null;
+  }, [editId, subscriptions]);
+
+  const editLinkBroken = Boolean(editId && !seedMenu);
+  const isEditing = Boolean(editId && seedMenu);
 
   const handleCancel = () => {
     router.push("/menu");
@@ -325,27 +452,7 @@ export function SubscriptionMenuBuilderClient() {
         </div>
       }
     >
-      {editLinkBroken ? (
-        <p
-          role="alert"
-          className="rounded-xl bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-900 ring-1 ring-amber-200"
-        >
-          No subscription matches this link.{" "}
-          <Link href="/menu/create/subscription" className="font-bold text-primary underline">
-            Start a new plan
-          </Link>{" "}
-          or open it from Menu → Create menu.
-        </p>
-      ) : null}
-
-      <SubscriptionMenuFormBody
-        key={formMountKey}
-        editId={editId}
-        seedMenu={seedMenu}
-        subscriptions={subscriptions}
-        addSubscription={addSubscription}
-        updateSubscription={updateSubscription}
-      />
+      <SubscriptionMenuEditorCore editId={editId} chrome="page" />
     </PageContainer>
   );
 }

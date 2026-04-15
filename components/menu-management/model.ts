@@ -11,6 +11,25 @@ export type FoodItem = {
   imageUrl: string;
 };
 
+/** Per selected catalog line — kitchen / channel availability (menu builder demo). */
+export type SelectedLineSlotAvailability = {
+  available: boolean;
+  timeFrom: string;
+  timeTo: string;
+  deliverable: boolean;
+  pickup: boolean;
+  prepMins: string;
+};
+
+export const DEFAULT_SELECTED_LINE_SLOT_AVAILABILITY: SelectedLineSlotAvailability = {
+  available: true,
+  timeFrom: "12:00",
+  timeTo: "23:00",
+  deliverable: true,
+  pickup: true,
+  prepMins: "25",
+};
+
 export type SelectedLine = {
   foodId: number;
   quantity: number;
@@ -20,7 +39,38 @@ export type SelectedLine = {
    * Omitted or `true` = part of the main menu.
    */
   includeInMainMenu?: boolean;
+  /** Optional overrides edited from the selected-items availability popup. */
+  slotAvailability?: SelectedLineSlotAvailability;
 };
+
+export function mergeSelectedLineSlotAvailability(
+  line: SelectedLine,
+): SelectedLineSlotAvailability {
+  return {
+    ...DEFAULT_SELECTED_LINE_SLOT_AVAILABILITY,
+    ...line.slotAvailability,
+  };
+}
+
+export function patchSelectedLineSlotAvailability(
+  lines: SelectedLine[],
+  foodId: number,
+  slot: SelectedLineSlotAvailability,
+): SelectedLine[] {
+  return lines.map((l) =>
+    l.foodId === foodId ? { ...l, slotAvailability: { ...slot } } : l,
+  );
+}
+
+/** Strip undefined optional fields for stable menu row payloads. */
+export function menuSaveSelectedLine(line: SelectedLine): SelectedLine {
+  const out: SelectedLine = { foodId: line.foodId, quantity: line.quantity };
+  if (line.includeInMainMenu === false) out.includeInMainMenu = false;
+  if (line.slotAvailability) {
+    out.slotAvailability = { ...line.slotAvailability };
+  }
+  return out;
+}
 
 export type MealCategory = "lunch" | "dinner" | "both";
 
@@ -34,12 +84,21 @@ export type NormalMenuDetails = {
   items: SelectedLine[];
 };
 
+/** Optional social sharing for date-bound special menus (kitchen dashboard). */
+export type SpecialMenuSocialShare = {
+  enabled: boolean;
+  facebook: boolean;
+  instagram: boolean;
+  twitter: boolean;
+};
+
 export type SpecialMenuDetails = {
   description: string;
   imagePreview: string | null;
   startDate: string;
   endDate: string;
   items: SelectedLine[];
+  socialShare?: SpecialMenuSocialShare;
 };
 
 export type SubscriptionMenuDetails = {
@@ -62,6 +121,11 @@ export type MenuRow = {
   normalDetails?: NormalMenuDetails;
   specialDetails?: SpecialMenuDetails;
   subscriptionDetails?: SubscriptionMenuDetails;
+  /**
+   * When set on a subscription `MenuRow`, the full combo builder edits
+   * `SubscriptionMenuRecord` with this id (Create menu → subscription).
+   */
+  subscriptionPlanId?: string;
 };
 
 export const WEEKDAY_KEYS = [

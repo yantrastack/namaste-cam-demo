@@ -140,7 +140,7 @@ export function AddPromotionView({ editId }: Props) {
     const draft: Coupon = {
       id: "preview",
       code: previewCode,
-      campaignName: campaignName || "Promotion",
+      campaignName: campaignName || "New coupon",
       type: promotionType,
       percentOff: promotionType === "percentage" ? Number(percentOff) || 0 : undefined,
       fixedAmount: promotionType === "fixed_amount" ? Number(fixedAmount) || 0 : undefined,
@@ -240,7 +240,7 @@ export function AddPromotionView({ editId }: Props) {
 
   if (!hydrated) {
     return (
-      <PageContainer title="Add coupon & promotion" description="Preparing the editor…">
+      <PageContainer title="Add coupon" description="Preparing the editor…">
         <Card className="p-10 text-center text-secondary">Loading…</Card>
       </PageContainer>
     );
@@ -249,7 +249,7 @@ export function AddPromotionView({ editId }: Props) {
   return (
     <>
       <PageContainer
-        title={editId ? "Edit coupon & promotion" : "Add new coupon & promotion"}
+        title={editId ? "Edit coupon" : "Add new coupon"}
         description="Configure your marketing campaign for Namaste Cam."
         actions={
           <div className="flex flex-wrap gap-2">
@@ -257,7 +257,7 @@ export function AddPromotionView({ editId }: Props) {
               Discard draft
             </Button>
             <Button type="button" size="sm" onClick={handlePublish}>
-              Publish promotion
+              Publish
             </Button>
           </div>
         }
@@ -301,7 +301,7 @@ export function AddPromotionView({ editId }: Props) {
                 </div>
                 <div>
                   <p className="mb-4 ml-1 text-[10px] font-extrabold uppercase tracking-widest text-secondary">
-                    Promotion type
+                    Coupon type
                   </p>
                   <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     {typeButton("percentage", "percent", "Percentage")}
@@ -507,7 +507,7 @@ export function AddPromotionView({ editId }: Props) {
                 <div className="mb-4 flex aspect-video items-center justify-center rounded-xl bg-surface-container-high">
                   <MaterialIcon name="upload_file" className="text-4xl text-secondary" />
                 </div>
-                <p className="text-sm font-bold text-on-surface">Change promotion image</p>
+                <p className="text-sm font-bold text-on-surface">Change image</p>
                 <p className="mt-1 text-[10px] font-extrabold uppercase tracking-widest text-secondary">
                   Recommended size: 1200×675px
                 </p>
@@ -563,7 +563,7 @@ export function AddPromotionView({ editId }: Props) {
                 <div>
                   <p className="text-xs font-bold text-on-surface">Did you know?</p>
                   <p className="mt-1 text-xs leading-relaxed text-on-surface-variant">
-                    Promotions with images see higher engagement on the customer app. Upload a hero image when you are ready.
+                    Coupons with images see higher engagement on the customer app. Upload a hero image when you are ready.
                   </p>
                 </div>
               </div>
@@ -576,7 +576,7 @@ export function AddPromotionView({ editId }: Props) {
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}
         title="Add category"
-        description="Pick a menu grouping to target with this promotion."
+        description="Pick a menu grouping to target with this coupon."
       >
         <ul className="max-h-64 space-y-2 overflow-y-auto">
           {CATEGORY_PRESETS.filter((c) => !categories.includes(c)).map((c) => (

@@ -40,7 +40,10 @@ function parseMoney(raw: string): number {
 }
 
 function roleOptions() {
-  return USER_ROLE_OPTIONS.map((o) => ({ value: o.value, label: o.label }));
+  return USER_ROLE_OPTIONS.filter((o) => o.value !== "customer").map((o) => ({
+    value: o.value,
+    label: o.label,
+  }));
 }
 
 function setFormValue<K extends keyof NewUserFormValues>(
@@ -278,7 +281,9 @@ export function NewUserForm() {
       roleParam &&
       USER_ROLE_OPTIONS.some((o) => o.value === roleParam)
     ) {
-      setValues((v) => setFormValue(v, "role", roleParam));
+      const nextRole: UserRole =
+        roleParam === "customer" ? "user" : roleParam;
+      setValues((v) => setFormValue(v, "role", nextRole));
     }
   }, [searchParams]);
 

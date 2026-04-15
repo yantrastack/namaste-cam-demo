@@ -16,6 +16,33 @@ import {
   TableRow,
 } from "@/components/ui/Table";
 
+export type RestaurantOnboardDefaults = {
+  restaurantName?: string;
+  tagline?: string;
+  street?: string;
+  city?: string;
+  postcode?: string;
+  phone?: string;
+  description?: string;
+  operationalActive?: boolean;
+  deliveryOnly?: boolean;
+  ownerLinked?: boolean;
+  managerName?: string;
+};
+
+export type RestaurantOnboardFormProps = {
+  variant?: "create" | "edit";
+  restaurantId?: string;
+  defaults?: RestaurantOnboardDefaults;
+};
+
+function managerInitials(fullName: string) {
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "??";
+  if (parts.length === 1) return parts[0]!.slice(0, 2).toUpperCase();
+  return `${parts[0]![0] ?? ""}${parts[parts.length - 1]![0] ?? ""}`.toUpperCase();
+}
+
 type ServicePincodeRow = {
   id: string;
   pincode: string;
@@ -67,10 +94,16 @@ function SectionCard({
   );
 }
 
-export function RestaurantOnboardForm() {
-  const [operationalActive, setOperationalActive] = useState(true);
-  const [deliveryOnly, setDeliveryOnly] = useState(false);
-  const [ownerLinked, setOwnerLinked] = useState(true);
+export function RestaurantOnboardForm({
+  variant = "create",
+  restaurantId,
+  defaults,
+}: RestaurantOnboardFormProps = {}) {
+  const [operationalActive, setOperationalActive] = useState(
+    defaults?.operationalActive ?? true,
+  );
+  const [deliveryOnly, setDeliveryOnly] = useState(defaults?.deliveryOnly ?? false);
+  const [ownerLinked, setOwnerLinked] = useState(defaults?.ownerLinked ?? true);
   const [servicePincodes, setServicePincodes] = useState<ServicePincodeRow[]>([]);
   const [draftPincode, setDraftPincode] = useState("");
   const [draftAreaName, setDraftAreaName] = useState("");
@@ -119,6 +152,16 @@ export function RestaurantOnboardForm() {
     setDraftAreaName(row.areaName);
   }
 
+  const managerDisplayName = defaults?.managerName ?? "Marcus Sterling";
+  const managerSubtitle =
+    variant === "edit" && restaurantId
+      ? `Partner record ${restaurantId}`
+      : "Manager ID #MGR-4410";
+  const managerBadge = useMemo(
+    () => managerInitials(managerDisplayName),
+    [managerDisplayName],
+  );
+
   return (
     <form
       className="space-y-6"
@@ -126,12 +169,16 @@ export function RestaurantOnboardForm() {
         e.preventDefault();
       }}
     >
+      {variant === "edit" && restaurantId ? (
+        <input type="hidden" name="restaurantId" value={restaurantId} readOnly />
+      ) : null}
       <div className="grid gap-6 lg:grid-cols-2">
         <SectionCard icon="storefront" title="Basic details">
           <FieldShell label="Restaurant name">
             <input
               name="restaurantName"
               placeholder="e.g. Saffron & Stone — Cambridge"
+              defaultValue={defaults?.restaurantName}
               className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
             />
           </FieldShell>
@@ -152,6 +199,7 @@ export function RestaurantOnboardForm() {
             <input
               name="tagline"
               placeholder="A line guests see on discovery"
+              defaultValue={defaults?.tagline}
               className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
             />
           </FieldShell>
@@ -162,6 +210,7 @@ export function RestaurantOnboardForm() {
             <input
               name="street"
               placeholder="Street and number"
+              defaultValue={defaults?.street}
               className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
             />
           </FieldShell>
@@ -170,6 +219,7 @@ export function RestaurantOnboardForm() {
               <input
                 name="city"
                 placeholder="City"
+                defaultValue={defaults?.city}
                 className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
               />
             </FieldShell>
@@ -177,6 +227,7 @@ export function RestaurantOnboardForm() {
               <input
                 name="postcode"
                 placeholder="Postcode"
+                defaultValue={defaults?.postcode}
                 className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
               />
             </FieldShell>
@@ -186,6 +237,7 @@ export function RestaurantOnboardForm() {
               name="phone"
               type="tel"
               placeholder="+44 …"
+              defaultValue={defaults?.phone}
               className="w-full rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
             />
           </FieldShell>
@@ -234,37 +286,38 @@ export function RestaurantOnboardForm() {
           </FieldShell>
         </SectionCard>
 
-        <SectionCard icon="badge" title="Owner assignment">
+        <SectionCard icon="badge" title="Manager assignment">
           <Input
             label="Linked account"
             name="ownerSearch"
-            placeholder="Search owners…"
+            placeholder="Search managers…"
             autoComplete="off"
+            defaultValue={defaults?.managerName}
             left={<MaterialIcon name="search" className="text-xl text-on-surface-variant" />}
           />
           {ownerLinked ? (
             <div className="flex items-center justify-between rounded-xl bg-surface-container-low px-4 py-3 ring-1 ring-outline-variant/15">
               <div className="flex items-center gap-3">
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary-container text-xs font-bold text-on-secondary-container">
-                  MS
+                  {managerBadge}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-on-surface">Marcus Sterling</p>
-                  <p className="text-xs text-on-surface-variant">Owner ID #OWN-4410</p>
+                  <p className="text-sm font-bold text-on-surface">{managerDisplayName}</p>
+                  <p className="text-xs text-on-surface-variant">{managerSubtitle}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setOwnerLinked(false)}
                 className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-high hover:text-primary"
-                aria-label="Remove linked owner"
+                aria-label="Remove linked manager"
               >
                 <MaterialIcon name="close" className="text-xl" />
               </button>
             </div>
           ) : (
             <p className="text-sm text-on-surface-variant">
-              Search above to link an owner account.
+              Search above to link a manager account.
             </p>
           )}
         </SectionCard>
@@ -276,6 +329,7 @@ export function RestaurantOnboardForm() {
             name="description"
             rows={5}
             placeholder="Describe the concept, service style, and what makes this partner a fit for Namaste Cam."
+            defaultValue={defaults?.description}
             className="w-full resize-y rounded-xl border-none bg-surface px-4 py-4 text-sm font-medium text-on-surface outline-none ring-1 ring-outline-variant/20 transition-all focus:ring-2 focus:ring-primary"
           />
         </FieldShell>
@@ -394,7 +448,7 @@ export function RestaurantOnboardForm() {
           Cancel
         </Link>
         <Button variant="primary" size="md" type="submit">
-          Save restaurant
+          {variant === "edit" ? "Save changes" : "Save restaurant"}
         </Button>
       </div>
     </form>

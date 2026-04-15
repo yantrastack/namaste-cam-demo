@@ -16,7 +16,7 @@ export default function NewCouponPage() {
   return (
     <Suspense
       fallback={
-        <PageContainer title="Add coupon & promotion" description="Loading editor…">
+        <PageContainer title="Add coupon" description="Loading editor…">
           <Card className="p-10 text-center text-secondary">Loading…</Card>
         </PageContainer>
       }

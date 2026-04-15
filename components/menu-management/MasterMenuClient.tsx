@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { DeleteConfirmModal } from "@/components/ui/DeleteConfirmModal";
+import { Drawer } from "@/components/ui/Drawer";
 import { Input } from "@/components/ui/Input";
 import { SelectField } from "@/components/ui/SelectField";
 import { Switch } from "@/components/ui/Switch";
@@ -21,6 +22,9 @@ import {
 } from "@/components/ui/Table";
 import { cn } from "@/lib/cn";
 import { useMenuManagementDemo } from "./MenuManagementDemoContext";
+import { SubscriptionPlanDrawerEditor } from "./SubscriptionMenuBuilderClient";
+import { patchMenuRowWithSubscriptionDraft } from "./sync-subscription-menu-row";
+import type { SubscriptionMenuDraft } from "./subscription-menu-model";
 import {
   WEEKDAY_KEYS,
   type MenuRow,
@@ -99,11 +103,12 @@ const PAGE_SIZE = 6;
 type MenuListScope = "today" | "weekdays" | "special" | "subscription" | "all";
 
 export function MasterMenuClient() {
-  const { menus, deleteMenu, setMenuActive } = useMenuManagementDemo();
+  const { menus, deleteMenu, setMenuActive, upsertMenu } = useMenuManagementDemo();
   const [query, setQuery] = useState("");
   const [scopeFilter, setScopeFilter] = useState<MenuListScope>("today");
   const [dayFilter, setDayFilter] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<MenuRow | null>(null);
+  const [subscriptionPlanEditId, setSubscriptionPlanEditId] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
 
@@ -271,13 +276,26 @@ export function MasterMenuClient() {
         </TableCell>
         <TableCell className="text-right">
           <div className="flex justify-end gap-1">
-            <Link
-              href={`/menu/${row.id}/edit`}
-              className="inline-flex size-10 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-container-high"
-              aria-label={`Edit ${row.name}`}
-            >
-              <MaterialIcon name="edit" className="text-xl" />
-            </Link>
+            {row.tableType === "subscription" && row.subscriptionPlanId ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="size-10 shrink-0 rounded-full p-0 text-secondary hover:bg-surface-container-high"
+                aria-label={`Edit ${row.name} subscription plan`}
+                onClick={() => setSubscriptionPlanEditId(row.subscriptionPlanId!)}
+              >
+                <MaterialIcon name="edit" className="text-xl" />
+              </Button>
+            ) : (
+              <Link
+                href={`/menu/${row.id}/edit`}
+                className="inline-flex size-10 items-center justify-center rounded-full text-secondary transition-colors hover:bg-surface-container-high"
+                aria-label={`Edit ${row.name}`}
+              >
+                <MaterialIcon name="edit" className="text-xl" />
+              </Link>
+            )}
             <Button
               type="button"
               variant="ghost"
@@ -301,6 +319,14 @@ export function MasterMenuClient() {
     deleteMenu(deleteTarget.id);
     setDeleteTarget(null);
   };
+
+  const handleSubscriptionDrawerSave = useCallback(
+    (draft: SubscriptionMenuDraft, planId: string) => {
+      const row = menus.find((m) => m.subscriptionPlanId === planId);
+      if (row) upsertMenu(patchMenuRowWithSubscriptionDraft(row, draft));
+    },
+    [menus, upsertMenu],
+  );
 
   return (
     <>
@@ -486,6 +512,24 @@ export function MasterMenuClient() {
         description="This demo removes the menu from the in-memory list until you refresh the page."
         confirmLabel="Delete"
       />
+
+      <Drawer
+        open={subscriptionPlanEditId !== null}
+        onClose={() => setSubscriptionPlanEditId(null)}
+        position="right"
+        className={cn(
+          "flex h-full w-[min(100vw,1120px)]! max-w-[min(100vw,1120px)]! flex-col sm:rounded-l-2xl",
+          "border-l border-outline-variant/15 shadow-2xl",
+        )}
+      >
+        {subscriptionPlanEditId ? (
+          <SubscriptionPlanDrawerEditor
+            planId={subscriptionPlanEditId}
+            onClose={() => setSubscriptionPlanEditId(null)}
+            onSaveSuccess={(draft) => handleSubscriptionDrawerSave(draft, subscriptionPlanEditId)}
+          />
+        ) : null}
+      </Drawer>
     </>
   );
 }

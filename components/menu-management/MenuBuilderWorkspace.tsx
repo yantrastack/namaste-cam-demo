@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { SelectField } from "@/components/ui/SelectField";
+import { Switch } from "@/components/ui/Switch";
 import { Textarea } from "@/components/ui/Textarea";
 import { cn } from "@/lib/cn";
 import { FoodCatalogPanel } from "./FoodCatalogPanel";
@@ -16,10 +17,14 @@ import {
   foodById,
   formatAvailabilityNormal,
   formatAvailabilitySpecial,
+  menuSaveSelectedLine,
+  patchSelectedLineSlotAvailability,
   type MealCategory,
   type MenuKind,
   type MenuRow,
+  type SpecialMenuSocialShare,
   type SelectedLine,
+  type SelectedLineSlotAvailability,
   WEEKDAY_KEYS,
 } from "./model";
 
@@ -47,6 +52,8 @@ type BuilderState = {
   startDate: string;
   endDate: string;
   specialLines: SelectedLine[];
+  /** Special menus only — surfaced in the builder when `kind === "special"`. */
+  socialShare: SpecialMenuSocialShare;
   daysCount: 7 | 15 | 30;
   expiryDate: string;
   price: string;
@@ -57,6 +64,78 @@ type BuilderState = {
   /** While editing a normal menu, foodIds added from the catalog this session (not on load). */
   normalSessionAddedFoodIds: number[];
 };
+
+const DEFAULT_SPECIAL_SOCIAL_SHARE: SpecialMenuSocialShare = {
+  enabled: false,
+  facebook: false,
+  instagram: false,
+  twitter: false,
+};
+
+function mergeSpecialSocialShare(
+  existing?: SpecialMenuSocialShare | null,
+): SpecialMenuSocialShare {
+  return { ...DEFAULT_SPECIAL_SOCIAL_SHARE, ...existing };
+}
+
+function SpecialShareFacebookIcon() {
+  return (
+    <svg
+      className="h-12 w-12 shrink-0"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        fill="#1877F2"
+        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+      />
+    </svg>
+  );
+}
+
+function SpecialShareInstagramIcon() {
+  const rawId = useId();
+  const gradId = `special-share-ig-${rawId.replace(/:/g, "")}`;
+  return (
+    <svg
+      className="h-12 w-12 shrink-0"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#FDC830" />
+          <stop offset="25%" stopColor="#F37335" />
+          <stop offset="50%" stopColor="#E1306C" />
+          <stop offset="75%" stopColor="#C13584" />
+          <stop offset="100%" stopColor="#833AB4" />
+        </linearGradient>
+      </defs>
+      <path
+        fill={`url(#${gradId})`}
+        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.163 6.163 0 1 0 0 12.326 6.163 6.163 0 0 0 0-12.326zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 1-2.881 0 1.44 1.44 0 0 1 2.881 0z"
+      />
+    </svg>
+  );
+}
+
+function SpecialShareTwitterIcon() {
+  return (
+    <svg
+      className="h-12 w-12 shrink-0"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+    >
+      <path
+        fill="#1D9BF0"
+        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+      />
+    </svg>
+  );
+}
 
 function newId() {
   if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
@@ -113,6 +192,7 @@ function createBuilderState(
     startDate: "",
     endDate: "",
     specialLines: [],
+    socialShare: { ...DEFAULT_SPECIAL_SOCIAL_SHARE },
     daysCount: 7,
     expiryDate: "",
     price: "",
@@ -171,6 +251,7 @@ function createBuilderState(
       startDate: sp.startDate,
       endDate: sp.endDate,
       specialLines: sp.items,
+      socialShare: mergeSpecialSocialShare(sp.socialShare),
     };
   }
 
@@ -279,11 +360,7 @@ export function MenuBuilderWorkspace({
         normalDetails: {
           category: s.mealCategory,
           days: s.days,
-          items: s.normalLines.map(({ foodId, quantity, includeInMainMenu }) => ({
-            foodId,
-            quantity,
-            ...(includeInMainMenu === false ? { includeInMainMenu: false } : {}),
-          })),
+          items: s.normalLines.map(menuSaveSelectedLine),
         },
       });
       return;
@@ -303,7 +380,8 @@ export function MenuBuilderWorkspace({
           imagePreview: s.imagePreview,
           startDate: s.startDate,
           endDate: s.endDate,
-          items: s.specialLines,
+          items: s.specialLines.map(menuSaveSelectedLine),
+          socialShare: { ...s.socialShare },
         },
       });
       return;
@@ -323,7 +401,12 @@ export function MenuBuilderWorkspace({
         price: s.price,
         discount: s.discount,
         bannerText: s.bannerText,
-        itemsByDay: s.itemsByDay,
+        itemsByDay: Object.fromEntries(
+          Object.entries(s.itemsByDay).map(([day, arr]) => [
+            Number(day),
+            (arr ?? []).map(menuSaveSelectedLine),
+          ]),
+        ) as Record<number, SelectedLine[]>,
       },
     });
   };
@@ -381,6 +464,35 @@ export function MenuBuilderWorkspace({
           l.foodId === foodId ? { ...l, includeInMainMenu } : l,
         ),
       };
+    });
+  };
+
+  const setLineSlotAvailability = (foodId: number, slot: SelectedLineSlotAvailability) => {
+    setS((prev) => {
+      if (prev.kind === "normal") {
+        return {
+          ...prev,
+          normalLines: patchSelectedLineSlotAvailability(prev.normalLines, foodId, slot),
+        };
+      }
+      if (prev.kind === "special") {
+        return {
+          ...prev,
+          specialLines: patchSelectedLineSlotAvailability(prev.specialLines, foodId, slot),
+        };
+      }
+      if (prev.kind === "subscription") {
+        const day = prev.activeDay;
+        const cur = prev.itemsByDay[day] ?? [];
+        return {
+          ...prev,
+          itemsByDay: {
+            ...prev.itemsByDay,
+            [day]: patchSelectedLineSlotAvailability(cur, foodId, slot),
+          },
+        };
+      }
+      return prev;
     });
   };
 
@@ -558,6 +670,7 @@ export function MenuBuilderWorkspace({
                 lines={linesForCatalog}
                 mainMenuScopeSessionFoodIds={s.normalSessionAddedFoodIds}
                 onIncludeInMainMenuChange={menuToEdit ? setLineIncludeInMainMenu : undefined}
+                onLineSlotAvailabilityChange={setLineSlotAvailability}
                 onChangeQuantity={changeQty}
                 onRemove={removeFromSelection}
               />
@@ -607,6 +720,7 @@ export function MenuBuilderWorkspace({
                 <SelectedItemsPanel
                   foodItems={foodItems}
                   lines={linesForCatalog}
+                  onLineSlotAvailabilityChange={setLineSlotAvailability}
                   onChangeQuantity={changeQty}
                   onRemove={removeFromSelection}
                 />
@@ -633,6 +747,103 @@ export function MenuBuilderWorkspace({
                 </p>
               </Card>
             </div>
+
+            <Card className="space-y-4 p-4 sm:p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex min-w-0 items-start gap-3">
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-1 ring-primary/15">
+                    <MaterialIcon name="share" className="text-xl" filled />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-headline text-base font-extrabold text-on-surface">
+                      Share on social
+                    </p>
+                    <p className="mt-1 text-sm font-medium text-on-surface-variant">
+                      Let guests share this special menu on the channels you turn on below.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                  <span className="text-xs font-bold uppercase tracking-wide text-secondary">
+                    Enable
+                  </span>
+                  <Switch
+                    checked={s.socialShare.enabled}
+                    onCheckedChange={(enabled) =>
+                      setS((prev) => ({
+                        ...prev,
+                        socialShare: { ...prev.socialShare, enabled },
+                      }))
+                    }
+                    aria-label="Enable social sharing for this special menu"
+                  />
+                </div>
+              </div>
+
+              <div
+                className={cn(
+                  "space-y-3 border-t border-outline-variant/10 pt-4 transition-opacity",
+                  !s.socialShare.enabled && "pointer-events-none opacity-40",
+                )}
+              >
+                <p className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-secondary">
+                  Platforms
+                </p>
+                <ul className="space-y-4">
+                  <li className="flex items-center justify-between gap-4">
+                    <span className="flex min-w-0 items-center gap-4">
+                      <SpecialShareFacebookIcon />
+                      <span className="truncate text-sm font-semibold text-on-surface">Facebook</span>
+                    </span>
+                    <Switch
+                      checked={s.socialShare.facebook}
+                      disabled={!s.socialShare.enabled}
+                      onCheckedChange={(facebook) =>
+                        setS((prev) => ({
+                          ...prev,
+                          socialShare: { ...prev.socialShare, facebook },
+                        }))
+                      }
+                      aria-label="Share on Facebook"
+                    />
+                  </li>
+                  <li className="flex items-center justify-between gap-4">
+                    <span className="flex min-w-0 items-center gap-4">
+                      <SpecialShareInstagramIcon />
+                      <span className="truncate text-sm font-semibold text-on-surface">Instagram</span>
+                    </span>
+                    <Switch
+                      checked={s.socialShare.instagram}
+                      disabled={!s.socialShare.enabled}
+                      onCheckedChange={(instagram) =>
+                        setS((prev) => ({
+                          ...prev,
+                          socialShare: { ...prev.socialShare, instagram },
+                        }))
+                      }
+                      aria-label="Share on Instagram"
+                    />
+                  </li>
+                  <li className="flex items-center justify-between gap-4">
+                    <span className="flex min-w-0 items-center gap-4">
+                      <SpecialShareTwitterIcon />
+                      <span className="truncate text-sm font-semibold text-on-surface">X (Twitter)</span>
+                    </span>
+                    <Switch
+                      checked={s.socialShare.twitter}
+                      disabled={!s.socialShare.enabled}
+                      onCheckedChange={(twitter) =>
+                        setS((prev) => ({
+                          ...prev,
+                          socialShare: { ...prev.socialShare, twitter },
+                        }))
+                      }
+                      aria-label="Share on X (Twitter)"
+                    />
+                  </li>
+                </ul>
+              </div>
+            </Card>
           </div>
         ) : null}
 
@@ -712,6 +923,7 @@ export function MenuBuilderWorkspace({
                 foodItems={foodItems}
                 lines={linesForCatalog}
                 title={`Day ${s.activeDay} picks`}
+                onLineSlotAvailabilityChange={setLineSlotAvailability}
                 onChangeQuantity={changeQty}
                 onRemove={removeFromSelection}
               />

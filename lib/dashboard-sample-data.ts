@@ -56,19 +56,19 @@ function pick<T>(arr: T[]): T {
   return arr[randInt(0, arr.length - 1)]!;
 }
 
-function formatUsd(amount: number) {
-  return new Intl.NumberFormat("en-US", {
+function formatGbp(amount: number) {
+  return new Intl.NumberFormat("en-GB", {
     style: "currency",
-    currency: "USD",
+    currency: "GBP",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(amount);
 }
 
-function formatUsdCompact(amount: number) {
-  if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(1)}m`;
-  if (amount >= 1_000) return `$${Math.round(amount / 1_000)}k`;
-  return formatUsd(amount);
+function formatGbpCompact(amount: number) {
+  if (amount >= 1_000_000) return `£${(amount / 1_000_000).toFixed(1)}m`;
+  if (amount >= 1_000) return `£${Math.round(amount / 1_000)}k`;
+  return formatGbp(amount);
 }
 
 function randomTrendSeries(len: number, base: number, spread: number) {
@@ -96,7 +96,7 @@ export function generateDashboardSampleData(): DashboardSampleData {
     },
     {
       label: "Total Revenue",
-      value: formatUsd(totalRevenue),
+      value: formatGbp(totalRevenue),
       icon: "payments",
       accent: "amber",
     },
@@ -115,7 +115,7 @@ export function generateDashboardSampleData(): DashboardSampleData {
     const pct = Math.max(12, 88 - i * randInt(10, 22));
     return {
       name,
-      amountLabel: formatUsdCompact(Math.max(8_000, base)),
+      amountLabel: formatGbpCompact(Math.max(8_000, base)),
       pct,
       barClass: barClasses[i] ?? "bg-primary/30",
     };

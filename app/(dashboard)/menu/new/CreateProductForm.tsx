@@ -584,7 +584,7 @@ export function CreateProductForm() {
             }}
           >
             <MaterialIcon name="save" className="text-xl" />
-            {isEditingFromCatalog ? "Save product" : "Publish product"}
+            Save product
           </Button>
         </>
       }
@@ -1005,76 +1005,6 @@ export function CreateProductForm() {
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6">
-            <div className="mb-6 flex items-center justify-between">
-              <h3 className="text-[10px] font-bold uppercase tracking-widest text-secondary">Availability</h3>
-              <label className="relative inline-flex h-5 w-10 shrink-0 cursor-pointer items-center">
-                <input
-                  type="checkbox"
-                  className="peer sr-only"
-                  checked={available}
-                  onChange={(e) => setAvailable(e.target.checked)}
-                />
-                <span className="pointer-events-none absolute inset-0 rounded-full bg-surface-container-high transition-colors peer-checked:bg-primary peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-surface-container-lowest" />
-                <span className="pointer-events-none absolute start-[2px] top-1/2 z-10 h-4 w-4 -translate-y-1/2 rounded-full border border-outline-variant/30 bg-surface-container-lowest shadow-sm transition-transform peer-checked:translate-x-5 rtl:peer-checked:-translate-x-5" />
-              </label>
-            </div>
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div className="min-w-0 flex-1">
-                  <FieldLabel>From</FieldLabel>
-                  <input
-                    type="time"
-                    className={controlSm}
-                    value={timeFrom}
-                    onChange={(e) => setTimeFrom(e.target.value)}
-                    aria-label="Available from"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <FieldLabel>To</FieldLabel>
-                  <input
-                    type="time"
-                    className={controlSm}
-                    value={timeTo}
-                    onChange={(e) => setTimeTo(e.target.value)}
-                    aria-label="Available until"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-outline-variant/15 bg-surface-container-low/50 p-3">
-                  <input
-                    type="checkbox"
-                    checked={deliverable}
-                    onChange={(e) => setDeliverable(e.target.checked)}
-                    className="h-4 w-4 accent-primary"
-                  />
-                  <span className="text-[11px] font-bold text-on-surface">Deliverable</span>
-                </label>
-                <label className="flex cursor-pointer items-center gap-2 rounded-xl border border-outline-variant/15 bg-surface-container-low/50 p-3">
-                  <input
-                    type="checkbox"
-                    checked={pickup}
-                    onChange={(e) => setPickup(e.target.checked)}
-                    className="h-4 w-4 accent-primary"
-                  />
-                  <span className="text-[11px] font-bold text-on-surface">Pickup</span>
-                </label>
-              </div>
-              <div>
-                <Input
-                  label="Prep time (mins)"
-                  name="prepMins"
-                  type="number"
-                  min={0}
-                  value={prepMins}
-                  onChange={(e) => setPrepMins(e.target.value)}
-                />
               </div>
             </div>
           </Card>

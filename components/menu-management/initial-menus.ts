@@ -174,6 +174,7 @@ export const INITIAL_MENUS: MenuRow[] = [
     id: "demo-office-weekly",
     name: "Office Weekly Subscription",
     tableType: "subscription",
+    subscriptionPlanId: "demo-subscription-weekly",
     availability: "7-day plan · renew by 2026-12-31",
     imageUrl: "https://picsum.photos/seed/subscription-box/96/96",
     active: true,

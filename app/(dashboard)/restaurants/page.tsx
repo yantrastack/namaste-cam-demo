@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import Image from "next/image";
+import Link from "next/link";
 import { MaterialIcon } from "@/components/MaterialIcon";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Card } from "@/components/ui/Card";
@@ -70,13 +71,13 @@ function statusPill(status: PartnerRestaurantStatus) {
 function RowActions({ row }: { row: PartnerDirectoryRow }) {
   return (
     <div className="flex items-center justify-end">
-      <button
-        type="button"
+      <Link
+        href={`/restaurants/${encodeURIComponent(row.id)}/edit`}
         className="rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container-low hover:text-primary"
         aria-label={`Edit ${row.location} · #${row.id}`}
       >
         <MaterialIcon name="edit" className="text-lg" />
-      </button>
+      </Link>
     </div>
   );
 }
