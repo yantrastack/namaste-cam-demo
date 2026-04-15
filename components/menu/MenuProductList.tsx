@@ -66,18 +66,18 @@ export function MenuProductList({
     [categories, query],
   );
 
-  const setQty = useCallback(
-    (id: string, next: number) => {
-      setQuantities((prev) => {
-        const copy = { ...prev };
-        if (next <= 0) delete copy[id];
-        else copy[id] = next;
-        onCartChange?.(copy);
-        return copy;
-      });
-    },
-    [onCartChange],
-  );
+  const setQty = useCallback((id: string, next: number) => {
+    setQuantities((prev) => {
+      const copy = { ...prev };
+      if (next <= 0) delete copy[id];
+      else copy[id] = next;
+      return copy;
+    });
+  }, []);
+
+  useEffect(() => {
+    onCartChange?.(quantities);
+  }, [quantities, onCartChange]);
 
   const bump = useCallback(
     (item: MenuProduct, delta: number) => {
