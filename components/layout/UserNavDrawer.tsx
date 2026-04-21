@@ -51,7 +51,7 @@ export function UserNavDrawerProvider({ children }: { children: ReactNode }) {
   return (
     <UserNavDrawerContext.Provider value={{ openDrawer, closeDrawer, isDrawerOpen }}>
       {children}
-      <Drawer open={isDrawerOpen} onClose={closeDrawer}>
+      <Drawer open={isDrawerOpen} onClose={closeDrawer} userAppFrame>
         <div className="flex flex-col h-full">
           <div className="p-6 border-b border-surface-container">
             <h2 className="font-headline text-xl font-bold text-primary">Menu</h2>

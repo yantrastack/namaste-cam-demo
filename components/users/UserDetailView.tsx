@@ -19,6 +19,9 @@ import {
   isStaffLikeRole,
 } from "@/lib/users/role-policy";
 import type { ManagedUser, UserRole } from "@/lib/users/types";
+import { subscriptionPaymentModeLabel } from "@/lib/users/subscription-admin";
+import { UserSubscriptionAssignModal } from "@/components/users/UserSubscriptionAssignModal";
+import { UserSubscriptionRemoveModal } from "@/components/users/UserSubscriptionRemoveModal";
 import { PeerToggleRow } from "@/components/users/PeerToggleRow";
 import { UserAvatar } from "@/components/users/UserAvatar";
 import { cn } from "@/lib/cn";
@@ -75,6 +78,8 @@ export function UserDetailView() {
   const saved = useMemo(() => (id ? getUser(id) : undefined), [getUser, id]);
 
   const [draft, setDraft] = useState<Draft | null>(null);
+  const [subscriptionModalOpen, setSubscriptionModalOpen] = useState(false);
+  const [removeSubscriptionOpen, setRemoveSubscriptionOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -258,72 +263,177 @@ export function UserDetailView() {
             </section>
 
             {isCustomerLikeRole(saved.role) ? (
-              <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
-                <div className="mb-6 flex items-center justify-between gap-3">
-                  <div className="flex items-center gap-3">
-                    <div className="rounded-lg bg-amber-50 p-2">
-                      <MaterialIcon
-                        name="account_balance_wallet"
-                        className="text-amber-600"
-                      />
+              <>
+                <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
+                  <div className="mb-6 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-lg bg-amber-50 p-2">
+                        <MaterialIcon
+                          name="account_balance_wallet"
+                          className="text-amber-600"
+                        />
+                      </div>
+                      <h2 className="font-headline text-lg font-bold text-on-surface">
+                        Financials
+                      </h2>
                     </div>
-                    <h2 className="font-headline text-lg font-bold text-on-surface">
-                      Financials
-                    </h2>
+                    <button
+                      type="button"
+                      onClick={() => router.push(`/users/${id}/financials`)}
+                      className="shrink-0 rounded-full border border-outline-variant px-4 py-2 text-xs font-bold text-secondary transition-colors hover:bg-stone-100"
+                    >
+                      Edit
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => router.push(`/users/${id}/financials`)}
-                    className="shrink-0 rounded-full border border-outline-variant px-4 py-2 text-xs font-bold text-secondary transition-colors hover:bg-stone-100"
-                  >
-                    Edit
-                  </button>
-                </div>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <label className={fieldLabel}>Wallet Balance (GBP)</label>
-                    <div className="relative">
-                      <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
-                        £
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <label className={fieldLabel}>Wallet Balance (GBP)</label>
+                      <div className="relative">
+                        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 font-bold text-stone-400">
+                          £
+                        </span>
+                        <input
+                          type="text"
+                          readOnly
+                          tabIndex={-1}
+                          value={saved.walletBalance.toFixed(2)}
+                          className="w-full rounded-xl border-none bg-surface py-4 pl-8 pr-4 text-xl font-bold text-primary transition-all focus:ring-2 focus:ring-primary/20"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-stone-500">Credit limit</span>
+                      <span className="font-bold text-on-surface">
+                        £{saved.creditLimit.toFixed(2)}
                       </span>
-                      <input
-                        type="text"
-                        readOnly
-                        tabIndex={-1}
-                        value={saved.walletBalance.toFixed(2)}
-                        className="w-full rounded-xl border-none bg-surface py-4 pl-8 pr-4 text-xl font-bold text-primary transition-all focus:ring-2 focus:ring-primary/20"
-                      />
                     </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-stone-500">Strict customer</span>
+                      <span className="font-bold text-on-surface">
+                        {saved.strictCustomer ? "Yes" : "No"}
+                      </span>
+                    </div>
+                    {saved.walletNote ? (
+                      <div className="rounded-xl bg-surface px-4 py-3 text-left">
+                        <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
+                          Wallet note
+                        </p>
+                        <p className="mt-1 text-sm leading-relaxed text-secondary">
+                          {saved.walletNote}
+                        </p>
+                      </div>
+                    ) : null}
+                    <p className="px-1 text-[11px] leading-relaxed text-stone-400">
+                      Updating the wallet balance will trigger an automated
+                      notification to the user. Use Edit to change balance, limit,
+                      and notes.
+                    </p>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-stone-500">Credit limit</span>
-                    <span className="font-bold text-on-surface">
-                      £{saved.creditLimit.toFixed(2)}
-                    </span>
+                </section>
+
+                <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
+                  <div className="mb-6 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="rounded-lg bg-teal-50 p-2">
+                        <MaterialIcon
+                          name="subscriptions"
+                          className="text-teal-700"
+                        />
+                      </div>
+                      <h2 className="font-headline text-lg font-bold text-on-surface">
+                        Subscription
+                      </h2>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSubscriptionModalOpen(true)}
+                      className="shrink-0 rounded-full border border-outline-variant px-4 py-2 text-xs font-bold text-secondary transition-colors hover:bg-stone-100"
+                    >
+                      {saved.subscription ? "Update" : "Add plan"}
+                    </button>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-stone-500">Strict customer</span>
-                    <span className="font-bold text-on-surface">
-                      {saved.strictCustomer ? "Yes" : "No"}
-                    </span>
-                  </div>
-                  {saved.walletNote ? (
-                    <div className="rounded-xl bg-surface px-4 py-3 text-left">
-                      <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
-                        Wallet note
+                  {saved.subscription ? (
+                    <div className="space-y-4">
+                      <dl className="space-y-3 text-sm">
+                        <div className="flex justify-between gap-2">
+                          <dt className="text-stone-500">Plan</dt>
+                          <dd className="max-w-[60%] text-right font-semibold text-on-surface">
+                            {saved.subscription.planLabel}
+                          </dd>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                          <dt className="text-stone-500">Expires</dt>
+                          <dd className="font-semibold text-on-surface">
+                            {formatJoinDate(saved.subscription.expiresOn)}
+                          </dd>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                          <dt className="text-stone-500">Payment</dt>
+                          <dd className="font-semibold text-on-surface">
+                            {subscriptionPaymentModeLabel(
+                              saved.subscription.paymentMode,
+                            )}
+                          </dd>
+                        </div>
+                        <div className="flex justify-between gap-2">
+                          <dt className="text-stone-500">Assigned</dt>
+                          <dd className="font-semibold text-on-surface">
+                            {formatJoinDate(saved.subscription.assignedOn)}
+                          </dd>
+                        </div>
+                      </dl>
+                      {saved.subscription.notes ? (
+                        <div className="rounded-xl bg-surface px-4 py-3 text-left">
+                          <p className="text-[10px] font-bold tracking-widest text-stone-400 uppercase">
+                            Subscription notes
+                          </p>
+                          <p className="mt-1 text-sm leading-relaxed text-secondary">
+                            {saved.subscription.notes}
+                          </p>
+                        </div>
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={() => setRemoveSubscriptionOpen(true)}
+                        className="text-xs font-bold text-rose-600 underline-offset-2 hover:underline"
+                      >
+                        Remove subscription
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <p className="text-sm text-stone-500">
+                        No subscription on file for this customer.
                       </p>
-                      <p className="mt-1 text-sm leading-relaxed text-secondary">
-                        {saved.walletNote}
+                      <p className="px-1 text-[11px] leading-relaxed text-stone-400">
+                        Use Add plan to attach a meal plan and billing mode.
+                        Term end follows the plan length. This is for admin
+                        reference alongside
+                        menu subscription setup.
                       </p>
                     </div>
-                  ) : null}
-                  <p className="px-1 text-[11px] leading-relaxed text-stone-400">
-                    Updating the wallet balance will trigger an automated
-                    notification to the user. Use Edit to change balance, limit,
-                    and notes.
-                  </p>
-                </div>
-              </section>
+                  )}
+                </section>
+
+                <UserSubscriptionAssignModal
+                  open={subscriptionModalOpen}
+                  onClose={() => setSubscriptionModalOpen(false)}
+                  existing={saved.subscription}
+                  onSave={(sub) => {
+                    updateUser(saved.id, { subscription: sub });
+                    setSubscriptionModalOpen(false);
+                  }}
+                />
+                <UserSubscriptionRemoveModal
+                  open={removeSubscriptionOpen}
+                  onClose={() => setRemoveSubscriptionOpen(false)}
+                  userName={draft.name.trim() || "This user"}
+                  planLabel={saved.subscription?.planLabel}
+                  onConfirm={() => {
+                    updateUser(saved.id, { subscription: undefined });
+                  }}
+                />
+              </>
             ) : isStaffLikeRole(saved.role) ? (
               <section className="bg-surface-container-lowest p-8 shadow-sm ring-1 ring-black/5 rounded-lg">
                 <div className="mb-6 flex items-center gap-3">

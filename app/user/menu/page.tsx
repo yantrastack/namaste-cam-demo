@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MaterialIcon } from '@/components/MaterialIcon'
 import { useUserNavDrawer } from '@/components/layout/UserNavDrawer'
+import { Switch } from '@/components/ui/Switch'
 import { useCart } from '@/lib/cart/store'
 
 interface MenuItem {
@@ -81,6 +82,7 @@ export default function MenuPage() {
   const { openDrawer } = useUserNavDrawer()
   const { items, addItem, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCart()
   const [activeCategory, setActiveCategory] = useState('All Dishes')
+  const [vegOnly, setVegOnly] = useState(false)
 
   const handleAddToCart = (item: MenuItem) => {
     addItem({
@@ -112,23 +114,32 @@ export default function MenuPage() {
   const totalItems = getTotalItems()
   const cartTotal = getTotalPrice()
 
-  const filteredItems = activeCategory === 'All Dishes'
-    ? menuItems
-    : menuItems.filter(item => item.category === activeCategory)
+  const categoryFiltered =
+    activeCategory === 'All Dishes'
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory)
+
+  const filteredItems = vegOnly
+    ? categoryFiltered.filter((item) => item.isVegetarian)
+    : categoryFiltered
 
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-4 h-16">
-        <div className="flex items-center gap-4">
-          <button onClick={openDrawer} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+      <header className="user-app-fixed-frame top-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between gap-2 px-4 h-16">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <button onClick={openDrawer} className="flex shrink-0 items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
             <MaterialIcon name="menu" className="text-secondary" />
           </button>
-          <h1 className="text-xl font-extrabold text-primary italic font-headline tracking-tight">
-            Namaste Cambridge
-          </h1>
+          <h1 className="sr-only">Namaste Cambridge</h1>
         </div>
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onClick={() => router.push('/user/profile')}>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-on-surface-variant whitespace-nowrap" id="menu-veg-only-label">
+            Veg only
+          </span>
+          <Switch checked={vegOnly} onCheckedChange={setVegOnly} aria-labelledby="menu-veg-only-label" />
+        </div>
+        <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onClick={() => router.push('/user/profile')}>
           <img
             className="w-full h-full object-cover"
             alt="User profile avatar"
@@ -265,7 +276,7 @@ export default function MenuPage() {
       {totalItems > 0 && (
         <div
           onClick={() => router.push('/user/cart')}
-          className="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-surface-container-lowest/80 backdrop-blur-xl rounded-full py-4 px-6 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 cursor-pointer active:scale-95 transition-all"
+          className="user-app-fixed-frame bottom-24 bg-surface-container-lowest/80 backdrop-blur-xl rounded-full py-4 px-6 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 cursor-pointer active:scale-95 transition-all"
         >
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold">
@@ -288,7 +299,7 @@ export default function MenuPage() {
       )}
 
       {/* BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-lg shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-[2rem]">
+      <nav className="user-app-fixed-frame bottom-0 flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-lg shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-[2rem]">
         <div
           onClick={() => router.push('/user/home')}
           className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"

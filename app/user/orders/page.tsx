@@ -79,7 +79,7 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="user-app-fixed-frame top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button onClick={openDrawer} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
@@ -251,7 +251,7 @@ export default function OrdersPage() {
       </main>
 
       {/* BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
+      <nav className="user-app-fixed-frame bottom-0 h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
         <div
           onClick={() => router.push('/user/home')}
           className="flex flex-col items-center justify-center text-zinc-400 hover:text-primary active:scale-90 transition-all duration-300 ease-out cursor-pointer"

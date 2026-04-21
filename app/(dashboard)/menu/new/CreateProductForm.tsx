@@ -30,6 +30,7 @@ import {
   type NamedPriceRow,
   type ProductMainCategory,
 } from "@/lib/data/product-catalog";
+import { buildPresetSubsectionCategoryId } from "@/lib/menu-category-form";
 import { cn } from "@/lib/cn";
 
 const control =
@@ -424,10 +425,7 @@ export function CreateProductForm() {
     const categoryLabel = sub
       ? `${mc?.label ?? "Menu"} — ${sub.label}`
       : (mc?.label ?? "Your menu items");
-    const categoryId = `USER_${mainCategoryId}_${subCategoryId}`
-      .replace(/[^a-zA-Z0-9_-]/g, "_")
-      .toUpperCase()
-      .slice(0, 48);
+    const categoryId = buildPresetSubsectionCategoryId(mainCategoryId, subCategoryId);
     return { categoryId, categoryLabel };
   }
 

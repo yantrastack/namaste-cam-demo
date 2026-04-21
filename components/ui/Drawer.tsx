@@ -9,6 +9,8 @@ export type DrawerProps = {
   children?: ReactNode;
   className?: string;
   position?: "left" | "right";
+  /** When true, overlay is limited to the /user mobile column (matches `user-app-fixed-frame`). */
+  userAppFrame?: boolean;
 };
 
 export function Drawer({
@@ -17,6 +19,7 @@ export function Drawer({
   children,
   className,
   position = "left",
+  userAppFrame = false,
 }: DrawerProps) {
   useEffect(() => {
     if (!open) return;
@@ -31,7 +34,12 @@ export function Drawer({
 
   return (
     <div
-      className="fixed inset-0 z-[900] flex"
+      className={cn(
+        "fixed z-[900] flex",
+        userAppFrame
+          ? "user-app-fixed-frame top-0 bottom-0"
+          : "inset-0",
+      )}
       role="presentation"
     >
       <button

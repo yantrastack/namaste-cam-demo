@@ -111,7 +111,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="user-app-fixed-frame top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button onClick={openDrawer} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
@@ -434,7 +434,7 @@ export default function HomePage() {
       </main>
 
       {/* BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
+      <nav className="user-app-fixed-frame bottom-0 h-20 bg-white/80 backdrop-blur-xl flex justify-around items-center px-4 pb-safe z-50 rounded-t-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
         <div
           onClick={() => router.push('/user/home')}
           className="flex flex-col items-center justify-center text-primary font-bold scale-110 transition-transform cursor-pointer"
@@ -475,7 +475,7 @@ export default function HomePage() {
       {/* Floating Dynamic Cart */}
       <div
         onClick={handleCartClick}
-        className="fixed bottom-24 right-4 left-4 bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20 flex items-center justify-between group cursor-pointer active:scale-95 transition-all z-40"
+        className="user-app-fixed-frame bottom-24 px-4 bg-white/80 backdrop-blur-sm p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.12)] border border-white/20 flex items-center justify-between group cursor-pointer active:scale-95 transition-all z-40"
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-primary-container rounded-2xl flex items-center justify-center text-on-primary-container shadow-lg shadow-primary/20">

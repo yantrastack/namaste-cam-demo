@@ -57,6 +57,12 @@
           "href": "/menu/new"
         },
         {
+          "id": "menu-categories",
+          "label": "Categories",
+          "icon": "category",
+          "href": "/menu/categories"
+        },
+        {
           "id": "menu-item-list",
           "label": "Product list",
           "icon": "format_list_bulleted",

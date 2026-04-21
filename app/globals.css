@@ -95,6 +95,23 @@
   }
 }
 
+@layer utilities {
+  /**
+   * Horizontally centers fixed UI in the /user mobile column (430px) on wide viewports.
+   * Add top/bottom/inset-y (etc.) alongside this class — avoid wrapping the route in
+   * transform/filter/backdrop-filter (they create a fixed-position containing block).
+   */
+  .user-app-fixed-frame {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 430px;
+  }
+}
+
 /* Ligature icons: keep font explicit so body/headline fonts do not override */
 .material-symbols-outlined {
   font-family: "Material Symbols Outlined", sans-serif;

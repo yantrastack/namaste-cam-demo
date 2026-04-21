@@ -137,7 +137,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
       {/* Top App Bar */}
-      <header className="bg-white/80 backdrop-blur-md shadow-sm fixed top-0 z-50 flex items-center justify-between px-4 sm:px-6 h-16 w-full">
+      <header className="user-app-fixed-frame top-0 z-50 flex items-center justify-between bg-white/80 px-4 shadow-sm backdrop-blur-md sm:px-6 h-16">
         <div className="flex items-center gap-4">
           <button onClick={() => router.back()} className="active:scale-95 transition-transform text-zinc-500 hover:opacity-80">
             <MaterialIcon name="arrow_back" className="text-2xl" />
@@ -325,7 +325,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
 
       {/* Review Bottom Sheet */}
       {isReviewOpen && (
-        <div className="fixed inset-0 z-[100] flex items-end">
+        <div className="user-app-fixed-frame top-0 bottom-0 z-[100] flex items-end">
           <button
             type="button"
             aria-label="Close review"
@@ -385,7 +385,7 @@ export default function OrderDetailsPage({ params }: { params: Promise<{ id: str
       )}
 
       {/* BottomNavBar - Mobile Only */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-lg fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 z-50 rounded-t-2xl md:hidden">
+      <nav className="user-app-fixed-frame bottom-0 z-50 flex justify-around items-center rounded-t-2xl bg-white/80 px-4 pt-3 pb-6 shadow-lg backdrop-blur-md md:hidden">
         <div
           onClick={() => handleNavClick('home')}
           className="flex flex-col items-center justify-center text-zinc-400 hover:text-primary transition-opacity cursor-pointer"

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" preserveAspectRatio="none" fill="none">
+  <defs>
+    <filter id="hjSmokeBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="28" />
+    </filter>
+    <radialGradient id="hjSmokeInk" cx="18%" cy="35%" r="55%">
+      <stop offset="0%" stop-color="#2A1F16" stop-opacity="0.22" />
+      <stop offset="55%" stop-color="#2A1F16" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#2A1F16" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="hjSmokeBrick" cx="78%" cy="42%" r="50%">
+      <stop offset="0%" stop-color="#C23A2C" stop-opacity="0.18" />
+      <stop offset="60%" stop-color="#C23A2C" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#C23A2C" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="hjSmokeMist" cx="48%" cy="18%" r="45%">
+      <stop offset="0%" stop-color="#FBF3E4" stop-opacity="0.5" />
+      <stop offset="70%" stop-color="#F5EADA" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#F5EADA" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="360" fill="transparent" />
+  <ellipse cx="220" cy="130" rx="260" ry="140" fill="url(#hjSmokeInk)" filter="url(#hjSmokeBlur)" />
+  <ellipse cx="580" cy="180" rx="240" ry="160" fill="url(#hjSmokeBrick)" filter="url(#hjSmokeBlur)" />
+  <ellipse cx="400" cy="90" rx="200" ry="110" fill="url(#hjSmokeMist)" filter="url(#hjSmokeBlur)" />
+</svg>

@@ -11,26 +11,76 @@ export type LocalStoredMenuItem = {
   product: MenuProduct;
 };
 
-type LocalMenuFile = {
-  version: 1;
-  items: LocalStoredMenuItem[];
+/** Empty menu section (no products yet) or placeholder for hierarchy. */
+export type LocalStoredCategoryShell = {
+  category_id: string;
+  category: string;
+  /** Top-level category created from the “New category” screen. */
+  kind?: "main";
 };
 
-function emptyFile(): LocalMenuFile {
-  return { version: 1, items: [] };
+type LocalMenuFileV2 = {
+  version: 2;
+  items: LocalStoredMenuItem[];
+  categoryShells: LocalStoredCategoryShell[];
+};
+
+function emptyFileV2(): LocalMenuFileV2 {
+  return { version: 2, items: [], categoryShells: [] };
+}
+
+function normalizeCategoryShells(raw: unknown): LocalStoredCategoryShell[] {
+  if (!Array.isArray(raw)) return [];
+  const out: LocalStoredCategoryShell[] = [];
+  for (const row of raw) {
+    if (!row || typeof row !== "object") continue;
+    const o = row as Record<string, unknown>;
+    if (typeof o.category_id !== "string" || typeof o.category !== "string") continue;
+    const shell: LocalStoredCategoryShell = {
+      category_id: o.category_id,
+      category: o.category,
+    };
+    if (o.kind === "main") shell.kind = "main";
+    out.push(shell);
+  }
+  return out;
+}
+
+function readLocalMenuFile(): LocalMenuFileV2 {
+  if (typeof window === "undefined") return emptyFileV2();
+  try {
+    const raw = window.localStorage.getItem(LOCAL_MENU_STORAGE_KEY);
+    if (!raw) return emptyFileV2();
+    const parsed = JSON.parse(raw) as unknown;
+    if (!parsed || typeof parsed !== "object") return emptyFileV2();
+    const obj = parsed as Record<string, unknown>;
+    if (obj.version === 2 && Array.isArray(obj.items)) {
+      return {
+        version: 2,
+        items: obj.items as LocalStoredMenuItem[],
+        categoryShells: normalizeCategoryShells(obj.categoryShells),
+      };
+    }
+    if (obj.version === 1 && Array.isArray(obj.items)) {
+      return { version: 2, items: obj.items as LocalStoredMenuItem[], categoryShells: [] };
+    }
+    return emptyFileV2();
+  } catch {
+    return emptyFileV2();
+  }
+}
+
+function writeLocalMenuFile(file: LocalMenuFileV2): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(LOCAL_MENU_STORAGE_KEY, JSON.stringify(file));
 }
 
 export function loadLocalMenuItems(): LocalStoredMenuItem[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(LOCAL_MENU_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as LocalMenuFile;
-    if (!parsed || parsed.version !== 1 || !Array.isArray(parsed.items)) return [];
-    return parsed.items;
-  } catch {
-    return [];
-  }
+  return readLocalMenuFile().items;
+}
+
+export function loadLocalCategoryShells(): LocalStoredCategoryShell[] {
+  return readLocalMenuFile().categoryShells;
 }
 
 export function notifyMenuCatalogUpdated(): void {
@@ -40,19 +90,60 @@ export function notifyMenuCatalogUpdated(): void {
 
 export function upsertLocalMenuItem(entry: LocalStoredMenuItem): void {
   if (typeof window === "undefined") return;
-  const prev = loadLocalMenuItems().filter((i) => i.product.id !== entry.product.id);
+  const file = readLocalMenuFile();
+  const prev = file.items.filter((i) => i.product.id !== entry.product.id);
   prev.push(entry);
-  const next: LocalMenuFile = { version: 1, items: prev };
-  window.localStorage.setItem(LOCAL_MENU_STORAGE_KEY, JSON.stringify(next));
+  writeLocalMenuFile({ ...file, items: prev });
+  notifyMenuCatalogUpdated();
+}
+
+export function upsertLocalCategoryShell(shell: LocalStoredCategoryShell): void {
+  if (typeof window === "undefined") return;
+  const file = readLocalMenuFile();
+  const rest = file.categoryShells.filter((s) => s.category_id !== shell.category_id);
+  rest.push(shell);
+  writeLocalMenuFile({ ...file, categoryShells: rest });
+  notifyMenuCatalogUpdated();
+}
+
+export function removeLocalCategoryShell(categoryId: string): void {
+  if (typeof window === "undefined") return;
+  const file = readLocalMenuFile();
+  const shells = file.categoryShells.filter((s) => s.category_id !== categoryId);
+  writeLocalMenuFile({ ...file, categoryShells: shells });
+  notifyMenuCatalogUpdated();
+}
+
+/** Removes a custom main shell and any stored shells whose ids are nested under it (`{id}_…`). */
+export function removeLocalCategoryShellTree(mainCategoryId: string): void {
+  if (typeof window === "undefined") return;
+  const file = readLocalMenuFile();
+  const shells = file.categoryShells.filter(
+    (s) =>
+      s.category_id !== mainCategoryId && !s.category_id.startsWith(`${mainCategoryId}_`),
+  );
+  writeLocalMenuFile({ ...file, categoryShells: shells });
   notifyMenuCatalogUpdated();
 }
 
 /** Merge demo JSON with locally stored products (dedupe by `product.id`). */
 export function mergeMenuWithLocal(base: MenuDocument): MenuDocument {
-  const localItems = loadLocalMenuItems();
-  if (localItems.length === 0) return base;
+  const file = readLocalMenuFile();
+  const localItems = file.items;
+  const shells = file.categoryShells;
+
+  if (localItems.length === 0 && shells.length === 0) return base;
 
   const menu: MenuCategorySection[] = structuredClone(base.menu);
+
+  for (const shell of shells) {
+    const existing = menu.find((s) => s.category_id === shell.category_id);
+    if (!existing) {
+      menu.push({ category: shell.category, category_id: shell.category_id, items: [] });
+    } else {
+      existing.category = shell.category;
+    }
+  }
 
   for (const { category_id, category, product } of localItems) {
     for (const sec of menu) {
