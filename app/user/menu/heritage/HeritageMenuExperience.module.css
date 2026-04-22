@@ -360,8 +360,7 @@
     /* soft brick warmth bleeding from top-right */
     radial-gradient(140% 95% at 100% 0%, rgb(194 58 44 / 0.10) 0%, transparent 48%),
     /* marble vein — diagonal smoky streak */
-    linear-gradient(
-      118deg,
+    linear-gradient(118deg,
       transparent 0%,
       transparent 28%,
       rgb(107 90 76 / 0.08) 34%,
@@ -371,18 +370,15 @@
       transparent 62%,
       rgb(107 90 76 / 0.05) 68%,
       rgb(107 90 76 / 0.09) 72%,
-      transparent 78%
-    ),
+      transparent 78%),
     /* secondary vein — crosses the other way */
-    linear-gradient(
-      52deg,
+    linear-gradient(52deg,
       transparent 0%,
       transparent 40%,
       rgb(42 31 22 / 0.05) 46%,
       rgb(42 31 22 / 0.08) 50%,
       rgb(42 31 22 / 0.04) 54%,
-      transparent 60%
-    ),
+      transparent 60%),
     /* warm saffron glow at bottom */
     radial-gradient(90% 70% at 55% 115%, rgb(232 161 58 / 0.12) 0%, transparent 58%),
     /* ambient shading in the lower-left for depth */
@@ -442,16 +438,14 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(
-    92deg,
-    rgb(42 31 22 / 0.22) 0%,
-    rgb(42 31 22 / 0.42) 40%,
-    rgb(42 31 22 / 0.76) 100%
-  );
+  background: linear-gradient(92deg,
+      rgb(42 31 22 / 0.22) 0%,
+      rgb(42 31 22 / 0.42) 40%,
+      rgb(42 31 22 / 0.76) 100%);
   pointer-events: none;
 }
 
-.cardRow > * {
+.cardRow>* {
   position: relative;
   z-index: 2;
 }

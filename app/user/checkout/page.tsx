@@ -11,6 +11,7 @@ export default function CheckoutPage() {
   const router = useRouter()
   const { items, getTotalPrice, getTotalItems, clearCart } = useCart()
   const [orderMethod, setOrderMethod] = useState<'delivery' | 'pickup'>('delivery')
+  const [pickupTime, setPickupTime] = useState<string>('asap')
   const [selectedAddress, setSelectedAddress] = useState('home')
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online')
   const [showAddAddress, setShowAddAddress] = useState(false)
@@ -163,8 +164,8 @@ export default function CheckoutPage() {
         </div>
       </header>
 
-      <main className="pt-24 pb-8 px-4 sm:px-6 max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-        <div className="lg:col-span-8 space-y-6">
+      <main className="pt-24 pb-8 px-4 sm:px-6 max-w-5xl mx-auto flex flex-col gap-6">
+        <div className="space-y-6">
           {/* Order Method */}
           <section className="space-y-4">
             <h2 className="font-headline text-xl sm:text-2xl font-bold tracking-tight">Order Method</h2>
@@ -206,7 +207,7 @@ export default function CheckoutPage() {
                 </button>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-4">
                 {addresses.map((addr) => (
                   <Card
                     key={addr.id}
@@ -246,7 +247,7 @@ export default function CheckoutPage() {
                     <MaterialIcon name="add_location_alt" className="text-primary text-xl" />
                     <h3 className="font-bold">Add New Address</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-secondary px-1">Address Label (e.g. Gym)</label>
                       <input 
@@ -267,7 +268,7 @@ export default function CheckoutPage() {
                         onChange={(e) => setNewAddress({ ...newAddress, postcode: e.target.value })}
                       />
                     </div>
-                    <div className="md:col-span-2 space-y-1">
+                    <div className="space-y-1">
                       <label className="text-xs font-bold text-secondary px-1">Street Address</label>
                       <input 
                         className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" 
@@ -277,7 +278,7 @@ export default function CheckoutPage() {
                         onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
                       />
                     </div>
-                    <div className="md:col-span-2">
+                    <div>
                       <Button variant="primary" className="w-full" onClick={handleSaveAddress}>
                         Save Address
                       </Button>
@@ -302,7 +303,7 @@ export default function CheckoutPage() {
                       Delete
                     </button>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex flex-col gap-4">
                     <div className="space-y-1">
                       <label className="text-xs font-bold text-secondary px-1">Address Label</label>
                       <input 
@@ -323,7 +324,7 @@ export default function CheckoutPage() {
                         onChange={(e) => setEditAddress({ ...editAddress, postcode: e.target.value })}
                       />
                     </div>
-                    <div className="md:col-span-2 space-y-1">
+                    <div className="space-y-1">
                       <label className="text-xs font-bold text-secondary px-1">Street Address</label>
                       <input 
                         className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm" 
@@ -333,7 +334,7 @@ export default function CheckoutPage() {
                         onChange={(e) => setEditAddress({ ...editAddress, street: e.target.value })}
                       />
                     </div>
-                    <div className="md:col-span-2 flex gap-3">
+                    <div className="flex gap-3">
                       <Button variant="primary" className="flex-1" onClick={handleUpdateAddress}>
                         Update Address
                       </Button>
@@ -347,10 +348,57 @@ export default function CheckoutPage() {
             </section>
           )}
 
+          {/* Pickup Time */}
+          {orderMethod === 'pickup' && (
+            <section className="space-y-4">
+              <h2 className="font-headline text-xl sm:text-2xl font-bold tracking-tight">Pickup Time</h2>
+              <div className="flex flex-col gap-4">
+                {[
+                  { id: 'asap', label: 'As soon as possible', desc: 'Usually ready in 15-20 mins', icon: 'bolt' },
+                  { id: 'later', label: 'Schedule for later', desc: 'Choose a specific time today', icon: 'schedule' }
+                ].map((option) => (
+                  <Card
+                    key={option.id}
+                    className={`relative p-4 cursor-pointer transition-all ${pickupTime === option.id ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
+                    onClick={() => setPickupTime(option.id)}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-lg ${pickupTime === option.id ? 'bg-primary-fixed' : 'bg-surface-container-high'}`}>
+                        <MaterialIcon name={option.icon} className={`text-xl ${pickupTime === option.id ? 'text-primary' : 'text-secondary'}`} />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-bold text-base">{option.label}</h3>
+                        <p className="text-secondary text-xs sm:text-sm">{option.desc}</p>
+                      </div>
+                      {pickupTime === option.id && (
+                        <MaterialIcon name="check_circle" className="text-xl text-primary" filled />
+                      )}
+                    </div>
+                  </Card>
+                ))}
+              </div>
+
+              {pickupTime === 'later' && (
+                <Card className="p-4 border-2 border-primary">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-secondary px-1">Select Time</label>
+                    <select className="w-full bg-surface-container-lowest border-none rounded-lg p-4 focus:ring-2 focus:ring-primary/20 text-sm font-medium">
+                      <option>Today, 18:00</option>
+                      <option>Today, 18:30</option>
+                      <option>Today, 19:00</option>
+                      <option>Today, 19:30</option>
+                      <option>Today, 20:00</option>
+                    </select>
+                  </div>
+                </Card>
+              )}
+            </section>
+          )}
+
           {/* Payment Method */}
           <section className="space-y-4">
             <h2 className="font-headline text-xl sm:text-2xl font-bold tracking-tight">Payment Method</h2>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col gap-4">
               <Card
                 className={`flex-1 min-w-40 flex items-center gap-3 p-4 cursor-pointer transition-all active:scale-95 ${paymentMethod === 'online' ? 'border-2 border-primary shadow-sm' : 'border-2 border-transparent hover:border-outline-variant'}`}
                 onClick={() => handlePaymentMethodClick('online')}
@@ -544,7 +592,7 @@ export default function CheckoutPage() {
         </div>
 
         {/* Order Summary */}
-        <aside className="lg:col-span-4">
+        <aside>
           <div className="sticky top-24 space-y-4 sm:space-y-6">
             <Card className="p-4 sm:p-6 shadow-sm border border-surface-container-high/50">
               <h3 className="font-headline font-bold text-base sm:text-lg mb-4 sm:mb-6">Order Summary</h3>

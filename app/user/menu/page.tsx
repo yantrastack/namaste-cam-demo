@@ -276,25 +276,52 @@ export default function MenuPage() {
       {totalItems > 0 && (
         <div
           onClick={() => router.push('/user/cart')}
-          className="user-app-fixed-frame bottom-24 bg-surface-container-lowest/80 backdrop-blur-xl rounded-full py-4 px-6 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 cursor-pointer active:scale-95 transition-all"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              router.push('/user/cart')
+            }
+          }}
+          aria-label={`View cart: ${totalItems} items, £${cartTotal.toFixed(2)}. Order progress: choose items complete, cart next.`}
+          className="user-app-fixed-frame bottom-24 z-50 flex cursor-pointer flex-col overflow-hidden rounded-3xl bg-surface-container-lowest/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all active:scale-95"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold">
-              {totalItems}
+          <div className="flex items-center justify-between px-6 pb-2 pt-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-on-primary">
+                {totalItems}
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                  {totalItems} ITEM{totalItems !== 1 ? 'S' : ''} ADDED
+                </p>
+                <p className="text-sm font-bold text-on-surface">
+                  £{cartTotal.toFixed(2)} plus taxes
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
-                {totalItems} ITEM{totalItems !== 1 ? 'S' : ''} ADDED
-              </p>
-              <p className="text-sm font-bold text-on-surface">
-                £{cartTotal.toFixed(2)} plus taxes
-              </p>
+            <span className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary">
+              VIEW CART
+              <MaterialIcon name="arrow_forward_ios" className="text-sm" />
+            </span>
+          </div>
+
+          <div className="px-6 pb-3 pt-0">
+            <div
+              className="h-1.5 w-full overflow-hidden rounded-full bg-surface-container-high"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={33}
+              aria-label="Checkout progress"
+            >
+              <div
+                className="h-full rounded-full bg-green-500 transition-[width] duration-300 ease-out"
+                style={{ width: `${100 / 3}%` }}
+              />
             </div>
           </div>
-          <button className="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 px-4 py-2 rounded-full">
-            VIEW CART
-            <MaterialIcon name="arrow_forward_ios" className="text-sm" />
-          </button>
         </div>
       )}
 
