@@ -24,7 +24,14 @@ export function useToast() {
   return context
 }
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export function ToastProvider({
+  children,
+  userAppFrame,
+}: {
+  children: ReactNode
+  /** Anchor toasts to the /user mobile column instead of the viewport corner. */
+  userAppFrame?: boolean
+}) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'info') => {
@@ -42,7 +49,14 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      <div className="fixed top-4 right-4 z-9999 flex flex-col gap-2 pointer-events-none">
+      <div
+        className={cn(
+          'z-9999 flex flex-col gap-2 pointer-events-none',
+          userAppFrame
+            ? 'user-app-fixed-frame top-4 items-end px-3'
+            : 'fixed top-4 right-4',
+        )}
+      >
         {toasts.map(toast => (
           <div
             key={toast.id}

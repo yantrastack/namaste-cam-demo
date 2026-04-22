@@ -26,7 +26,7 @@ export default function SubscriptionDetailsPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="user-app-fixed-frame top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-4">
             <button onClick={() => router.back()} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
@@ -168,7 +168,7 @@ export default function SubscriptionDetailsPage() {
       </main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-lg border-t border-outline-variant/10">
+      <nav className="user-app-fixed-frame bottom-0 bg-white/80 backdrop-blur-md shadow-lg border-t border-outline-variant/10">
         <div className="flex items-center justify-around py-3 max-w-md mx-auto">
           <button
             onClick={() => router.push('/user/home')}

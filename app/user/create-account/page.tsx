@@ -90,7 +90,7 @@ export default function CreateAccountPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased flex flex-col">
       {/* Background Decorative Elements */}
-      <div className="fixed top-0 left-0 -z-10 w-full h-full overflow-hidden pointer-events-none">
+      <div className="user-app-fixed-frame top-0 bottom-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary-container/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-[10%] -right-[10%] w-[30%] h-[30%] bg-tertiary-fixed/10 rounded-full blur-[100px]" />
       </div>

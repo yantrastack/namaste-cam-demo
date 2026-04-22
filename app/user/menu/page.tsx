@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { MaterialIcon } from '@/components/MaterialIcon'
 import { useUserNavDrawer } from '@/components/layout/UserNavDrawer'
+import { Switch } from '@/components/ui/Switch'
 import { useCart } from '@/lib/cart/store'
 
 interface MenuItem {
@@ -81,6 +82,7 @@ export default function MenuPage() {
   const { openDrawer } = useUserNavDrawer()
   const { items, addItem, removeItem, updateQuantity, getTotalPrice, getTotalItems } = useCart()
   const [activeCategory, setActiveCategory] = useState('All Dishes')
+  const [vegOnly, setVegOnly] = useState(false)
 
   const handleAddToCart = (item: MenuItem) => {
     addItem({
@@ -112,23 +114,32 @@ export default function MenuPage() {
   const totalItems = getTotalItems()
   const cartTotal = getTotalPrice()
 
-  const filteredItems = activeCategory === 'All Dishes'
-    ? menuItems
-    : menuItems.filter(item => item.category === activeCategory)
+  const categoryFiltered =
+    activeCategory === 'All Dishes'
+      ? menuItems
+      : menuItems.filter((item) => item.category === activeCategory)
+
+  const filteredItems = vegOnly
+    ? categoryFiltered.filter((item) => item.isVegetarian)
+    : categoryFiltered
 
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between px-4 h-16">
-        <div className="flex items-center gap-4">
-          <button onClick={openDrawer} className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
+      <header className="user-app-fixed-frame top-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md shadow-sm shadow-black/5 flex items-center justify-between gap-2 px-4 h-16">
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <button onClick={openDrawer} className="flex shrink-0 items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container transition-colors active:scale-95 duration-200">
             <MaterialIcon name="menu" className="text-secondary" />
           </button>
-          <h1 className="text-xl font-extrabold text-primary italic font-headline tracking-tight">
-            Namaste Cambridge
-          </h1>
+          <h1 className="sr-only">Namaste Cambridge</h1>
         </div>
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onClick={() => router.push('/user/profile')}>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-on-surface-variant whitespace-nowrap" id="menu-veg-only-label">
+            Veg only
+          </span>
+          <Switch checked={vegOnly} onCheckedChange={setVegOnly} aria-labelledby="menu-veg-only-label" />
+        </div>
+        <div className="w-10 h-10 shrink-0 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onClick={() => router.push('/user/profile')}>
           <img
             className="w-full h-full object-cover"
             alt="User profile avatar"
@@ -265,30 +276,57 @@ export default function MenuPage() {
       {totalItems > 0 && (
         <div
           onClick={() => router.push('/user/cart')}
-          className="fixed bottom-24 left-1/2 -translate-x-1/2 w-[90%] max-w-md bg-surface-container-lowest/80 backdrop-blur-xl rounded-full py-4 px-6 flex items-center justify-between shadow-[0_8px_32px_rgba(0,0,0,0.12)] z-50 cursor-pointer active:scale-95 transition-all"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              router.push('/user/cart')
+            }
+          }}
+          aria-label={`View cart: ${totalItems} items, £${cartTotal.toFixed(2)}. Order progress: choose items complete, cart next.`}
+          className="user-app-fixed-frame bottom-24 z-50 flex cursor-pointer flex-col overflow-hidden rounded-3xl bg-surface-container-lowest/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-xl transition-all active:scale-95"
         >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold">
-              {totalItems}
+          <div className="flex items-center justify-between px-6 pb-2 pt-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-on-primary">
+                {totalItems}
+              </div>
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wider text-on-surface-variant">
+                  {totalItems} ITEM{totalItems !== 1 ? 'S' : ''} ADDED
+                </p>
+                <p className="text-sm font-bold text-on-surface">
+                  £{cartTotal.toFixed(2)} plus taxes
+                </p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-bold text-on-surface-variant uppercase tracking-wider">
-                {totalItems} ITEM{totalItems !== 1 ? 'S' : ''} ADDED
-              </p>
-              <p className="text-sm font-bold text-on-surface">
-                £{cartTotal.toFixed(2)} plus taxes
-              </p>
+            <span className="flex shrink-0 items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-bold text-primary">
+              VIEW CART
+              <MaterialIcon name="arrow_forward_ios" className="text-sm" />
+            </span>
+          </div>
+
+          <div className="px-6 pb-3 pt-0">
+            <div
+              className="h-1.5 w-full overflow-hidden rounded-full bg-surface-container-high"
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={33}
+              aria-label="Checkout progress"
+            >
+              <div
+                className="h-full rounded-full bg-green-500 transition-[width] duration-300 ease-out"
+                style={{ width: `${100 / 3}%` }}
+              />
             </div>
           </div>
-          <button className="flex items-center gap-2 text-primary font-bold text-sm bg-primary/10 px-4 py-2 rounded-full">
-            VIEW CART
-            <MaterialIcon name="arrow_forward_ios" className="text-sm" />
-          </button>
         </div>
       )}
 
       {/* BottomNavBar */}
-      <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-lg shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-[2rem]">
+      <nav className="user-app-fixed-frame bottom-0 flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-lg shadow-[0_-8px_24px_rgba(0,0,0,0.04)] z-50 rounded-t-[2rem]">
         <div
           onClick={() => router.push('/user/home')}
           className="flex flex-col items-center justify-center text-secondary hover:text-primary transition-transform active:scale-90 duration-150 cursor-pointer"

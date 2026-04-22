@@ -9,6 +9,26 @@ export type UserRole =
 
 export type UserStatus = "active" | "inactive" | "blocked";
 
+export type SubscriptionPaymentMode =
+  | "card"
+  | "direct_debit"
+  | "invoice"
+  | "bank_transfer";
+
+/** Meal-plan subscription assigned to a customer by admin (demo persistence). */
+export type UserSubscription = {
+  planId: string;
+  /** Snapshot label when assigned (shown if catalog labels change). */
+  planLabel: string;
+  /** ISO date YYYY-MM-DD — end of current term. */
+  expiresOn: string;
+  paymentMode: SubscriptionPaymentMode;
+  /** Internal notes (billing, PO, etc.). */
+  notes: string;
+  /** ISO date YYYY-MM-DD when the plan was first attached. */
+  assignedOn: string;
+};
+
 export type StaffCompensationType = "hourly" | "monthly";
 
 /** HR / ops fields for staff-like roles (driver, cook, manager, etc.). */
@@ -50,4 +70,6 @@ export type ManagedUser = {
   requirePasswordReset: boolean;
   /** ISO date string for last activity */
   lastActivity?: string;
+  /** Customer meal-plan subscription (admin-managed). */
+  subscription?: UserSubscription;
 };

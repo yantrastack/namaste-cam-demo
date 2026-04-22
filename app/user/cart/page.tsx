@@ -163,7 +163,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-40">
       {/* Top Navigation Bar */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="user-app-fixed-frame top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 py-4 w-full">
           <div className="flex items-center gap-4">
             <button
@@ -417,7 +417,7 @@ export default function CartPage() {
       </main>
 
       {/* Fixed Checkout Footer */}
-      <footer className="fixed bottom-0 w-full bg-white/90 backdrop-blur-xl pt-4 pb-6 px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50">
+      <footer className="user-app-fixed-frame bottom-0 bg-white/90 backdrop-blur-xl pt-4 pb-6 px-4 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] z-50">
         <Button
           onClick={handleCheckout}
           disabled={items.length === 0}
@@ -430,7 +430,7 @@ export default function CartPage() {
 
       {/* Recommended Drawer - Slides from bottom to 80% height */}
       <div
-        className={`fixed inset-0 z-[100] transition-opacity duration-300 ${
+        className={`user-app-fixed-frame top-0 bottom-0 z-[100] transition-opacity duration-300 ${
           isRecommendedDrawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >

@@ -252,27 +252,33 @@ export function MenuProductList({
                 <div className="h-px flex-1 bg-outline-variant/40" aria-hidden />
               </div>
 
-              <ul className="space-y-3">
-                {cat.items.map((item) => (
-                  <li key={item.id}>
-                    <MenuProductListRow
-                      item={item}
-                      quantity={quantities[item.id] ?? 0}
-                      onAdd={() => addOne(item)}
-                      onIncrement={() => bump(item, 1)}
-                      onDecrement={() => bump(item, -1)}
-                      onRemove={() => setQty(item.id, 0)}
-                      detailHref={detailHrefFor(item.id)}
-                      showCartControls={showCartControls}
-                      productEditHref={editHrefFor(item.id)}
-                      showItemInfo={showItemInfo}
-                      onQuantityCommit={
-                        showCartControls ? (n) => commitQuantity(item, n) : undefined
-                      }
-                    />
-                  </li>
-                ))}
-              </ul>
+              {cat.items.length === 0 ? (
+                <p className="rounded-xl bg-surface-container-low/60 px-4 py-5 text-center text-sm font-medium text-secondary ring-1 ring-outline-variant/10">
+                  No products in this section yet.
+                </p>
+              ) : (
+                <ul className="space-y-3">
+                  {cat.items.map((item) => (
+                    <li key={item.id}>
+                      <MenuProductListRow
+                        item={item}
+                        quantity={quantities[item.id] ?? 0}
+                        onAdd={() => addOne(item)}
+                        onIncrement={() => bump(item, 1)}
+                        onDecrement={() => bump(item, -1)}
+                        onRemove={() => setQty(item.id, 0)}
+                        detailHref={detailHrefFor(item.id)}
+                        showCartControls={showCartControls}
+                        productEditHref={editHrefFor(item.id)}
+                        showItemInfo={showItemInfo}
+                        onQuantityCommit={
+                          showCartControls ? (n) => commitQuantity(item, n) : undefined
+                        }
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </section>
           ))}
         </div>

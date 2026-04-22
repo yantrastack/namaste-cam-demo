@@ -44,7 +44,7 @@ export default function FavoritesPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface pb-32 md:pb-8">
       {/* TopAppBar */}
-      <header className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm">
+      <header className="user-app-fixed-frame top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
         <div className="flex items-center justify-between px-4 sm:px-6 py-4 w-full max-w-7xl mx-auto">
           <div className="flex items-center gap-4">
             <button onClick={openDrawer} className="text-zinc-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">

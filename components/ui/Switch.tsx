@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/cn";
-import { type ReactNode, useState } from "react";
+import { type ButtonHTMLAttributes, type ReactNode, useState } from "react";
 
 export type SwitchProps = {
   checked?: boolean;
@@ -9,7 +9,10 @@ export type SwitchProps = {
   disabled?: boolean;
   className?: string;
   children?: ReactNode;
-};
+} & Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  "type" | "role" | "aria-checked" | "onClick"
+>;
 
 export function Switch({
   checked: controlledChecked,
@@ -17,6 +20,7 @@ export function Switch({
   disabled = false,
   className,
   children,
+  ...buttonProps
 }: SwitchProps) {
   const [uncontrolledChecked, setUncontrolledChecked] = useState(false);
   const checked = controlledChecked ?? uncontrolledChecked;
@@ -38,6 +42,7 @@ export function Switch({
       aria-checked={checked}
       disabled={disabled}
       onClick={handleToggle}
+      {...buttonProps}
       className={cn(
         "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20",

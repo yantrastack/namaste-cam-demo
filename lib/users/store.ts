@@ -3,8 +3,10 @@ import { isStaffLikeRole } from "@/lib/users/role-policy";
 import type {
   ManagedUser,
   StaffProfile,
+  SubscriptionPaymentMode,
   UserRole,
   UserStatus,
+  UserSubscription,
 } from "./types";
 
 const STORAGE_KEY = "namaste-cam-users-store-v5";
@@ -21,6 +23,46 @@ const ROLES: readonly UserRole[] = [
   "cook",
   "manager",
 ];
+
+const PAYMENT_MODES: readonly SubscriptionPaymentMode[] = [
+  "card",
+  "direct_debit",
+  "invoice",
+  "bank_transfer",
+];
+
+function normalizeUserSubscription(raw: unknown): UserSubscription | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const o = raw as Record<string, unknown>;
+  const planId = typeof o.planId === "string" ? o.planId.trim() : "";
+  if (!planId) return undefined;
+  const expiresOn =
+    typeof o.expiresOn === "string" && o.expiresOn.length >= 8
+      ? o.expiresOn.slice(0, 10)
+      : "";
+  if (!expiresOn) return undefined;
+  const pm = o.paymentMode;
+  const paymentMode: SubscriptionPaymentMode = PAYMENT_MODES.includes(
+    pm as SubscriptionPaymentMode,
+  )
+    ? (pm as SubscriptionPaymentMode)
+    : "card";
+  const assignedOn =
+    typeof o.assignedOn === "string" && o.assignedOn.length >= 8
+      ? o.assignedOn.slice(0, 10)
+      : new Date().toISOString().slice(0, 10);
+  return {
+    planId,
+    planLabel:
+      typeof o.planLabel === "string" && o.planLabel.trim()
+        ? o.planLabel.trim()
+        : planId,
+    expiresOn,
+    paymentMode,
+    notes: typeof o.notes === "string" ? o.notes : "",
+    assignedOn,
+  };
+}
 
 function normalizeStaffProfile(
   raw: unknown,
@@ -60,6 +102,7 @@ export function normalizeManagedUser(
       ? raw.creditLimit
       : 0;
   const staffProfile = normalizeStaffProfile(raw.staffProfile, role);
+  const subscription = normalizeUserSubscription(raw.subscription);
   return {
     id: raw.id,
     name: typeof raw.name === "string" ? raw.name : "",
@@ -87,6 +130,7 @@ export function normalizeManagedUser(
       typeof raw.lastActivity === "string" && raw.lastActivity.length >= 8
         ? raw.lastActivity
         : undefined,
+    ...(subscription ? { subscription } : {}),
   };
 }
 

@@ -135,7 +135,7 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
       {/* Top Navigation */}
-      <header className="fixed top-0 w-full z-50 bg-transparent">
+      <header className="user-app-fixed-frame top-0 z-50 bg-transparent">
         <div className="flex items-center justify-between px-6 py-4 w-full">
           <button
             onClick={() => router.back()}
@@ -375,7 +375,7 @@ export default function ProductDetailPage() {
       </main>
 
       {/* Bottom Action Bar */}
-      <footer className="fixed bottom-0 left-0 w-full p-6 z-50">
+      <footer className="user-app-fixed-frame bottom-0 p-6 z-50">
         <div className="max-w-2xl mx-auto bg-surface-container-lowest/80 backdrop-blur-xl rounded-full p-2 shadow-[0_8px_32px_rgba(0,0,0,0.12)] flex items-center justify-between gap-4">
           {/* Quantity Selector */}
           <div className="flex items-center bg-surface-container-high rounded-full p-1 h-14">

@@ -88,12 +88,12 @@ export default function SelectLocationPage() {
   return (
     <div className="min-h-screen bg-surface font-body text-on-surface antialiased">
       {/* Background Decorative Elements */}
-      <div className="fixed inset-0 pattern-bg pointer-events-none z-0" />
-      <div className="fixed top-1/2 -right-24 w-64 h-64 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="fixed bottom-0 -left-24 w-64 h-64 bg-tertiary-fixed/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="user-app-fixed-frame top-0 bottom-0 pattern-bg pointer-events-none z-0" />
+      <div className="user-app-fixed-frame top-1/2 right-0 h-64 w-64 -translate-y-1/2 translate-x-12 bg-primary/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="user-app-fixed-frame bottom-0 left-0 h-64 w-64 -translate-x-10 translate-y-8 bg-tertiary-fixed/10 blur-[100px] rounded-full pointer-events-none" />
 
       {/* Top App Bar */}
-      <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-sm shadow-black/5 flex items-center justify-between px-4 md:px-6 py-4">
+      <header className="user-app-fixed-frame top-0 z-50 bg-surface/80 backdrop-blur-xl shadow-sm shadow-black/5 flex items-center justify-between px-4 md:px-6 py-4">
         <div className="flex items-center gap-4">
           <button
             onClick={handleBack}
@@ -212,7 +212,7 @@ export default function SelectLocationPage() {
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-xl z-50 rounded-t-3xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
+      <nav className="user-app-fixed-frame bottom-0 flex justify-around items-center px-4 pb-6 pt-3 bg-surface-container-lowest/80 backdrop-blur-xl z-50 rounded-t-3xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)]">
         <button
           onClick={() => handleBottomNav('menu')}
           className="flex flex-col items-center justify-center text-secondary px-4 py-2 hover:text-primary active:scale-90 duration-300 ease-out transition-colors"
