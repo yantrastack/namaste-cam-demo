@@ -82,6 +82,12 @@
           "href": "/orders"
         },
         {
+          "id": "orders-view-action",
+          "label": "View / action",
+          "icon": "view_list",
+          "href": "/orders/view-action"
+        },
+        {
           "id": "orders-driver-orders",
           "label": "Driver orders",
           "icon": "badge",
