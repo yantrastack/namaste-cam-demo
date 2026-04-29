@@ -963,7 +963,7 @@ export function OrderViewActionClient({
         </div>
       </Card>
 
-      <div className="grid gap-6 xl:grid-cols-[1.2fr_1.4fr]">
+      <div className="grid gap-6">
         <CompactTableCard
           title="Checked in users"
           subtitle="Compact stall and dispatch staffing view for the current service."
@@ -1098,7 +1098,7 @@ export function OrderViewActionClient({
         </CompactTableCard>
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[0.9fr_1.1fr_1.1fr]">
+      <div className="grid gap-6">
         <CompactTableCard
           title="Collections"
           subtitle="Counter pickup demand routed through the kitchen hub."
